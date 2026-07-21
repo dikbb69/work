@@ -1,0 +1,20 @@
+{
+  "name": "marriott-points-monitor",
+  "version": "1.0.0",
+  "description": "Marriott のポイント宿泊に必要なポイント数を定期監視し、安い日を通知する",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "check": "node src/index.js check",
+    "check:mock": "node src/index.js check --mock",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.14",
+    "playwright": "^1.45.0"
+  },
+  "private": true
+}

@@ -1,0 +1,19 @@
+{
+  "hotels": [
+    {
+      "code": "TYOMC",
+      "name": "東京マリオットホテル",
+      "maxPoints": 50000
+    },
+    {
+      "code": "OSAWI",
+      "name": "W大阪",
+      "maxPoints": 60000
+    }
+  ],
+  "searchMonths": 3,
+  "guests": 2,
+  "notifyOnDrop": true,
+  "dropRatio": 0.15,
+  "requestDelayMs": 5000
+}

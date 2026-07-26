@@ -9,6 +9,8 @@
 
 ### 1.1 学術研究（査読付き・DP）
 
+（2026-07-26 総点検: 下表の Sakaguchi & Fujii 2021（「風力MOEが最高分位で大きくなるのは北海道のみ」の核心主張を含む）・Applied Economics 2023・Maekawa et al. 2018・Ciarreta et al. 2017 は書誌・内容とも原典確認済み — 詳細は `../RECHECK-20260726.md` §3）
+
 | 文献 | 対象・手法 | 風力に関する知見 |
 |---|---|---|
 | **Sakaguchi & Fujii (2021)** [*Frontiers in Sustainability*](https://www.frontiersin.org/journals/sustainability/articles/10.3389/frsus.2021.770045/full)（[MPRA版](https://mpra.ub.uni-muenchen.de/110554/)） | JEPX前日価格 FY2016-19、OLS＋分位点回帰、エリア別・時間帯別・価格帯別 | **風力のメリットオーダー効果は2016→2019年度に増大**（太陽光は減少）。**北海道では風力のMOEが高価格分位で最大**＝風力が価格スパイクを抑制。JEPX×風力の最重要先行研究 |

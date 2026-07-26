@@ -86,12 +86,28 @@ NEW_COLS = ["date", "time", "demand", "nuclear", "th_lng", "th_coal", "th_oil",
             "wind", "wind_curt", "pumped", "battery", "interconn", "other", "total"]
 
 
+NEW_NAME_MAP = {
+    "DATE": "date", "TIME": "time", "エリア需要": "demand", "原子力": "nuclear",
+    "火力（ＬＮＧ）": "th_lng", "火力（石炭）": "th_coal", "火力（石油）": "th_oil",
+    "火力（その他）": "th_other", "水力": "hydro", "地熱": "geothermal",
+    "バイオマス": "biomass", "太陽光発電実績": "solar", "太陽光出力制御量": "solar_curt",
+    "風力発電実績": "wind", "風力出力制御量": "wind_curt", "揚水": "pumped",
+    "蓄電池": "battery", "連系線": "interconn", "その他": "other", "合計": "total",
+}
+
+
 def load_kyushu_new():
+    # 列構成が月により異なる(2026年4-5月は火力・バイオマスの出力制御量列が挿入され22列)
+    # ため、固定位置ではなくヘッダー名でマッピングする
     frames = []
     for f in sorted(glob.glob(os.path.join(RAW, "kyushu", "eria_jukyu_*.csv"))):
-        df = pd.read_csv(f, encoding="cp932", skiprows=2, header=None, dtype={0: str})
-        df = df.iloc[:, :20]
-        df.columns = NEW_COLS
+        df = pd.read_csv(f, encoding="cp932", skiprows=1, dtype={"DATE": str})
+        df.columns = [c.strip() for c in df.columns]
+        unknown = [c for c in df.columns if c not in NEW_NAME_MAP
+                   and c not in ("火力出力制御量", "バイオマス出力制御量")]
+        if unknown:
+            raise ValueError(f"{f}: 未知の列 {unknown} — NEW_NAME_MAP の更新が必要")
+        df = df[[c for c in df.columns if c in NEW_NAME_MAP]].rename(columns=NEW_NAME_MAP)
         frames.append(df)
     df = pd.concat(frames, ignore_index=True).dropna(subset=["date"])
     # 日付は '20240401' 形式と '2025/12/1' 形式が混在

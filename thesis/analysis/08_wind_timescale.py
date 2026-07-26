@@ -91,7 +91,8 @@ ax2.legend(fontsize=8.5, frameon=False)
 fig.suptitle("フリート集約後の風力変動は「数日帯域」が支配的（九州・需給実績 FY2022–25）", fontsize=11.5, color=INK)
 fig.text(0.1, 0.012,
          "移動平均カスケードによる帯域分解（<6h＝x−MA6h 等）。単一サイトでは<6h成分が大きいが、集約出力では2%まで縮む（空間平滑化）。\n"
-         "太陽光は6–24時間帯（日内サイクル）が66%と対照的。北海道の風力実績データ取得後に同じ分解を適用予定。",
+         "太陽光は6–24時間帯（日内サイクル）が66%と対照的。帯域は非直交分解のためシェア合計は100%にならない（交差項約2割: 風力計81%・太陽光計80%）。\n"
+         "北海道の風力実績データ取得後に同じ分解を適用予定。",
          fontsize=6.8, color=SUB)
 fig.tight_layout(rect=(0, 0.055, 1, 0.93))
 fig.savefig(os.path.join(FIG, "f15-wind-timescale.png"), facecolor=SURFACE, bbox_inches="tight")

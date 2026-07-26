@@ -3,7 +3,7 @@
 """九州パイロット: 生データから分析用パネルを構築する
 
 入力: thesis/data/raw/jepx/spot_summary_YYYY.csv (30分48コマ, cp932)
-      thesis/data/raw/kyushu/area_jyukyu_jisseki_*.csv (60分値, 2016/4-2024/3, MWh)
+      thesis/data/raw/kyushu/area_jyukyu_jisseki_*.csv (60分値, 2016/4-2024/2採用, MWh。2024/3は新形式を正とし除外)
       thesis/data/raw/kyushu/eria_jukyu_YYYYMM_09.csv (30分値, 2024/3-, MW平均)
 出力: thesis/data/processed/jepx_kyushu_30min.csv   価格30分パネル(全期間)
       thesis/data/processed/kyushu_hourly_panel.csv 価格×需給の60分パネル(全期間)

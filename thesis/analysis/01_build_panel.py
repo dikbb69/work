@@ -111,6 +111,9 @@ def load_kyushu_new():
     for c in num_cols:
         df[c] = pd.to_numeric(df[c], errors="coerce")
     df["thermal"] = df[["th_lng", "th_coal", "th_oil", "th_other"]].sum(axis=1)
+    # 連系線の符号規約が旧形式(負=域外送電)と反転している(正=域外送電)ため旧規約に統一
+    # 根拠: 形式境界の2024年2月(昼間平均-2,197MW)→3月(+2,203MW)で物理実態は連続
+    df["interconn"] = -df["interconn"]
     return df.sort_values("ts").reset_index(drop=True)
 
 

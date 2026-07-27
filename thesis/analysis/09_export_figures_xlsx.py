@@ -355,6 +355,71 @@ print("揚水 昼間充電:", dn.set_index("年度")["昼間（10-14時）充電
 print("揚水 夜間充電:", dn.set_index("年度")["夜間（1-5時）充電 平均MW"].round(0).to_dict())
 
 # ============================================================
+# 需給内訳（昼間10-14時）: 供給・需要それぞれの積み上げ（追加分析 2026-07-27）
+# ============================================================
+nz = panel[panel["fy"].isin(FY_FULL) & (panel["hour"] >= 10) & (panel["hour"] < 14)].fillna(0).copy()
+sup = pd.DataFrame({
+    "原子力": nz["nuclear"], "火力": nz["thermal"], "一般水力": nz["hydro"],
+    "地熱・バイオマス": nz["geothermal"] + nz["biomass"],
+    "太陽光（制御前）": nz["solar"] + nz["solar_curt"],
+    "風力（制御前）": nz["wind"] + nz["wind_curt"],
+    "揚水・蓄電池 発電": nz["pumped"].clip(lower=0) + nz["battery"].clip(lower=0),
+    "域外受電": nz["interconn"].clip(lower=0),
+    "fy": nz["fy"],
+}).groupby("fy").mean() / 1000
+dem = pd.DataFrame({
+    "エリア需要": nz["demand"],
+    "揚水・蓄電池 充電": -(nz["pumped"].clip(upper=0) + nz["battery"].clip(upper=0)),
+    "域外送電": -nz["interconn"].clip(upper=0),
+    "出力制御": nz["solar_curt"] + nz["wind_curt"],
+    "fy": nz["fy"],
+}).groupby("fy").mean() / 1000
+bal = pd.DataFrame({"年度": [f"FY{y}" for y in sup.index]})
+for c in sup.columns:
+    bal[c] = sup[c].to_numpy()
+bal["供給計"] = sup.sum(axis=1).to_numpy()
+for c in dem.columns:
+    bal[c] = dem[c].to_numpy()
+bal["需要側計"] = dem.sum(axis=1).to_numpy()
+bal["残差（供給−需要側）"] = bal["供給計"] - bal["需要側計"]
+ws = new_sheet("需給内訳_昼間", "昼間（10-14時）の需要と供給の内訳（年度平均、GW）",
+               "需給実績より。太陽光・風力は制御前（実績＋抑制量）で表示し、出力制御は需要側（余剰の処理先）に計上。揚水・蓄電池は発電/充電を正負で分離（蓄電池列は2024年3月以降のみ分離、以前は「揚水等」に包含）。残差は需給実績の項目間不整合（年度平均で最大0.27GW・2%未満）。追加分析（2026-07-27）。再現: analysis/09")
+h0, h1 = write_df(ws, bal, fmts={c: "0.00" for c in bal.columns if c != "年度"},
+                  width={"年度": 9})
+ch = BarChart()
+ch.type = "col"
+ch.grouping = "stacked"
+ch.overlap = 100
+ch.title = "供給側の内訳（昼間平均、GW・制御前）"
+ch.height, ch.width = 11, 16
+data = Reference(ws, min_col=2, max_col=9, min_row=h0, max_row=h1)
+cats = Reference(ws, min_col=1, min_row=h0 + 1, max_row=h1)
+ch.add_data(data, titles_from_data=True)
+ch.set_categories(cats)
+SUP_COLS = ["1F3864", "8496AD", "2A78D6", "A6B481", "F0B45A", "6DA7EC", "3987E5", "CDE2FB"]
+for s, col in zip(ch.series, SUP_COLS):
+    s.graphicalProperties.solidFill = col
+    s.graphicalProperties.line.noFill = True
+style_axes(ch, "年度", "GW")
+ws.add_chart(ch, "B14")
+ch2 = BarChart()
+ch2.type = "col"
+ch2.grouping = "stacked"
+ch2.overlap = 100
+ch2.title = "需要側の内訳（昼間平均、GW）＝余剰の処理先を含む"
+ch2.height, ch2.width = 11, 16
+data = Reference(ws, min_col=11, max_col=14, min_row=h0, max_row=h1)
+ch2.add_data(data, titles_from_data=True)
+ch2.set_categories(cats)
+DEM_COLS = ["B7D3F6", "184F95", "6DA7EC", "EC835A"]
+for s, col in zip(ch2.series, DEM_COLS):
+    s.graphicalProperties.solidFill = col
+    s.graphicalProperties.line.noFill = True
+style_axes(ch2, "年度", "GW")
+ws.add_chart(ch2, "K14")
+print("需給内訳 供給計:", bal.set_index("年度")["供給計"].round(2).to_dict())
+
+# ============================================================
 # f8: モンテカルロ（再計算・固定シードで公表値を再現）
 # ============================================================
 rng = np.random.default_rng(20260726)
@@ -878,6 +943,7 @@ rows = [
     ("f10_等価時間", "f10", "規格化年間価値（等価時間）", "Appendix A4 左"),
     ("f11_昼間需給", "f11", "昼間の需給バランスの変化", "本編P8 左"),
     ("揚水運用の変化", "追加", "揚水充電の時間帯プロファイルと昼夜逆転", "追加分析（2026-07-27）"),
+    ("需給内訳_昼間", "追加", "昼間の需要・供給それぞれの積み上げ内訳", "追加分析（2026-07-27）"),
     ("f12_TopBottom4h", "f12", "Top4h/Bottom4hの分解", "本編P7 左"),
     ("f13_価格帯構成", "f13", "昼間コマの価格帯構成（積み上げ）", "Appendix A3 右"),
     ("f14_反実仮想", "f14", "反実仮想（需要増なし・原子力FY2023水準）", "本編P9 下"),
@@ -899,7 +965,7 @@ order = ["目次", "先行研究マップ", "結果×先行研究",
          "f1_ダックカーブ", "f2_床コマ数", "f3_TB4hスプレッド", "f4_太陽光×床張り付き",
          "f5_制御日vs非制御日", "f6_価格分位点", "f7_バックテスト", "f7b_月次規格化粗利",
          "f8_モンテカルロ", "f9_相対スプレッド", "f10_等価時間", "f11_昼間需給",
-         "揚水運用の変化", "f12_TopBottom4h", "f13_価格帯構成", "f14_反実仮想",
+         "揚水運用の変化", "需給内訳_昼間", "f12_TopBottom4h", "f13_価格帯構成", "f14_反実仮想",
          "f15_風力帯域分解", "fig1_風力×連系線"]
 wb._sheets = [wb[n] for n in order]
 

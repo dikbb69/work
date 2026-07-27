@@ -281,6 +281,80 @@ style_axes(ch, "年度", "円/kW-年")
 ws.add_chart(ch, "H4")
 
 # ============================================================
+# f7b: 月次平均価格で規格化した年間裁定粗利（追加分析 2026-07-27）
+# ============================================================
+pm_month = daily.set_index("day")["p_mean"].resample("MS").mean()  # 月次平均価格（日次平均の月平均）
+btn = bt.set_index("day").copy()
+btn["p_month"] = pm_month.reindex(btn.index, method="ffill")
+for c in ["pf", "naive", "forecast"]:
+    btn[c + "_n"] = btn[c] / btn["p_month"] / 1000  # (円/MW-日)÷(円/kWh)/1000 → kWh/kW-日
+ann_n = btn[btn["fy"].isin(FY_FULL)].groupby("fy")[["pf_n", "naive_n", "forecast_n"]].sum()
+f7b = pd.DataFrame({
+    "年度": [f"FY{y}" for y in ann_n.index],
+    "完全予見（kWh/kW-年）": ann_n["pf_n"],
+    "a. 前日価格（kWh/kW-年）": ann_n["naive_n"],
+    "b. 前日予測（kWh/kW-年）": ann_n["forecast_n"],
+    "（参考）年度平均価格（円/kWh）": daily[daily["fy"].isin(FY_FULL)].groupby("fy")["p_mean"].mean().to_numpy(),
+})
+ws = new_sheet("f7b_月次規格化粗利", "f7b 月次平均価格で規格化した年間裁定粗利（kWh/kW-年）",
+               "各日の裁定粗利を当月の平均価格で除して年度合計した値＝「その月の平均価格の電気の何kWh分を稼いだか」。f10（年度平均で規格化した等価時間）と異なり年度内の価格水準変動（FY2022冬の高騰等）も除去する。追加分析（2026-07-27）。再現: analysis/09")
+h0, h1 = write_df(ws, f7b, fmts={c: "#,##0" if "kWh" in c else "0.00" for c in f7b.columns if c != "年度"})
+ch = LineChart()
+ch.title = "月次規格化した年間裁定粗利（kWh/kW-年）"
+ch.height, ch.width = 11, 18
+data = Reference(ws, min_col=2, max_col=4, min_row=h0, max_row=h1)
+cats = Reference(ws, min_col=1, min_row=h0 + 1, max_row=h1)
+ch.add_data(data, titles_from_data=True)
+ch.set_categories(cats)
+line_series_colors(ch, [DBLUE, LBLUE, CORAL])
+style_axes(ch, "年度", "kWh/kW-年")
+ws.add_chart(ch, "G4")
+print("f7b 月次規格化PF:", ann_n["pf_n"].round(0).to_dict())
+
+# ============================================================
+# 揚水運用の変化: 充電の時間帯プロファイルと昼夜逆転（追加分析 2026-07-27）
+# ============================================================
+pp = panel.copy()
+pp["charge"] = -(pp["pumped"].fillna(0).clip(upper=0) + pp["battery"].fillna(0).clip(upper=0))
+sel_fy = [2016, 2019, 2022, 2025]
+prof = pp[pp["fy"].isin(sel_fy)].groupby(["hour", "fy"])["charge"].mean().unstack()
+pw_a = pd.DataFrame({"時刻": prof.index})
+for fy in sel_fy:
+    pw_a[f"FY{fy}"] = prof[fy].to_numpy()
+day_night = pp[pp["fy"].isin(FY_FULL)].copy()
+dn = pd.DataFrame({
+    "年度": [f"FY{y}" for y in FY_FULL],
+    "昼間（10-14時）充電 平均MW": day_night[(day_night["hour"] >= 10) & (day_night["hour"] < 14)].groupby("fy")["charge"].mean().to_numpy(),
+    "夜間（1-5時）充電 平均MW": day_night[(day_night["hour"] >= 1) & (day_night["hour"] < 5)].groupby("fy")["charge"].mean().to_numpy(),
+})
+ws = new_sheet("揚水運用の変化", "揚水（＋蓄電池）充電運用の変化：昼間吸収の面的拡大と夜間汲み上げの縮小",
+               "充電＝需給実績の揚水・蓄電池列の負値の絶対値（MW平均）。蓄電池列は2024年3月以降のみ分離、以前は「揚水等」に包含のため合算で集計。発表P8「揚水の面的拡大」の裏付け。追加分析（2026-07-27）。再現: analysis/09")
+a0, a1 = write_df(ws, pw_a, fmts={c: "#,##0" for c in pw_a.columns if c != "時刻"})
+b0, b1 = write_df(ws, dn, start_col=7, fmts={c: "#,##0" for c in dn.columns if c != "年度"})
+ch = LineChart()
+ch.title = "時間帯別の充電量プロファイル（年度平均、MW）"
+ch.height, ch.width = 10, 15
+data = Reference(ws, min_col=2, max_col=1 + len(sel_fy), min_row=a0, max_row=a1)
+cats = Reference(ws, min_col=1, min_row=a0 + 1, max_row=a1)
+ch.add_data(data, titles_from_data=True)
+ch.set_categories(cats)
+line_series_colors(ch, ["B7D3F6", "6DA7EC", "2A78D6", "184F95"], marker=False)
+style_axes(ch, "時刻", "充電（汲み上げ）平均MW")
+ws.add_chart(ch, "K4")
+ch2 = LineChart()
+ch2.title = "昼間 vs 夜間の充電量（年度平均、MW）"
+ch2.height, ch2.width = 10, 15
+data = Reference(ws, min_col=8, max_col=9, min_row=b0, max_row=b1)
+cats = Reference(ws, min_col=7, min_row=b0 + 1, max_row=b1)
+ch2.add_data(data, titles_from_data=True)
+ch2.set_categories(cats)
+line_series_colors(ch2, [CORAL, DBLUE])
+style_axes(ch2, "年度", "充電 平均MW")
+ws.add_chart(ch2, "K25")
+print("揚水 昼間充電:", dn.set_index("年度")["昼間（10-14時）充電 平均MW"].round(0).to_dict())
+print("揚水 夜間充電:", dn.set_index("年度")["夜間（1-5時）充電 平均MW"].round(0).to_dict())
+
+# ============================================================
 # f8: モンテカルロ（再計算・固定シードで公表値を再現）
 # ============================================================
 rng = np.random.default_rng(20260726)
@@ -798,10 +872,12 @@ rows = [
     ("f5_制御日vs非制御日", "f5", "出力制御日vs非制御日の価格カーブ", "Appendix A2 右"),
     ("f6_価格分位点", "f6", "価格分位点の年度推移（分布の二極化）", "Appendix A3 左"),
     ("f7_バックテスト", "f7", "蓄電池裁定価値バックテスト（3戦略）", "本編P5"),
+    ("f7b_月次規格化粗利", "追加", "月次平均価格で規格化した年間裁定粗利", "追加分析（2026-07-27）"),
     ("f8_モンテカルロ", "f8", "年間価値のモンテカルロ分布", "本編P6 右下"),
     ("f9_相対スプレッド", "f9", "価格水準で規格化したスプレッド", "本編P6 左"),
     ("f10_等価時間", "f10", "規格化年間価値（等価時間）", "Appendix A4 左"),
     ("f11_昼間需給", "f11", "昼間の需給バランスの変化", "本編P8 左"),
+    ("揚水運用の変化", "追加", "揚水充電の時間帯プロファイルと昼夜逆転", "追加分析（2026-07-27）"),
     ("f12_TopBottom4h", "f12", "Top4h/Bottom4hの分解", "本編P7 左"),
     ("f13_価格帯構成", "f13", "昼間コマの価格帯構成（積み上げ）", "Appendix A3 右"),
     ("f14_反実仮想", "f14", "反実仮想（需要増なし・原子力FY2023水準）", "本編P9 下"),
@@ -819,8 +895,13 @@ for ri, row in enumerate(rows):
 for col, w in [("A", 24), ("B", 8), ("C", 46), ("D", 22)]:
     toc.column_dimensions[col].width = w
 
-head = ["目次", "先行研究マップ", "結果×先行研究"]
-wb._sheets = [wb[n] for n in head + [n for n in wb.sheetnames if n not in head]]
+order = ["目次", "先行研究マップ", "結果×先行研究",
+         "f1_ダックカーブ", "f2_床コマ数", "f3_TB4hスプレッド", "f4_太陽光×床張り付き",
+         "f5_制御日vs非制御日", "f6_価格分位点", "f7_バックテスト", "f7b_月次規格化粗利",
+         "f8_モンテカルロ", "f9_相対スプレッド", "f10_等価時間", "f11_昼間需給",
+         "揚水運用の変化", "f12_TopBottom4h", "f13_価格帯構成", "f14_反実仮想",
+         "f15_風力帯域分解", "fig1_風力×連系線"]
+wb._sheets = [wb[n] for n in order]
 
 wb.save(OUT)
 print("saved", OUT)

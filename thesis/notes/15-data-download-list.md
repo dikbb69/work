@@ -19,6 +19,22 @@
 | B3 | **調整係数の公表資料（蓄電池・揚水の発電可能時間別）** | κ（期待容量ディレーティング）の確定＝容量収入の実効値 | OCCTO（毎年7〜8月公表。例: 2028年度向けは2024/8/7）。サイト内検索「容量市場 調整係数」 |
 | B4 | ~~調達価格等算定委員会の蓄電池コスト関連資料~~ **取得済み（2026/7/28）**: 第67・75・84・93・102・114回の意見案＋別紙 → 系統用蓄電池の資本費想定は算定委に存在しないことを確認（notes/19）。AFCはLTDA実測バンドで確定。副産物の風力・太陽光コスト想定は `santeii_cost_assumptions.csv` に整理 | AFCの公式想定側（LTDAと三角測量） | [調達価格等算定委員会](https://www.meti.go.jp/shingikai/santeii/index.html) |
 
+## B5（2026/7/28追加）— 蓄電池資本費のMETI審議会資料（B4の後継・調査済み）
+
+算定委に蓄電池資本費想定がないことを受けた再調査の結果（notes/19参照）。優先度順。
+
+| # | データ | 期待できる数値 | 取得先 |
+|---|---|---|---|
+| B5-1 | **定置用蓄電システム普及拡大検討会 2024年度とりまとめ**（2025/3/7）＋**2024年度第3回 資料3「系統用・再エネ併設蓄電システムのコスト面・収益面での課題整理」**（2024/8/29）＋2025年度回があれば最新とりまとめ | **系統用蓄電池の実勢価格（補助事業の交付実績ベース）: FY2024 システム5.4万円/kWh＋工事1.4万円/kWh＝6.8万円/kWh（前年比約2割減）**。IEEFAの6.8万円/kWhの原典とみられる。年次推移＝コスト低下トラジェクトリ | [検討会トップ](https://www.meti.go.jp/shingikai/energy_environment/storage_system/index.html)・[とりまとめ本文](https://www.meti.go.jp/shingikai/energy_environment/storage_system/pdf/20250307_1.pdf)・[第3回資料3](https://www.meti.go.jp/shingikai/energy_environment/storage_system/pdf/2024_003_03.pdf)・[2025年度第1回](https://www.meti.go.jp/shingikai/energy_environment/storage_system/2025_001.html) |
+| B5-2 | **発電コスト検証WG（2024年度）とりまとめ**（2025/2/6）＋第4回資料3「統合コスト」（2024/11/29） | 併設蓄電池の建設費想定（太陽光併設9.5万円/kWh・陸上風力併設6.0万円/kWh）、統合コストの中での系統用蓄電池の扱い＝**均衡モデルの社会的費用側の公式参照点** | [とりまとめ](https://www.enecho.meti.go.jp/committee/council/basic_policy_subcommittee/mitoshi/cost_wg/pdf/cost_wg_20250206_01.pdf)・[第4回資料](https://www.enecho.meti.go.jp/committee/council/basic_policy_subcommittee/mitoshi/cost_wg/2024/data/04_06.pdf) |
+| B5-3 | **制度検討作業部会→次世代電力基盤（system_review）→安定供給電源WG（stable_power_supply_wg）のLTDA関連資料**: 第92回資料3-3（2024/5/10）・第102回資料4（2025/4/23）・第103回資料3-3・第104回資料3・第113回資料3（2026/4/3）・安定供給WG第1回資料7-3（2026/5/13）・第4回資料4-1（2026/7/14） | 応札上限10万円/kW/年の閾値設定の経緯、蓄電池・揚水の募集上限と応札倍率、**第4回オークション（2026年度）に向けた上限・区分見直し**＝AFC上限側の制度アンカー | [92回](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/denryoku_gas/seido_kento/pdf/092_03_03.pdf)・[102回](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/denryoku_gas/seido_kento/pdf/102_04_00.pdf)・[113回](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/jisedai_kiban/system_review/pdf/113_03_00.pdf)・[安定供給WG第1回](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/jisedai_kiban/stable_power_supply_wg/pdf/001_07_03.pdf)・[同第4回](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/jisedai_kiban/stable_power_supply_wg/pdf/004_04_01.pdf) |
+| B5-4 | **SII 系統用蓄電池等導入支援事業の公募要領**（令和5・6・7年度＋令和7年度補正） | 目標価格の年度推移（例: 2025年度 11.9万円/kWh=設備＋工事・税抜、大規模業務産業用）、補助上限単価＝**投資家が直面する実効資本費の下限側** | [令和5年度](https://sii.or.jp/chikudenchi05/)・[令和6年度](https://sii.or.jp/chikudenchi06/)・[令和7年度](https://sii.or.jp/chikudenchi07/public.html)・[令和7補正 公募要領PDF](https://sii.or.jp/daikibogyousan07r/uploads/R7r_less_kouboyouryou_02.pdf) |
+| B5-5 | **蓄電池産業戦略**（官民協議会 2022/8/31）＋**蓄電池産業戦略推進会議 資料6「定置用蓄電システムの現状と課題」**（2025/3/12） | 価格目標: 2030年 業務・産業用6万円/kWh（工事費込み）、長期は揚水並み2.3万円/kWh＝**シナリオの終端値** | [戦略本文](https://www.meti.go.jp/policy/mono_info_service/joho/conference/battery_strategy/battery_saisyu_torimatome.pdf)・[推進会議資料6](https://www.meti.go.jp/policy/mono_info_service/joho/conference/battery_strategy2/shiryo06.pdf) |
+
+- 換算メモ: FY2024実勢6.8万円/kWh × 4h = 27.2万円/kW → CRF(6%・20年)8.7%で**資本費年額約2.4万円/kW-年**＋運維
+  → LTDA三角測量の作業バンド2〜3万円/kW-年と整合。B5-1の年次系列が取れれば、均衡モデルのAFC(h)を
+  「実勢価格×低下率シナリオ」で内生的に動かせる
+
 ## 優先度C — シナリオ・精緻化（フェーズB後半〜E）
 
 | # | データ | 用途 | 取得先 |

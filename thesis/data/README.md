@@ -71,3 +71,9 @@
 - 処理: `analysis/12_fit_capacity_series.py` → `processed/fit_capacity_pref_quarterly.csv`（都道府県別）・`processed/area_capacity_series.csv`（北海道・東北[新潟含む]・九州、月末・月次補間）
 - 定義: 表B②-1（新規認定分）＋②-2（移行認定分）の導入容量。太陽光=10kW未満+以上、風力=20kW未満+以上。**FIT/FIP認定設備のみ（非FIT分は含まない）**
 - 検証: 北海道風力 2016年末32.0万・2023年末86.4万・2024年末130.0万kW（JWPA 36/83/128万kWと整合）、北海道太陽光 2025/3末234.3万kW（系統WG接続量236万kWと整合）
+
+
+## 追記5（2026-07-28）: LTDA約定結果・JWPA導入実績を追加
+
+- `raw/ltda/` 長期脱炭素電源オークション約定結果 本文＋別紙（第1〜3回、OCCTO）→ `processed/ltda_battery_projects.csv`（蓄電池76案件、パース合計は公表値109.2/137.0/125.1万kWと一致）
+- `raw/jwpa/` JWPA導入実績グラフ（2019〜2025年末版）— 風力導入量の第三者検証系列

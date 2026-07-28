@@ -77,3 +77,9 @@
 
 - `raw/ltda/` 長期脱炭素電源オークション約定結果 本文＋別紙（第1〜3回、OCCTO）→ `processed/ltda_battery_projects.csv`（蓄電池76案件、パース合計は公表値109.2/137.0/125.1万kWと一致）
 - `raw/jwpa/` JWPA導入実績グラフ（2019〜2025年末版）— 風力導入量の第三者検証系列
+
+
+## 追記6（2026-07-28）: 容量市場の需要曲線・調整係数を追加
+
+- `raw/capacity_demand_curve/` 需要曲線公表資料＋作成要領（2027〜2029年度向け、OCCTO）
+- `raw/capacity_chouseikeisu/` 調整係数（2024〜2029年度向け＋2026追加AX）→ `processed/capacity_adjustment_coefficients.csv`（蓄電池=純揚水係数、エリア×継続時間×月）

@@ -1,0 +1,9 @@
+category,fy_or_bin,system_man_yen_kwh,battery_man_yen_kwh,pcs_man_yen_kwh,other_man_yen_kwh,construction_man_yen_kwh,total_man_yen_kwh,note
+grid_by_fy,2022,4.9,3.6,0.5,0.7,1.2,6.1,補助事業実績（令和3補正等）
+grid_by_fy,2023,6.2,4.8,0.6,0.8,1.4,7.6,炭酸リチウム高騰・円安で上昇
+grid_by_fy,2024,5.4,4.1,0.6,0.7,1.4,6.8,見積額ベース推計（今後変化あり得る）
+grid_by_size,lt10MWh,6.0,,,,1.5,7.5,令和3補正〜6年度の補助事業データ
+grid_by_size,10-50MWh,5.7,,,,1.5,7.2,
+grid_by_size,gte50MWh,4.9,,,,1.1,6.0,大規模ほど安い（LTDA級はこの水準）
+grid_by_size,avg,5.5,,,,1.3,6.8,
+ci_reference,2024,,,,,,10.6,業務・産業用の平均システム価格（工事費含む・2025年度検討会の収益性評価前提）

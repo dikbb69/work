@@ -1,0 +1,44 @@
+# 手動ダウンロード依頼リスト（優先度順）
+
+- 作成日: 2026年7月27日
+- 背景: この作業環境からはOCCTO・METI・JEPX等へのアクセスがプロキシで遮断されるため、以下はユーザーの手動取得が必要。取得後はzipでチャットに添付（ファイル名はそのまま）
+- 対応フェーズ: equilibrium-quantification-plan.md §7.5（A=基盤データ）
+
+## 優先度A — フェーズB（価格過程モデル）着手のブロッカー
+
+| # | データ | 用途 | 取得先 |
+|---|---|---|---|
+| A1 | **北海道の太陽光・風力導入量の時系列**（月次または四半期、2016〜現在） | cf（設備利用率）過程の正規化＝価格過程モデルの前提。K_pv・K_windの実績経路 | 経産省 FIT/FIP情報公表用ウェブサイト [B表: 都道府県別導入量](https://www.fit-portal.go.jp/PublicInfoSummary)（月次Excel、北海道行）。補完: [JWPA導入実績プレスリリース](https://jwpa.jp/information/)（年末値）、系統WG資料の接続量（下記C4） |
+
+## 優先度B — K\*求解（フェーズD）に必須
+
+| # | データ | 用途 | 取得先 |
+|---|---|---|---|
+| B1 | **長期脱炭素電源オークション 約定結果（第1〜3回）＋別紙「落札電源一覧」** | AFC（年間固定費）の市場実測値／政策ストックK_policyのエリア別集計 | OCCTO。第3回: [約定結果](https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2025_boshuyoukou_long/260513_longauction_youryouyakujokekka_kouhyou_ousatsu2025.pdf)・[別紙](https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2025_boshuyoukou_long/260513_longauction_youryouyakujokekka_kouhyou_besshi_ousatsu2025.pdf)。第1回（2024/4/26公表）・第2回（2025/4/28公表）はOCCTOサイト内検索「長期脱炭素電源オークション 約定結果」 |
+| B2 | **容量市場の需要曲線（北海道エリア、直近2〜3オークション分）** | P_cap(K)の閉形式計算（二重カニバリの容量市場側） | OCCTO 各年度「メインオークション需要曲線の公表」資料（サイト内検索「容量市場 需要曲線 公表」。2029年度向け=2025年度実施分から） |
+| B3 | **調整係数の公表資料（蓄電池・揚水の発電可能時間別）** | κ（期待容量ディレーティング）の確定＝容量収入の実効値 | OCCTO（毎年7〜8月公表。例: 2028年度向けは2024/8/7）。サイト内検索「容量市場 調整係数」 |
+| B4 | **調達価格等算定委員会の蓄電池コスト関連資料**＋（あれば）定置用蓄電システム普及拡大検討会のコスト資料 | AFCの公式想定側（LTDAと三角測量） | [調達価格等算定委員会](https://www.meti.go.jp/shingikai/santeii/index.html)・[定置用蓄電システム検討会](https://www.meti.go.jp/shingikai/energy_environment/storage_system/index.html) |
+
+## 優先度C — シナリオ・精緻化（フェーズB後半〜E）
+
+| # | データ | 用途 | 取得先 |
+|---|---|---|---|
+| C1 | **OCCTO供給計画取りまとめ（2026年度）**＋北海道電力の供給計画届出概要 | 供給スタック構築（泊・石狩湾新港・石炭退役のシナリオ部品） | OCCTO「供給計画の取りまとめ」ページ（2026/3/30公表分）＋北海道電力プレス |
+| C2 | **連系線の運用容量（北本、月別・2016年度〜）** | 分断レジーム判定（フロー張り付きの閾値）と増強シナリオ | OCCTOサイト内検索「連系線の運用容量」（年度別の別紙Excel/PDF） |
+| C3 | **OCCTO需要想定（2026年度、エリア別最大需要・年間電力量）** | fig1の確定・需要比指標の分母統一 | OCCTOサイト内検索「需要想定」（2026/1公表分） |
+| C4 | **次世代電力系統WG 第7回 資料1-1**（蓄電池のエリア別契約申込表の原本）＋**第6回・第1回の接続量資料**（風力136万kWの時点確定用 [001_s01_01.pdf](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/001_s01_01.pdf)） | notes/14の数表の一次確認／RECHECK A2の残タスク | [次世代電力系統WG](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/)（第7回=2026/2/9、[007_01_01.pdf](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/007_01_01.pdf)） |
+
+## 優先度D — 任意・拡張（あれば嬉しい）
+
+| # | データ | 用途 | 取得先 |
+|---|---|---|---|
+| D1 | 需給調整市場の約定結果CSV（一次・二次①のΔkW価格、2024年度〜） | EPRXレント感応度の実測（移行期プレミアム） | [EPRX 取引結果](https://www.eprx.or.jp/)（市場情報→取引結果のCSV） |
+| D2 | JEPXスポット入札カーブ（買い・売り曲線） | 供給曲線推定の精緻化（Rassi & Kanamura型）。当面は不要 | JEPX 取引情報（会員公開範囲に注意） |
+| D3 | 電力調査統計（エリア別・燃種別発電実績） | 供給スタックのクロスチェック | 経産省 電力調査統計 |
+
+## 取得のコツ・注意
+
+- OCCTOのPDFはURL直リンクが変わることがある → 見つからない場合は「容量市場・発電設備等の情報掲示板」または各ページのサイト内検索で表題検索
+- A1のfit-portal B表は月次ファイルが積み上がっているため、**2016年4月〜最新まで一括**でお願いしたい（北海道行だけ使うので全国版で可）
+- B1の別紙（落札電源一覧）は3回分すべて必要（エリア別集計はこちらで行う）
+- 既に取得済み: JEPXスポット（〜2026/7）、九州・北海道・東北の需給実績（〜2026/6）、容量市場メインオークション約定結果4期分

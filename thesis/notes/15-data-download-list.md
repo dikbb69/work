@@ -17,7 +17,7 @@
 | B1 | **長期脱炭素電源オークション 約定結果（第1〜3回）＋別紙「落札電源一覧」** | AFC（年間固定費）の市場実測値／政策ストックK_policyのエリア別集計 | OCCTO。第3回: [約定結果](https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2025_boshuyoukou_long/260513_longauction_youryouyakujokekka_kouhyou_ousatsu2025.pdf)・[別紙](https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2025_boshuyoukou_long/260513_longauction_youryouyakujokekka_kouhyou_besshi_ousatsu2025.pdf)。第1回（2024/4/26公表）・第2回（2025/4/28公表）はOCCTOサイト内検索「長期脱炭素電源オークション 約定結果」 |
 | B2 | **容量市場の需要曲線（北海道エリア、直近2〜3オークション分）** | P_cap(K)の閉形式計算（二重カニバリの容量市場側） | OCCTO 各年度「メインオークション需要曲線の公表」資料（サイト内検索「容量市場 需要曲線 公表」。2029年度向け=2025年度実施分から） |
 | B3 | **調整係数の公表資料（蓄電池・揚水の発電可能時間別）** | κ（期待容量ディレーティング）の確定＝容量収入の実効値 | OCCTO（毎年7〜8月公表。例: 2028年度向けは2024/8/7）。サイト内検索「容量市場 調整係数」 |
-| B4 | **調達価格等算定委員会の蓄電池コスト関連資料**＋（あれば）定置用蓄電システム普及拡大検討会のコスト資料 | AFCの公式想定側（LTDAと三角測量） | [調達価格等算定委員会](https://www.meti.go.jp/shingikai/santeii/index.html)・[定置用蓄電システム検討会](https://www.meti.go.jp/shingikai/energy_environment/storage_system/index.html) |
+| B4 | ~~調達価格等算定委員会の蓄電池コスト関連資料~~ **取得済み（2026/7/28）**: 第67・75・84・93・102・114回の意見案＋別紙 → 系統用蓄電池の資本費想定は算定委に存在しないことを確認（notes/19）。AFCはLTDA実測バンドで確定。副産物の風力・太陽光コスト想定は `santeii_cost_assumptions.csv` に整理 | AFCの公式想定側（LTDAと三角測量） | [調達価格等算定委員会](https://www.meti.go.jp/shingikai/santeii/index.html) |
 
 ## 優先度C — シナリオ・精緻化（フェーズB後半〜E）
 

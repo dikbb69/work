@@ -83,3 +83,9 @@
 
 - `raw/capacity_demand_curve/` 需要曲線公表資料＋作成要領（2027〜2029年度向け、OCCTO）
 - `raw/capacity_chouseikeisu/` 調整係数（2024〜2029年度向け＋2026追加AX）→ `processed/capacity_adjustment_coefficients.csv`（蓄電池=純揚水係数、エリア×継続時間×月）
+
+## 追記7（2026-07-28）: 調達価格等算定委員会 意見（案）6年分を追加（B4）
+
+- `raw/santeii/` 第67・75・84・93・102・114回（令和3〜8年度向け）の意見案本文＋委員長案別紙＋資料1（ユーザー手動DL、原ファイル名のまま）
+- 結論: **系統用蓄電池の資本費想定は算定委資料に存在しない**（蓄電池はFIT/FIP対象外）→ AFCはLTDA実測バンド2〜3万円/kW-年で確定（notes/19）
+- 副産物: 陸上風力・事業用太陽光の資本費・運維費・設備利用率・IRR想定の時系列 → `processed/santeii_cost_assumptions.csv`（2026年度にコスト想定が反転上昇した点が重要）

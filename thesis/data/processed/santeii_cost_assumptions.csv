@@ -1,0 +1,15 @@
+tech,fy,system_man_yen_kw,land_man_yen_kw,connect_man_yen_kw,capex_total_man_yen_kw,om_man_yen_kw_yr,cf_assumed,irr_pretax,lifetime_yr,source
+onshore_wind_new,2020,,,,28.2,0.93,0.256,0.08,20,067_01_02
+onshore_wind_new,2021,,,,28.2,0.93,0.256,0.07,20,067_01_02
+onshore_wind_new,2022,,,,27.9,0.93,0.268,0.07,20,067_01_02
+onshore_wind_new,2023,,,,27.5,0.93,0.280,0.07,20,075_02_02
+onshore_wind_new,2024,,,,27.1,0.93,0.280,0.06,20,084_02_02
+onshore_wind_new,2025,,,,27.1,0.85,0.291,0.06,20,084_02_02
+onshore_wind_new,2026,,,,27.5,1.00,0.291,0.06,20,114_b01_00
+onshore_wind_new,2027,,,,27.5,1.00,0.291,0.06,25,114_b01_00
+utility_solar_ground_gte50kw,2020,14.2,0.4,1.35,15.95,0.5,0.172,0.04,20,075_02_02
+utility_solar_ground_gte50kw,2023,11.7,0.4,1.35,13.45,0.5,0.177,0.04,25,084_02_02
+utility_solar_ground_gte50kw,2024,11.3,1.2,1.35,13.85,0.5,0.183,0.04,25,084_02_02
+utility_solar_ground_gte50kw,2025,11.3,0.9,1.35,13.55,0.5,0.183,0.04,25,093_b01_00
+utility_solar_ground_gte50kw,2026,12.9,1.21,1.45,15.56,0.42,0.183,0.04,25,114_b01_00
+utility_solar_ground_gte50kw,2027,12.9,1.21,1.45,15.56,0.42,0.183,0.04,25,114_b01_00

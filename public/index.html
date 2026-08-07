@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>🎆 花火ビュースポットファインダー（プロトタイプ）</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="panel">
+  <header>
+    <h1>🎆 花火ビュースポットファインダー</h1>
+    <p class="sub">地形の標高と建物の位置関係から「どこから・どのように花火が見えるか」を判定するプロトタイプ</p>
+  </header>
+
+  <section class="controls">
+    <label class="field">
+      <span>花火大会</span>
+      <select id="festivalSelect"></select>
+    </label>
+    <div class="note" id="festivalNote"></div>
+
+    <label class="field">
+      <span>花火の大きさ（最大玉）</span>
+      <select id="shellSelect"></select>
+    </label>
+
+    <div class="field-row">
+      <label class="field small">
+        <span>目の高さ (m)</span>
+        <input type="number" id="eyeHeight" value="1.5" min="0.5" max="300" step="0.5">
+      </label>
+      <label class="chk">
+        <input type="checkbox" id="useBuildings" checked>
+        <span>建物による遮蔽を考慮<br><small>（OpenStreetMapデータ）</small></span>
+      </label>
+    </div>
+    <div class="hint">💡 ビルの屋上から見る場合は「目の高さ」にビルの高さを足してください。</div>
+
+    <div class="clickhint" id="clickHint">🗺️ 地図をクリックすると、その場所からの花火の見え方を判定します。</div>
+
+    <div class="field-row">
+      <select id="heatRadius">
+        <option value="3000">半径3km</option>
+        <option value="5000" selected>半径5km</option>
+        <option value="8000">半径8km</option>
+      </select>
+      <button id="heatmapBtn" class="primary">見えやすさマップを計算</button>
+    </div>
+    <div id="heatProgress" class="progress hidden"><div class="bar" id="heatBar"></div></div>
+    <div id="heatLegend" class="legend hidden">
+      <div class="grad"></div>
+      <div class="grad-labels"><span>見えない</span><span>一部見える</span><span>全体が見える</span></div>
+      <div class="small-note">※マップは地形のみで計算（建物は未考慮）。クリック判定では建物も考慮されます。</div>
+    </div>
+
+    <button id="clearBtn" class="ghost">結果をクリア</button>
+    <div id="status" class="status hidden"></div>
+  </section>
+
+  <section id="result" class="hidden">
+    <div id="resBadge" class="badge"></div>
+    <canvas id="profileCanvas" height="230"></canvas>
+    <table id="resTable"></table>
+    <ul id="resNotes" class="notes"></ul>
+  </section>
+
+  <footer>
+    <p>標高・地図データ: <a href="https://maps.gsi.go.jp/development/ichiran.html" target="_blank" rel="noopener">国土地理院（地理院タイル）</a> / 建物データ: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
+    <p>⚠️ 簡易シミュレーションです。樹木・煙・観客・立入可否などは考慮していません。打上位置や玉サイズはデモ用の概略値です。</p>
+  </footer>
+</div>
+<div id="map"></div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="js/festivals.js"></script>
+<script src="js/geo.js"></script>
+<script src="js/elevation.js"></script>
+<script src="js/buildings.js"></script>
+<script src="js/los.js"></script>
+<script src="js/profile.js"></script>
+<script src="js/heatmap.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

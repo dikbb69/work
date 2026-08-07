@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ポツ神ファインダー デモ (合成データ)</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --ink-1: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-muted: #898781;
+    --hairline: #e1e0d9;
+    --bar: #2a78d6;
+    --bar-track: #e1e0d9;
+    --accent-star: #eda100;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+                 "Noto Sans JP", sans-serif;
+    color: var(--ink-1);
+    background: var(--page);
+    display: flex;
+  }
+  #sidebar {
+    width: 350px; min-width: 270px; height: 100%;
+    display: flex; flex-direction: column;
+    background: var(--surface-1);
+    border-right: 1px solid var(--hairline);
+  }
+  #sidebar header { padding: 12px 14px 8px; border-bottom: 1px solid var(--hairline); }
+  #sidebar h1 { font-size: 15px; margin: 0 0 2px; }
+  #sidebar .sub { font-size: 11px; color: var(--ink-muted); }
+  #filters { padding: 10px 14px; border-bottom: 1px solid var(--hairline);
+             display: grid; gap: 7px; font-size: 12px; }
+  #filters label { display: flex; align-items: center; gap: 6px; color: var(--ink-2); }
+  #filters .checks { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  #filters input[type="text"], #filters select {
+    width: 100%; padding: 5px 8px; font-size: 12px;
+    border: 1px solid var(--hairline); border-radius: 6px; background: #fff;
+    color: var(--ink-1);
+  }
+  #filters input[type="range"] { flex: 1; }
+  #filters .val { min-width: 3.8em; text-align: right;
+                  font-variant-numeric: tabular-nums; color: var(--ink-1); }
+  #count { font-size: 11px; color: var(--ink-muted); padding: 6px 14px 0; }
+  #list { flex: 1; overflow-y: auto; padding: 6px 8px 12px; }
+  .row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 8px; border-radius: 8px; cursor: pointer;
+  }
+  .row:hover { background: #f1f0ec; }
+  .row.active { background: #e8f0fb; }
+  .row .chip {
+    flex: none; width: 40px; height: 24px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 11px; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .chip.lo { color: var(--ink-1); }
+  .row .nm { flex: 1; min-width: 0; }
+  .row .nm b { display: block; font-size: 12.5px; font-weight: 600;
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .nm span { font-size: 11px; color: var(--ink-muted); }
+  .row .badges { flex: none; font-size: 11px; color: var(--ink-2);
+                 display: flex; gap: 4px; }
+  .badge-star { color: var(--accent-star); }
+  #more { margin: 6px 8px; padding: 6px; width: calc(100% - 16px);
+          border: 1px solid var(--hairline); border-radius: 8px;
+          background: #fff; font-size: 12px; cursor: pointer; color: var(--ink-2); }
+  #legend { padding: 8px 14px; border-top: 1px solid var(--hairline);
+            font-size: 10.5px; color: var(--ink-muted); }
+  #legend .ramp { height: 8px; border-radius: 4px; margin: 4px 0 2px;
+    background: linear-gradient(to right, #cde2fb, #9ec5f4, #5598e7, #2a78d6, #1c5cab, #0d366b); }
+  #legend .ends { display: flex; justify-content: space-between; }
+  #coverage { font-size: 11px; color: var(--ink-muted);
+              padding: 6px 14px 10px; }
+  #map { flex: 1; height: 100%; }
+  .popup { font-size: 12.5px; line-height: 1.5; min-width: 240px; }
+  .popup h3 { margin: 0 0 2px; font-size: 14px; }
+  .popup .score-line { color: var(--ink-2); margin-bottom: 6px; }
+  .popup .score-line b { color: var(--ink-1); font-size: 15px; }
+  .popup table { border-collapse: collapse; width: 100%; margin: 4px 0 6px; }
+  .popup td { padding: 1px 0; color: var(--ink-2); font-size: 12px; }
+  .popup td.v { text-align: right; color: var(--ink-1);
+                font-variant-numeric: tabular-nums; }
+  .bk { margin: 6px 0; }
+  .bk .brow { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+  .bk .blabel { flex: none; width: 7.5em; font-size: 11px; color: var(--ink-2); }
+  .bk .btrack { flex: 1; height: 8px; background: var(--bar-track);
+                border-radius: 4px; overflow: hidden; }
+  .bk .bfill { height: 100%; background: var(--bar); border-radius: 4px; }
+  .bk .bval { flex: none; width: 2.8em; text-align: right; font-size: 11px;
+              color: var(--ink-1); font-variant-numeric: tabular-nums; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .links a {
+    font-size: 11.5px; text-decoration: none; color: #1c5cab;
+    border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 7px;
+    background: #fff;
+  }
+  .links a:hover { background: #e8f0fb; }
+  .stbtns { display: flex; gap: 5px; margin: 6px 0 2px; }
+  .stbtns button {
+    font-size: 11.5px; padding: 3px 8px; border-radius: 6px; cursor: pointer;
+    border: 1px solid var(--hairline); background: #fff; color: var(--ink-2);
+  }
+  .stbtns button.on { background: #e8f0fb; border-color: #2a78d6; color: var(--ink-1); }
+  .leaflet-container { background: #ddd; font: inherit; }
+  @media (max-width: 720px) {
+    body { flex-direction: column-reverse; }
+    #sidebar { width: 100%; min-width: 0; height: 46%;
+               border-right: none; border-top: 1px solid var(--hairline); }
+    #map { height: 54%; }
+    #legend, #coverage { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <header>
+    <h1 id="ttl"></h1>
+    <div class="sub">行クリックで地図へ。★/訪問済/除外はこのブラウザに保存され、再生成後も残ります。最終判断は航空写真とストリートビューで。</div>
+  </header>
+  <div id="filters">
+    <input type="text" id="q" placeholder="名前で絞り込み (例: 八幡)">
+    <label>並び順
+      <select id="sortKey">
+        <option value="score">ポツ神スコア</option>
+        <option value="dist_home_km">拠点から近い順</option>
+        <option value="steps_total_length_m">石段の長さ</option>
+        <option value="steps_elev_diff_m">石段の標高差</option>
+        <option value="d_nearest_m">最寄り建物が遠い順</option>
+      </select>
+    </label>
+    <label>スコア ≥ <input type="range" id="minScore" min="0" max="100" value="0" step="1">
+      <span class="val" id="minScoreVal">0</span></label>
+    <label>拠点から ≤ <input type="range" id="maxDist" min="0" max="300" value="300" step="5">
+      <span class="val" id="maxDistVal">300km</span></label>
+    <div class="checks">
+      <label><input type="checkbox" id="stepsOnly"> 石段あり</label>
+      <label><input type="checkbox" id="hideFamous"> 有名どころを隠す</label>
+      <label><input type="checkbox" id="starsOnly"> ★のみ</label>
+      <label><input type="checkbox" id="hideDone" checked> 訪問済・除外を隠す</label>
+    </div>
+  </div>
+  <div id="count"></div>
+  <div id="list"></div>
+  <div id="legend">ポツ神スコア (孤立度)<div class="ramp"></div>
+    <div class="ends"><span>0 (集落の中)</span><span>100 (ポツン)</span></div></div>
+  <div id="coverage"></div>
+</div>
+<div id="map"></div>
+<script>
+"use strict";
+const PAYLOAD = {"title": "ポツ神ファインダー デモ (合成データ)", "data": {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.192585, 35.185047]}, "properties": {"rank": 1, "name": "合成第1山社", "score": 100.0, "iso_score": 100.0, "p_sum": 0, "d_nearest_m": null, "n_adjacent": 0, "n_inner": 0, "n_outer": 0, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": true, "steps_match_dist_m": 15.0, "steps_total_length_m": 164.8, "steps_elev_diff_m": 36.3, "elev_low_precision": false, "est_steps_min": 120, "est_steps_max": 201, "step_count_tag": 148, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 64.0, "lat": 35.185047, "lon": 140.192585, "osm": "node/3000", "osm_url": "https://www.openstreetmap.org/node/3000", "link_gsi": "https://maps.gsi.go.jp/#17/35.185047/140.192585/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.185047%2C140.192585", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.185047%2C140.192585", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.185047%2C140.192585&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.173374, 35.164301]}, "properties": {"rank": 2, "name": "合成第3山社", "score": 100.0, "iso_score": 100.0, "p_sum": 0, "d_nearest_m": null, "n_adjacent": 0, "n_inner": 0, "n_outer": 0, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 65.1, "lat": 35.164301, "lon": 140.173374, "osm": "node/3002", "osm_url": "https://www.openstreetmap.org/node/3002", "link_gsi": "https://maps.gsi.go.jp/#17/35.164301/140.173374/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.164301%2C140.173374", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.164301%2C140.173374", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.164301%2C140.173374&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.14641, 35.258602]}, "properties": {"rank": 3, "name": "合成第5山社", "score": 100.0, "iso_score": 100.0, "p_sum": 0, "d_nearest_m": null, "n_adjacent": 0, "n_inner": 0, "n_outer": 0, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 54.9, "lat": 35.258602, "lon": 140.14641, "osm": "node/3004", "osm_url": "https://www.openstreetmap.org/node/3004", "link_gsi": "https://maps.gsi.go.jp/#17/35.258602/140.146410/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.258602%2C140.146410", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.258602%2C140.146410", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.258602%2C140.146410&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.144858, 35.165906]}, "properties": {"rank": 4, "name": "合成第6山社", "score": 99.51, "iso_score": 99.51, "p_sum": 0.0123, "d_nearest_m": 791.3, "n_adjacent": 0, "n_inner": 0, "n_outer": 0, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 63.7, "lat": 35.165906, "lon": 140.144858, "osm": "node/3005", "osm_url": "https://www.openstreetmap.org/node/3005", "link_gsi": "https://maps.gsi.go.jp/#17/35.165906/140.144858/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.165906%2C140.144858", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.165906%2C140.144858", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.165906%2C140.144858&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.191358, 35.16579]}, "properties": {"rank": 5, "name": "合成第7山社", "score": 97.33, "iso_score": 97.33, "p_sum": 0.0675, "d_nearest_m": 485.1, "n_adjacent": 0, "n_inner": 0, "n_outer": 1, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": true, "steps_match_dist_m": 15.0, "steps_total_length_m": 164.8, "steps_elev_diff_m": 36.3, "elev_low_precision": false, "est_steps_min": 120, "est_steps_max": 201, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 65.8, "lat": 35.16579, "lon": 140.191358, "osm": "node/3006", "osm_url": "https://www.openstreetmap.org/node/3006", "link_gsi": "https://maps.gsi.go.jp/#17/35.165790/140.191358/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.165790%2C140.191358", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.165790%2C140.191358", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.165790%2C140.191358&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.19439, 35.21453]}, "properties": {"rank": 6, "name": "合成第9山社", "score": 96.6, "iso_score": 96.6, "p_sum": 0.0865, "d_nearest_m": 440.6, "n_adjacent": 0, "n_inner": 0, "n_outer": 1, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 61.4, "lat": 35.21453, "lon": 140.19439, "osm": "node/3008", "osm_url": "https://www.openstreetmap.org/node/3008", "link_gsi": "https://maps.gsi.go.jp/#17/35.214530/140.194390/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.214530%2C140.194390", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.214530%2C140.194390", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.214530%2C140.194390&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.148757, 35.166226]}, "properties": {"rank": 7, "name": "合成第2山社", "score": 96.54, "iso_score": 96.54, "p_sum": 0.088, "d_nearest_m": 437.4, "n_adjacent": 0, "n_inner": 0, "n_outer": 1, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 63.9, "lat": 35.166226, "lon": 140.148757, "osm": "node/3001", "osm_url": "https://www.openstreetmap.org/node/3001", "link_gsi": "https://maps.gsi.go.jp/#17/35.166226/140.148757/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.166226%2C140.148757", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.166226%2C140.148757", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.166226%2C140.148757&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.182392, 35.27108]}, "properties": {"rank": 8, "name": "合成第4山社", "score": 95.77, "iso_score": 95.77, "p_sum": 0.108, "d_nearest_m": 400.6, "n_adjacent": 0, "n_inner": 0, "n_outer": 1, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": true, "steps_match_dist_m": 15.0, "steps_total_length_m": 164.8, "steps_elev_diff_m": 36.3, "elev_low_precision": false, "est_steps_min": 121, "est_steps_max": 201, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 55.6, "lat": 35.27108, "lon": 140.182392, "osm": "node/3003", "osm_url": "https://www.openstreetmap.org/node/3003", "link_gsi": "https://maps.gsi.go.jp/#17/35.271080/140.182392/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.271080%2C140.182392", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.271080%2C140.182392", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.271080%2C140.182392&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.188774, 35.210918]}, "properties": {"rank": 9, "name": "合成第8山社", "score": 95.41, "iso_score": 95.41, "p_sum": 0.1174, "d_nearest_m": 385.6, "n_adjacent": 0, "n_inner": 0, "n_outer": 1, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 61.4, "lat": 35.210918, "lon": 140.188774, "osm": "node/3007", "osm_url": "https://www.openstreetmap.org/node/3007", "link_gsi": "https://maps.gsi.go.jp/#17/35.210918/140.188774/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.210918%2C140.188774", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.210918%2C140.188774", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.210918%2C140.188774&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.14816, 35.231864]}, "properties": {"rank": 10, "name": "合成第8辺社", "score": 67.55, "iso_score": 67.55, "p_sum": 0.9807, "d_nearest_m": 269.1, "n_adjacent": 0, "n_inner": 0, "n_outer": 7, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 57.5, "lat": 35.231864, "lon": 140.14816, "osm": "node/2007", "osm_url": "https://www.openstreetmap.org/node/2007", "link_gsi": "https://maps.gsi.go.jp/#17/35.231864/140.148160/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.231864%2C140.148160", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.231864%2C140.148160", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.231864%2C140.148160&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.012054, 35.253899]}, "properties": {"rank": 11, "name": "合成大社", "score": 62.91, "iso_score": 96.76, "p_sum": 0.0823, "d_nearest_m": 449.5, "n_adjacent": 0, "n_inner": 0, "n_outer": 1, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 0.6502, "fame_flags": "wikipedia;wikidata;tourism", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 49.8, "lat": 35.253899, "lon": 140.012054, "osm": "node/4000", "osm_url": "https://www.openstreetmap.org/node/4000", "link_gsi": "https://maps.gsi.go.jp/#17/35.253899/140.012054/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.253899%2C140.012054", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.253899%2C140.012054", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.253899%2C140.012054&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.069682, 35.23574]}, "properties": {"rank": 12, "name": "合成第3辺社", "score": 54.95, "iso_score": 54.95, "p_sum": 1.4967, "d_nearest_m": 208.0, "n_adjacent": 0, "n_inner": 0, "n_outer": 7, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 53.7, "lat": 35.23574, "lon": 140.069682, "osm": "node/2002", "osm_url": "https://www.openstreetmap.org/node/2002", "link_gsi": "https://maps.gsi.go.jp/#17/35.235740/140.069682/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.235740%2C140.069682", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.235740%2C140.069682", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.235740%2C140.069682&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.085076, 35.184784]}, "properties": {"rank": 13, "name": "合成第7辺社", "score": 54.83, "iso_score": 54.83, "p_sum": 1.5023, "d_nearest_m": 250.7, "n_adjacent": 0, "n_inner": 0, "n_outer": 10, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 59.5, "lat": 35.184784, "lon": 140.085076, "osm": "node/2006", "osm_url": "https://www.openstreetmap.org/node/2006", "link_gsi": "https://maps.gsi.go.jp/#17/35.184784/140.085076/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.184784%2C140.085076", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.184784%2C140.085076", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.184784%2C140.085076&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.04609, 35.166904]}, "properties": {"rank": 14, "name": "合成第6辺社", "score": 51.53, "iso_score": 51.53, "p_sum": 1.6573, "d_nearest_m": 212.8, "n_adjacent": 0, "n_inner": 0, "n_outer": 8, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 60.0, "lat": 35.166904, "lon": 140.04609, "osm": "node/2005", "osm_url": "https://www.openstreetmap.org/node/2005", "link_gsi": "https://maps.gsi.go.jp/#17/35.166904/140.046090/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.166904%2C140.046090", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.166904%2C140.046090", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.166904%2C140.046090&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.159727, 35.228671]}, "properties": {"rank": 15, "name": "合成第5辺社", "score": 51.47, "iso_score": 51.47, "p_sum": 1.6605, "d_nearest_m": 280.3, "n_adjacent": 0, "n_inner": 0, "n_outer": 11, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 58.3, "lat": 35.228671, "lon": 140.159727, "osm": "node/2004", "osm_url": "https://www.openstreetmap.org/node/2004", "link_gsi": "https://maps.gsi.go.jp/#17/35.228671/140.159727/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.228671%2C140.159727", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.228671%2C140.159727", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.228671%2C140.159727&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.03404, 35.137118]}, "properties": {"rank": 16, "name": "合成日照神社", "score": 50.0, "iso_score": 100.0, "p_sum": 0, "d_nearest_m": null, "n_adjacent": 0, "n_inner": 0, "n_outer": 0, "nuisance_mult": 0.5, "nuisance_flags": "solar@112m", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 62.8, "lat": 35.137118, "lon": 140.03404, "osm": "node/5000", "osm_url": "https://www.openstreetmap.org/node/5000", "link_gsi": "https://maps.gsi.go.jp/#17/35.137118/140.034040/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.137118%2C140.034040", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.137118%2C140.034040", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.137118%2C140.034040&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.101384, 35.149709]}, "properties": {"rank": 17, "name": "合成第9辺社", "score": 47.86, "iso_score": 47.86, "p_sum": 1.8422, "d_nearest_m": 283.6, "n_adjacent": 0, "n_inner": 0, "n_outer": 14, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 63.6, "lat": 35.149709, "lon": 140.101384, "osm": "node/2008", "osm_url": "https://www.openstreetmap.org/node/2008", "link_gsi": "https://maps.gsi.go.jp/#17/35.149709/140.101384/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.149709%2C140.101384", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.149709%2C140.101384", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.149709%2C140.101384&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.154911, 35.204207]}, "properties": {"rank": 18, "name": "合成第10辺社", "score": 47.09, "iso_score": 47.09, "p_sum": 1.8829, "d_nearest_m": 268.0, "n_adjacent": 0, "n_inner": 0, "n_outer": 11, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 60.4, "lat": 35.204207, "lon": 140.154911, "osm": "node/2009", "osm_url": "https://www.openstreetmap.org/node/2009", "link_gsi": "https://maps.gsi.go.jp/#17/35.204207/140.154911/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.204207%2C140.154911", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.204207%2C140.154911", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.204207%2C140.154911&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.095576, 35.169799]}, "properties": {"rank": 19, "name": "合成第1辺社", "score": 43.77, "iso_score": 43.77, "p_sum": 2.0658, "d_nearest_m": 274.1, "n_adjacent": 0, "n_inner": 0, "n_outer": 13, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 61.4, "lat": 35.169799, "lon": 140.095576, "osm": "node/2000", "osm_url": "https://www.openstreetmap.org/node/2000", "link_gsi": "https://maps.gsi.go.jp/#17/35.169799/140.095576/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.169799%2C140.095576", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.169799%2C140.095576", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.169799%2C140.095576&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.039795, 35.178179]}, "properties": {"rank": 20, "name": "合成第4辺社", "score": 38.39, "iso_score": 38.39, "p_sum": 2.3933, "d_nearest_m": 248.2, "n_adjacent": 0, "n_inner": 0, "n_outer": 15, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 58.6, "lat": 35.178179, "lon": 140.039795, "osm": "node/2003", "osm_url": "https://www.openstreetmap.org/node/2003", "link_gsi": "https://maps.gsi.go.jp/#17/35.178179/140.039795/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.178179%2C140.039795", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.178179%2C140.039795", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.178179%2C140.039795&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.118981, 35.172554]}, "properties": {"rank": 21, "name": "合成第2辺社", "score": 33.25, "iso_score": 33.25, "p_sum": 2.753, "d_nearest_m": 191.2, "n_adjacent": 0, "n_inner": 0, "n_outer": 12, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 62.0, "lat": 35.172554, "lon": 140.118981, "osm": "node/2001", "osm_url": "https://www.openstreetmap.org/node/2001", "link_gsi": "https://maps.gsi.go.jp/#17/35.172554/140.118981/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.172554%2C140.118981", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.172554%2C140.118981", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.172554%2C140.118981&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.137428, 35.217638]}, "properties": {"rank": 22, "name": "合成第6村社", "score": 6.38, "iso_score": 6.38, "p_sum": 6.8791, "d_nearest_m": 105.9, "n_adjacent": 0, "n_inner": 2, "n_outer": 29, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 58.4, "lat": 35.217638, "lon": 140.137428, "osm": "node/1005", "osm_url": "https://www.openstreetmap.org/node/1005", "link_gsi": "https://maps.gsi.go.jp/#17/35.217638/140.137428/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.217638%2C140.137428", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.217638%2C140.137428", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.217638%2C140.137428&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.122897, 35.230116]}, "properties": {"rank": 23, "name": "合成第3村社", "score": 6.26, "iso_score": 6.26, "p_sum": 6.9271, "d_nearest_m": 71.3, "n_adjacent": 1, "n_inner": 4, "n_outer": 22, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 56.5, "lat": 35.230116, "lon": 140.122897, "osm": "node/1002", "osm_url": "https://www.openstreetmap.org/node/1002", "link_gsi": "https://maps.gsi.go.jp/#17/35.230116/140.122897/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.230116%2C140.122897", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.230116%2C140.122897", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.230116%2C140.122897&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.125309, 35.167344]}, "properties": {"rank": 24, "name": "合成第4村社", "score": 1.82, "iso_score": 1.82, "p_sum": 10.0214, "d_nearest_m": 43.7, "n_adjacent": 0, "n_inner": 10, "n_outer": 22, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 62.8, "lat": 35.167344, "lon": 140.125309, "osm": "node/1003", "osm_url": "https://www.openstreetmap.org/node/1003", "link_gsi": "https://maps.gsi.go.jp/#17/35.167344/140.125309/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.167344%2C140.125309", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.167344%2C140.125309", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.167344%2C140.125309&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.078797, 35.211169]}, "properties": {"rank": 25, "name": "合成第5村社", "score": 1.57, "iso_score": 1.57, "p_sum": 10.3828, "d_nearest_m": 42.5, "n_adjacent": 0, "n_inner": 8, "n_outer": 27, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 56.6, "lat": 35.211169, "lon": 140.078797, "osm": "node/1004", "osm_url": "https://www.openstreetmap.org/node/1004", "link_gsi": "https://maps.gsi.go.jp/#17/35.211169/140.078797/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.211169%2C140.078797", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.211169%2C140.078797", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.211169%2C140.078797&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.058969, 35.219398]}, "properties": {"rank": 26, "name": "合成第1村社", "score": 0.91, "iso_score": 0.91, "p_sum": 11.7459, "d_nearest_m": 65.1, "n_adjacent": 1, "n_inner": 5, "n_outer": 42, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 55.0, "lat": 35.219398, "lon": 140.058969, "osm": "node/1000", "osm_url": "https://www.openstreetmap.org/node/1000", "link_gsi": "https://maps.gsi.go.jp/#17/35.219398/140.058969/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.219398%2C140.058969", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.219398%2C140.058969", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.219398%2C140.058969&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.058291, 35.228391]}, "properties": {"rank": 27, "name": "合成第2村社", "score": 0.35, "iso_score": 0.35, "p_sum": 14.1549, "d_nearest_m": 41.8, "n_adjacent": 2, "n_inner": 8, "n_outer": 48, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 54.1, "lat": 35.228391, "lon": 140.058291, "osm": "node/1001", "osm_url": "https://www.openstreetmap.org/node/1001", "link_gsi": "https://maps.gsi.go.jp/#17/35.228391/140.058291/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.228391%2C140.058291", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.228391%2C140.058291", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.228391%2C140.058291&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.099679, 35.182318]}, "properties": {"rank": 28, "name": "合成第7村社", "score": 0.29, "iso_score": 0.29, "p_sum": 14.6052, "d_nearest_m": 66.9, "n_adjacent": 0, "n_inner": 5, "n_outer": 54, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 60.3, "lat": 35.182318, "lon": 140.099679, "osm": "node/1006", "osm_url": "https://www.openstreetmap.org/node/1006", "link_gsi": "https://maps.gsi.go.jp/#17/35.182318/140.099679/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.182318%2C140.099679", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.182318%2C140.099679", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.182318%2C140.099679&travelmode=driving"}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [140.095791, 35.22487]}, "properties": {"rank": 29, "name": "合成第8村社", "score": 0.12, "iso_score": 0.12, "p_sum": 16.7813, "d_nearest_m": 40.5, "n_adjacent": 0, "n_inner": 11, "n_outer": 48, "nuisance_mult": 1.0, "nuisance_flags": "", "fame_mult": 1.0, "fame_flags": "", "steps_matched": false, "steps_match_dist_m": null, "steps_total_length_m": null, "steps_elev_diff_m": null, "elev_low_precision": false, "est_steps_min": null, "est_steps_max": null, "step_count_tag": null, "road_checked": false, "road_dist_m": null, "hokora": false, "dist_home_km": 55.9, "lat": 35.22487, "lon": 140.095791, "osm": "node/1007", "osm_url": "https://www.openstreetmap.org/node/1007", "link_gsi": "https://maps.gsi.go.jp/#17/35.224870/140.095791/", "link_gmap": "https://www.google.com/maps/search/?api=1&query=35.224870%2C140.095791", "link_sv": "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=35.224870%2C140.095791", "link_dir": "https://www.google.com/maps/dir/?api=1&destination=35.224870%2C140.095791&travelmode=driving"}}]}, "coverage": {"n_steps_ways": 6, "n_matched": 3, "n_shrines": 29, "match_rate": 10.3}, "home": [35.6731, 139.8173]};
+document.getElementById("ttl").textContent = PAYLOAD.title;
+document.title = PAYLOAD.title;
+
+// 地理院タイル・OSM タイル (出典表記はレイヤの attribution で行う)
+const gsiAttr = '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a>';
+const basePale = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
+  { maxZoom: 18, attribution: gsiAttr });
+const baseStd = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",
+  { maxZoom: 18, attribution: gsiAttr });
+const basePhoto = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg",
+  { maxZoom: 18, attribution: gsiAttr });
+const baseOsm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+
+const map = L.map("map", { layers: [basePale] });
+L.control.layers(
+  { "地理院 淡色": basePale, "地理院 標準": baseStd, "航空写真": basePhoto, "OSM": baseOsm },
+  {}, { position: "topright" }
+).addTo(map);
+
+// スコア → 色: シーケンシャル単色ランプ (青、light→dark)。高スコアほど濃い。
+const RAMP = [
+  [0,   [0xcd, 0xe2, 0xfb]],
+  [25,  [0x9e, 0xc5, 0xf4]],
+  [50,  [0x55, 0x98, 0xe7]],
+  [70,  [0x2a, 0x78, 0xd6]],
+  [85,  [0x1c, 0x5c, 0xab]],
+  [100, [0x0d, 0x36, 0x6b]],
+];
+function colorForScore(s) {
+  s = Math.max(0, Math.min(100, s));
+  for (let i = 1; i < RAMP.length; i++) {
+    if (s <= RAMP[i][0]) {
+      const s0 = RAMP[i - 1][0], c0 = RAMP[i - 1][1];
+      const s1 = RAMP[i][0], c1 = RAMP[i][1];
+      const t = (s - s0) / (s1 - s0 || 1);
+      const c = c0.map((v, k) => Math.round(v + t * (c1[k] - v)));
+      return "rgb(" + c.join(",") + ")";
+    }
+  }
+  return "rgb(13,54,107)";
+}
+
+// --- ★候補 / 訪問済 / 除外 の永続化 (OSM ID キーなので再生成後も残る) ---
+const STATE_KEY = "potsugami-state-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STATE_KEY)) || {}; } catch (e) { state = {}; }
+function stateOf(osm) { return state[osm] || null; }
+function setStateOf(osm, val) {
+  if (val) state[osm] = val; else delete state[osm];
+  try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+const feats = PAYLOAD.data.features;
+const markers = new Map();   // osm id -> marker
+let activeRow = null;
+let listLimit = 200;
+
+function fmt(v, suffix) {
+  return (v === null || v === undefined) ? "—" : v + (suffix || "");
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g,
+    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function popupHtml(p) {
+  const bar = (label, v) =>
+    '<div class="brow"><div class="blabel">' + label + '</div>' +
+    '<div class="btrack"><div class="bfill" style="width:' + Math.round(v * 100) + '%"></div></div>' +
+    '<div class="bval">' + v.toFixed(2) + "</div></div>";
+  let stepsRows = "";
+  if (p.steps_matched) {
+    const est = (p.step_count_tag !== null) ? p.step_count_tag + " 段 (OSMタグ)"
+      : (p.est_steps_min !== null) ? "約 " + p.est_steps_min + "〜" + p.est_steps_max + " 段 (標高差推定)"
+      : "—";
+    const lowp = p.elev_low_precision ? " (10mメッシュ・低精度)" : "";
+    stepsRows =
+      "<tr><td>石段 (マッチ距離 " + fmt(p.steps_match_dist_m, "m") + ")</td><td class='v'>" +
+        fmt(p.steps_total_length_m, " m") + "</td></tr>" +
+      "<tr><td>石段の標高差</td><td class='v'>" + fmt(p.steps_elev_diff_m, " m") + lowp + "</td></tr>" +
+      "<tr><td>推定段数</td><td class='v'>" + est + "</td></tr>";
+  }
+  let roadRow = "";
+  if (p.road_checked) {
+    const rv = (p.road_dist_m === null) ? "500m 内になし (要注意)" : p.road_dist_m + " m";
+    roadRow = "<tr><td>最寄り車道</td><td class='v'>" + rv + "</td></tr>";
+  }
+  const fame = p.fame_flags
+    ? "<tr><td>有名度シグナル</td><td class='v'>" + esc(p.fame_flags) + " (×" + p.fame_mult + ")</td></tr>"
+    : "";
+  const nui = p.nuisance_flags
+    ? "<tr><td>騒がしさ減点</td><td class='v'>" + esc(p.nuisance_flags) + " (×" + p.nuisance_mult + ")</td></tr>"
+    : "";
+  const st = stateOf(p.osm);
+  const stBtn = (v, label) =>
+    '<button class="stbtn' + (st === v ? " on" : "") + '" data-osm="' + esc(p.osm) +
+    '" data-v="' + v + '">' + label + "</button>";
+  return '<div class="popup">' +
+    "<h3>" + esc(p.name) + "</h3>" +
+    '<div class="score-line">ポツ神スコア <b>' + p.score.toFixed(1) + "</b> / 100 (#" + p.rank + ")</div>" +
+    '<div class="bk">' +
+    bar("孤立度", p.iso_score / 100) +
+    "</div>" +
+    "<table>" +
+    "<tr><td>最寄り建物</td><td class='v'>" + fmt(p.d_nearest_m, " m") + "</td></tr>" +
+    "<tr><td>建物数 (隣接/近接/周辺)</td><td class='v'>" +
+      p.n_adjacent + " / " + p.n_inner + " / " + p.n_outer + "</td></tr>" +
+    stepsRows + roadRow + nui + fame +
+    (p.hokora ? "<tr><td>種別</td><td class='v'>祠 (wayside_shrine)</td></tr>" : "") +
+    "<tr><td>拠点から直線</td><td class='v'>" + p.dist_home_km + " km</td></tr>" +
+    "</table>" +
+    '<div class="stbtns">' + stBtn("star", "★ 候補") + stBtn("visited", "✓ 訪問済") +
+    stBtn("excluded", "✕ 除外") + "</div>" +
+    '<div class="links">' +
+    '<a href="' + p.link_dir + '" target="_blank" rel="noopener">経路 (車)</a>' +
+    '<a href="' + p.link_gsi + '" target="_blank" rel="noopener">地理院地図</a>' +
+    '<a href="' + p.link_gmap + '" target="_blank" rel="noopener">Google マップ</a>' +
+    '<a href="' + p.link_sv + '" target="_blank" rel="noopener">ストリートビュー</a>' +
+    '<a href="' + p.osm_url + '" target="_blank" rel="noopener">OSM</a>' +
+    "</div></div>";
+}
+
+for (const f of feats) {
+  const p = f.properties;
+  const m = L.circleMarker([p.lat, p.lon], { radius: 7 });
+  m.bindPopup(() => popupHtml(p), { maxWidth: 330 });
+  markers.set(p.osm, m);
+}
+
+// ポップアップ内の状態ボタン (イベント委譲)
+document.addEventListener("click", ev => {
+  const btn = ev.target.closest(".stbtn");
+  if (!btn) return;
+  const osm = btn.dataset.osm;
+  const v = btn.dataset.v;
+  setStateOf(osm, stateOf(osm) === v ? null : v);
+  const f = feats.find(x => x.properties.osm === osm);
+  const m = markers.get(osm);
+  if (f && m && m.isPopupOpen()) m.setPopupContent(popupHtml(f.properties));
+  refresh(true);
+});
+
+function sortValue(p, key) {
+  const v = p[key];
+  return (v === null || v === undefined) ? -Infinity : v;
+}
+
+function visibleFeats() {
+  const q = document.getElementById("q").value.trim();
+  const minScore = +document.getElementById("minScore").value;
+  const maxDist = +document.getElementById("maxDist").value;
+  const stepsOnly = document.getElementById("stepsOnly").checked;
+  const hideFamous = document.getElementById("hideFamous").checked;
+  const starsOnly = document.getElementById("starsOnly").checked;
+  const hideDone = document.getElementById("hideDone").checked;
+  document.getElementById("minScoreVal").textContent = minScore;
+  document.getElementById("maxDistVal").textContent = maxDist + "km";
+  return feats.filter(f => {
+    const p = f.properties;
+    const st = stateOf(p.osm);
+    if (hideDone && (st === "visited" || st === "excluded")) return false;
+    if (starsOnly && st !== "star") return false;
+    if (p.score < minScore || p.dist_home_km > maxDist) return false;
+    if (stepsOnly && !p.steps_matched) return false;
+    if (hideFamous && p.fame_penalty > 0) return false;
+    if (q && !p.name.includes(q)) return false;
+    return true;
+  });
+}
+
+function refresh(keepLimit) {
+  if (!keepLimit) listLimit = 200;
+  const sortKey = document.getElementById("sortKey").value;
+  const asc = sortKey === "dist_home_km";
+  const vis = visibleFeats().sort((a, b) => {
+    const va = sortValue(a.properties, sortKey), vb = sortValue(b.properties, sortKey);
+    return asc ? va - vb : vb - va;
+  });
+
+  const visIds = new Set(vis.map(f => f.properties.osm));
+  feats.forEach(f => {
+    const m = markers.get(f.properties.osm);
+    if (!visIds.has(f.properties.osm)) { if (map.hasLayer(m)) map.removeLayer(m); }
+  });
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  vis.forEach((f, i) => {
+    const p = f.properties;
+    const st = stateOf(p.osm);
+    const m = markers.get(p.osm);
+    const emphasized = i < 50;
+    m.setStyle({
+      radius: emphasized ? 8 : 4.5,
+      fillColor: st === "visited" ? "#898781" : colorForScore(p.score),
+      fillOpacity: emphasized ? 0.92 : 0.75,
+      color: st === "star" ? "#eda100" : "#ffffff",
+      weight: st === "star" ? 3 : 2,
+    });
+    if (!map.hasLayer(m)) m.addTo(map);
+
+    if (i >= listLimit) return;
+    const row = document.createElement("div");
+    row.className = "row";
+    const col = colorForScore(p.score);
+    const chipCls = p.score < 45 ? "chip lo" : "chip";
+    const badges = [];
+    if (st === "star") badges.push('<span class="badge-star">★</span>');
+    if (st === "visited") badges.push("<span>✓</span>");
+    if (st === "excluded") badges.push("<span>✕</span>");
+    if (p.steps_matched) badges.push("<span>石段</span>");
+    row.innerHTML =
+      '<div class="' + chipCls + '" style="background:' + col + '">' + p.score.toFixed(0) + "</div>" +
+      '<div class="nm"><b>' + esc(p.name) + "</b><span>#" + p.rank +
+      " ・ " + fmt(p.d_nearest_m, "m") + " ・ " + p.dist_home_km + "km</span></div>" +
+      '<div class="badges">' + badges.join("") + "</div>";
+    row.onclick = () => {
+      map.flyTo([p.lat, p.lon], Math.max(map.getZoom(), 15));
+      m.openPopup();
+      if (activeRow) activeRow.classList.remove("active");
+      row.classList.add("active");
+      activeRow = row;
+    };
+    list.appendChild(row);
+  });
+  if (vis.length > listLimit) {
+    const more = document.createElement("button");
+    more.id = "more";
+    more.textContent = "さらに表示 (残り " + (vis.length - listLimit) + " 社)";
+    more.onclick = () => { listLimit += 200; refresh(true); };
+    list.appendChild(more);
+  }
+  document.getElementById("count").textContent =
+    vis.length + " / " + feats.length + " 社を表示";
+}
+
+for (const id of ["q", "minScore", "maxDist", "stepsOnly", "hideFamous",
+                  "starsOnly", "hideDone", "sortKey"]) {
+  document.getElementById(id).addEventListener("input", () => refresh(false));
+}
+refresh(false);
+
+if (PAYLOAD.coverage) {
+  const c = PAYLOAD.coverage;
+  document.getElementById("coverage").textContent =
+    "石段データ網羅性: " + c.n_matched + "/" + c.n_shrines + " 社 (" +
+    c.match_rate + "%) に OSM の石段がマッチ (対象地域の steps " + c.n_steps_ways + " 本)";
+}
+
+if (feats.length) {
+  const bounds = L.latLngBounds(feats.map(f => [f.properties.lat, f.properties.lon]));
+  map.fitBounds(bounds.pad(0.06));
+} else {
+  map.setView([35.6731, 139.8173], 9);
+}
+if (PAYLOAD.home) {
+  L.marker([PAYLOAD.home[0], PAYLOAD.home[1]], {
+    title: "拠点", opacity: 0.75,
+  }).addTo(map).bindPopup("拠点 (直線距離の基準)");
+}
+</script>
+</body>
+</html>

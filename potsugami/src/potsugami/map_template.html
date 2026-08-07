@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>__TITLE__</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1: #fcfcfb;
+    --page: #f9f9f7;
+    --ink-1: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-muted: #898781;
+    --hairline: #e1e0d9;
+    --bar: #2a78d6;
+    --bar-track: #e1e0d9;
+    --accent-star: #eda100;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans",
+                 "Noto Sans JP", sans-serif;
+    color: var(--ink-1);
+    background: var(--page);
+    display: flex;
+  }
+  #sidebar {
+    width: 350px; min-width: 270px; height: 100%;
+    display: flex; flex-direction: column;
+    background: var(--surface-1);
+    border-right: 1px solid var(--hairline);
+  }
+  #sidebar header { padding: 12px 14px 8px; border-bottom: 1px solid var(--hairline); }
+  #sidebar h1 { font-size: 15px; margin: 0 0 2px; }
+  #sidebar .sub { font-size: 11px; color: var(--ink-muted); }
+  #filters { padding: 10px 14px; border-bottom: 1px solid var(--hairline);
+             display: grid; gap: 7px; font-size: 12px; }
+  #filters label { display: flex; align-items: center; gap: 6px; color: var(--ink-2); }
+  #filters .checks { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  #filters input[type="text"], #filters select {
+    width: 100%; padding: 5px 8px; font-size: 12px;
+    border: 1px solid var(--hairline); border-radius: 6px; background: #fff;
+    color: var(--ink-1);
+  }
+  #filters input[type="range"] { flex: 1; }
+  #filters .val { min-width: 3.8em; text-align: right;
+                  font-variant-numeric: tabular-nums; color: var(--ink-1); }
+  #count { font-size: 11px; color: var(--ink-muted); padding: 6px 14px 0; }
+  #list { flex: 1; overflow-y: auto; padding: 6px 8px 12px; }
+  .row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 7px 8px; border-radius: 8px; cursor: pointer;
+  }
+  .row:hover { background: #f1f0ec; }
+  .row.active { background: #e8f0fb; }
+  .row .chip {
+    flex: none; width: 40px; height: 24px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 11px; font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .chip.lo { color: var(--ink-1); }
+  .row .nm { flex: 1; min-width: 0; }
+  .row .nm b { display: block; font-size: 12.5px; font-weight: 600;
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .nm span { font-size: 11px; color: var(--ink-muted); }
+  .row .badges { flex: none; font-size: 11px; color: var(--ink-2);
+                 display: flex; gap: 4px; }
+  .badge-star { color: var(--accent-star); }
+  #more { margin: 6px 8px; padding: 6px; width: calc(100% - 16px);
+          border: 1px solid var(--hairline); border-radius: 8px;
+          background: #fff; font-size: 12px; cursor: pointer; color: var(--ink-2); }
+  #legend { padding: 8px 14px; border-top: 1px solid var(--hairline);
+            font-size: 10.5px; color: var(--ink-muted); }
+  #legend .ramp { height: 8px; border-radius: 4px; margin: 4px 0 2px;
+    background: linear-gradient(to right, #cde2fb, #9ec5f4, #5598e7, #2a78d6, #1c5cab, #0d366b); }
+  #legend .ends { display: flex; justify-content: space-between; }
+  #coverage { font-size: 11px; color: var(--ink-muted);
+              padding: 6px 14px 10px; }
+  #map { flex: 1; height: 100%; }
+  .popup { font-size: 12.5px; line-height: 1.5; min-width: 240px; }
+  .popup h3 { margin: 0 0 2px; font-size: 14px; }
+  .popup .score-line { color: var(--ink-2); margin-bottom: 6px; }
+  .popup .score-line b { color: var(--ink-1); font-size: 15px; }
+  .popup table { border-collapse: collapse; width: 100%; margin: 4px 0 6px; }
+  .popup td { padding: 1px 0; color: var(--ink-2); font-size: 12px; }
+  .popup td.v { text-align: right; color: var(--ink-1);
+                font-variant-numeric: tabular-nums; }
+  .bk { margin: 6px 0; }
+  .bk .brow { display: flex; align-items: center; gap: 6px; margin: 2px 0; }
+  .bk .blabel { flex: none; width: 7.5em; font-size: 11px; color: var(--ink-2); }
+  .bk .btrack { flex: 1; height: 8px; background: var(--bar-track);
+                border-radius: 4px; overflow: hidden; }
+  .bk .bfill { height: 100%; background: var(--bar); border-radius: 4px; }
+  .bk .bval { flex: none; width: 2.8em; text-align: right; font-size: 11px;
+              color: var(--ink-1); font-variant-numeric: tabular-nums; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+  .links a {
+    font-size: 11.5px; text-decoration: none; color: #1c5cab;
+    border: 1px solid var(--hairline); border-radius: 6px; padding: 3px 7px;
+    background: #fff;
+  }
+  .links a:hover { background: #e8f0fb; }
+  .stbtns { display: flex; gap: 5px; margin: 6px 0 2px; }
+  .stbtns button {
+    font-size: 11.5px; padding: 3px 8px; border-radius: 6px; cursor: pointer;
+    border: 1px solid var(--hairline); background: #fff; color: var(--ink-2);
+  }
+  .stbtns button.on { background: #e8f0fb; border-color: #2a78d6; color: var(--ink-1); }
+  .leaflet-container { background: #ddd; font: inherit; }
+  @media (max-width: 720px) {
+    body { flex-direction: column-reverse; }
+    #sidebar { width: 100%; min-width: 0; height: 46%;
+               border-right: none; border-top: 1px solid var(--hairline); }
+    #map { height: 54%; }
+    #legend, #coverage { display: none; }
+  }
+</style>
+</head>
+<body>
+<div id="sidebar">
+  <header>
+    <h1 id="ttl"></h1>
+    <div class="sub">行クリックで地図へ。★/訪問済/除外はこのブラウザに保存され、再生成後も残ります。最終判断は航空写真とストリートビューで。</div>
+  </header>
+  <div id="filters">
+    <input type="text" id="q" placeholder="名前で絞り込み (例: 八幡)">
+    <label>並び順
+      <select id="sortKey">
+        <option value="score">ポツ神スコア</option>
+        <option value="dist_home_km">拠点から近い順</option>
+        <option value="steps_total_length_m">石段の長さ</option>
+        <option value="steps_elev_diff_m">石段の標高差</option>
+        <option value="d_nearest_m">最寄り建物が遠い順</option>
+      </select>
+    </label>
+    <label>スコア ≥ <input type="range" id="minScore" min="0" max="100" value="0" step="1">
+      <span class="val" id="minScoreVal">0</span></label>
+    <label>拠点から ≤ <input type="range" id="maxDist" min="0" max="300" value="300" step="5">
+      <span class="val" id="maxDistVal">300km</span></label>
+    <div class="checks">
+      <label><input type="checkbox" id="stepsOnly"> 石段あり</label>
+      <label><input type="checkbox" id="hideFamous"> 有名どころを隠す</label>
+      <label><input type="checkbox" id="starsOnly"> ★のみ</label>
+      <label><input type="checkbox" id="hideDone" checked> 訪問済・除外を隠す</label>
+    </div>
+  </div>
+  <div id="count"></div>
+  <div id="list"></div>
+  <div id="legend">ポツ神スコア (孤立度)<div class="ramp"></div>
+    <div class="ends"><span>0 (集落の中)</span><span>100 (ポツン)</span></div></div>
+  <div id="coverage"></div>
+</div>
+<div id="map"></div>
+<script>
+"use strict";
+const PAYLOAD = __PAYLOAD__;
+document.getElementById("ttl").textContent = PAYLOAD.title;
+document.title = PAYLOAD.title;
+
+// 地理院タイル・OSM タイル (出典表記はレイヤの attribution で行う)
+const gsiAttr = '<a href="https://maps.gsi.go.jp/development/ichiran.html">地理院タイル</a>';
+const basePale = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/pale/{z}/{x}/{y}.png",
+  { maxZoom: 18, attribution: gsiAttr });
+const baseStd = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png",
+  { maxZoom: 18, attribution: gsiAttr });
+const basePhoto = L.tileLayer("https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg",
+  { maxZoom: 18, attribution: gsiAttr });
+const baseOsm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  { maxZoom: 19, attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' });
+
+const map = L.map("map", { layers: [basePale] });
+L.control.layers(
+  { "地理院 淡色": basePale, "地理院 標準": baseStd, "航空写真": basePhoto, "OSM": baseOsm },
+  {}, { position: "topright" }
+).addTo(map);
+
+// スコア → 色: シーケンシャル単色ランプ (青、light→dark)。高スコアほど濃い。
+const RAMP = [
+  [0,   [0xcd, 0xe2, 0xfb]],
+  [25,  [0x9e, 0xc5, 0xf4]],
+  [50,  [0x55, 0x98, 0xe7]],
+  [70,  [0x2a, 0x78, 0xd6]],
+  [85,  [0x1c, 0x5c, 0xab]],
+  [100, [0x0d, 0x36, 0x6b]],
+];
+function colorForScore(s) {
+  s = Math.max(0, Math.min(100, s));
+  for (let i = 1; i < RAMP.length; i++) {
+    if (s <= RAMP[i][0]) {
+      const s0 = RAMP[i - 1][0], c0 = RAMP[i - 1][1];
+      const s1 = RAMP[i][0], c1 = RAMP[i][1];
+      const t = (s - s0) / (s1 - s0 || 1);
+      const c = c0.map((v, k) => Math.round(v + t * (c1[k] - v)));
+      return "rgb(" + c.join(",") + ")";
+    }
+  }
+  return "rgb(13,54,107)";
+}
+
+// --- ★候補 / 訪問済 / 除外 の永続化 (OSM ID キーなので再生成後も残る) ---
+const STATE_KEY = "potsugami-state-v1";
+let state = {};
+try { state = JSON.parse(localStorage.getItem(STATE_KEY)) || {}; } catch (e) { state = {}; }
+function stateOf(osm) { return state[osm] || null; }
+function setStateOf(osm, val) {
+  if (val) state[osm] = val; else delete state[osm];
+  try { localStorage.setItem(STATE_KEY, JSON.stringify(state)); } catch (e) {}
+}
+
+const feats = PAYLOAD.data.features;
+const markers = new Map();   // osm id -> marker
+let activeRow = null;
+let listLimit = 200;
+
+function fmt(v, suffix) {
+  return (v === null || v === undefined) ? "—" : v + (suffix || "");
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g,
+    c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function popupHtml(p) {
+  const bar = (label, v) =>
+    '<div class="brow"><div class="blabel">' + label + '</div>' +
+    '<div class="btrack"><div class="bfill" style="width:' + Math.round(v * 100) + '%"></div></div>' +
+    '<div class="bval">' + v.toFixed(2) + "</div></div>";
+  let stepsRows = "";
+  if (p.steps_matched) {
+    const est = (p.step_count_tag !== null) ? p.step_count_tag + " 段 (OSMタグ)"
+      : (p.est_steps_min !== null) ? "約 " + p.est_steps_min + "〜" + p.est_steps_max + " 段 (標高差推定)"
+      : "—";
+    const lowp = p.elev_low_precision ? " (10mメッシュ・低精度)" : "";
+    stepsRows =
+      "<tr><td>石段 (マッチ距離 " + fmt(p.steps_match_dist_m, "m") + ")</td><td class='v'>" +
+        fmt(p.steps_total_length_m, " m") + "</td></tr>" +
+      "<tr><td>石段の標高差</td><td class='v'>" + fmt(p.steps_elev_diff_m, " m") + lowp + "</td></tr>" +
+      "<tr><td>推定段数</td><td class='v'>" + est + "</td></tr>";
+  }
+  let roadRow = "";
+  if (p.road_checked) {
+    const rv = (p.road_dist_m === null) ? "500m 内になし (要注意)" : p.road_dist_m + " m";
+    roadRow = "<tr><td>最寄り車道</td><td class='v'>" + rv + "</td></tr>";
+  }
+  const fame = p.fame_flags
+    ? "<tr><td>有名度シグナル</td><td class='v'>" + esc(p.fame_flags) + " (×" + p.fame_mult + ")</td></tr>"
+    : "";
+  const nui = p.nuisance_flags
+    ? "<tr><td>騒がしさ減点</td><td class='v'>" + esc(p.nuisance_flags) + " (×" + p.nuisance_mult + ")</td></tr>"
+    : "";
+  const st = stateOf(p.osm);
+  const stBtn = (v, label) =>
+    '<button class="stbtn' + (st === v ? " on" : "") + '" data-osm="' + esc(p.osm) +
+    '" data-v="' + v + '">' + label + "</button>";
+  return '<div class="popup">' +
+    "<h3>" + esc(p.name) + "</h3>" +
+    '<div class="score-line">ポツ神スコア <b>' + p.score.toFixed(1) + "</b> / 100 (#" + p.rank + ")</div>" +
+    '<div class="bk">' +
+    bar("孤立度", p.iso_score / 100) +
+    "</div>" +
+    "<table>" +
+    "<tr><td>最寄り建物</td><td class='v'>" + fmt(p.d_nearest_m, " m") + "</td></tr>" +
+    "<tr><td>建物数 (隣接/近接/周辺)</td><td class='v'>" +
+      p.n_adjacent + " / " + p.n_inner + " / " + p.n_outer + "</td></tr>" +
+    stepsRows + roadRow + nui + fame +
+    (p.hokora ? "<tr><td>種別</td><td class='v'>祠 (wayside_shrine)</td></tr>" : "") +
+    "<tr><td>拠点から直線</td><td class='v'>" + p.dist_home_km + " km</td></tr>" +
+    "</table>" +
+    '<div class="stbtns">' + stBtn("star", "★ 候補") + stBtn("visited", "✓ 訪問済") +
+    stBtn("excluded", "✕ 除外") + "</div>" +
+    '<div class="links">' +
+    '<a href="' + p.link_dir + '" target="_blank" rel="noopener">経路 (車)</a>' +
+    '<a href="' + p.link_gsi + '" target="_blank" rel="noopener">地理院地図</a>' +
+    '<a href="' + p.link_gmap + '" target="_blank" rel="noopener">Google マップ</a>' +
+    '<a href="' + p.link_sv + '" target="_blank" rel="noopener">ストリートビュー</a>' +
+    '<a href="' + p.osm_url + '" target="_blank" rel="noopener">OSM</a>' +
+    "</div></div>";
+}
+
+for (const f of feats) {
+  const p = f.properties;
+  const m = L.circleMarker([p.lat, p.lon], { radius: 7 });
+  m.bindPopup(() => popupHtml(p), { maxWidth: 330 });
+  markers.set(p.osm, m);
+}
+
+// ポップアップ内の状態ボタン (イベント委譲)
+document.addEventListener("click", ev => {
+  const btn = ev.target.closest(".stbtn");
+  if (!btn) return;
+  const osm = btn.dataset.osm;
+  const v = btn.dataset.v;
+  setStateOf(osm, stateOf(osm) === v ? null : v);
+  const f = feats.find(x => x.properties.osm === osm);
+  const m = markers.get(osm);
+  if (f && m && m.isPopupOpen()) m.setPopupContent(popupHtml(f.properties));
+  refresh(true);
+});
+
+function sortValue(p, key) {
+  const v = p[key];
+  return (v === null || v === undefined) ? -Infinity : v;
+}
+
+function visibleFeats() {
+  const q = document.getElementById("q").value.trim();
+  const minScore = +document.getElementById("minScore").value;
+  const maxDist = +document.getElementById("maxDist").value;
+  const stepsOnly = document.getElementById("stepsOnly").checked;
+  const hideFamous = document.getElementById("hideFamous").checked;
+  const starsOnly = document.getElementById("starsOnly").checked;
+  const hideDone = document.getElementById("hideDone").checked;
+  document.getElementById("minScoreVal").textContent = minScore;
+  document.getElementById("maxDistVal").textContent = maxDist + "km";
+  return feats.filter(f => {
+    const p = f.properties;
+    const st = stateOf(p.osm);
+    if (hideDone && (st === "visited" || st === "excluded")) return false;
+    if (starsOnly && st !== "star") return false;
+    if (p.score < minScore || p.dist_home_km > maxDist) return false;
+    if (stepsOnly && !p.steps_matched) return false;
+    if (hideFamous && p.fame_penalty > 0) return false;
+    if (q && !p.name.includes(q)) return false;
+    return true;
+  });
+}
+
+function refresh(keepLimit) {
+  if (!keepLimit) listLimit = 200;
+  const sortKey = document.getElementById("sortKey").value;
+  const asc = sortKey === "dist_home_km";
+  const vis = visibleFeats().sort((a, b) => {
+    const va = sortValue(a.properties, sortKey), vb = sortValue(b.properties, sortKey);
+    return asc ? va - vb : vb - va;
+  });
+
+  const visIds = new Set(vis.map(f => f.properties.osm));
+  feats.forEach(f => {
+    const m = markers.get(f.properties.osm);
+    if (!visIds.has(f.properties.osm)) { if (map.hasLayer(m)) map.removeLayer(m); }
+  });
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+  vis.forEach((f, i) => {
+    const p = f.properties;
+    const st = stateOf(p.osm);
+    const m = markers.get(p.osm);
+    const emphasized = i < 50;
+    m.setStyle({
+      radius: emphasized ? 8 : 4.5,
+      fillColor: st === "visited" ? "#898781" : colorForScore(p.score),
+      fillOpacity: emphasized ? 0.92 : 0.75,
+      color: st === "star" ? "#eda100" : "#ffffff",
+      weight: st === "star" ? 3 : 2,
+    });
+    if (!map.hasLayer(m)) m.addTo(map);
+
+    if (i >= listLimit) return;
+    const row = document.createElement("div");
+    row.className = "row";
+    const col = colorForScore(p.score);
+    const chipCls = p.score < 45 ? "chip lo" : "chip";
+    const badges = [];
+    if (st === "star") badges.push('<span class="badge-star">★</span>');
+    if (st === "visited") badges.push("<span>✓</span>");
+    if (st === "excluded") badges.push("<span>✕</span>");
+    if (p.steps_matched) badges.push("<span>石段</span>");
+    row.innerHTML =
+      '<div class="' + chipCls + '" style="background:' + col + '">' + p.score.toFixed(0) + "</div>" +
+      '<div class="nm"><b>' + esc(p.name) + "</b><span>#" + p.rank +
+      " ・ " + fmt(p.d_nearest_m, "m") + " ・ " + p.dist_home_km + "km</span></div>" +
+      '<div class="badges">' + badges.join("") + "</div>";
+    row.onclick = () => {
+      map.flyTo([p.lat, p.lon], Math.max(map.getZoom(), 15));
+      m.openPopup();
+      if (activeRow) activeRow.classList.remove("active");
+      row.classList.add("active");
+      activeRow = row;
+    };
+    list.appendChild(row);
+  });
+  if (vis.length > listLimit) {
+    const more = document.createElement("button");
+    more.id = "more";
+    more.textContent = "さらに表示 (残り " + (vis.length - listLimit) + " 社)";
+    more.onclick = () => { listLimit += 200; refresh(true); };
+    list.appendChild(more);
+  }
+  document.getElementById("count").textContent =
+    vis.length + " / " + feats.length + " 社を表示";
+}
+
+for (const id of ["q", "minScore", "maxDist", "stepsOnly", "hideFamous",
+                  "starsOnly", "hideDone", "sortKey"]) {
+  document.getElementById(id).addEventListener("input", () => refresh(false));
+}
+refresh(false);
+
+if (PAYLOAD.coverage) {
+  const c = PAYLOAD.coverage;
+  document.getElementById("coverage").textContent =
+    "石段データ網羅性: " + c.n_matched + "/" + c.n_shrines + " 社 (" +
+    c.match_rate + "%) に OSM の石段がマッチ (対象地域の steps " + c.n_steps_ways + " 本)";
+}
+
+if (feats.length) {
+  const bounds = L.latLngBounds(feats.map(f => [f.properties.lat, f.properties.lon]));
+  map.fitBounds(bounds.pad(0.06));
+} else {
+  map.setView([35.6731, 139.8173], 9);
+}
+if (PAYLOAD.home) {
+  L.marker([PAYLOAD.home[0], PAYLOAD.home[1]], {
+    title: "拠点", opacity: 0.75,
+  }).addTo(map).bindPopup("拠点 (直線距離の基準)");
+}
+</script>
+</body>
+</html>

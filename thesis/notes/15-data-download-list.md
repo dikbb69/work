@@ -43,6 +43,7 @@
 | C2 | **連系線の運用容量（北本、月別・2016年度〜）** | 分断レジーム判定（フロー張り付きの閾値）と増強シナリオ | OCCTOサイト内検索「連系線の運用容量」（年度別の別紙Excel/PDF） |
 | C3 | **OCCTO需要想定（2026年度、エリア別最大需要・年間電力量）** | fig1の確定・需要比指標の分母統一 | OCCTOサイト内検索「需要想定」（2026/1公表分） |
 | C4 | **次世代電力系統WG 第7回 資料1-1**（蓄電池のエリア別契約申込表の原本）＋**第6回・第1回の接続量資料**（風力136万kWの時点確定用 [001_s01_01.pdf](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/001_s01_01.pdf)） | notes/14の数表の一次確認／RECHECK A2の残タスク | [次世代電力系統WG](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/)（第7回=2026/2/9、[007_01_01.pdf](https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/007_01_01.pdf)） |
+| C5 | **ほくでんNWの系統別・ノンファーム抑制実績＋接続制約の公表資料**（2026/8/17追加） | BTM（併設）価値の狭域分析: 5円超で発生している抑制（notes/21）の系統別内訳・ローカル混雑の特定 | ほくでんNW「系統情報の公表」ページ（ノンファーム型接続の混雑実績・空容量マップ・N-1電制実績）。補完: 出力制御の実績公表（エリア一律分との切り分け用） |
 
 ## 優先度D — 任意・拡張（あれば嬉しい）
 

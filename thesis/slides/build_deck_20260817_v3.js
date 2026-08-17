@@ -363,6 +363,51 @@ const WCURVE = {
 }
 
 // =====================================================================
+// 10b. 対象の拡張: 併設（BTM）蓄電池
+// =====================================================================
+{
+  const s = newSlide();
+  header(s, "対象の拡張 — 系統用（FTM）に加えて併設（BTM）という第2の柱", "抑制の1割強は「エリア価格が高いのに」起きている ＝ エリア価格に映らないBTM固有の価値。当初対象（系統用）だけでは価値の総体を捉えられない");
+
+  secLabel(s, 0.6, 1.45, "根拠① 風力の出力制御が立ち上がった", 6.3);
+  tbl(s, [
+    ["", "FY2022", "FY2024", "FY2025", "FY2026(4-6月)"],
+    ["抑制率（エネルギー）", "0.01%", "0.04%", "0.10%", { text: "1.35%", options: { bold: true, color: C.orange } }],
+    ["抑制時間", "12h", "12h", "109h", { text: "235h", options: { bold: true } }],
+  ], 0.6, 1.85, 6.4, [2.2, 1.0, 1.0, 1.0, 1.2], { hSize: 10, bSize: 10, tbl: { rowH: 0.38 } });
+
+  secLabel(s, 0.6, 3.25, "根拠② 抑制発生時間のエリア価格内訳", 6.3);
+  tbl(s, [
+    ["", "床（0.01円）", "0.01〜5円", "5円超"],
+    ["FY2025", "60%", "28%", { text: "12.8%", options: { bold: true, color: C.orange } }],
+    ["FY2026", "68%", "19%", { text: "12.8%", options: { bold: true, color: C.orange } }],
+  ], 0.6, 3.65, 6.4, [1.6, 1.6, 1.6, 1.6], { hSize: 10, bSize: 10, tbl: { rowH: 0.38 } });
+  bullets(s, [
+    { t: "5円超での抑制＝エリア余剰でなくローカル系統混雑・下げ代制約。ノーダル価格がない日本では、この損失はエリア価格に映らない → 当方のπ_spotはBTM価値をゼロと計上（＝現行分析は価値の下限）", sub: true },
+  ], 0.75, 4.95, 6.25, 1.4, { size: 10, gap: 4 });
+
+  secLabel(s, 7.35, 1.45, "根拠③ 回避価値の上限試算（cf26%・FIP14円）", 5.3);
+  tbl(s, [
+    ["抑制率シナリオ", "円/kW風力-年", "併設0.64kWh/kWあたり"],
+    ["現状 1.35%", "430", "673円/kWh-年"],
+    ["3%", "957", "1,495"],
+    ["5%", "1,594", "2,491"],
+    [{ text: "8%（九州太陽光並み）", options: { bold: true } }, { text: "2,551", options: { bold: true, color: C.orange } }, { text: "3,986円/kWh-年", options: { bold: true, color: C.orange } }],
+  ], 7.35, 1.85, 5.38, [2.1, 1.5, 1.78], { hSize: 10, bSize: 10, tbl: { rowH: 0.4 } });
+  bullets(s, [
+    { t: "現状は蓄電池実勢6.8万円/kWhの年0.7%相当と小さいが、九州並み8%で年4%相当に。全量回収仮定の上限値（容量0.64kWh/kW制約で実効は下がる）", sub: true },
+    { t: "北海道は2015年から風力への蓄電池併設要件を課した先駆エリア — 制度は既にこの価値を織り込みに行っている", sub: true },
+  ], 7.5, 4.1, 5.23, 1.7, { size: 10, gap: 5 });
+
+  s.addShape(pres.ShapeType.rect, { x: 0.6, y: 6.2, w: 12.13, h: 0.68, fill: { color: C.tint } });
+  s.addText([
+    { text: "定式化: ", options: { bold: true, color: C.teal } },
+    { text: "π ＝ ①エリア価格裁定（FTM/BTM共通） ＋ ②ローカル抑制回避（BTM固有・価格に不可視） ＋ ③容量市場等。K*主結果は従来どおりFTM（①＋③）で立て、BTMは政策層→抑制率上昇とともに内生参入条件 π_BTM≥c_req_BTM を別建て", options: { color: C.text } },
+  ], { x: 0.85, y: 6.2, w: 11.6, h: 0.68, fontSize: 10, fontFace: F, margin: 0, valign: "middle", lineSpacingMultiple: 1.2 });
+  s.addText("分析: analysis/20。データ: 別添Excel「併設BTM検討」・図 btm_case.png", { x: 0.6, y: 6.95, w: 9.0, h: 0.3, fontSize: 8.5, color: C.gray, fontFace: F, margin: 0 });
+}
+
+// =====================================================================
 // 11. 今後の方針
 // =====================================================================
 {
@@ -380,15 +425,16 @@ const WCURVE = {
 
   secLabel(s, 7.4, 1.5, "工程（次の3ヶ月）", 5.2);
   const steps = [
-    { h: "フェーズC", b: "蓄電池フリートの充放電をnetに内生化 → π(K)曲線 → K*初回推計（充電側の託送・賦課金も控除）" },
+    { h: "フェーズC（主線）", b: "蓄電池フリートの充放電をnetに内生化 → π(K)曲線 → K*初回推計（充電側の託送・賦課金も控除）" },
     { h: "K_wind×K格子", b: "スイープを2次元化: 風力導入量×蓄電池容量の価値サーフェス＝「風力何万kWにつき蓄電池何万kWが均衡か」" },
+    { h: "BTM分析（フェーズCの副産物として）", b: "抑制イベントの分解（エリア余剰型/ローカル型）→ 0.64kWh/kW容量制約下の回避可能率 → π_BTM参入条件。系統別抑制実績の取得（DLリストC5）" },
     { h: "検証", b: "FY2026 OOSの再現改善（供給曲線上側の非定常対応）・九州でのout-of-sample" },
   ];
   steps.forEach((st, i) => {
-    const y = 1.95 + i * 1.42;
-    s.addShape(pres.ShapeType.rect, { x: 7.4, y, w: 5.33, h: 1.28, fill: { color: C.tint } });
-    s.addText(st.h, { x: 7.62, y: y + 0.1, w: 4.9, h: 0.35, fontSize: 11.5, bold: true, color: C.teal, fontFace: FB, margin: 0 });
-    s.addText(st.b, { x: 7.62, y: y + 0.45, w: 4.9, h: 0.8, fontSize: 9.5, color: C.text, fontFace: F, margin: 0, lineSpacingMultiple: 1.2 });
+    const y = 1.95 + i * 1.13;
+    s.addShape(pres.ShapeType.rect, { x: 7.4, y, w: 5.33, h: 1.0, fill: { color: C.tint } });
+    s.addText(st.h, { x: 7.62, y: y + 0.07, w: 4.9, h: 0.32, fontSize: 10.5, bold: true, color: C.teal, fontFace: FB, margin: 0 });
+    s.addText(st.b, { x: 7.62, y: y + 0.38, w: 4.9, h: 0.6, fontSize: 8.8, color: C.text, fontFace: F, margin: 0, lineSpacingMultiple: 1.15 });
   });
 
   s.addShape(pres.ShapeType.rect, { x: 0.6, y: 6.3, w: 12.13, h: 0.62, fill: { color: C.tint } });

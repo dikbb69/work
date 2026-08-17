@@ -1,0 +1,313 @@
+<title>修論研究計画v2｜北海道の蓄電池均衡容量</title>
+<style>
+  :root {
+    --bg: #F8FAFB;
+    --surface: #FFFFFF;
+    --ink: #1B2733;
+    --muted: #5A6B7A;
+    --accent: #0B6E7F;
+    --accent-soft: #E3F0F2;
+    --warn: #B96E00;
+    --warn-soft: #FBF3E4;
+    --line: #D8E0E5;
+    --code-bg: #EEF3F5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #10181E; --surface: #17222A; --ink: #E3EAEE; --muted: #8FA0AC;
+      --accent: #4FB3C4; --accent-soft: #15303A; --warn: #E0A34D; --warn-soft: #2E2416;
+      --line: #263340; --code-bg: #1D2A33;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10181E; --surface: #17222A; --ink: #E3EAEE; --muted: #8FA0AC;
+    --accent: #4FB3C4; --accent-soft: #15303A; --warn: #E0A34D; --warn-soft: #2E2416;
+    --line: #263340; --code-bg: #1D2A33;
+  }
+  :root[data-theme="light"] {
+    --bg: #F8FAFB; --surface: #FFFFFF; --ink: #1B2733; --muted: #5A6B7A;
+    --accent: #0B6E7F; --accent-soft: #E3F0F2; --warn: #B96E00; --warn-soft: #FBF3E4;
+    --line: #D8E0E5; --code-bg: #EEF3F5;
+  }
+  html { background: var(--bg); }
+  body {
+    font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+    color: var(--ink); line-height: 1.85; margin: 0; font-size: 15.5px;
+  }
+  .page { max-width: 46em; margin: 0 auto; padding: 3rem 1.4rem 6rem; }
+  h1, h2, h3 { font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif; }
+  h1 { font-size: 1.7rem; line-height: 1.5; margin: .4em 0 .2em; text-wrap: balance; font-weight: 600; }
+  .subtitle { font-family: "Hiragino Mincho ProN", "Yu Mincho", serif; color: var(--muted); font-size: 1.02rem; margin: 0 0 1rem; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; color: var(--accent); font-weight: 600; margin: 0; font-family: "Hiragino Kaku Gothic ProN", sans-serif; }
+  .meta { color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: .6em 0; margin: 1.6rem 0 2.5rem; display: flex; flex-wrap: wrap; gap: .4em 2em; }
+  h2 { font-size: 1.26rem; margin: 3.2rem 0 .9rem; padding-top: 1.2rem; border-top: 2px solid var(--accent); font-weight: 600; text-wrap: balance; }
+  h2 .no { color: var(--accent); margin-right: .6em; font-variant-numeric: tabular-nums; }
+  h3 { font-size: 1.04rem; margin: 2rem 0 .5rem; font-weight: 600; }
+  p { margin: .7em 0; }
+  ul, ol { padding-left: 1.4em; margin: .6em 0; }
+  li { margin: .3em 0; }
+  strong { font-weight: 700; }
+  .callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: .9em 1.1em; margin: 1.2em 0; border-radius: 0 4px 4px 0; }
+  .callout.warn { background: var(--warn-soft); border-left-color: var(--warn); }
+  .callout p:first-child { margin-top: 0; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout .label { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; color: var(--accent); display: block; margin-bottom: .3em; font-family: "Hiragino Kaku Gothic ProN", sans-serif; }
+  .callout.warn .label { color: var(--warn); }
+  .prop { background: var(--surface); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 1em 1.2em; margin: 1em 0; }
+  .prop .t { font-weight: 700; color: var(--accent); font-size: .85rem; letter-spacing: .06em; display: block; margin-bottom: .3em; }
+  .tablewrap { overflow-x: auto; margin: 1.2em 0; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; font-size: .87rem; line-height: 1.6; }
+  th, td { text-align: left; padding: .55em .8em; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: var(--code-bg); font-weight: 700; font-size: .81rem; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  td.dir { white-space: nowrap; font-weight: 700; }
+  .up { color: var(--warn); }
+  .down { color: var(--accent); }
+  code { font-family: "SFMono-Regular", Consolas, monospace; background: var(--code-bg); border-radius: 4px; padding: .1em .4em; font-size: .86em; }
+  .toc { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 1.1em 1.4em; font-size: .9rem; columns: 2; column-gap: 2.5em; }
+  .toc a { color: var(--ink); text-decoration: none; }
+  .toc a:hover { color: var(--accent); text-decoration: underline; }
+  .toc ol { margin: 0; padding-left: 1.3em; }
+  .toc li { margin: .25em 0; break-inside: avoid; }
+  @media (max-width: 560px) { .toc { columns: 1; } }
+  .small { font-size: .84rem; color: var(--muted); }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="page">
+  <p class="eyebrow">Master's Thesis Research Proposal · v2 · 2026-07-21</p>
+  <h1>北海道における系統用蓄電池の均衡容量</h1>
+  <p class="subtitle">―「〇GWまでの増加は市場構造上の経済合理的帰結である」という主張の設計 ―</p>
+  <div class="meta">
+    <span>一橋大学 経営管理研究科 金融戦略・経営財務コース</span>
+    <span>原本: <code>thesis-jepx\research-plan-v2-equilibrium-capacity.md</code>（v1計画書は別ページとして併存）</span>
+  </div>
+
+  <nav class="toc" aria-label="目次">
+    <ol>
+      <li><a href="#s0">エグゼクティブサマリー</a></li>
+      <li><a href="#s1">中核主張の定式化</a></li>
+      <li><a href="#s2">理論枠組み</a></li>
+      <li><a href="#s3">市場構造モジュール</a></li>
+      <li><a href="#s4">モデル実装</a></li>
+      <li><a href="#s5">防御戦略（審査対策）</a></li>
+      <li><a href="#s6">作業順序</a></li>
+      <li><a href="#s7">追加参照文献</a></li>
+      <li><a href="#a1">付録A: 構造イベント年表</a></li>
+      <li><a href="#a2">付録B: 主要パラメータ</a></li>
+    </ol>
+  </nav>
+
+  <h2 id="s0"><span class="no">0</span>エグゼクティブサマリー</h2>
+  <p><strong>ゴール</strong>: 「北海道の市場構造（供給曲線の変化・需要成長・連系線制約）を所与とすれば、系統用蓄電池が〇GWまで増加することは経済合理的な帰結である」という定量的主張を、修士論文の中核として審査に耐える形で成立させる。</p>
+  <div class="callout">
+    <span class="label">最重要の設計判断 — 主張の型</span>
+    <p>「必然である」という<strong>予測命題は防御不能</strong>。代わりに<strong>無裁定・均衡整合性命題</strong>として定式化する。これは「超過利潤が残る状態は均衡でない」というファイナンスの無裁定論法と同型であり、金融戦略コースの審査員の思考様式に直接訴える。「必然」という語は本文から追放し、「均衡整合的な容量コリドー」「シナリオ頑健な下限」で主張する。</p>
+  </div>
+  <div class="prop"><span class="t">命題1（現状否定型）</span>現行の市場制度と公表済みの構造イベントを所与とすれば、現状の稼働容量 K₀（約0.2GW）では限界参入者に正の超過利潤が残る（π(K₀) &gt; 0）。よって<strong>現状容量は自由参入均衡ではない</strong>。</div>
+  <div class="prop"><span class="t">命題2（頑健下限型）</span>均衡容量 K* は、検討した全シナリオにおいて K* ≥ K_min &gt; K₀ を満たす。よって<strong>K_min までの増加は市場構造だけから正当化される</strong>。</div>
+  <p>到達時期の予測は主張に含めない。自由参入均衡は参入誘因の存在を言うだけで、接続制約・EPC制約下の実現時期を保証しない。<strong>「経済合理的（参入が個別に正NPV）」と「必然（実際に起こる）」の混同こそ審査で最初に突かれる急所</strong>である。</p>
+  <div class="callout warn">
+    <span class="label">本調査の核心的発見 — 下裾の相殺構造</span>
+    <p>泊3号機再稼働（91.2万kWのmust-run追加、2027年目標）とラピダス+DC需要（60〜100万kW級の24時間フラット負荷、2027年〜）は、<strong>ほぼ同規模・ほぼ同時期・逆方向</strong>で夜間余剰（＝蓄電池の充電機会）に効く。ネットの符号は事前に決まらない。この<strong>相殺のネットを構造モデルで初めて定量化する</strong>こと自体を論文の中心貢献に据える。</p>
+  </div>
+
+  <h2 id="s1"><span class="no">1</span>中核主張の定式化</h2>
+  <h3>1.1 3つの概念の区別（第1章に置く）</h3>
+  <div class="tablewrap"><table>
+    <tr><th>概念</th><th>定義</th><th>北海道の現状値</th></tr>
+    <tr><td><strong>均衡容量 K*</strong></td><td>限界参入者の残存寿命NPV＝0となる容量。本研究が構造推計する対象</td><td>未推計（＝本研究の貢献）</td></tr>
+    <tr><td>政策目標・公的見通し</td><td>接続申込パイプラインの実現率外挿。均衡モデルに基づかない（METI 2030年見通し14.1〜23.8GWhは「接続検討申込から事業化案件を推計し3時間率と仮定」と明記された外挿）</td><td>全国6.1GW（OCCTO供給計画想定）</td></tr>
+    <tr><td>パイプライン</td><td>接続検討・契約申込・接続済の3段階。米国では接続申請の8割超が撤退、完工率11〜13%</td><td>接続検討823万kW（2025年8月の1,021万kWから<strong>ピークアウト</strong>）・契約申込234万kW（単調増加）・接続済20万kW（2026年5月末）</td></tr>
+  </table></div>
+  <p>接続検討のピークアウトと契約申込の単調増加は「参入が進むにつれ裁定機会が縮小し均衡に収束する」自由参入動学と整合的な観察事実（傍証であって検証ではないと自覚的に書く）。<strong>K*の推定値が契約申込水準（2〜3GW）と整合するかが外的妥当性の一次検証になる。</strong></p>
+
+  <h3>1.2 条件節と反証可能性（防御の第一層）</h3>
+  <ul>
+    <li><strong>条件節</strong>: 主張の頭に必ず「現行の市場制度（優先給電・0.01円下限・充電制御ルール）と公表済み構造イベントを所与とし」と置く。制度は構造パラメータであり予測対象ではないと宣言し、制度変更リスクを主張の外に出す。</li>
+    <li><strong>反証条件を第1章に明記</strong>: ①スプレッドが損益分岐水準を上回ったまま契約申込・着工が2年以上停止すれば棄却。②K*到達前にスプレッドが損益分岐を恒常的に割れば過大推計として棄却。</li>
+    <li><strong>主結果は純市場ケース</strong>: 限界参入者は補助金・LTDAなしのフルマーチャント（容量市場収入ゼロのケースも併記）。「K*は政策の人工物では」という攻撃を構造的に無効化。逆に純市場でK*&lt;現状パイプラインなら「現在の参入は政策により均衡を超過している」という別の（同等に面白い）論文として成立する退路も確保。</li>
+  </ul>
+
+  <h3>1.3 コリドーの提示方法</h3>
+  <ul>
+    <li><strong>マクスミン設計</strong>: シナリオ集合（泊1・2 × HVDC × 需要 × コストパス × WACC のフルファクトリアル）を第2章で事前固定し、コリドー = [min K*, max K*] を<strong>確率なし</strong>で提示（Knight的不確実性下のロバスト下限。信頼区間ではないと明記）。<strong>主張は下限のみ</strong>。</li>
+    <li><strong>時間軸付きファンチャート</strong>: K*(t)コリドー（2027〜2035年）に名前付きシナリオをラベルし、ベンチマーク3本線（稼働0.2 / 契約申込2.34 / 接続検討8.23 GW）を重ねて3概念の区別を視覚化。</li>
+    <li><strong>duration別・単位併記</strong>: K*(2h/4h/8h) をGWとGWhで提示。METIの3時間率仮定（14.1〜23.8GWh）との方法論的対比が貢献になる（海外実証: 8時間で潜在裁定価値の約85%を捕捉、短durationほど飽和が速い）。</li>
+    <li><strong>break-evenフロンティア（結論章の中心図表）</strong>: モデルを逆解きし「K*=K₀となるパラメータ組合せ」の曲面を提示。「WACCがx%超、<strong>かつ</strong>コスト低下停止、<strong>かつ</strong>HVDC前倒し、が同時成立して初めて覆る」という連言構造を示す。</li>
+  </ul>
+
+  <h2 id="s2"><span class="no">2</span>理論枠組み</h2>
+  <h3>2.1 均衡概念: 完全予見・逐次自由参入のNPVゼロ経路</h3>
+  <p>単年の「裁定収益＝年間固定費」という静学条件は、マージンが減衰していく環境ではK*を<strong>系統的に過大推計</strong>する（ERCOTの実証: 約9GW増設で蓄電池年間収益は2023年$193/kW→2025年$29/kWと2年で約1/6に崩落）。蓄電池は15〜20年資産であり参入判断は残存寿命ベース。<strong>外生イベント列を確定パスとし、各年の参入者が残存寿命の割引マージン（将来の追加参入・構造イベントによる減衰込み）でNPV≥0を判定する非減少容量パス K*(t) を反復計算</strong>する。断面静学は上界の参考値として併記。BDG型フル動学は1年では非現実的（再現パッケージは簡約版の参照実装に利用）。</p>
+  <h3>2.2 均衡の存在・一意性（命題として明示）</h3>
+  <p>「充電が底値を押し上げ放電がピークを圧縮するため π(K) はKの単調減少関数。π(K₀)&gt;0 かつ π(K̄)&lt;0 と連続性から唯一の K* が存在」を命題化し数値検証（BDG 2025の価格インパクト逓減が参照点）。単調性が破れ得る3経路（火力退出の内生反応／蓄電池増→再エネ追加参入／容量価値の非減少性）を正直に列挙し、各分岐でK*下限が保存されることを示す。</p>
+  <h3>2.3 静学均衡と動学的参入の区別（Dixit–Pindyck）</h3>
+  <p>不可逆投資＋不確実性下の参入トリガーはゼロNPVより上（待機オプション価値）。ゼロ利潤K*は「<strong>参入が止まる上限</strong>」であって「必ず到達する水準」ではない。<strong>オプション調整ハードルレートでK*を下方修正した保守ケース</strong>を用意し、リアルオプション分析を第2部に論理接続する。</p>
+  <h3>2.4 既存ストックの控除</h3>
+  <p>K*の起点に「非均衡の初期ストック」を明示: 京極揚水1・2号（既設40万kW）＋京極3号（18.6万kW、2031年度・LTDA落札）＋LTDA落札済み道内蓄電池（約51万kW）＋FIP併設蓄電池（系統WG前提: 太陽光1kWあたり3kWh・風力0.64kWh）。</p>
+
+  <h2 id="s3"><span class="no">3</span>市場構造モジュール</h2>
+  <h3>3.1 供給側イベント表と K* への効き方</h3>
+  <p class="small">各要因は「価格分布の<strong>下裾</strong>（充電価値）」と「<strong>上裾</strong>（放電価値）」のどちらに効くかで分解する。↑=K*増方向、↓=K*減方向。</p>
+  <div class="tablewrap"><table>
+    <tr><th>イベント</th><th>時期・規模</th><th>下裾（充電価値）</th><th>上裾（放電価値）</th><th>正味</th></tr>
+    <tr><td>伊達1・2号 休止（石油70万kW）</td><td>2023.11/2024.3 済（廃止ではない）</td><td>―</td><td>高位帯が痩せスパイク増</td><td class="dir up">↑</td></tr>
+    <tr><td>奈井江1・2＋砂川3・4 廃止（石炭60万kW）</td><td>2027年3月末 確定</td><td>―</td><td>中位帯の段差拡大</td><td class="dir up">↑</td></tr>
+    <tr><td><strong>泊3号機 再稼働（91.2万kW）</strong></td><td>2027年目標（3度後ろ倒し中）</td><td>夜間余剰を大幅拡大（最小需要断面約270万kWの34%相当のmust-run追加。2026年5月想定断面の制御必要量103万→約194万kW、余剰約1.9倍）</td><td>ピーク断面の残余需要も押し下げスパイク<strong>減衰</strong></td><td class="dir"><strong>自明でない</strong></td></tr>
+    <tr><td>苫東厚真1・2号 退出（石炭95万kW）</td><td><strong>未公表</strong>。北電は「泊再稼働と石狩湾新港2号が前提」と公式言及</td><td>―</td><td>退出すればスパイク復活</td><td class="dir up">↑（泊に条件付き）</td></tr>
+    <tr><td>苫東厚真4号 アンモニア混焼</td><td>20%（2030年度）→40%（2032年度）LTDA落札</td><td>―</td><td>中位帯の限界費用上昇</td><td class="dir up">↑（小）</td></tr>
+    <tr><td>石狩湾新港LNG 2号（58.0万kW）</td><td>2026年8月着工（9カ月前倒し）・2030年度運開</td><td>最低出力の下限低下で余剰吸収（小）</td><td>中位帯の厚み回復＋柔軟性供給でスパイク圧縮</td><td class="dir down">↓</td></tr>
+    <tr><td>石狩湾新港LNG 3号（58.0万kW）</td><td>2033年度運開（4年前倒し）</td><td>同上</td><td>同上</td><td class="dir down">↓</td></tr>
+    <tr><td>泊1・2号機（計115.8万kW）</td><td>2030年代前半目標（審査実質停止中）</td><td>余剰さらに拡大</td><td>スパイクさらに減衰</td><td class="dir">自明でない</td></tr>
+    <tr><td>京極3号 揚水（18.6万kW）</td><td>2031年度。LTDA落札</td><td colspan="2">蓄電池と同じスプレッドを食う直接競合</td><td class="dir down">↓</td></tr>
+    <tr><td>バイオマス新設（約20万kW）</td><td>2020年代末〜</td><td>―</td><td>中位帯の厚み</td><td class="dir down">↓（小）</td></tr>
+  </table></div>
+  <ul>
+    <li><strong>泊の効果は「火力退出の内生反応込み」でしか符号が定まらない</strong>。苫東厚真1・2の退出を泊シナリオに従属する外生分岐（早期退出/存続）とし、「いずれの分岐でもK*下限は成立」と示すのが1年で完遂可能な落とし所。</li>
+    <li>泊3の再稼働時期は3度後ろ倒し（2027年早期→夏以降→12月中旬報道を北電が否定）。<strong>さらなる遅延・長期停止シナリオを確率ゼロ扱いにしない</strong>（設置変更許可2025年7月30日・知事同意2025年12月10日で法的ハードルはほぼ解消、は明記した上で）。</li>
+    <li>制度上、原子力は優先給電ルールの「長期固定電源」（第7順位・最後に制御）であり、フラット運転としてsupply stackに加算する定式化は制度整合的。</li>
+  </ul>
+
+  <h3>3.2 需要側モジュール</h3>
+  <div class="tablewrap"><table>
+    <tr><th>項目</th><th>数値</th><th>出典・性質</th></tr>
+    <tr><td>需要電力量</td><td>278.8億kWh（2026年度）→312.4億kWh（2035年度）、年+1.2%で<strong>全国最高</strong></td><td>OCCTO需要想定2026</td></tr>
+    <tr><td>産業用その他</td><td>79.5→121.3億kWh（<strong>+53%</strong>）。家庭用は年▲0.9%</td><td>同上（DC・半導体の個別計上と明記）</td></tr>
+    <tr><td>北海道電力の自社想定</td><td>2035年 <strong>380億kWh程度</strong>（OCCTO比約2割強気）</td><td>ほくでんグループ経営計画2026</td></tr>
+    <tr><td>ラピダス</td><td>2027年後半量産開始予定。初棟約10万kW→フル稼働約60万kW（報道ベース）。IIM-2は2027年度着工計画</td><td>報道複数（期別kW内訳の一次資料は未確認）</td></tr>
+    <tr><td>ソフトバンク苫小牧DC</td><td>初期50MW（2026年度）→300MW超→将来1GW構想</td><td>SB公式・道新</td></tr>
+    <tr><td>年負荷率</td><td>約63%→約66%へ上昇（導出値）＝<strong>増分需要は24時間フラット型</strong></td><td>OCCTO数値から導出</td></tr>
+    <tr><td>DC比率</td><td>産業用需要に占めるDC比率20%は東京(23%)に次ぐ全国2位</td><td>電中研 SERC25001</td></tr>
+  </table></div>
+  <p><strong>フラット負荷は両刃の剣</strong>: 夜間最低需要の押し上げは余剰・0.01円コマを減らし<strong>充電価値を毀損</strong>（系統WGの24ケースマトリクス: 需要×1.2で制御率36%→12%）。一方、予備率の食い潰しは希少性価格・容量価値を押し上げる（米国実証: ERCOTのDC高需要ケースで2027年卸価格+79% [EIA]、PJM容量価格上昇の63%がDC起因 [独立市場監視者]）。<strong>K*は「需要成長の水準」ではなく「価格分布の分散（余剰頻度×希少性頻度）」の関数</strong>。需要増=K*増という直感的説明は誤りとして攻撃される。Rapidus単一企業リスク（産業用+53%の相当部分が単一未上場企業の2nm量産成功に依存）: 頓挫シナリオを必ずコリドーに含める。</p>
+
+  <h3>3.3 中心貢献: 泊×需要成長の「下裾相殺」の定量化</h3>
+  <p><strong>2×2分解表（泊あり/なし × 需要OCCTO/ほくでん強気）で、0.01円コマ数・平均4時間スプレッド・K* の3指標をセル毎に報告</strong>し、相殺のネットを構造モデルで初めて定量化したことを中心貢献に据える。「2028年前後に裁定機会が構造的に拡大する」といったナラティブ先行の断定はしない。</p>
+
+  <h3>3.4 連系線・HVDCモジュール（二地域モデル＋時限付き均衡）</h3>
+  <ul>
+    <li><strong>北海道は2028年以降、単一市場でなくなる</strong>: 北本120万kW化（2028年3月）以降、道内価格は本州価格との連成頻度が上がる。<strong>北海道-本州の2ノードモデル</strong>（本州側価格分布は外生シナリオ）を採用。連系線フローと蓄電池は<strong>同じスプレッドを食い合う競合</strong>であることを明示。</li>
+    <li><strong>日本海ルートHVDC（200万kW）は主張の分水嶺</strong>: 系統WG公式試算で制御率54.8%→1%台。実現ケースでは道内裁定原資がほぼ消滅し、無条件のロバスト下限が守れない可能性。対処は「<strong>時限付き均衡</strong>」: HVDCの最短実現時期（計画1年延長済＋工期6〜10年から2035年以降と正当化可能）までに投資回収臨界年数を満たすなら参入は正当化される、という参入条件への組み替え。</li>
+    <li><strong>洋上風力とHVDCは政策連動</strong>（マスタープランのB/C計算自体が洋上前提）のため、独立に振らず<strong>結合シナリオ木</strong>｛洋上小・HVDCなし／洋上中・北本120のみ／洋上大・HVDCあり｝で設計。洋上のリードタイム（5〜8年）から2032年以前の大量運開はほぼなく、<strong>主分析の地平を2033年までに区切れば洋上の影響を拡張シナリオに隔離できる</strong>。</li>
+  </ul>
+
+  <h2 id="s4"><span class="no">4</span>モデル実装</h2>
+  <h3>4.1 供給曲線: 「構造スタック＋歴史校正マークアップ」の二層構成</h3>
+  <div class="callout warn">
+    <span class="label">サポート外外挿への対処（合否級の論点）</span>
+    <p>過去データで推定した残余需要→価格関数を泊再稼働後に外挿するのは致命的に脆弱（泊後の夜間残余需要は歴史上未観測の深さ）。解決: <strong>構造スタックで供給曲線の位置・形状を作り、歴史データからは「観測価格−スタック限界費用」の希少性マークアップを予備率の関数として推定</strong>する。マークアップ関数は供給曲線シフトに対し相対的に不変と仮定でき、外挿の妥当性が格段に上がる。検証は (i) 2024〜25年のバックキャスト再現、(ii) <strong>九州（2018年原発再稼働→2023年度制御率8.3%）を「泊後の北海道に最も近い既観測レジーム」としたout-of-sample検証</strong>の二段構え。</p>
+  </div>
+  <ul>
+    <li>ユニット単位メリットオーダー（燃料CIF×熱効率、must-run・最低出力制約込み）。<strong>6断面</strong>: 2026／2027.4（奈井江・砂川退出）／2028（泊3＋北本120）／2030（石狩湾2号＋TA4アンモニア20%）／2033（石狩湾3号）／2035</li>
+    <li>0.01円床へのcensoring挙動も歴史データで推定</li>
+  </ul>
+  <h3>4.2 蓄電池運転と収益: 上界バイアスを三段構えで潰す</h3>
+  <ol>
+    <li><strong>完全予見LPにcapture ratioヘアカット</strong>（完全予見は収益上界。ローリングホライズン比較で1〜3割の乖離を校正）。サイクル制約・劣化コストは限界費用に内生化（寒冷地の劣化・暖機も検討）</li>
+    <li><strong>EPRX収益はKの関数として飽和を内生化</strong>（ERCOTのAS市場は2年で完全飽和 $1.52→$0.50/kW-月。北海道の調達量は小さく数百MWで飽和の可能性）。<strong>K*を①JEPX裁定のみ／②+EPRX／③+容量市場・LTDAの3層で別々に報告</strong>し、主張は①②のmerchant部分で立てる</li>
+    <li><strong>充電制御の無補償抑制ロス</strong>を計上（対象27系統・上限最大200MW/系統・親局約1.5億円）</li>
+  </ol>
+  <p><strong>外的妥当性の校正</strong>: Helios（札幌50MW/104MWh、2025年12月運開、100%マーチャント、初年度収益最大約20億円見込み）の実収益と2023〜25年JEPX北海道価格でバックテスト校正し、第2部冒頭に置く。これがないと構造モデルは「仮定の積み木」と評される。</p>
+  <h3>4.3 WACC: 脇役から主役級パラメータへ</h3>
+  <p>K*はWACCに対し極めて弾力的で、<strong>ファイナンス教員の口頭試問で最も確実に突かれる急所</strong>。K*(WACC)曲線を主要図表とし、6/8/10%等の水準ごとにコリドーを提示。日本の蓄電池プロジェクトファイナンス実務条件（DSCR・スプレッド）で根拠づけ（Lazardの米国資本構成をそのまま使わない）。Dixit–Pindyck型の待機オプション乗数による「オプション調整済み保守ケース」を併置。<strong>PE実務での資本コストの土地勘がそのまま活きる主戦場。</strong></p>
+  <h3>4.4 摩擦: 経済K*と制度上限の大小比較</h3>
+  <p>充電制御の系統毎200MW上限と接続配給は、経済均衡と独立に集計充電容量の物理・制度上限を与える。<strong>K*がこの上限を超える場合、結論は「均衡は市場でなく接続制度に律速される」という政策含意に変わる</strong>ため、大小比較を明示的な結果として報告。</p>
+  <h3>4.5 不確実性の二層構造</h3>
+  <p>パラメトリック不確実性（燃料・CAPEX・WACC・効率・劣化）は各シナリオ内で<strong>モンテカルロ</strong>、構造不確実性（泊1・2／洋上／HVDC／需要実現率）は確率を付けず<strong>シナリオ間バウンディング</strong>。古典的信頼区間は付けられない——この誠実な提示がかえって頑健性主張を強くする。</p>
+  <h3>4.6 実装スタックの三点照合</h3>
+  <div class="tablewrap"><table>
+    <tr><th>手法</th><th>役割</th><th>実装可能性</th></tr>
+    <tr><td>(B) 収益シミュレーション型飽和分析（Modo型）</td><td><strong>中核</strong>。構造スタック＋LP裁定＋価格インパクト内生化でK*(t)を反復探索</td><td>最も高い。Python（Pyomo/HiGHS）</td></tr>
+    <tr><td>(C) PyPSA等の容量拡張最適化</td><td>クロスチェック。Schmalensee命題により均衡解釈可能</td><td>数週間で実装可</td></tr>
+    <tr><td>(A') BDG簡約版</td><td>コスト低下パス外生・各年静学ゼロ利潤の逐次解。Zenodo再現パッケージを参照</td><td>現実的（フル動学は放棄）</td></tr>
+  </table></div>
+  <p class="small">校正チェックリスト: 中間出力（価格分布・0.01円コマ・スプレッド）を系統WG公式試算（制御率マトリクス36%〜2%、蓄電池需要対策▲6.6pt、北本+200万kWで▲17pt）と随時突合。</p>
+
+  <h2 id="s5"><span class="no">5</span>防御戦略（審査対策）</h2>
+  <h3>5.1 想定問答（ファイナンス教員版）</h3>
+  <div class="tablewrap"><table>
+    <tr><th>想定質問</th><th>用意する回答装置</th></tr>
+    <tr><td>Q1. 限界参入者の資本コストは何%か。βは推定したのか</td><td>K*(WACC)曲線の主要図表化。PF実務条件＋感応度</td></tr>
+    <tr><td>Q2. 完全予見LPは収益上界。実現収益との乖離は</td><td>capture ratioヘアカット＋Helios校正で定量回答</td></tr>
+    <tr><td>Q3. 静学ゼロ利潤は待機オプションを無視していないか</td><td>オプション調整ハードルレートの保守ケース</td></tr>
+    <tr><td>Q4. EPRX・容量収入は他の参入者も叩く。内生化したか</td><td>EPRX飽和をK関数として明示</td></tr>
+    <tr><td>Q5. なぜ北海道単体の均衡か。東京にも建てられる</td><td>連系線が有限な限りエリア価格差は残存。320万kWシナリオで立地代替チェック</td></tr>
+    <tr><td>Q6. 区間は信頼区間か</td><td>シナリオ・レンジ（決定理論的に回答）</td></tr>
+    <tr><td>Q7. Rapidusが頓挫したら</td><td>需要下振れセルがコリドーに含まれることを示す</td></tr>
+    <tr><td>Q8. 何が観察されたら棄却されるのか</td><td>第1章の反証条件を指す</td></tr>
+    <tr><td>Q9. 実証と構造モデルはどう接続するのか</td><td><strong>推定/校正/外生仮定のパラメータ対応表</strong>（「2つの論文の接ぎ木」批判の封じ込め）</td></tr>
+  </table></div>
+  <h3>5.2 致命的リスクと対処の対応表</h3>
+  <div class="tablewrap"><table>
+    <tr><th>リスク</th><th>対処（組み込み先）</th></tr>
+    <tr><td>WACC前提への攻撃</td><td>§4.3（主役級パラメータ化）</td></tr>
+    <tr><td>収益の系統的過大推計</td><td>§4.2（三段構えのヘアカット）</td></tr>
+    <tr><td>HVDCで裁定原資消滅→下限不成立</td><td>§3.4（時限付き均衡）＋<strong>着手前にワーストセル試算</strong>（§6）</td></tr>
+    <tr><td>静学と動学の混同</td><td>§2.1＋§2.3</td></tr>
+    <tr><td>均衡の一意性崩壊</td><td>§2.2（命題化＋分岐感応度）</td></tr>
+    <tr><td>火力退出の内生性</td><td>§3.1（泊条件付き分岐）</td></tr>
+    <tr><td>泊スケジュールリスク</td><td>§3.1（遅延・長期停止シナリオ）</td></tr>
+    <tr><td>需要のRapidus単一依存</td><td>§3.2〜3.3（2×2分解表）</td></tr>
+    <tr><td>エリア別均衡概念の妥当性</td><td>§3.4（二地域モデル＋立地代替）</td></tr>
+    <tr><td>均衡K*と実現容量の混同</td><td>§1.1（3概念区別）＋§4.4（制度上限比較）</td></tr>
+    <tr><td>「経済合理的＝望ましい」の混同</td><td>厚生分析は主張から切り離す（Karadumanを引用し実証命題に限定）</td></tr>
+  </table></div>
+
+  <h2 id="s6"><span class="no">6</span>作業順序（v1スケジュールへの差分）</h2>
+  <div class="callout">
+    <span class="label">最優先 — 論文構成を確定する前に</span>
+    <p>① <strong>HVDCワーストセル（HVDC実現×需要低位×WACC高位）のK*を粗く試算</strong>する。このセルでK*&lt;現状パイプラインなら「全シナリオで増加」の主張型は使えず、時限付き条件付き主張に設計変更が必要。<strong>主張の型のgo/no-go判定</strong>。② 泊×需要の2×2分解表の粗い試算（中心貢献の成立確認）。③ データ確認3点（v1と共通）＋<strong>九州エリアのデータ整備</strong>（out-of-sample検証用）。</p>
+  </div>
+  <p><strong>前提のフリーズ・プロトコル</strong>（序章で宣言）: 2026年度版長期見通し・泊3の設工認/再稼働時期・2027年度短期見通し（初の泊織り込み版）が執筆中に順次公表される。<strong>フリーズ日（例: 2027年3月末）を宣言し、以降の公表は「頑健性の追記」でのみ扱う</strong>。モデル再計算の無限ループ防止。</p>
+  <p>v1からの主な差分: 第1部（実証）は「マークアップ関数・censoring・capture ratioの推定」と「九州out-of-sample」に役割を再定義。第2部が主役（6断面供給曲線 2026年10月〜2027年3月 → K*(t)反復計算 2027年4〜9月）。第3部は「オプション調整ハードルレート」として第2部に吸収（独立章は任意）。</p>
+
+  <h2 id="s7"><span class="no">7</span>主要な追加参照文献（v1への追加分）</h2>
+  <ul class="small">
+    <li>Dixit, A.K. &amp; Pindyck, R.S. (1994) <em>Investment under Uncertainty</em>, Princeton UP.</li>
+    <li>NREL (2021) <em>Storage Futures Study</em>（ReEDS容量拡張。手法文書 NREL/TP-6A20-77449）</li>
+    <li>Lazard (2025) <em>LCOE+</em>（LCOS: 100MW/4hで$115〜254/MWh）</li>
+    <li>Modo Energy — ERCOT/CAISO Battery Benchmark Reports（ERCOT収益2年で1/6、CAISO TB4スプレッド前年比-61.6%）</li>
+    <li>CAISO (2025) <em>2024 Special Report on Battery Storage</em></li>
+    <li>Butters, Dorsey &amp; Gowrisankaran (2025) 再現パッケージ: zenodo.org/records/14977687</li>
+    <li>電力中央研究所 SERC25001（2025）「データセンターの電力需要の特徴に関する考察と将来推計」</li>
+    <li>OCCTO（2023）広域系統長期方針 別冊（北海道2050: 再エネ2,894万kW・蓄電池42万kW外生・HVDC 600万kWで効果飽和）</li>
+    <li>エネ庁 系統WG第53回資料1（2024.12）長期出力制御見通し（北海道: 対策前21〜26%、24ケースマトリクス、北本+200万kWで▲17pt）</li>
+    <li>EIA / PJM Monitoring Analytics（DC需要の卸価格・容量価格インパクトの米国実証）</li>
+  </ul>
+
+  <h2 id="a1"><span class="no">A</span>付録A: 構造イベント年表（2026〜2035）</h2>
+  <div class="tablewrap"><table>
+    <tr><th>時期</th><th>イベント</th><th>分類</th></tr>
+    <tr><td>2026.8</td><td>石狩湾新港2号 着工（9カ月前倒し）／接続検討申込の上限規制開始</td><td>供給／制度</td></tr>
+    <tr><td>2027.3末</td><td>奈井江1・2（35万kW）＋砂川3・4（25万kW）廃止</td><td>供給↑</td></tr>
+    <tr><td>2027後半</td><td>ラピダスIIM-1 量産開始予定（〜10万kW→拡張）</td><td>需要</td></tr>
+    <tr><td>2027（目標）</td><td><strong>泊3号機 再稼働（91.2万kW）</strong>※3度後ろ倒し中</td><td>供給・両義</td></tr>
+    <tr><td>2027年度末</td><td>FIT→FIP出力制御順変更（北海道実施）</td><td>制度</td></tr>
+    <tr><td>2028.3</td><td><strong>新々北本 運開（北本90→120万kW）</strong></td><td>連系線↓</td></tr>
+    <tr><td>2029〜</td><td>LTDA落札蓄電池の運開集中（道内約51万kW）</td><td>競合ストック</td></tr>
+    <tr><td>2030年度</td><td>石狩湾新港2号 運開（58万kW）／苫東厚真4号 アンモニア20%</td><td>供給↓/↑</td></tr>
+    <tr><td>2030年代前半</td><td>泊1・2号機 再稼働目標（計115.8万kW）／洋上風力 運開開始</td><td>供給・両義</td></tr>
+    <tr><td>2031年度</td><td>京極3号揚水 運開（18.6万kW）</td><td>競合ストック</td></tr>
+    <tr><td>2032年度</td><td>苫東厚真4号 アンモニア40%</td><td>供給↑</td></tr>
+    <tr><td>2033年度</td><td>石狩湾新港3号 運開（58万kW）</td><td>供給↓</td></tr>
+    <tr><td>2035〜</td><td>日本海ルートHVDC（200万kW）最短実現期？（計画1年延長済・工期6〜10年）</td><td>連系線↓↓</td></tr>
+    <tr><td>未定</td><td>苫東厚真1・2号（95万kW）退出（泊・石狩湾2号が前提と北電言明）</td><td>供給↑（条件付き）</td></tr>
+  </table></div>
+
+  <h2 id="a2"><span class="no">B</span>付録B: 主要パラメータ（v1付録に追加・更新）</h2>
+  <div class="tablewrap"><table>
+    <tr><th>パラメータ</th><th>値</th><th>出典</th></tr>
+    <tr><td>泊3号機</td><td>91.2万kW、フラット運転（長期固定電源・制御第7順位）</td><td>規制委・エネ庁</td></tr>
+    <tr><td>最小需要断面</td><td>需要270万kW・制御103万kW（2026年5月想定）。実績: 2025年5月6日11時半 需要281万kW・VRE比率80.1%</td><td>ほくでんNW・系統WG</td></tr>
+    <tr><td>系統WG長期試算</td><td>泊全基＋再エネ1.4倍で制御率54.8%。蓄電池需要対策▲6.6pt、北本+200万kW→1%台</td><td>系統WG第49回</td></tr>
+    <tr><td>24ケースマトリクス</td><td>再エネ×1.0のとき需要×1.0→36%、×1.2→12%、×1.5→2%</td><td>系統WG第53回</td></tr>
+    <tr><td>需要（2035年度）</td><td>OCCTO 312億kWh／ほくでん 380億kWh（約2割の幅）</td><td>各需要想定</td></tr>
+    <tr><td>蓄電池パイプライン（道内）</td><td>接続検討823万kW（ピークアウト）・契約申込234万kW（単調増）・接続済20万kW（2026年5月末）</td><td>ほくでんNW月次Excel</td></tr>
+    <tr><td>充電制御</td><td>対象27系統・上限最大200MW/系統・無補償・親局約1.5億円</td><td>ほくでんNW 2026.4</td></tr>
+    <tr><td>ERCOT飽和実証</td><td>蓄電池収益 $193/kW（2023）→$29/kW（2025）。AS市場は2年で完全飽和</td><td>Modo Energy</td></tr>
+    <tr><td>duration別捕捉率</td><td>8時間で潜在裁定価値の約85%、20時間で95%</td><td>海外研究</td></tr>
+    <tr><td>METI 2030見通し</td><td>14.1〜23.8GWh＝接続申込の実現率外挿（3時間率仮定）。均衡概念ではない</td><td>METI資料に明記</td></tr>
+  </table></div>
+</div>

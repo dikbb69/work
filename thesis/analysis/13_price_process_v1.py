@@ -178,16 +178,18 @@ print("仕様B:"); print(metrics(oos, "p_B").to_string())
 # ---------- 4. レバー実験（FY2023-25パス上・仕様Bと仕様A併記） ----------
 K_WIND_NOW = est["wind_kw"].mean() / 1e4  # 万kW表示用
 levers = {
-    "①風力+50万kW": {"dwind_kw": 500_000, "dnuc": 0},
-    "②泊3号再稼働(稼働率90%)": {"dwind_kw": 0, "dnuc": 912_000 * 0.9 / 1000},
-    "③両方": {"dwind_kw": 500_000, "dnuc": 912_000 * 0.9 / 1000},
+    "①風力+50万kW": {"dwind_kw": 500_000, "dnuc": 0, "ddem": 0},
+    "②泊3号再稼働(稼働率90%)": {"dwind_kw": 0, "dnuc": 912_000 * 0.9 / 1000, "ddem": 0},
+    "③両方": {"dwind_kw": 500_000, "dnuc": 912_000 * 0.9 / 1000, "ddem": 0},
+    "④DC需要+80万kW(フラット)": {"dwind_kw": 0, "dnuc": 0, "ddem": 800},
+    "⑤泊+DC(2x2の対角セル)": {"dwind_kw": 0, "dnuc": 912_000 * 0.9 / 1000, "ddem": 800},
 }
 base_B = metrics(est, "p_B")
 print(f"\n=== レバー実験（FY2023-25の気象・需要パス、現行風力平均{K_WIND_NOW:.0f}万kW） ===")
 print("ベース(仕様B再現):"); print(base_B.to_string())
 for name, lv in levers.items():
     sc = est.copy()
-    sc["net"] = sc["net"] - lv["dwind_kw"] * sc["cf_wind"] / 1000 - lv["dnuc"]
+    sc["net"] = sc["net"] - lv["dwind_kw"] * sc["cf_wind"] / 1000 - lv["dnuc"] + lv["ddem"]
     sc["p_B"] = simulate_B(sc)
     sc["p_A2"] = predict_A(sc)
     mB = metrics(sc, "p_B")

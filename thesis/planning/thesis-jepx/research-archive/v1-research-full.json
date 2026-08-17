@@ -1,0 +1,1193 @@
+{
+  "summary": "再エネ×蓄電池×JEPXボラティリティ均衡の修論研究計画のための多角調査と設計批判",
+  "agentCount": 11,
+  "logs": [
+    "調査完了: 7/7 エージェント成功",
+    "批判的評価完了: 4/4"
+  ],
+  "result": {
+    "research": {
+      "lit-vre-volatility": {
+        "summary": "再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定した。理論面ではメリットオーダー効果（限界費用ほぼゼロの再エネが供給曲線を右シフトさせ価格水準を下げる）が確立しており、Sensfuß et al.(2008)が原点。ボラティリティへの影響は電源種別・市場条件で符号が異なる。風力は価格水準を下げつつボラティリティを高める結果が主流（Ketterer 2014独、Woo et al. 2011テキサス、Mwampashi et al. 2021豪州）だが、太陽光はピーク需要帯の発電で日内価格プロファイルを平坦化しボラティリティを下げる（Kyritsis et al. 2017、Rintamäki et al. 2017）。さらにWozabal et al.(2016)とSchöniger & Morawetz(2022)は再エネ比率と価格分散の関係がU字型（比率10〜40%で分散最小）であり、柔軟性資源・連系線が決定的要因と示す。手法はGARCH系（GARCH-in-Mean、EGARCH、TGARCH）と分位点回帰が二大標準。負値価格・スパイクの研究群も蓄積があり、日本（JEPX）でも分位点回帰による先行研究が存在する。",
+        "findings": [
+          {
+            "topic": "メリットオーダー効果の理論的原点",
+            "detail": "Sensfuß, Ragwitz & Genoese (2008, Energy Policy 36(8), pp.3076-3084) がエージェントベースシミュレーション(PowerACE)でドイツの再エネ電力が限界費用ゼロで供給曲線を右にシフトさせスポット価格を押し下げる「メリットオーダー効果」を定式化。2006年の価格低下効果は約7.83ユーロ/MWh、需要側の便益（消費者余剰移転）は年間数十億ユーロ規模と推計し、発電事業者から需要家への分配効果を指摘した。以後のボラティリティ研究すべての理論的出発点。",
+            "source": "Sensfuß, Ragwitz & Genoese (2008) Energy Policy. https://www.sciencedirect.com/science/article/abs/pii/S0301421508001717"
+          },
+          {
+            "topic": "Ketterer (2014): 風力とGARCH分析の代表的研究",
+            "detail": "Ketterer (2014, Energy Economics 44, pp.270-280) はドイツPhelix日次前日価格(2006-2012)にGARCH(1,1)を適用し、平均方程式と分散方程式の両方に風力発電量を説明変数として導入。需要に占める風力比率が1%ポイント上昇するとベース価格が1.40〜1.49%低下する一方、条件付き分散（ボラティリティ）は有意に増大。また2010年の再エネ直接販売化（マーケティング制度変更）後に価格ボラティリティが低下したことを示し、市場制度設計がボラティリティを緩和しうると結論。修論のGARCHモデル設計の直接のベンチマーク。",
+            "source": "Ketterer (2014) Energy Economics 44:270-280. https://www.sciencedirect.com/science/article/abs/pii/S0140988314000875 / WP版 https://www.econstor.eu/bitstream/10419/73830/1/IfoWorkingPaper-143.pdf"
+          },
+          {
+            "topic": "Woo et al. (2011): テキサスでの先駆的実証",
+            "detail": "Woo, Horowitz, Moore & Pacheco (2011, Energy Policy 39(7), pp.3939-3944) はERCOT（テキサス）の15分値バランシング価格データを用いた回帰分析で、風力発電の増加がスポット価格水準を有意に下げる一方、価格の分散を拡大させることを4ゾーンすべてで確認。「風力拡大には価格リスク管理手段の拡充を伴わせるべき」という政策含意を提示。米国市場での最初期の定量的証拠。",
+            "source": "Woo et al. (2011) Energy Policy 39:3939-3944. https://www.sciencedirect.com/science/article/abs/pii/S0301421511002813"
+          },
+          {
+            "topic": "Rintamäki, Siddiqui & Salo (2017): 風力の影響は市場構造で符号が逆転",
+            "detail": "Rintamäki, Siddiqui & Salo (2017, Energy Economics 62, pp.270-282) はデンマーク(DK1/DK2)とドイツの時間帯別前日価格から日次・週次の実現ボラティリティを構築し、SARMAX型分布ラグモデルで推定。風力はデンマークでは日内価格プロファイルを平坦化して「日次ボラティリティを低下」させるが、ドイツではオフピーク価格への影響が相対的に強く「日次ボラティリティを上昇」させると、同じ風力でも市場により符号が逆転することを発見。太陽光はドイツでピーク価格を下げ日次ボラティリティを低下。一方、週次ボラティリティは再エネの間欠性により両国とも上昇。日内vs日間・週間という時間スケール分解の方法論は、風力比率が高くかつ太陽光も伸びる北海道の分析設計にそのまま応用可能。",
+            "source": "Rintamäki, Siddiqui & Salo (2017) Energy Economics 62:270-282. https://www.sciencedirect.com/science/article/abs/pii/S0140988317300063"
+          },
+          {
+            "topic": "Kyritsis et al. (2017): GARCH-in-Meanによる太陽光と風力の非対称性",
+            "detail": "Kyritsis, Andersson & Serletis (2017, Energy Policy 101, pp.550-560) はドイツの日次データ(2010-2015)にGARCH-in-Meanモデルを適用。太陽光・風力とも電力価格をGranger的に先行して押し下げるが、ボラティリティへの影響は非対称で、太陽光はピークロード電源の稼働を減らすことで「ボラティリティを低下」、風力は市場の柔軟性に負荷をかけ「ボラティリティを上昇」させると結論。DOI: 10.1016/j.enpol.2016.11.014。太陽光=日内ピークシェービング、風力=日間変動という電源特性の違いを計量的に示した代表例。",
+            "source": "Kyritsis, Andersson & Serletis (2017) Energy Policy 101:550-560. https://www.sciencedirect.com/science/article/abs/pii/S0301421516306085"
+          },
+          {
+            "topic": "Wozabal et al. (2016): ボラティリティ影響は導入量に依存する非単調関係（理論）",
+            "detail": "Wozabal, Graf & Hirschmann (2016, OR Spectrum 38(3), pp.687-709) は供給曲線（メリットオーダーカーブ）の凸性に基づく理論モデルで、「再エネは常にボラティリティを高める」という通説を批判。間欠性電源の導入量が小〜中規模なら供給曲線の平坦な部分で価格が決まり価格分散はむしろ低下し、大量導入で初めて分散が増大すると予測。ドイツ等のデータで実証。修論の「蓄電池との均衡点」というリサーチクエスチョンに最も近い理論枠組みで、均衡点の存在自体を理論的に基礎づける文献。",
+            "source": "Wozabal, Graf & Hirschmann (2016) OR Spectrum 38:687-709. https://link.springer.com/article/10.1007/s00291-015-0395-x"
+          },
+          {
+            "topic": "Schöniger & Morawetz (2022): 再エネ比率と価格分散のU字型関係（欧州9カ国パネル）",
+            "detail": "Schöniger & Morawetz (2022, Energy Economics 111, 105960) は欧州9カ国のパネルモデルと国別回帰で、再エネ発電比率と価格分散の間にU字型関係を確認（9カ国中7カ国）。価格分散の最小点は再エネ比率10〜40%に位置し、輸出入（連系線）と柔軟性電源の存在が再エネ出力変動そのものより価格分散に大きく影響する。「分散が再上昇する前に柔軟性資源への投資が必要」と結論。連系線容量が限られる北海道エリアの文脈に直結し、U字の底=均衡点を蓄電池がどこまで右にシフトさせるかという修論の問いを支える最重要文献の一つ。",
+            "source": "Schöniger & Morawetz (2022) Energy Economics 111:105960. https://www.sciencedirect.com/science/article/pii/S0140988322002353"
+          },
+          {
+            "topic": "Maciejowska (2020): 分位点回帰による価格分布全体への影響分解",
+            "detail": "Maciejowska (2020, Energy Economics 85, 104532) はドイツのスポット価格に分位点回帰を適用し、メリットオーダー効果を価格分布の分位ごとに推定。風力・太陽光とも中央値への負の効果は同程度だが、風力は分布の「下位テール」（低価格帯・オフピーク）を強く押し下げ、太陽光は「上位テール」（高価格帯・ピーク）を強く押し下げる。ボラティリティ（分位間レンジ）への影響は需要水準に依存し、風力は需要水準により増減両方向、太陽光は中程度の需要で価格分散を安定化させる。価格スパイクと負値・下限価格の非対称な発生メカニズムを分析する手法として修論に有用。",
+            "source": "Maciejowska (2020) Energy Economics 85:104532. https://ideas.repec.org/a/eee/eneeco/v85y2020ics0140988319303275.html"
+          },
+          {
+            "topic": "Paraschiv et al. (2014): 再エネは極端な価格変動を増幅",
+            "detail": "Paraschiv, Erni & Pietsch (2014, Energy Policy 73, pp.196-210) はEEX前日市場の時間帯別価格に動学的ファンダメンタルモデル（時変係数回帰）を適用し、再エネ（風力・太陽光）がスポット価格を押し下げる一方で「極端な価格変化（extreme price changes）を増幅」させることを示した。時間帯別に係数が大きく異なり、太陽光は正午前後、風力は夜間・早朝に効果が集中。時間帯別（コマ別）分析の設計はJEPXの48コマデータ分析の参考になる。",
+            "source": "Paraschiv, Erni & Pietsch (2014) Energy Policy 73:196-210. https://www.sciencedirect.com/science/article/abs/pii/S0301421514002845"
+          },
+          {
+            "topic": "負値価格のモデル化: Fanone et al. (2013)",
+            "detail": "Fanone, Gamba & Prokopczuk (2013, Energy Economics 35, pp.22-34) は、ドイツEEG下での再エネ拡大が前日価格の負値発生確率を高めることを踏まえ、正負両方向の極端なスパイクを生成できる非ガウス型確率過程（時間変化パラメータ付き）でドイツ時間帯別価格をモデル化し推定手続きを提案。負値価格を明示的に扱った金融工学的アプローチの代表。なおJEPXは価格下限0.01円/kWhで負値が発生しないため、欧州の負値価格文献を日本に適用する際は「下限への張り付き（打ち切り）」として読み替える必要がある点が研究設計上の論点になる。",
+            "source": "Fanone, Gamba & Prokopczuk (2013) Energy Economics 35:22-34. https://www.sciencedirect.com/science/article/abs/pii/S014098831100301X"
+          },
+          {
+            "topic": "価格スパイク予測: Hagfors et al. (2016)",
+            "detail": "Hagfors, Kamperud, Paraschiv, Prokopczuk, Sator & Westgaard (2016, Quantitative Finance 16(12), pp.1929-1948) はドイツ前日市場の時間帯別価格にファンダメンタル変数を用いた分位点回帰・ロジットモデルを適用し、極端な正・負価格の発生を予測。再エネはスポット価格を抑制し、負値価格は主に風力が原因で需要の低い夜間に発生、正のスパイクは需要逼迫時に発生と、極端事象の左右非対称なドライバーを特定。北海道の低需要期・高風況時の下限張り付きと厳冬期スパイクの分析枠組みとして参考になる。",
+            "source": "Hagfors et al. (2016) Quantitative Finance 16:1929-1948. https://www.tandfonline.com/doi/full/10.1080/14697688.2016.1211794"
+          },
+          {
+            "topic": "負値価格の発生頻度と再エネ: Prokhorov & Dreisbach (2022)",
+            "detail": "Prokhorov & Dreisbach (2022, Energy Policy 167, 113073) は複数市場のデータで、負値価格が従来型電源の起動停止コストの高さと需要の異常低下に起因し、再エネ拡大がその発生頻度を加速させることを実証。欧州では負値価格時間数が急増（例: ある市場で2022年102時間→2024年352時間、3年で約3.5倍）しており、蓄電池・柔軟性資源の裁定機会の拡大を示す。蓄電池がボラティリティを削減する経済的インセンティブ（充放電スプレッド）の定量化に接続できる。",
+            "source": "Prokhorov & Dreisbach (2022) Energy Policy 167:113073. https://www.sciencedirect.com/science/article/pii/S0301421522002981"
+          },
+          {
+            "topic": "Mwampashi et al. (2021): 豪州NEMでのeGARCH定量結果（連系線・水力を統制）",
+            "detail": "Mwampashi, Nikitopoulos, Konstandatos & Rai (2021, Energy Economics 100, 105317) は豪州NEM（南豪州など風力比率が世界最高水準の地域を含む）にeGARCHモデルを適用し、風力発電1GWhの増加が日次価格を最大約1.3豪ドル/MWh押し下げ、価格ボラティリティを最大約2%上昇させると推定。水力と地域間連系線の効果を初めて明示的に統制した点が特徴。南豪州は2021年Q4に28%の時間帯で負値価格を記録。連系線制約下の小規模エリアという点で北海道と構造が似ており、比較対象・手法の両面で有用。姉妹論文（2022, Energy Economics 115）は大規模太陽光と屋根置き太陽光で価格・ボラティリティへの影響が異なることも示す。",
+            "source": "Mwampashi et al. (2021) Energy Economics 100:105317. https://www.sciencedirect.com/science/article/abs/pii/S0140988321004230"
+          },
+          {
+            "topic": "Navia Simon & Diaz Anadon (2025, Nature Energy): 再エネの「保険価値」",
+            "detail": "Navia Simon & Diaz Anadon (2025, Nature Energy 10(3), pp.329-341) は欧州29カ国の電力市場を2030年NECP目標下でシミュレーションし、ガス価格1ユーロ上昇に対する電力価格感応度（β感応度）が1.4→1.0ユーロへ低下、目標超過達成なら0.5ユーロ未満になると推定。2030年再エネ目標達成で価格ボラティリティは平均約20%低下（独31%、英44%減など）。この価格安定化による厚生利得を市場が内部化しない「再エネの保険価値」と概念化。再エネが（化石燃料価格経由の）年次ボラティリティを下げる一方、短期（日内・日間）ボラティリティを上げるという時間スケールによる効果の違いを整理する上で重要な最新文献。",
+            "source": "Navia Simon & Diaz Anadon (2025) Nature Energy 10:329-341. https://www.nature.com/articles/s41560-025-01704-0"
+          },
+          {
+            "topic": "日本(JEPX)への橋渡し: Sakaguchi & Fujii (2021)",
+            "detail": "Sakaguchi & Fujii (2021, Frontiers in Sustainability 2:770045) はJEPX前日スポット価格（FY2016-2019、エリア別）にOLSと分位点回帰を適用した数少ない日本の実証研究。風力のメリットオーダー効果は2016→2019年に増大、太陽光のそれは減少。高価格帯（スパイク）に対して風力は有意な抑制効果を持たず、太陽光は2016-17年のみ抑制効果。「風力の方がPVより価格押し下げポテンシャルが大きい」と結論。北海道エリアを含むエリア別分析があり、修論の直接の先行研究となる（FY2020以降・蓄電池変数を加えた拡張が明確な貢献余地）。",
+            "source": "Sakaguchi & Fujii (2021) Frontiers in Sustainability 2:770045. https://www.frontiersin.org/journals/sustainability/articles/10.3389/frsus.2021.770045/full (WP版: https://mpra.ub.uni-muenchen.de/110554/)"
+          },
+          {
+            "topic": "風力vs太陽光: ボラティリティへの影響の違いの整理",
+            "detail": "文献横断の整理として、(1)太陽光は昼のピーク需要帯に発電するため日内の価格プロファイルを平坦化し「日次（日内）ボラティリティを低下」させる傾向（Kyritsis 2017, Rintamäki 2017, Maciejowska 2020）。ただし高導入水準ではダックカーブ深化により朝夕のランプで逆に日内変動を拡大しうる（Wozabal 2016のU字論理）。(2)風力は昼夜を問わず数日周期で変動するため「日間・週次ボラティリティを上昇」させる傾向が強く（Ketterer 2014, Woo 2011, Kyritsis 2017, Mwampashi 2021）、オフピーク価格を強く押し下げ下位テールを厚くする（Maciejowska 2020, Hagfors 2016）。(3)ただし風力の符号は市場の柔軟性・連系線・水力の有無で逆転しうる（Rintamäki 2017のデンマークvs ドイツ）。風力偏重の北海道では日間・週次スケールのボラティリティ増大が理論的に予想され、日内裁定が主体の蓄電池では吸収しきれない可能性という論点が導出できる。",
+            "source": "上記各論文の総合（Rintamäki et al. 2017; Kyritsis et al. 2017; Maciejowska 2020; Wozabal et al. 2016 ほか）"
+          }
+        ],
+        "thesis_implications": "(1) 手法の標準はGARCH系＋分位点回帰の併用。Ketterer(2014)型のGARCH（平均・分散両方程式に再エネ変数）を北海道エリアプライスに適用し、Maciejowska(2020)型の分位点回帰で価格分布のテール（0.01円/kWh下限張り付きとスパイク）を分析する二本立てが再現性の高い設計。Rintamäki(2017)の日次・週次実現ボラティリティ分解を加えれば、太陽光（日内）と風力（日間・週間）の影響の時間スケール差を北海道で検証でき、蓄電池（現状は主に日内裁定）がどのスケールのボラティリティまで削減できるかという「均衡点」の議論に直結する。(2) 理論枠組みとしてWozabal(2016)とSchöniger & Morawetz(2022)のU字型関係が「再エネ比率上昇でボラティリティが増大し、柔軟性資源（蓄電池・連系線）がそれを相殺する均衡点」という修論の問いを直接基礎づける。北海道の再エネ比率がU字の底（10-40%）のどこにあるか、系統用蓄電池の急増がU字の底を右にシフトさせているかの実証は明確な学術的貢献になる。(3) 日本の先行研究はSakaguchi & Fujii(2021)がFY2019までで止まっており、FY2020以降（特に2024年以降の北海道での系統用蓄電池大量連系後）への拡張、蓄電池変数の明示的導入、風力比率の高い北海道エリアへの焦点はいずれも新規性がある。(4) JEPXには負値価格がない（下限0.01円/kWh）ため、欧州の負値価格文献はそのまま適用できず、下限への張り付き頻度をTobit/打ち切りモデルや発生確率モデル（Hagfors 2016型ロジット）で扱う工夫が必要。(5) Schöniger(2022)とMwampashi(2021)が示すとおり連系線と水力の統制が決定的に重要で、北本連系線の容量・潮流と北海道の水力・火力柔軟性を説明変数に含めないと再エネ係数が偏る点に注意。",
+        "open_questions": [
+          "JEPXの価格下限0.01円/kWh張り付き（事実上の負値価格の代理）を計量的にどう扱うか — Tobitモデル、打ち切り分位点回帰、発生確率ロジットのどれが北海道データに適するか",
+          "北海道エリアの再エネ出力データの粒度と出力制御（curtailment）の扱い — 出力制御時は「潜在出力」と「実出力」が乖離し、メリットオーダー効果の推定にバイアスが生じる",
+          "系統用蓄電池のJEPX価格・ボラティリティへの影響を直接推定した学術研究はまだほぼ存在しない（豪州・米国の蓄電池裁定研究が最も近い）— 修論の主要な貢献余地だが、北海道の蓄電池充放電データの入手可能性が制約になる",
+          "2024-2026年の北海道での系統用蓄電池急増・北本連系線増強（60万kW→90万kW→今後120万kW）のイベントを自然実験として使えるか",
+          "週次・季節スケールの風力変動によるボラティリティは日内裁定型蓄電池では吸収困難という仮説の検証方法（Rintamäki型の週次ボラティリティ指標の適用）",
+          "Wozabal/SchönigerのU字型関係を単一エリア（北海道）の時系列で識別できるか — クロスセクション変動がないため、時間変化する再エネ比率と蓄電池容量の共変動から均衡点を識別する戦略が必要"
+        ]
+      },
+      "lit-storage-equilibrium": {
+        "summary": "系統用蓄電池の経済学、特に「均衡」に関する国際学術文献15本を特定した。裁定価値の実証はSioshansi et al.(2009, PJM)が嚆矢で、蓄電容量の拡大が価格スプレッド自体を縮小させ限界収益が逓減する「自己共食い(cannibalization)」が理論・実証の双方で確立している。均衡分析では、Schmalensee(2022)が価格上限のない競争均衡における蓄電容量が期待費用最小化と一致することを解析的に示し、Andrés-Cerezo & Fabra(2023, RAND)は市場支配力・垂直統合が運用と投資を歪めることを示した。構造推定ではKaraduman(2023, 南豪州)とButters, Dorsey & Gowrisankaran(2025, Econometrica, テキサス)が動学的均衡モデルで自由参入均衡の蓄電容量を内生化し、再エネ比率が高いほど蓄電と再エネが補完的になる(出力抑制回避で再エネ収益を押し上げる)ことを示す。再エネのcapture price低下はHirth(2013)が定量化し、Brown & Reichenberg(2021)は政策設計次第で回避可能と示した。運用最適化はDP/ADP(Jiang & Powell 2015)、投資評価はリアルオプション・LSMC(Shin & Lee 2024)が標準的手法である。",
+        "findings": [
+          {
+            "topic": "Sioshansi et al. (2009) — PJMにおける蓄電裁定価値の実証の嚆矢",
+            "detail": "Sioshansi, Denholm, Jenkin & Weiss (2009) \"Estimating the value of electricity storage in PJM: Arbitrage and some welfare effects\", Energy Economics 31(2), 269-277。手法: PJMの2002-2007年実勢価格に対し、価格テイカーの蓄電設備(12時間容量等)の裁定収益を線形計画で最大化するバックテスト。結論: 裁定価値は燃料価格・送電制約・往復効率・容量に強く依存し、蓄電規模が大きくなるとロードシフトによりピーク/オフピーク価格差が縮小して裁定収益が減少する一方、消費者余剰・生産者余剰の再分配と社会厚生の増加が生じる。修論の「価格テイカー裁定収益バックテスト」の標準テンプレート。",
+            "source": "https://doi.org/10.1016/j.eneco.2008.10.005 / https://www.sciencedirect.com/science/article/abs/pii/S0140988308001631"
+          },
+          {
+            "topic": "Sioshansi (2010) — 蓄電の厚生効果は所有構造に依存",
+            "detail": "Sioshansi (2010) \"Welfare Impacts of Electricity Storage and the Implications of Ownership Structure\", The Energy Journal 31(2)。手法: 理論モデルによる比較静学。結論: 蓄電がもたらす厚生の帰着(消費者余剰・生産者余剰・蓄電事業者利潤)は誰が所有・運用するかで変わり、市場支配力を持つ主体はスプレッド維持のため蓄電を過小利用する。蓄電は自らの収益源(価格差)を破壊するため、私的インセンティブと社会的最適が乖離するという本テーマの核心的論点を早期に定式化。",
+            "source": "https://journals.sagepub.com/doi/10.5547/ISSN0195-6574-EJ-Vol31-No2-7"
+          },
+          {
+            "topic": "Lamont (2013) — 蓄電の限界価値の解析的導出と最適(均衡)容量",
+            "detail": "Lamont (2013) \"Assessing the economic value and optimal structure of large-scale electricity storage\", IEEE Transactions on Power Systems 28(2), 911-921。手法: システム費用最小化モデルから蓄電のエネルギー容量(kWh)と出力容量(kW)それぞれの限界価値を解析的に導出。結論: 蓄電の限界価値は充放電時の限界費用(価格)差に規定され、導入量の増加とともに逓減する。最適容量=限界価値が限界費用と等しくなる点、という均衡条件を明示しており、修論の「均衡点」の理論的定義に直結。",
+            "source": "https://ieeexplore.ieee.org/document/6320654/"
+          },
+          {
+            "topic": "Hirth (2013) — 再エネのcapture price(value factor)低下の定量化",
+            "detail": "Hirth (2013) \"The market value of variable renewables\", Energy Economics 38, 218-236。手法: 欧州市場データの実証と数値モデル(EMMA)の併用。結論: 風力のvalue factor(平均価格比の捕捉価格)は市場シェア30%で約0.7に、太陽光は発電の時間集中性からより速く10-15%のシェアで0.7に低下する。再エネ増加→ボラティリティ/価格構造変化の実証の基準文献であり、北海道の太陽光集中の分析にvalue factor指標をそのまま適用可能。",
+            "source": "https://ideas.repec.org/a/eee/eneeco/v38y2013icp218-236.html / https://neon.energy/Hirth-2013-Market-Value-Renewables-Solar-Wind-Power-Variability-Price.pdf"
+          },
+          {
+            "topic": "Jiang & Powell (2015) — 近似動的計画法による蓄電池入札の最適運用",
+            "detail": "Jiang & Powell (2015) \"Optimal Hour-Ahead Bidding in the Real-Time Electricity Market with Battery Storage Using Approximate Dynamic Programming\", INFORMS Journal on Computing 27(3)。手法: 価値関数の単調性を利用した収束保証付き近似動的計画法(ADP)。価格過程の分布を仮定しない分布フリー版も提案。結論: リアルタイム市場での1時間前入札+蓄電池運用でヒューリスティクスを上回る収益政策を導出。蓄電池の最適運用(DP系)の代表文献で、修論のシミュレーション設計の参照点。",
+            "source": "https://pubsonline.informs.org/doi/10.1287/ijoc.2015.0640 / https://arxiv.org/abs/1402.3575"
+          },
+          {
+            "topic": "López Prol & Schill (2021) — 再エネと蓄電の経済学の体系的レビュー",
+            "detail": "López Prol & Schill (2021) \"The Economics of Variable Renewable Energy and Electricity Storage\", Annual Review of Resource Economics 13, 443-467。手法: 文献レビュー。結論: メリットオーダー効果(卸価格の低下)とcannibalization効果(再エネ自身の捕捉価格低下)を区別して整理し、蓄電・柔軟性資源がこれを緩和する経路と、蓄電自身も導入拡大で自己共食いに直面する非対称性を指摘。修論の文献レビュー章の骨格として最適。",
+            "source": "https://doi.org/10.1146/annurev-resource-101620-081246 / https://arxiv.org/abs/2012.15371"
+          },
+          {
+            "topic": "Brown & Reichenberg (2021) — value deflationは政策設計で回避可能",
+            "detail": "Brown & Reichenberg (2021) \"Decreasing market value of variable renewables can be avoided by policy action\", Energy Economics 100, 105354。手法: 長期均衡(グリーンフィールド)容量拡張モデルの解析解と数値解。結論: 再エネの市場価値低下は補助金主導の導入拡大では発生するが、CO2価格主導の長期均衡では発生しない。すなわちvalue deflationは統合問題の必然ではなく政策選択の帰結。蓄電を含む柔軟性が均衡でのvalue factorを支える。再エネ政策(FIT/FIP)下の日本市場の解釈に重要な示唆。",
+            "source": "https://doi.org/10.1016/j.eneco.2021.105354 / https://arxiv.org/abs/2002.05209"
+          },
+          {
+            "topic": "Schmalensee (2022) — 競争均衡の蓄電容量は費用最小化と一致",
+            "detail": "Schmalensee (2022) \"Competitive Energy Storage and the Duck Curve\", The Energy Journal 43(2), 1-16。手法: Boiteux-Turvey型ピークロード価格理論に蓄電を組み込んだ解析モデル(昼夜交代の様式化モデル、ダックカーブ対応)。結論: エネルギー市場価格に上限がなければ、期待システム費用を最小化する発電+蓄電の構成はすべて長期競争均衡として支持される。均衡では蓄電の裁定収益がちょうど固定費を回収する(自由参入NPV=0)。修論の「均衡点」の厚生経済学的基礎を与える最重要理論文献の一つ。",
+            "source": "https://journals.sagepub.com/doi/10.5547/01956574.43.2.rsch / https://ceepr.mit.edu/wp-content/uploads/2021/09/2020-012.pdf"
+          },
+          {
+            "topic": "Zhao, Jafari, Botterud & Sakti (2022) — 蓄電投資の非協力ゲーム均衡(CAISO)",
+            "detail": "Zhao, Jafari, Botterud & Sakti (2022) \"Strategic energy storage investments: A case study of the CAISO electricity market\", Applied Energy 325。手法: 複数投資家の投資量決定+運用の非協力ゲームを定式化し、均衡を集中最適化問題として計算。CAISOデータでケーススタディ。結論: 投資家数の増加とともに各社の均衡利潤と個別容量は減少するが市場全体の蓄電容量は増加し、完全競争極限で総容量が最大化される。戦略的行動は蓄電容量を社会的水準より過小にする。参入者数と均衡容量の関係を数値的に示す点で修論のシミュレーション設計に有用。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0306261922011680 / https://energy.mit.edu/publication/strategic-energy-storage-investments-a-case-study-of-the-caiso-electricity-market/"
+          },
+          {
+            "topic": "Andrés-Cerezo & Fabra (2023) — 市場構造が蓄電の運用・投資を歪める",
+            "detail": "Andrés-Cerezo & Fabra (2023) \"Storing power: market structure matters\", The RAND Journal of Economics 54(1), 3-53。手法: 蓄電・発電の市場支配力と垂直統合を許容した理論モデルで均衡を特性化し、スペイン市場データで定量化。結論: 市場支配力は(1)蓄電設備の非効率な運用(スプレッド温存のための出し惜しみ)と(2)投資インセンティブの歪みという2経路で効率を損ない、垂直統合(発電+蓄電)が消費者・総厚生にとって最悪。競争的蓄電でも価格平準化による自己共食いのため私的投資は社会的最適を下回る。蓄電規制の設計に直結する均衡分析の代表作。",
+            "source": "https://onlinelibrary.wiley.com/doi/abs/10.1111/1756-2171.12429 / https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3737577"
+          },
+          {
+            "topic": "Karaduman (2023 WP) — 南豪州の動学的均衡モデル(北海道に最も近い設定)",
+            "detail": "Karaduman \"Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets\" (Stanford GSB / MIT CEEPR Working Paper, 2023年3月改訂)。手法: 蓄電の価格インパクトと既存電源の最適反応を内生化した動学的均衡フレームワークを構築し、南オーストラリア市場で構造推定。結論: (1)私的には蓄電参入は不採算だが、参入すれば消費者余剰・総厚生が増加し排出も減少。(2)再エネ比率が中程度(出力抑制ほぼゼロ)の現状では蓄電は平均・ピーク価格を下げ再エネ収入を減らすが、(3)VRE容量を2倍にすると出力抑制回避を通じて蓄電が再エネ収益を増やし補完的になる。小規模系統・再エネ急増・連系線制約という点で北海道エリアに最も近い分析対象。",
+            "source": "https://gsb-faculty.stanford.edu/omer-karaduman/files/2022/09/Economics-of-Grid-Scale-Energy-Storage.pdf / https://ceepr.mit.edu/workingpaper/economics-of-grid-scale-energy-storage-in-wholesale-electricity-markets/"
+          },
+          {
+            "topic": "Mercier, Olivier & De Jaeger (2023) — 欧州横断のday-ahead裁定価値の実証",
+            "detail": "Mercier, Olivier & De Jaeger (2023) \"The value of electricity storage arbitrage on day-ahead markets across Europe\", Energy Economics 122, 106721。手法: 欧州各国のday-ahead価格データに対して蓄電の裁定価値を体系的に計測。結論: 裁定価値は国・年により大きく異なり、低い裁定価値の市場では蓄電のday-ahead市場参加も低調。グリッド料金(託送料等)が裁定価値と市場参加を大きく毀損する。JEPXエリア間比較(北海道vs他エリア)の実証デザインの直接の参照点。",
+            "source": "https://doi.org/10.1016/j.eneco.2023.106721 / https://www.sciencedirect.com/science/article/abs/pii/S0140988323002190"
+          },
+          {
+            "topic": "Shin & Lee (2024) — LSMCによる蓄電池投資タイミングのリアルオプション評価",
+            "detail": "Shin & Lee (2024) \"Investment Decision for Long-Term Battery Energy Storage System Using Least Squares Monte Carlo\", Energies 17(9), 2019(韓国市場)。手法: 10MW/40MWhのリチウムイオン電池の裁定収益を線形計画で最適化し、収益の不確実性を幾何ブラウン運動でモデル化した上でLeast Squares Monte Carlo法により投資待機オプションを評価。結論: コスト低下と収益不確実性の下では「今投資するか待つか」の待機オプション価値が投資判断を左右し、最適投資タイミングを与える意思決定ツールとして機能。修論でLSMC/リアルオプションを使う場合の直近の応用例。",
+            "source": "https://www.mdpi.com/1996-1073/17/9/2019 / https://ideas.repec.org/a/gam/jeners/v17y2024i9p2019-d1382323.html"
+          },
+          {
+            "topic": "Dumitrescu, Silvente & Tankov (2024) — 価格インパクトを内生化した長期収益性(FBSDE/平均場)",
+            "detail": "Dumitrescu, Silvente & Tankov (2024) \"Price impact and long-term profitability of energy storage\", arXiv:2410.12495 (数理ファイナンス系)。手法: 完全結合の前進後退確率微分方程式(FBSDE)で蓄電群の最適運用と均衡価格を同時決定し、フランス系統運用者RTEの将来シナリオで数値分析。結論: 蓄電容量の増加は価格インパクトを通じて自己共食いを起こすが、再エネ拡大シナリオでは長期的に期待収益と収益のばらつき(リスク)がともに増加する。ボラティリティと蓄電収益の共進化を確率制御で扱う最新手法として、価格過程モデリング面で参考になる。",
+            "source": "https://arxiv.org/abs/2410.12495"
+          },
+          {
+            "topic": "Butters, Dorsey & Gowrisankaran (2025) — 自由参入均衡の蓄電容量を構造推定(Econometrica)",
+            "detail": "Butters, Dorsey & Gowrisankaran (2025) \"Soaking Up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium\", Econometrica 93(3), 891-927(注意: 依頼文にあったAERではなくEconometrica掲載。NBER WP 29133が前身)。手法: テキサス(ERCOT)を対象に、蓄電池の動学的運用と自由参入投資を内生化した競争均衡モデルを構造推定。結論: (1)再エネ比率50%の下では最初の蓄電ユニットが2024年頃に無補助で採算に到達。(2)蓄電の限界価値は導入量とともに急速に逓減(cannibalization)し、均衡蓄電容量は有限水準で定まる。(3)再エネと蓄電は補完的技術で、蓄電は再エネの価値低下を部分的に緩和するが、蓄電補助金単体の厚生効果は限定的。修論の「均衡点」分析の最有力テンプレート。",
+            "source": "https://onlinelibrary.wiley.com/doi/10.3982/ECTA20411 / https://www.nber.org/papers/w29133"
+          }
+        ],
+        "thesis_implications": "(1)研究設計の3段構成が国際文献と自然に接続する: ①再エネ比率上昇→北海道エリアプライスのボラティリティ・スプレッド・capture price(value factor)の変化の実証(Hirth 2013の指標をJEPXに適用)、②蓄電池容量→スプレッド縮小・裁定収益逓減(cannibalization)の計測(Sioshansi 2009型の価格テイカーLPバックテスト+価格インパクトを入れた残余需要シミュレーション)、③「均衡点」の推定。(2)「均衡点」の操作的定義は文献上ほぼ確立しており、「裁定収益が蓄電池の年換算固定費(CAPEX)をちょうど回収する水準までスプレッドが縮小する容量」=自由参入NPV=0均衡(Schmalensee 2022; Butters et al. 2025)を採るのが標準。競争均衡なら社会的費用最小化と一致する(Schmalensee)一方、市場支配力・垂直統合があると乖離する(Andrés-Cerezo & Fabra 2023)ため、北海道の蓄電事業者の所有構造(再エネ併設か独立系か)を頑健性チェックの軸にできる。(3)Karaduman(2023)の南豪州は小規模系統・再エネ急増・連系線制約の点で北海道と構造が酷似しており、モデル移植の直接のテンプレート。北本連系線の制約を送電制約として明示的に入れると新規性が出る。(4)注意点として、蓄電と再エネの関係は再エネ比率に依存して「競合→補完」に転じる(Karaduman; Butters et al.)ため、北海道の太陽光・風力導入シナリオ別に均衡容量を示すと政策的含意が明確になる。(5)手法面では、運用最適化はDP/ADP(Jiang & Powell 2015)、投資評価はLSMCリアルオプション(Shin & Lee 2024)が使えるが、修論の規模ではまず完全予見LPバックテスト+価格インパクト関数の推定で十分であり、LSMCは投資タイミングの拡張として位置づけるのが現実的。(6)文献引用上の注意: Butters, Dorsey & GowrisankaranはAERではなくEconometrica(2025, 93(3))掲載。",
+        "open_questions": [
+          "北海道エリアのような小規模・連系線制約付き市場で蓄電池の価格インパクト(残余需要の傾き)をどう推定するか — Karaduman型の構造推定に必要なJEPX入札カーブデータ(スポット入札集計)の利用可能性",
+          "JEPX(特に北海道エリアプライス)を対象にcapture price・value factor・蓄電裁定価値を計測した日本語・国内の先行研究の有無(国内文献の別途調査が必要)",
+          "日本の蓄電池は卸裁定に加え需給調整市場・容量市場・長期脱炭素電源オークションの複数収益源を持つため、卸市場のみの自由参入均衡(NPV=0)定義をどう修正するか",
+          "均衡概念の選択: 自由参入競争均衡 vs 社会的最適 vs 戦略的(クールノー)均衡 — 北海道の実際の蓄電事業者構成でどれが妥当か",
+          "2024-2026年の北海道での系統用蓄電池急増(実データ)を使ってcannibalizationの初期兆候(スプレッド縮小)を事後検証できるか",
+          "FIP転換・出力抑制の増加が北海道の価格分布(負値・スパイク)に与える影響を、欧州・豪州文献の知見とどう整合的にモデル化するか"
+        ]
+      },
+      "lit-jepx-japan": {
+        "summary": "JEPXスポット価格と再エネ・蓄電池に関する先行研究を和英で調査し、査読論文を中心に15本超を特定した。メリットオーダー効果の実証はSakaguchi & Fujii（2021）、Maekawa et al.（2018）、Fuke & Ohashi（2025）等で確立済みで、風力のMOEは太陽光より大きく北海道で有意との結果がある。ボラティリティを直接扱う研究はMa et al.（2023、地域間連系とrealized volatility）とFuke & Ohashi（2025、太陽光と価格変動性の季節性）が最重要。2021年1月高騰はKanamura & Bunn（2022）ほか複数が分析済み。一方、「北海道エリア単体」「蓄電池普及によるボラ低減・スプレッド圧縮の実証」「両者の均衡点分析」を扱った日本の学術研究は見当たらず、ここに明確な研究空白がある。なお一橋の大橋和彦教授が最類似研究（九州・太陽光）の共著者である点は要注意。",
+        "findings": [
+          {
+            "topic": "最重要先行研究①：日本のVRE浸透と卸価格（分位点回帰、北海道を含む地域別分析）",
+            "detail": "Sakaguchi, M. & Fujii, H.（2021）\"The Impact of Variable Renewable Energy Penetration on Wholesale Electricity Prices in Japan Between FY 2016 and 2019\" Frontiers in Sustainability 2. OLS＋分位点回帰、2016/4〜2020/3、全国＋4地域（北海道・東部・西部・九州）。風力のメリットオーダー効果（係数-0.345/GWh）は太陽光（-0.085）の数倍で2016→2019に増大、太陽光のMOEは減少。北海道は風力シェア最大で風力MOEが有意。高価格帯では風力はスパイク抑制に有意でなく、太陽光は2016-17年のみ有意。",
+            "source": "https://www.frontiersin.org/journals/sustainability/articles/10.3389/frsus.2021.770045/full"
+          },
+          {
+            "topic": "最重要先行研究②（新規性チェック上の要注意論文）：太陽光と価格「変動性」の季節性—一橋大・大橋和彦教授の共著",
+            "detail": "Fuke, N.（神戸大）& Ohashi, K.（一橋大学大学院経営管理研究科教授）(2025)\"Seasonal variation in the impact of solar power generation on electricity price level and variability\" Journal of Commodity Markets 40. 分位点回帰、九州エリア2016/4〜2020/3。MOEを確認した上で、太陽光増加は春・夏には価格変動性を低下させるが秋・冬には低下させないことを発見（需要とPV出力の相関の季節変化が原因と解釈）。テーマ（再エネ×価格変動性×特定エリア）が本修論に最も近く、金融戦略コースの大橋教授の研究系譜である点は研究計画作成時に必ず確認・差別化すべき。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S2405851325000650 / SSRN: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4990073"
+          },
+          {
+            "topic": "再エネのJEPXスポット価格押し下げ効果の初期実証",
+            "detail": "Maekawa, J., Hai, B.H., Shinkuma, S. & Shimada, K.（立命館大、2018）\"The Effect of Renewable Energy Generation on the Electric Power Spot Price of the Japan Electric Power Exchange\" Energies 11(9):2215。パネルデータ分析で再エネ1GWh追加がスポット価格を低下させることを推定。北海道・九州など再エネポテンシャル地域から他地域への地域間融通拡大を政策的に支持。",
+            "source": "https://www.mdpi.com/1996-1073/11/9/2215"
+          },
+          {
+            "topic": "地域間連系と価格ボラティリティ（realized volatility）の実証—手法面で直接参考になる",
+            "detail": "Ma, T., Du, Y., Xu, T. & Chen, W.（2023）\"Cross-regional effects of renewable power generation on the electricity market: an empirical study on Japan's electricity spot market\" Applied Economics 55(18)。東北の再エネ発電が連系線経由で東京エリアのスポット価格とrealized volatilityに与える効果を推定し、東北からの比較的安定した再エネ供給が東京のボラティリティを低下させる「地域横断的な価格安定化効果」を確認。エリア間値差・市場分断を扱う本修論の設計に直結する枠組み。",
+            "source": "https://www.tandfonline.com/doi/abs/10.1080/00036846.2022.2101609"
+          },
+          {
+            "topic": "2021年1月価格高騰の学術分析①：マーケットメイキングと価格形成",
+            "detail": "Kanamura, T.（京大）& Bunn, D.W.（LBS）(2022)\"Market making and electricity price formation in Japan\" Energy Economics 107, 105765。2021年1月に10円/kWh→最高251円/kWhへ40日超にわたり高騰した市場機能不全を分析。マーケットメイキング介入後の売買数量が価格形成に与える影響をモデル化し、大手電力が確実な受給のため999円買い戻し入札等を行う行動が価格を歪めるメカニズムを指摘。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0140988321006071"
+          },
+          {
+            "topic": "2021年1月価格高騰の学術分析②：グロスビディング下のスパイク形成とLNG価格",
+            "detail": "Rassi, S. & Kanamura, T.（2023）\"Electricity price spike formation and LNG prices effect under gross bidding scheme in JEPX\" Energy Policy 177, 113552。2021年1月のJEPX価格スパイクを実証分析し、グロスビディング制度とLNG在庫・価格がスパイク形成に与えた影響を定量化。燃料制約が価格急騰の主因の一つであることを示し制度的含意を導出。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0301421523001374"
+          },
+          {
+            "topic": "2021年1月高騰の再検証（2025年最新論文）",
+            "detail": "Li, H.-Z., Bu, L., Kopsakangas-Savolainen, M. & Goto, M.（東京科学大）(2025)\"A revisiting of 2021 Japanese electricity spot market dysfunction event\" Energy Policy。リスクヘッジ手段の不足、インバランス料金制度の欠陥、情報開示の不透明性といった構造的・制度的非効率が機能不全の根因と結論。公式分析としては電力・ガス取引監視等委員会（2021年4月/6月改訂）の要因分析、草薙真一（兵庫県立大、2021、JPX先物・オプションレポート）もあり、2021/1/13の日平均価格154.57円/kWhが史上最高と記録。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S030142152500309X / https://www.egc.meti.go.jp/activity/emsc_system/pdf/2021061401_haifu.pdf / https://www.jpx.co.jp/derivatives/market-report/futures-options-report/archives/nlsgeu00000595vz-att/rerk2107.pdf"
+          },
+          {
+            "topic": "和文査読論文：スパースモデルによるJEPX価格予測・要因分析",
+            "detail": "金子奈々恵（早稲田大）・井上智弘（電力中央研究所）(2023)「スパースモデルを用いたJEPXスポット市場価格の予測および要因分析」エネルギー・資源学会論文誌44(4):160-170。機械学習（スパース推定）でスポット価格の予測と価格決定要因の抽出を同時に実施。和文でJEPX価格形成を扱う数少ない査読論文で、変数選択（需要、再エネ出力、燃料価格等）の先例として有用。",
+            "source": "https://www.jstage.jst.go.jp/article/jjser/44/4/44_160/_article/-char/ja/"
+          },
+          {
+            "topic": "PV浸透と蓄電池価値の関係を日本データで定量化（均衡点分析の直接の先行例）",
+            "detail": "Li, Y., Xie, Y., Zhang, X., Xiao, F. & Gao, W.（2024）\"Grid variability and value assessment of long-duration energy storage under rising photovoltaic penetration: Evidence from Japan\" Energy 307, 132607。PV浸透上昇がネット負荷とスポット価格の変動性に与える影響と、各種蓄電技術の裁定収益を分析。時間帯PVシェアが70%を超えるとスポット価格がほぼゼロに低下すること、スポット価格のボラティリティが蓄電池の稼働率・収益を大きく左右することを定量化。「再エネ→ボラ→蓄電池収益」の連鎖を日本で扱った最重要文献の一つ。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0360544224023818"
+          },
+          {
+            "topic": "日本の系統用蓄電池の裁定収益分析（北海道データを含む）",
+            "detail": "\"System value and utilization performance analysis of grid-integrated energy storage technologies in Japan\" Journal of Energy Storage（2023年3月）。九州・四国・東京・北海道の実グリッドデータを用い、プライステイカーとして裁定利益を最大化する蓄電技術比較の枠組みを構築。往復効率・継続時間・スポット価格の分散が裁定利益と稼働率を大きく規定すると結論。北海道を明示的に含む数少ない蓄電池経済性研究（著者名は要確認）。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S2352152X23004486"
+          },
+          {
+            "topic": "JEPXの流動性研究（市場の質・価格形成の基礎文献）",
+            "detail": "Ikeda, S.S.（小樽商科大）(2017)\"Illiquidity in the Japan Electric Power Exchange\" RIETI DP（後にJournal of Commodity Markets 2019掲載）。2005/8〜2015/3の48コマ別データにAmihudの価格インパクト指標とRollのスプレッド指標を適用。取引量増加はスプレッドコストを削減しないこと、東日本大震災後にリスク・リターン関係が崩れたことを示す。JEPXの薄い流動性はボラティリティ研究の解釈上の重要な前提条件。",
+            "source": "https://www.rieti.go.jp/jp/publications/summary/17110010.html"
+          },
+          {
+            "topic": "和文のボラティリティ・モデル研究および価格予測研究",
+            "detail": "落合夏海（2024）「電力市場における価格変動に関する分析」：JEPX前日市場価格に確率的ボラティリティ（SV）モデルを適用しMCMCで推定、価格とボラティリティの変動特性・要因を検証（産学連携研究発表資料）。英文ではHirota et al.（2024）\"Forecasting Wholesale Electricity Market Prices Considering Bidding Conditions Using Price Sensitivity\" Advanced Energy and Sustainability Research（Wiley）がPV拡大に伴うJEPX価格急変動の予測モデルを提案。SV/GARCH系の和文研究は極めて少なく手法面の空白がある。",
+            "source": "https://uh-sangaku.jp/wp-content/uploads/2024/11/sy24_0347_ochiai.pdf / https://onlinelibrary.wiley.com/doi/full/10.1002/aesr.202400192"
+          },
+          {
+            "topic": "北海道の固有条件：風力への蓄電池併設要件と系統用蓄電池の急増",
+            "detail": "北海道では出力20kW以上の風力連系に出力変動緩和装置（蓄電池等）の設置が要求され、合成出力の変動を定格の1%以下/分等に制御する独自要件がある。2022年7月末時点で系統用蓄電池の接続申込が61件・1.6GWに達し、道内平均需要（約350万kW）の5割近くに相当。道北では国内最大級240MW/720MWhのリチウムイオン電池（北豊富変電所、豊田通商系）が2023年竣工。北海道は「風力主導のボラ増大」と「蓄電池大量導入によるボラ低減」が同時進行する自然実験場であり、修論の対象地域として合理的。",
+            "source": "https://www.hepco.co.jp/network/renewable_energy/efforts/opinion_inquiry/pdf/govt_battery_expansion.pdf / https://project.nikkeibp.co.jp/ms/atcl/19/news/00001/02823/?ST=msb / https://www.toyota-tsusho.com/press/detail/230516_006236.html"
+          },
+          {
+            "topic": "蓄電池による「スプレッドの自己侵食（cannibalization）」の国際的知見",
+            "detail": "米CAISOでは4時間スプレッドが前年比22%圧縮（昼間の蓄電池充電が5割増加した結果）、ERCOTでは裁定収益シェアが1年で25%→76%に急変するなど、蓄電池の大量導入が自らの裁定機会を侵食する実証が海外で蓄積中（Modo Energy、Aurora等の市場分析）。「再エネによるボラ増大と蓄電池によるボラ低減の均衡点」という本修論の核心的問いは、この国際文献の日本（北海道）初適用として位置づけられる。日本の査読研究ではこの均衡・侵食効果を扱ったものは見当たらない。",
+            "source": "https://modoenergy.com/research/en/how-does-battery-energy-storage-make-money / https://nemlog.substack.com/p/when-batteries-flatten-the-market"
+          },
+          {
+            "topic": "市場設計の文脈：下限価格0.01円/kWhとマイナス価格導入論",
+            "detail": "JEPXスポット市場には下限価格0.01円/kWhが存在し、再エネ余剰時の価格シグナルが打ち切られている。太陽光発電協会は2023年に内閣府規制改革会議でマイナス価格容認を提言、日経エネルギーNextも下限撤廃論を展開。出力制御の増加（北海道でも2025年度から本格化見通し）と併せ、下限価格制度はボラティリティの分布（左裾の打ち切り）に直接影響するため、修論の計量モデルで明示的に扱うべき制度要因。",
+            "source": "https://www8.cao.go.jp/kisei-kaikaku/kisei/conference/energy/20230215_pre31/230215energy.pdf / https://project.nikkeibp.co.jp/energy/atcl/19/feature/00003/00023/"
+          }
+        ],
+        "open_questions": [
+          "北海道エリアのスポット価格・ボラティリティを単独で主対象とした査読研究は今回の調査では見つからなかった（Sakaguchi & Fujii 2021の地域別分析が最も近い）。CiNii・Google Scholarでの網羅的確認を推奨。",
+          "JEPXにおける蓄電池アービトラージの査読付き実証研究（特に価格内生性=蓄電池自身が価格を動かす効果を考慮したもの）は日本ではほぼ空白。arXivに2023/11〜2025/10のJEPX4エリア価格を使った蓄電池スケジューリング論文が出始めており、最新のworking paperの継続チェックが必要。",
+          "2024年以降に稼働した系統用蓄電池が実際に北海道エリアの価格スプレッド・ボラティリティを圧縮し始めたかを示す実証データ・研究は未整理（修論の一次的貢献になり得る）。",
+          "Journal of Energy Storage（2023）の日本蓄電池システム価値論文の著者名は未確認のため要確認。",
+          "類似テーマの修士・博士論文の有無はCiNii Dissertationsでの直接検索が未完了（Web検索では直接の重複は検出されず）。特にFuke氏（神戸大→大橋教授と共著）の博士論文の範囲は要確認。",
+          "JEPXマイナス価格導入・下限価格見直しの2025〜2026年時点の審議会での最新状況（本調査では2023年時点の提言までしか確認できず）。",
+          "北海道でのボラティリティ分析には市場分断（北海道-東北間の北本連系線60万kW→90万kW増強）の時期・容量の扱いが不可欠であり、連系線増強イベントを利用した識別戦略の実現可能性を検討すべき。"
+        ],
+        "thesis_implications": "研究設計への示唆：(1) 新規性の所在——「再エネ×卸価格水準（MOE）」は国内でも実証が厚く、修論の貢献は「価格水準」ではなく「ボラティリティ・スプレッド」と「蓄電池による低減効果の均衡点」に置くべき。北海道単体×風力×蓄電池のボラ均衡を扱った研究は和英とも見当たらず空白が確認できた。(2) 最類似研究Fuke & Ohashi（2025, J. Commodity Markets）は一橋・金融戦略コースの大橋和彦教授が共著者であり、同論文の「九州・太陽光・分位点回帰・価格変動性の季節性」の枠組みを「北海道・風力・蓄電池」に拡張する形が、指導体制とも整合的で最も現実的な設計。ただしテーマの重複回避と差別化（蓄電池の内生的効果、均衡点）を教員と早期にすり合わせるべき。(3) 手法——分位点回帰（価格分布の裾への効果）＋realized volatilityやGARCH/SVモデル、蓄電池稼働開始・北本連系線増強・下限価格等の制度イベントを使った構造変化分析が定番かつ実行可能。Ma et al.（2023）の地域間連系の扱い、Li et al.（2024）の「PVシェア70%で価格ゼロ化」やCAISOのスプレッド22%圧縮といった定量的ベンチマークは仮説設定に直接使える。(4) データ——JEPXエリアプライス（30分коマ）、北海道電力NW/OCCTOの再エネ実績・出力制御・蓄電池接続量が公開されており実行可能性は高い。北海道は蓄電池申込1.6GW（平均需要の約5割）と風力併設要件という固有制度を持ち、「ボラ増大とボラ低減の同時進行」を観察できる最適なフィールドである。(5) 留意点——JEPXの低流動性（Ikeda 2017）と下限価格0.01円によるボラティリティ計測のバイアス、2021年1月型の燃料起因スパイク（再エネ起因と区別）の統制が計量設計上の必須項目。"
+      },
+      "hokkaido-system": {
+        "summary": "北海道エリアは太陽光236万kW・風力136万kW（2025年3月末）と接続可能量（太陽光117万kW）の2倍超の変動再エネを抱える一方、平均需要約340万kWの小規模・準独立系統（本州とは直流90万kWのみ）であり、価格が域内需給に極めて敏感である。出力制御は2022年5月に初実施後まだ年率0.01～0.04%と僅少だが、2026年度は1.23%（76.5GWh）へ急増する見通し。JEPXスポットの独自集計では、北海道の0.01円コマ比率は2026年度春に8.9%へ跳ね上がり、東北との市場分断率も16%→29%へ上昇、日次スプレッドは再拡大中でボラティリティ増大が定量的に確認できる。他方、系統用蓄電池は契約申込169万kW・接続検討865万kW（2025年6月末）と需要規模比で全国最大級の導入圧力があり、北豊富240MW/720MWh等が既に稼働。2028年3月の新々北本（+30万kW）、2030年代の日本海ルートHVDC（200万kW）、ラピダス・データセンターの需要増（産業用需要2035年度+53%）が均衡点を動かす主要変数となる。",
+        "findings": [
+          {
+            "topic": "再エネ導入量：接続可能量の2倍超",
+            "detail": "北海道エリアの太陽光・風力接続量は太陽光236万kW・風力136万kW、計372万kW（2025年3月末）。太陽光は2024年9月末231万kWでFIT開始前（2012年度末）比約23倍、30日等出力制御枠（接続可能量）の太陽光117万kW・風力36万kWを大幅超過。風力は2025年9月末で約143万kW。オンライン化率は太陽光77.4%・風力89.2%（2025年9月末）。",
+            "source": "北海道電力NW「2025年度出力制御見通し」https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/001_s01_01.pdf、同「2026年度出力制御見通し」https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/006_s01_01.pdf、資源エネ庁 系統WG資料 https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/006_01_00.pdf"
+          },
+          {
+            "topic": "小規模・準独立系統という構造要因",
+            "detail": "北海道の系統規模は平均電力340万kW程度（最大569万kW）で東日本（約4,100万kW）の約12分の1。本州とは北本連系設備（60万kW）＋新北本連系設備（30万kW）の直流計90万kWのみで連系し「独立系統に近い性格」（北海道電力NW自身の表現）。これが価格ボラティリティ・市場分断の高さの構造的根拠。",
+            "source": "北海道電力NW「系統用蓄電池導入拡大について」2024年1月 https://www.hepco.co.jp/network/renewable_energy/efforts/opinion_inquiry/pdf/govt_battery_expansion.pdf"
+          },
+          {
+            "topic": "出力制御実績：まだ僅少だが2026年度に急増見通し",
+            "detail": "初の出力制御は2022年5月8日12:30-14:00（対象1,916カ所）。年間出力制御率は2022年度0.04%（191万kWh）、2023年度0.01%（81万kWh）、2024年度0.04%（269万kWh・実施2日）と僅少。2025年度は0.32%（21.2百万kWh、うち4-7月実績8.0百万kWh）へ、2026年度は1.23%（76.5百万kWh、太陽光1.79%・風力0.66%）へ急増する見通し（連系線活用率65%前提）。制御量最大時（2026年5月11時想定）は需要270万kWに対し太陽光195万kW＋風力83万kWで、再エネ出力制御103万kW・連系線活用/蓄電池38万kWと想定。",
+            "source": "北海道電力NW 2022-05-08プレス https://www.hepco.co.jp/network/info/info2022/1251727_1913.html、OCCTO公平性検証（2024年度）https://www.occto.or.jp/assets/oshirase/shutsuryokuyokusei/2025/files/250730_kenshokekka_hokaido_kouhei.pdf、北海道電力NW「2026年度出力制御見通し」前掲"
+          },
+          {
+            "topic": "JEPX北海道エリア価格の実測統計（スポットCSVから独自集計）",
+            "detail": "年度別の北海道エリアプライス：2022年度 平均21.66円/SD12.61円（最高200円）、2023年度 平均11.44円/SD4.58円、2024年度 平均12.64円/SD4.28円、2025年度 平均11.70円/SD5.40円（最高80円）、2026年度4/1～7月中旬 平均14.09円/SD7.65円。0.01円コマ比率は4.9%→3.5%→2.0%→2.7%→8.9%（2026年度は春季のみの部分データ）と直近で急増。日次スプレッド（日内最高-最低）平均は11.7円（2023年度）→12.1円→14.7円→21.9円（2026年度部分）と再拡大傾向。",
+            "source": "JEPXスポット市場CSV（spot_summary_2022～2026）https://www.jepx.jp/electricpower/market-data/spot/ を本調査で集計"
+          },
+          {
+            "topic": "市場分断（エリア間値差）の頻度上昇",
+            "detail": "北海道-東北間で価格が乖離したコマの比率は2022年度16.0%→2023年度8.5%→2024年度20.2%→2025年度28.8%→2026年度（4-7月部分）24.3%。北海道-東京間では26.4%→27.4%→39.6%→49.1%→59.2%と一貫して上昇しており、連系線制約下で北海道価格が独自に形成される時間帯が拡大している。",
+            "source": "JEPXスポット市場CSV（前掲）独自集計。分断状況の公式参照はJEPX市場情報 https://www.jepx.jp/electricpower/market-data/spot/"
+          },
+          {
+            "topic": "北本連系線：90万kW→120万kW（2028年3月）",
+            "detail": "現況は北本連系設備60万kW＋新北本連系設備30万kW（2019年3月運開、日本初の自励式HVDC、北斗-今別122km）の計90万kW。新々北本（+30万kW、総額約480億円・工期約5年）は2023年9月1日着工、2028年3月運開予定で計120万kWへ。出力制御シミュレーションの連系線活用率は2025年度50→55%、2026年度65%と引き上げられており、連系線運用が制御量・価格分断の主要パラメータ。",
+            "source": "北海道電力NW 新北本連系設備 https://www.hepco.co.jp/network/stable_supply/efforts/north_reinforcement/index.html、増設工事着工 https://www.hepco.co.jp/network/info/2023/1252218_1968.html、日経 https://www.nikkei.com/article/DGXZQOFC313L80R30C23A8000000/"
+          },
+          {
+            "topic": "日本海ルートHVDC 200万kW：2030年最速完成は困難に",
+            "detail": "北海道本州間連系設備（日本海ルート）は±525kV双極1回線200万kW、後志-秋田約480km＋秋田-新潟約320kmの海底直流送電。建設費1.5～1.8兆円規模。OCCTOが2024年4月に基本要件を決定、2025年2月26日に北海道電力NW等4社の事業体を有資格者に選定。整備計画策定は2025年度末へ1年延長され、工期6～10年のため最速2030年完成は困難となり、2030年代前半～半ばの運開見通し。均衡分析の長期シナリオを規定する最大の不確実性。",
+            "source": "OCCTO基本要件 https://www.occto.or.jp/assets/kouikikeitou/seibikeikaku/higashi-area/files/240403_kihounyouken.pdf、北海道新聞 https://www.hokkaido-np.co.jp/article/1061052/ 及び https://www.hokkaido-np.co.jp/article/1128056/"
+          },
+          {
+            "topic": "系統用蓄電池：需要規模比で全国最大級の導入圧力",
+            "detail": "2025年6月末時点の北海道エリアの系統用蓄電池は接続検討865万kW・契約申込169万kW（全国は接続検討約14,300万kW・契約申込約1,800万kW、連系済みは全国約25万kW）。平均需要340万kW程度のエリアで契約申込だけで需要の約5割に相当し、需要規模比では全国突出。2021年度以降申込が急増し充電側の空容量不足が発生、2023年1月から充電制御装置（順潮流混雑時に充電を抑制、系統毎最大200MW）を条件とする接続を全国に先駆けて運用。",
+            "source": "資源エネ庁「系統用蓄電池の迅速な系統連系に向けて」2025-09-24 https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/004_04_00.pdf（エリア別数値は同資料p.3のグラフを座標解析で読取）、北海道電力NW「充電制御装置を活用した系統用蓄電池の接続」2026-04-10 https://www.hepco.co.jp/network/con_service/sys_access/pdf/cc_grid_storage_battery.pdf"
+          },
+          {
+            "topic": "代表的蓄電池プロジェクト",
+            "detail": "①北豊富変電所（豊富町）：GSユアサ製240MW/720MWh、2023年3月稼働、国内最大・世界最大級（北海道北部風力送電網向け）。②南早来変電所（安平町）：住友電工レドックスフロー電池17MW/51MWh、2022年4月運開（一般送配電事業者の系統側運用として国内初。前身の15MW×4h実証は2015-2019年）。③千歳バッテリーパワーパーク：Tesla Megapack採用、2022年運用開始の日本初の「蓄電池発電所」。④JFEエンジニアリングが芽室町の大規模系統用蓄電池事業へ出資（2025年3月、北海道電力NWの土地貸付公募活用）。⑤札幌の系統用蓄電池が2026年1月から需給調整市場参加予定。",
+            "source": "GSユアサ https://newsroom.gs-yuasa.com/news-release/121、住友電工 https://sumitomoelectric.com/jp/press/2022/04/prs036、Tesla Japan https://prtimes.jp/main/html/rd/p/000000009.000043349.html、JFEエンジ https://www.jfe-eng.co.jp/news/2025/20250317.html"
+          },
+          {
+            "topic": "ラピダス・データセンターによる新規大口需要",
+            "detail": "ラピダス千歳工場はI～IV期全稼働で約60万kWの電力需要、ソフトバンクは苫小牧で将来30万kW級（さらに100万kW規模構想も）のデータセンターを計画。エネルギー経済社会研究所試算では2030年代半ばの北海道の電力需要693万kWに対し供給力694万kWとギリギリ。OCCTO需要想定（2026年1月21日）では北海道の産業用需要電力量は2026年度7,953百万kWhから2035年度12,133百万kWhへ+53%と、全国でも突出した増加を個別計上。需要増は余剰緩和（下押し圧力の減少）と夕方スパイクの両面で価格分布に影響。",
+            "source": "OCCTO「全国及び供給区域ごとの需要想定（2026年度）」https://www.occto.or.jp/assets/news/juyousoutei/260121_juyousoutei_r1.pdf、日経 https://www.nikkei.com/article/DGXZQOUC080Z80Y5A400C2000000/、東洋経済 https://toyokeizai.net/articles/-/768035"
+          },
+          {
+            "topic": "洋上風力：促進区域2件＋有望区域3件で最大約390万kW",
+            "detail": "2025年7月30日に北海道松前沖（約25～32万kW）と檜山沖（約91～114万kW、国内最大規模、関係自治体はせたな町・八雲町・江差町・上ノ国町）が促進区域に指定され、秋にも公募開始見込み。有望区域は石狩市沖（最大114万kW、2026年に法定協議会設置見通し）、岩宇・南後志地区沖（70.5万kW）、島牧沖（55.5万kW）で、岩宇・島牧には浮体式の準備区域も設定。合計最大約390万kWは現在の道内風力導入量（約140万kW）の約2.8倍で、2030年代の供給構造を一変させ得る。",
+            "source": "ウインドジャーナル https://windjournal.jp/124361/、北海道庁 https://www.pref.hokkaido.lg.jp/kz/gxs/152605.html、METI区域整理 https://www.meti.go.jp/press/2025/10/20251003001/20251003001.html"
+          },
+          {
+            "topic": "制度変更：出力制御順のFIT→FIP化と蓄電池の位置づけ",
+            "detail": "優先給電ルールにおける再エネ出力制御の順番を2026年度または2027年度からFIT電源→FIP電源の順に変更する準備が進行中（第53回系統WGで審議、各社システム構築中）。FIP＋蓄電池併設のインセンティブ構造が変わるため、蓄電池の充放電行動・市場入札行動の構造変化点として修論のイベント設計に組み込める。なお2025年5月6日の最小需要日の需給バランスで蓄電池の寄与は△0.5万kWとまだ僅少（揚水△42万kW、連系線△60万kW）。",
+            "source": "資源エネ庁「再生可能エネルギー出力制御の短期見通し等について」2025-12-24 https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/006_01_00.pdf"
+          },
+          {
+            "topic": "均衡分析の先行研究（海外）",
+            "detail": "Butters, Dorsey & Gowrisankaran (2025)「Soaking up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium」(Econometrica) は太陽光と蓄電池投資の市場均衡を構造推定した最重要先行研究。Karaduman (2021, MIT CEEPR WP)「Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets」は南オーストラリア市場で蓄電池の均衡効果（平均日容量の5%でも均衡効果が重要）を実証。実務面ではCAISOで蓄電池普及に伴い4時間スプレッドが前年比22%縮小（昼間充電+50%）という「スプレッド自食（cannibalization）」の実測例があり、ボラティリティ低減均衡の実在を示す。",
+            "source": "Econometrica https://onlinelibrary.wiley.com/doi/10.3982/ECTA20411、Karaduman https://ceepr.mit.edu/workingpaper/economics-of-grid-scale-energy-storage-in-wholesale-electricity-markets/、Modo Energy/Macquarie調査 https://www.macquarie.com/us/en/about/company/macquarie-asset-management/institutional/insights/battery-storage-strategies-for-revenue-stacking-and-investment-success.html"
+          },
+          {
+            "topic": "JEPXの価格下限・上限とデータ入手性",
+            "detail": "スポット市場は30分48コマ、入札価格刻み0.01円/kWhで、0.01円が事実上の価格下限（余剰時に張り付く）。従って「ボラティリティ」を0.01円コマ頻度で測る場合は打ち切り（censoring）を考慮する必要がある。スポット約定価格・量の全履歴CSV（2005年度～）はJEPXサイトから無償取得可能で、修論の分析データとして十分な粒度（エリア別・30分値）がある。北海道エリアの需給実績（太陽光・風力・蓄電池・連系線潮流の30分値）は北海道電力NWのでんき予報サイトから取得可能。",
+            "source": "JEPX取引概要 https://www.jepx.jp/electricpower/outline/、スポット市場データ https://www.jepx.jp/electricpower/market-data/spot/、ほくでんネットワーク でんき予報 https://denkiyoho.hepco.co.jp/"
+          }
+        ],
+        "thesis_implications": "北海道は修論テーマの検証フィールドとして極めて適合的である。第一に、準独立系統（連系90万kW・平均需要340万kW）ゆえ域内の再エネ・蓄電池の限界的変化が価格に直接現れ、識別が容易。第二に、独自集計で確認したとおり「0.01円コマ急増（2026年度春8.9%）」「東北との分断率上昇（8.5%→28.8%）」「日次スプレッド再拡大（11.7円→21.9円）」という『再エネ増→ボラ増』局面が現在進行形で観測できる一方、蓄電池は契約申込169万kW（需要の約5割）と『ボラ減』側の投入が始まったばかりで、均衡到達前の貴重な観測窓にある。第三に、識別戦略上有用な外生イベントが揃う：新々北本+30万kW（2028年3月）、連系線活用率の運用変更（50→55→65%）、FIT→FIP出力制御順変更（2026/27年度）、ラピダス稼働、洋上風力公募。研究設計としては（1）JEPXスポット30分値でボラティリティ指標（SD/CV、0.01円頻度、日次スプレッド、スパイク頻度）を構築し、再エネ導入量・蓄電池連系量・連系線容量を説明変数とする時系列/パネル分析、（2）Butters et al.(2025 Econometrica)・Karaduman(2021)型の構造・均衡モデルで「スプレッドが蓄電池の投資回収水準まで縮小する均衡蓄電池容量」を北海道パラメータで数値解析、の二段構成が有力。留意点として、価格下限0.01円による打ち切り、出力制御（数量調整）と価格の同時性、連系線増強効果と蓄電池効果の識別、2022年度の燃料価格ショックの除去（ボラ指標は絶対値でなく相対値・季節調整も併用）が方法論上の論点となる。日本海ルート200万kW（2030年代）の完成前後で均衡点自体が移動するため、シナリオ分析（連系線容量90/120/320万kW）として組み込むと政策的含意が明確になる。",
+        "open_questions": [
+          "北海道エリアの蓄電池の実際の充放電パターン（30分値）はでんき予報の需給実績データでどこまで遡及取得できるか（蓄電池項目の掲載開始時期の確認が必要）",
+          "2026年度春の0.01円コマ急増（8.9%）が構造的変化（再エネ増・泊原発再稼働準備等）か一時的な気象・補修要因かの切り分け",
+          "泊原発3号機の再稼働時期（2027年頃と報道）が価格分布・出力制御見通しに与える影響の織り込み方",
+          "北海道の蓄電池のレベニュースタッキング実態（スポット裁定 vs 容量市場・需給調整市場収入の比率）を示す一次データの入手可能性",
+          "日本海ルートHVDC（200万kW）の整備計画確定内容と費用負担スキーム（2025年度末策定予定の広域系統整備計画の公表内容）",
+          "檜山沖・松前沖の公募結果（事業者・FIP価格・運開時期）と系統接続点の確定",
+          "JEPX時間前市場・需給調整市場・容量市場を含めた総合的なボラティリティ/裁定機会の評価方法",
+          "北海道エリアの蓄電池連系済み容量の最新値（HEPCO公表Excel「発電等設備の受付状況」2026年5月末版の精査が必要）"
+        ]
+      },
+      "data-sources": {
+        "summary": "修論に必要な7カテゴリのデータはほぼすべて無料の公開データで構築可能。JEPXスポット市場は2005年度以降の全期間、30分コマ×9エリアプライス（北海道含む）を公式サイトから年度別CSVで無料取得できる。北海道エリアの太陽光・風力発電実績・需要・連系線潮流・出力制御量の30分値は北海道電力NW「でんき予報」から2022年度以降四半期ZIP（CSV）で取得可（それ以前の年度は本体サイトに掲載）。連系線潮流はOCCTO系統情報サービス（無料登録）でも取得可。需給調整市場はEPRXサイトで商品別・エリア別の約定量・価格CSVが無料公開（三次②は2021年度〜）。長期脱炭素電源オークション・容量市場の蓄電池落札リストはOCCTOがPDFで公表。気象はアメダス風速が無料CSVで取得できる一方、全天日射量観測は札幌など全国約50地点に限られる点が制約。最大の課題は「北海道エリアの系統用蓄電池の連系済み容量の月次時系列」で、単一統計が存在せず、審議会資料・TSO受付状況Excel・落札リストからの自力構築が必要。",
+        "findings": [
+          {
+            "topic": "(1) JEPXスポット市場データ：2005年度以降・30分コマ・無料CSV",
+            "detail": "JEPX公式「スポット市場」ページから年度別CSVを登録不要・無料でダウンロード可。1日48コマ（30分単位）で、システムプライスと沖縄を除く9エリアプライス（北海道含む）、売り/買い入札量、約定総量、ブロック入札・約定量を収録。取引開始の2005年4月分から全期間取得可能で、1年度分約3MB。旧サイトの直接URL形式は http://www.jepx.org/market/excel/spot_YYYY.csv（現行サイトはページ内のデータダウンロード機能から取得）。GUIのフィルタに関係なくCSVには当該年度の全データが入る。",
+            "source": "JEPXスポット市場 https://www.jepx.jp/electricpower/market-data/spot/ ／CSV仕様の解説: https://dev.classmethod.jp/articles/jepx-spot-csv-etl-lambda/"
+          },
+          {
+            "topic": "(2) エリア需給実績の公表主体はOCCTOではなく各一般送配電事業者",
+            "detail": "太陽光・風力発電実績、エリア需要、連系線潮流等の30分平均kW値は、OCCTOの「系統情報サービス等」ページから各エリアの一般送配電事業者の公表ページにリンクされる構造。標準フォーマットには太陽光・風力の発電実績に加え出力制御量の列が含まれ、30分単位の出力制御量まで把握できる。各30分値は実需給後約1時間で順次公表。",
+            "source": "OCCTO系統情報サービス等 https://www.occto.or.jp/institution/keitoujouhou/ ／東京電力の同種ページ（フォーマット例）https://www.tepco.co.jp/forecast/html/area_data-j.html"
+          },
+          {
+            "topic": "(2) OCCTO広域機関システム：連系線潮流実績は無料の一般利用者登録で取得可",
+            "detail": "OCCTOの系統情報公表システム（占用ログインページあり、一般用は登録無料）で、北本連系線を含む連系線の実潮流・運用容量・空容量の実績を数値・CSVで取得可能。別途「広域予備率Web公表システム」(https://web-kohyo.occto.or.jp/kks-web-public/)、「ユニット別発電実績公開システム」(https://hatsuden-kokai.occto.or.jp/hks-web-public/home) も公開されており、発電機単位の実績も入手できる。操作マニュアル「系統情報公表（一般用）」が公開されている。",
+            "source": "系統情報サービス https://occtonet3.occto.or.jp/public/dfw/RP11/OCCTO/SD/LOGIN_login ／マニュアル https://www.occto.or.jp/assets/various/occtosystem/manual/251107_keitoujouhou.pdf"
+          },
+          {
+            "topic": "(3) 北海道電力NW「でんき予報」：エリア需給実績CSVは2022年度以降を四半期ZIPで無料公開",
+            "detail": "「過去の系統の需給に関する情報 ダウンロード」ページで、北海道エリアの需要・発電実績（エリア需給実績）を3カ月ごとのZIP（中身はCSV、約250KB）で公開。掲載は2022年度分から（例: area/data/zip/202407-09_hokkaido_jukyu.zip）。それ以前の年度分は本体サイトの「北海道エリアの需給実績」ページ（https://www.hepco.co.jp/network/con_service/public_document/supply_demand_results/index.html）に掲載（調査時にサーバ接続が不安定で収録年度の直接確認は未了。全国のTSOは概ね2016年度以降を公表しており同様と推定）。燃料種別需給実績は翌月中に1カ月分まとめて公表。ユニット別発電実績のダウンロードページもあり。",
+            "source": "https://denkiyoho.hepco.co.jp/area_jukyu_download.html ／ https://denkiyoho.hepco.co.jp/supply_demand_results.html ／ http://denkiyoho.hepco.co.jp/bghatsu.html"
+          },
+          {
+            "topic": "(3) 北海道の出力制御実績・接続申込状況：Excel公表あり、2024年12月に公表体系が変更",
+            "detail": "北海道電力NWは「発電等設備の受付状況に関する情報・出力制御区分の内訳」ページで、再エネの接続・申込状況、太陽光・風力の出力制御区分別導入量等をExcelで公表。過去分は2024年11月末時点まで「再生可能エネルギー発電設備の接続・申込状況」として、2024年12月末以降はエネ庁「系統情報の公表の考え方」改定に伴い「発電設備の受付状況に関する情報」として公開（時系列接続時は名称・様式変更に注意）。出力制御の見通しは、でんき予報「再生可能エネルギー出力制御見通し」ページに掲載。日別の出力制御実績はOCCTOも「日別の需要想定・需給状況・再エネ出力抑制」PDF（エリア別）で公表。",
+            "source": "https://www.hepco.co.jp/network/con_service/public_document/eq_status_oc_category/index.html ／ https://denkiyoho.hepco.co.jp/renewable_energy_output_control_forecast.html ／ OCCTO日別実績例 https://www.occto.or.jp/assets/oshirase/shutsuryokuyokusei/2025/files/250730_hibetsu_hokaido.pdf"
+          },
+          {
+            "topic": "(4) 系統用蓄電池の「連系済み容量」の月次時系列を直接提供する統計は存在しない",
+            "detail": "全国の連系済み系統用蓄電池は2024年12月末で約17万kW、2025年6月末で約25万kWと、エネ庁の審議会（再エネ大量導入WG／スマート・パワーグリッドWG）資料に時点データとして散在する形でしか公表されていない。一方、接続検討受付は約9,500万kW（2025年3月末）、契約申込は約2,400万kW（2025年9月末）と申込ベースは巨大で、連系済みと申込の乖離が極めて大きい。北海道では2022年7月末時点で系統用蓄電池の申込が61件・約160万kW（エリア平均需要約350万kWの5割弱）に達していたことがMETI系統WGで報告されている。時系列は審議会資料の点データ＋TSOの受付状況Excel＋落札リストから自力構築する必要がある。",
+            "source": "エネ庁スマート・パワーグリッドWG資料 https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/004_04_00.pdf 他 ／北海道の申込状況 https://www.meti.go.jp/shingikai/enecho/shoene_shinene/shin_energy/keito_wg/pdf/041_02_00.pdf"
+          },
+          {
+            "topic": "(4) 電力調査統計：蓄電池の把握は限定的（要追加確認）",
+            "detail": "電力調査統計（月次、Excel無料、e-Stat掲載）には「1-(2)都道府県別発電所数、出力」（2019年4月実績分から追加）や「2-(11)新エネルギー等種類別発受電実績」があり、都道府県別の設備データは取れるが、蓄電池が独立区分としてどの統計表・どの時点から計上されているかはWeb検索では確定できず、統計表の注記・調査票の直接確認が必要。蓄電池導入量の見通し（2030年に累計14.1〜23.8GWh）は定置用蓄電システム普及拡大検討会資料に掲載。",
+            "source": "電力調査統計 https://www.enecho.meti.go.jp/statistics/electric_power/ep002/ ／e-Stat https://www.e-stat.go.jp/statistics/00551120 ／定置用蓄電システム普及拡大検討会 https://www.meti.go.jp/shingikai/energy_environment/storage_system/pdf/2024_005_03_00.pdf"
+          },
+          {
+            "topic": "(5) 需給調整市場（EPRX）：商品別・エリア別の約定量・価格CSVを無料公開",
+            "detail": "電力需給調整力取引所（EPRX）の「取引実績」ページで、商品区分（一次〜三次調整力、5商品）・エリア別・ブロック時間帯別の約定量・約定価格（および連系線確保量）をCSVでダウンロード可能（無料）。市場は2021年4月に三次調整力②で開設、2022年4月に三次①追加、2024年4月に一次〜二次を追加して全商品化（同時に運営が送配電網協議会からEPRXへ移管、旧協議会時代のお知らせ・データもEPRXサイトに引き継ぎ掲載）。年度別の取りまとめレポート（2024年度、2025年度上期等）もPDFで公表され、2025年度の調達率は一次オンライン40.8%、二次①77.7%、三次①108%等と商品間の需給逼迫度の差が大きい。",
+            "source": "取引情報 https://www.eprx.or.jp/information/ ／取引実績 https://www.eprx.or.jp/information/agree_results.php ／2024年度取りまとめ https://www.eprx.or.jp/information/docs/summary_2024.pdf"
+          },
+          {
+            "topic": "(6) 長期脱炭素電源オークション：蓄電池の落札電源一覧（事業者名・容量）がPDFで公表",
+            "detail": "OCCTOが約定結果と「別紙：落札電源一覧」を無料PDFで公表。第1回（2023年度応札、2024年4月公表）では蓄電池の応札4,559MWに対し1,092MWが落札。第2回（2024年度応札、2025年4月28日公表）、第3回（2025年度応札、2026年5月13日公表、脱炭素電源426.1万kW＋LNG303.8万kW約定）まで実施済み。落札電源一覧には事業者名・電源名・所在地・容量が記載され、北海道エリアの蓄電池案件と運転開始予定年を個別に特定でき、将来の蓄電池容量シナリオの基礎データになる。",
+            "source": "第3回約定結果 https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2025_boshuyoukou_long/260513_longauction_youryouyakujokekka_kouhyou_ousatsu2025.pdf ／同別紙（落札電源一覧）同ディレクトリ ／第2回 https://www.occto.or.jp/assets/market-board/market/oshirase/2025/files/250428_longauction_youryouyakujokekka_kouhyou_ousatsu2024.pdf"
+          },
+          {
+            "topic": "(6) 容量市場メインオークション：落札電源一覧で蓄電池・エリア別に特定可能",
+            "detail": "メインオークション約定結果（2028年度向け: 2025年1月29日公表、2029年度向け: 2026年1月20日公表・約定総容量1億6,608万kW）がOCCTOから無料PDFで公表され、落札電源一覧に応札事業者名・電源ID・電源種別・落札容量(kW)が記載される。エリア別・電源種別（蓄電池）別の集計が可能。かいせつ容量市場スペシャルサイトに歴代オークションのデータ一覧ページあり。",
+            "source": "2029年度向け https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2029_jitsujukyu_kanren/260123_mainauction_youryouyakujokekka_kouhyou_jitsujukyu2029.pdf ／データ一覧 https://www.occto.or.jp/capacity-market/yoryoshijyo/main/data/"
+          },
+          {
+            "topic": "(7) 気象庁データ：アメダス風速は無料CSV、ただし全天日射量の観測地点は限定的",
+            "detail": "気象庁「過去の気象データ・ダウンロード」で地点・項目・期間を指定し、10分値・1時間値・日値をCSVで無料取得可能（登録不要、1回のDL容量に上限あり）。風向・風速は道内多数のアメダス地点で取得できるが、全天日射量の観測は全国約50地点の気象官署に限られ（アメダスの大半は日照時間のみ）、北海道では札幌など少数地点のみ。太陽光出力の説明変数として面的な日射量が必要な場合は、日本気象協会「アメダス推定日射量」や日本気象(株)「2kmメッシュ推計日射量」（いずれも有料）、NEDO日射量データベースMETPV-20/MONSOLA（無料だが標準年データで実時系列ではない）が代替候補。",
+            "source": "https://www.data.jma.go.jp/risk/obsdl/ ／過去の気象データ検索 https://www.data.jma.go.jp/stats/etrn/ ／JWAアメダス推定日射量 https://www.jwa.or.jp/services-solutions/solar-power-generation/estimated-solar-radiation-by-amedas/ ／NEDO解説書 https://www.nedo.go.jp/content/100778067.pdf"
+          },
+          {
+            "topic": "先行研究：JEPXにおけるメリットオーダー効果と北海道の風力の価格スパイク抑制",
+            "detail": "FY2016〜2019のJEPXデータを用いた分位回帰分析で、風力のメリットオーダー効果は期間中に拡大、太陽光は縮小したこと、特に北海道では風力が高分位（価格スパイク時）の価格を押し下げる効果が確認されている（Frontiers in Sustainability, 2021）。より古い基礎研究としてEnergies 2018, 11(9):2215（再エネがJEPXスポット価格に与える効果）、国内では京都大学再生可能エネルギー経済学講座DP No.67（2024年3月）がある。修論はこれらの「価格水準」中心の研究に対し「ボラティリティ」と「蓄電池の均衡」に踏み込む点で差別化可能。",
+            "source": "https://www.frontiersin.org/journals/sustainability/articles/10.3389/frsus.2021.770045/full ／ https://doi.org/10.3390/en11092215 ／ https://www.econ.kyoto-u.ac.jp/renewable_energy/stage2/pbfile/m000621/REEKU_DP0067.pdf"
+          },
+          {
+            "topic": "市場環境：JEPXの日内価格スプレッドは2020年頃の約4円/kWhから2024年に約20円/kWhへ拡大",
+            "detail": "蓄電池アービトラージ収益の源泉である日次平均価格スプレッド（最高値-最安値）は2020年頃の約4円/kWhから2024年には約20円/kWh（時に100円/kWh超）へ拡大したとの業界分析がある。北海道では50MW/104MWhの完全マーチャント型蓄電池が2025年に稼働開始しており、道内BESSの稼働イベントは価格ボラティリティへの効果を見るイベントスタディの候補になる。",
+            "source": "Borderless法律事務所BESS投資ガイド2025 https://www.borderless.law/en/topics/battery_investment_guide_2025/ ／Energy-Storage.News https://www.energy-storage.news/hdre-brawn-capital-put-100-merchant-bess-into-operation-in-northern-japan/"
+          },
+          {
+            "topic": "補助情報：整形済みデータの民間ハブ・可視化サイトの存在",
+            "detail": "Japanese Electricity Market Data Hub（japanesepower.org）がJEPXスポット価格CSV（2011〜2026年）等を整形して再配布しているほか、自然エネルギー財団の「電力需給・連系線潮流チャート＆マップ」、環境市場（kankyo-ichiba.jp）等の可視化サイトがある。分析の本体は一次資料（JEPX・TSO・OCCTO）を使うべきだが、データ検証・欠損確認のクロスチェックに有用。",
+            "source": "https://japanesepower.org/ ／自然エネルギー財団 https://www.renewable-ei.org/statistics/electricitymarket/ ／解説 https://www.renewable-ei.org/pdfdownload/activities/REI_PowerSupplyDemand_ChartsMaps_IF.pdf"
+          }
+        ],
+        "thesis_implications": "(1) 分析の主軸となる「30分コマの北海道エリアプライス×太陽光・風力実績×需要×連系線潮流×出力制御量×気象」のパネルデータは、JEPX・北海道電力NW・OCCTO・気象庁のすべて無料公開データで個人でも確実に構築できる。価格は2005年度から遡れるが、再エネ実績との突合は需給実績が揃う2016年度以降（新フォーマットの詳細データは2022年度以降）を主観測期間とするのが現実的。(2) 最大のボトルネックは説明変数側の「蓄電池導入量の時系列」で、連系済み容量の月次系列は単一統計が存在しない。審議会資料の時点データ、HEPCOの受付状況Excel、長期脱炭素・容量市場の落札電源一覧（所在地・容量・運開年付き）を組み合わせた独自データセット構築自体が修論の貢献になり得る。(3) 全国の連系済み系統用蓄電池はまだ約25万kW（2025年6月末）と小さく、「蓄電池普及によるボラティリティ低減の均衡点」を実績データの回帰だけで識別するのは困難。実証パート（再エネ比率→ボラティリティの因果、道内大型BESS稼働のイベントスタディ、蓄電池のJEPX裁定・EPRX入札行動）と、落札リストに基づく将来容量シナリオでの均衡シミュレーション（裁定によるスプレッド自己減衰を織り込むモデル）の二部構成が有力。(4) 北海道は北本連系線の制約による市場分断が頻繁なため、連系線潮流・運用容量（OCCTO、無料登録）を明示的にモデルへ入れることが必須。(5) 日射量はアメダスでは取れない（日照時間のみ）ため、風力中心の北海道では風速データを主とし、太陽光は札幌等の全天日射量か有料の推定日射量で補う設計が現実的。(6) FIP開始（2022年4月）、需給調整市場の全商品化（2024年4月）、公表制度変更（2024年12月）など構造変化点が多く、サンプル分割・ダミー処理の設計が必要。",
+        "open_questions": [
+          "北海道電力NWのエリア需給実績の2016〜2021年度分の正確な掲載場所と収録項目（本体サイトのページがサーバ不安定で未確認。他TSOと同様に2016年度以降があるはずだが要実地確認）",
+          "電力調査統計で「蓄電池」が独立区分として計上され始めた時期と、都道府県別の蓄電池出力(kW)がどの統計表で取れるか（統計表の注記・調査票の直接確認が必要）",
+          "EPRX取引実績ページのUI上でのデータ遡及範囲（ページがJavaScript描画のため未確認。2021〜2023年度の送配電網協議会時代の約定CSVがそのまま取得できるかの確認）",
+          "JEPX現行サイト（jepx.jp）のCSV直接ダウンロードURLの現行仕様（旧jepx.org形式からの変更点）と、エリアプライスが収録され始めた正確な年度",
+          "気象庁「推計気象分布（全天日射量1kmメッシュ）」の過去データを無料でアーカイブ取得できるか（気象業務支援センター経由の有料配信の可能性）",
+          "北海道エリアの系統用蓄電池の連系済み容量（kW/kWh）の月次ないし四半期の時系列がHEPCO受付状況Excelの区分からどこまで復元できるか",
+          "時間前市場（当日市場）の価格・約定データの利用可否（ボラティリティ指標を前日スポットに限定するかの研究設計判断）"
+        ]
+      },
+      "methods-finance": {
+        "summary": "修論テーマ「再エネ増加による卸電力価格ボラティリティ増大と蓄電池普及による低減の均衡点分析（JEPX北海道）」に使える手法を日英で調査した。時系列側はGARCH-X/EGARCH/マルコフ・レジームスイッチング/HAR-RVが定番で、Weron(2014)とLago et al.(2021)が標準サーベイ。再エネがボラティリティに与える影響の実証はRintamäki et al.(2017)が直接の先行研究。蓄電池の裁定運用はLP/動的計画法（Sioshansi et al. 2009が古典）で定式化が確立し、Pythonで実装容易。「均衡点」はゼロ利潤・自由参入条件による均衡蓄電池容量として定式化でき、Schmalensee(2020)、Butters-Dorsey-Gowrisankaran(Econometrica 2025)、Karaduman(南豪州)が理論・実証の柱。データはJEPXエリアプライス、ほくでんネットワーク需給実績、OCCTO等で公開されており、北海道を対象とした同種研究は見当たらず研究ギャップが存在する。実務家1年修論としては「GARCH-X実証＋LP裁定シミュレーション＋ゼロ利潤均衡容量の反復計算」の3部構成が現実的。",
+        "findings": [
+          {
+            "topic": "標準サーベイ: Weron (2014) と Lago et al. (2021)",
+            "detail": "電力価格予測の標準サーベイはWeron (2014) 'Electricity price forecasting: A review of the state-of-the-art with a look into the future' (International Journal of Forecasting 30(4), 1030-1081, DOI:10.1016/j.ijforecast.2014.08.008)。モデルをマルチエージェント/ファンダメンタル(構造)/reduced-form(確率)/統計/AIの5類型に整理しており、修論の手法サーベイ章の骨格に使える。より実装寄りの後継がLago, Marcjasz, De Schutter, Weron (2021, Applied Energy 293)で、ベストプラクティス（学習期間、ローリング検証、DM検定等）とPythonオープンソースの epftoolbox（GitHub: jeslago/epftoolbox）を提供。実証設計の作法をここに準拠させると審査に耐えやすい。",
+            "source": "https://ideas.repec.org/a/eee/intfor/v30y2014i4p1030-1081.html / https://arxiv.org/abs/2008.08004 / https://github.com/jeslago/epftoolbox"
+          },
+          {
+            "topic": "GARCH-X / EGARCH / MS-GARCH: 修論の実証コアとして最有力",
+            "detail": "再エネ発電量（または浸透率）を平均式・分散式の外生変数に入れるGARCH-X/GARCH-in-Meanは、再エネ→ボラティリティの実証の定番。北欧市場ではマルコフ・スイッチングGARCH（Markov-switching GARCH）による電力ボラティリティ予測の先行研究があり（Sustainable Energy, Grids and Networks掲載のNordic研究等）、ギリシャ市場では風力・太陽光の水準・ボラティリティ効果をGARCH-in-Meanで推定した研究がある。金融工学の審査基準では「GARCH単体は凡庸」だが、外生変数設計（風力予測誤差、net demand、出力制御）とレジーム構造を組み合わせれば十分な独自性が出る。Python実装は arch パッケージで容易（MS-GARCHは自前実装かRのMSGARCH併用で中程度）。必要データはJEPX北海道エリアプライス30分値と再エネ発電実績のみ。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0378779613001016 / https://www.researchgate.net/publication/363534957 / https://arxiv.org/pdf/1903.09641"
+          },
+          {
+            "topic": "直接の先行研究: Rintamäki, Siddiqui & Salo (2017)",
+            "detail": "「再エネはボラティリティを下げるのか？」を独・デンマークで検証した Energy Economics 62, 270-282 の論文が本修論の最も近い先行研究。分布ラグモデルで、風力はデンマークでは日次ボラティリティを低下（時間別価格プロファイルの平坦化）させる一方、ドイツではオフピーク価格への影響が強く上昇させる、太陽光はドイツで低下、週次ボラティリティは両国で上昇、と市場構造依存の結果を示した。「北海道版Rintamäki＋蓄電池による低減効果」という位置づけにすれば研究の新規性を明確に主張できる。実装難易度は低〜中。",
+            "source": "https://econpapers.repec.org/article/eeeeneeco/v_3a62_3ay_3a2017_3ai_3ac_3ap_3a270-282.htm / https://discovery.ucl.ac.uk/id/eprint/1535360/"
+          },
+          {
+            "topic": "レジームスイッチング/ジャンプ拡散: スパイクモデリングの定番だが推定が繊細",
+            "detail": "Weron, Bierbrauer & Trück (2004, Physica A) 'Modeling electricity prices: jump diffusion and regime switching' が古典。最良の仕様は「独立スパイク3レジーム＋時変遷移確率＋不均一分散のベースレジーム」とされ、スパイク予測にはMt.Lucia流の時変パラメータRSモデル（Energy Economics 2005）がある。ジャンプ拡散よりMarkov mean-revertingの方がスパイク捕捉に優れるとの比較結果あり。JEPXは価格下限0.01円/kWh張り付き（2023年度九州で年間コマ数の12.4%）と冬季スパイクの両方があり、下限吸収状態を含む3レジーム設計が自然。EMアルゴリズムの自前実装が必要で難易度は中〜高。金融工学修論としての「見栄え」は良いが、季節性除去とスパイク処理で推定が不安定になりやすい点に注意。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0378437104000317 / https://alfa.im.pwr.edu.pl/~hugo/publ/RWeronBierbrauerTrueck04_PHYSA.pdf / https://www.sciencedirect.com/science/article/abs/pii/S0140988305000897"
+          },
+          {
+            "topic": "実現ボラティリティ(RV)/HARアプローチ: JEPX48コマ構造と好相性",
+            "detail": "JEPXスポットは1日48コマの断面を持つため、日次実現ボラティリティ（コマ間分散）を構築しHAR-RV（Corsi 2009）で日・週・月の階層構造をモデル化するアプローチが可能。電力市場への適用例として、HAR-RV系での予測研究（Energy Economics 2016のlogistic smooth transition HAR、独墺市場のRVモデリング、スペイン市場2021-2025エネルギー危機のRV予測）が蓄積されている。OLSで推定できるため実装難易度は最も低く、GARCHとの予測力比較という構成も組める。「金融市場の標準手法(HAR)を電力に移植」という金融専攻らしい仕立てが可能。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0140988315003497 / https://www.mdpi.com/2227-7390/14/12/2100 / https://www.sciencedirect.com/science/article/abs/pii/S0140988314000425"
+          },
+          {
+            "topic": "構造モデル(bid stack / サプライカーブ): 理論的に美しいがデータ要求が重い",
+            "detail": "Carmona & Coulon 'A survey of commodity markets and structural models for electricity prices' (2014, Springer) がサーベイ、Carmona, Coulon & Schwarz (2013, Mathematics and Financial Economics) のmulti-fuel bid stackモデルが代表。需要と燃料価格を確率過程とし、bid stack関数を通じてスポット価格・先物・スプレッドオプションの閉形式解を導く。最近はデータ駆動でメリットオーダーを学習する研究（'A data-driven merit order' Energy Economics 2025, arXiv:2501.02963）もある。限界費用ベースの単純スタックは実際の価格スプレッド・ボラティリティを過小評価するという批判（'Getting prices right in structural electricity market models', Energy Policy 2019）に注意。必要データは電源別限界費用・利用可能容量・燃料価格・需要で、日本ではHJKS(発電情報公開システム)、OCCTO公表資料、ほくでんネットワーク需給実績から近似構築可能だが、入札カーブそのものの入手可否が制約。実装難易度は高く、修論では「簡易残余需要曲線（価格＝残余需要の凸関数）による価格インパクト関数」への簡略化が現実的。",
+            "source": "https://link.springer.com/chapter/10.1007/978-1-4614-7248-3_2 / https://arxiv.org/abs/1205.2299 / https://arxiv.org/pdf/2501.02963 / https://www.sciencedirect.com/science/article/abs/pii/S0301421519300564"
+          },
+          {
+            "topic": "蓄電池裁定の最適化: LP/DPの定式化は確立、Python実装容易",
+            "detail": "価格テイカーの裁定価値推計はSioshansi, Denholm, Jenkin & Weiss (2009, Energy Economics) のPJM研究が古典で、動的計画法により往復効率・容量・kW/kWh比の感応度を分析。定式化の標準形は、SOC遷移式、充放電上限、往復効率、（劣化を入れるなら）スループット費用またはサイクル数制約付きのLP/MILP。劣化を含むLP/MILP/MINLPの比較研究（Journal of Energy Storage 2024）や劣化考慮MILP（Energies 2019）が直近のテンプレート。完全予見LPはPython(PuLP/Pyomo+CBC/HiGHS)で数日で実装可能（難易度低）。予測ベース運用や確率的DPまで踏み込むと中〜高。JEPX48コマ×365日×数年でも問題規模は小さく計算資源の心配は不要。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0140988308001631 / https://www.sciencedirect.com/science/article/pii/S2352152X24019662 / https://mdpi.com/1996-1073/12/6/999/htm"
+          },
+          {
+            "topic": "均衡蓄電池容量の理論: ゼロ利潤・自由参入アプローチの系譜",
+            "detail": "修論の核心「均衡点」の理論的支柱は3本。(1) Schmalensee 'Competitive Energy Storage and the Duck Curve' (MIT CEEPR WP 2020-012)：競争的蓄電の長期均衡を分析し、価格上限がなければ期待費用最小化点が長期競争均衡（ゼロ利潤）になることを示す。(2) 'Long-term equilibrium in electricity markets with renewables and energy storage only' (Energy Systems 2024, MIT CEEPR)：再エネ＋蓄電のみの市場でVREとESSの固定費回収が成立する価格構造を導出。(3) スクリーニングカーブの蓄電池版として、裁定利潤=蓄電池の年経費(annualized capex)となる容量を数値的に探索する方法が実務的。蓄電池追加→スプレッド縮小→限界参入者の利潤ゼロ、という不動点を「価格インパクト関数＋LP裁定」の反復で解けば、1年修論でも実装可能（難易度中）。",
+            "source": "https://ceepr.mit.edu/wp-content/uploads/2021/09/2020-012.pdf / https://link.springer.com/article/10.1007/s12667-024-00654-y / https://ceepr.mit.edu/workingpaper/long-term-equilibrium-in-electricity-markets-with-renewables-and-energy-storage-only/"
+          },
+          {
+            "topic": "均衡の実証: Butters-Dorsey-Gowrisankaran (Econometrica 2025) と Karaduman",
+            "detail": "Butters, Dorsey & Gowrisankaran 'Soaking Up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium' (Econometrica 93(3), 891-927, 2025; NBER WP 29133) は蓄電池投資の均衡モデルをカリフォルニアで推定。追加的蓄電池が裁定によりスプレッドを自己潰食し（最初の5,000MWhは卸価格を5.6%下げるが25,000→50,000MWhでは2.6%）、再エネ比率50%で最初の1単位が無補助で採算到達、という「均衡容量の逓減メカニズム」を定量化した。Karaduman 'Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets' (Stanford/MIT) は南豪州で蓄電池の価格インパクトと既存事業者の応答を織り込む動学均衡を構築し、価格インパクト無視は推定バイアスを生むことを示す。両論文は構造推定でフル再現は修論の範囲を超えるが、「価格インパクトを無視しない」設計指針と結果の比較ベンチマークとして必須の引用文献。",
+            "source": "https://onlinelibrary.wiley.com/doi/abs/10.3982/ECTA20411 / https://www.nber.org/papers/w29133 / https://gsb-faculty.stanford.edu/omer-karaduman/files/2022/09/Economics-of-Grid-Scale-Energy-Storage.pdf"
+          },
+          {
+            "topic": "リアルオプション/LSM: 拡張トピックとしては可、主軸には非推奨",
+            "detail": "Longstaff-Schwartz法（LSM）による蓄電池投資のリアルオプション評価は 'Investment Decision for Long-Term Battery Energy Storage System Using Least Squares Monte Carlo' (Energies 17(9):2019, 2024) が直近のテンプレートで、キャッシュフローと投資コストを確率変数として最適投資タイミングを求め、ROV>NPVを確認。エネルギー実物オプションでのLSM比較研究 (European Journal of Operational Research 2017) や蓄電投資のリアルオプション (Computational Management Science 2016, Comillas) もある。LSM自体はPythonで実装容易（難易度中）だが、原資産（裁定収益）過程のモデル化に結局スポット価格モデルが必要になるため、修論では「均衡分析の後の感応度・投資タイミング分析」として1章添える使い方が現実的。",
+            "source": "https://www.mdpi.com/1996-1073/17/9/2019 / https://www.sciencedirect.com/science/article/abs/pii/S0377221716304404 / https://www.iit.comillas.edu/documentacion/revista/IIT-16-056A_preview/Investment_in_electric_energy_storage_under_uncertainty:_a_real_options_approach.pdf"
+          },
+          {
+            "topic": "同時性・内生性への対処: 気象IVが標準、出力制御が北海道特有の罠",
+            "detail": "再エネ発電量→価格の回帰は、価格→（戦略的）出力調整の逆因果と需要との同時決定でバイアスを受ける。標準的対処は気象操作変数（風速をタービン出力カーブで非線形変換したもの、日射量）で、天候の物理的外生性を利用する。ただし「ゼロ・負値価格時の自発的出力抑制（curtailment）があると外生性が崩れる」ことが明示的に指摘されており、出力制御が頻発する北海道・九州ではこの点が識別戦略の中心論点になる（対処例：出力制御前の潜在発電量=気象ベース推計値を説明変数にする）。代替はcoarsened exact matching（Energy Policy 2023）、局所射影IV（arXiv 2605.15966, 再エネと電力価格への応用）。自然実験候補として新北本連系設備の運開（2019年3月、60万kW→90万kW）による市場分断頻度の変化があり、これを利用した学術研究は見当たらないため差分の差分等で使えば独自性になる。",
+            "source": "https://www.sciencedirect.com/science/article/pii/S0301421523005165 / https://arxiv.org/pdf/2405.17166 / https://www.hepco.co.jp/network/stable_supply/efforts/north_reinforcement/index.html / https://arxiv.org/pdf/2605.15966"
+          },
+          {
+            "topic": "データ入手可能性: 主要データはすべて無償公開",
+            "detail": "(1) JEPXスポット価格：公式サイトから30分値CSV（システムプライス＋9エリアプライス、売買入札量・約定量）を全履歴ダウンロード可。集計済みデータはjapanesepower.org（2011-2026年のCSV、北海道ページあり）も利用可。(2) 需給実績：ほくでんネットワーク「北海道エリアの需給実績」で電源種別（太陽光・風力・火力・水力・揚水・連系線・蓄電池）の時間別実績と出力制御実績をダウンロード可。(3) OCCTO：広域系統整備委員会資料で系統用蓄電池の連系状況、系統情報サービスで連系線潮流。(4) 気象データ：気象庁アメダス（風速・日射量）。(5) 蓄電池コスト：METI 調達価格等算定委員会・三菱総研資料。個別蓄電池の充放電実績は非公開のため、蓄電池の総合的影響はエリア需給実績の「蓄電池」項目と価格データから間接推定する設計になる。",
+            "source": "https://www.jepx.jp/electricpower/market-data/spot/ / https://japanesepower.org/ / https://www.hepco.co.jp/network/con_service/public_document/supply_demand_results/index.html / https://www.occto.or.jp/assets/iinkai/kouikikeitouseibi/95/seibi_95_01_01.pdf"
+          },
+          {
+            "topic": "北海道の固有性と研究ギャップ",
+            "detail": "北海道は(a)需要規模が小さく風力適地で再エネ比率変動が大きい、(b)本州との連系が北本連系（90万kW、2019年増強）に限られ市場分断が頻発、(c)系統用蓄電池の接続申込が全国最速級で殺到（接続検討約1,430万kW・前年比2.4倍、契約申込約180万kW・4.0倍、日経報道では申込1.6GW超）し、2025年4月から充電制御装置付き早期接続（1系統あたり最大20万kW）が開始、という「再エネ×蓄電池×送電制約」の理想的な実験場。2024年のJEPX日次高安値差は全国平均約20円/kWh（2020年比5倍）に拡大し裁定機会が急増している。一方、北海道エリアを対象に再エネ→ボラティリティ→蓄電池均衡を一貫分析した学術研究は日英とも見当たらず、明確な研究ギャップ。日本市場の関連研究としては、JEPXスポット市場の計量分析（Energy and Climate Change 2022）、マーケットメイクと価格形成（Energy Economics 2021）、電中研の電力価格ボラティリティ比較（報告書Y03006）、電気学会のAR-GARCH分析がある。",
+            "source": "https://project.nikkeibp.co.jp/ms/atcl/19/news/00001/02823/?ST=msb / https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/004_04_00.pdf / https://www.hepco.co.jp/network/con_service/sys_access/pdf/cc_grid_storage_battery.pdf / https://www.sciencedirect.com/science/article/pii/S2666790822001288 / https://criepi.denken.or.jp/hokokusho/pb/reportDetail?reportNoUkCode=Y03006"
+          },
+          {
+            "topic": "蓄電池→ボラティリティ低減の実証先行研究（海外）",
+            "detail": "Lamp & Samano 'Large-scale battery storage, short-term market outcomes, and arbitrage' (Energy Economics 2022; SSRN 3844751) は、カリフォルニアで2013-2017年の蓄電池導入が日中の卸価格スプレッドを縮小させたことを実証し、蓄電池の充放電が最適裁定と部分的にしか整合しないことも示した。豪州では大学設置1.1MW/2.22MWhの実運用データで裁定支配的行動を確認した研究がある。「蓄電池がスプレッド・ボラティリティを縮小する」実証デザイン（イベントスタディ／パネル）の直接のひな形であり、北海道でのGX推進機構支援案件や早期接続蓄電池の運開タイミングをイベントとして使う設計が考えられる。",
+            "source": "https://www.sciencedirect.com/science/article/abs/pii/S0140988321006241 / https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3844751"
+          },
+          {
+            "topic": "教科書・基盤文献",
+            "detail": "理論面の教科書は (1) Benth, Šaltytė Benth & Koekebakker 'Stochastic Modelling of Electricity and Related Markets' (World Scientific 2008)：電力の非貯蔵性・季節性・スパイクの確率モデルの標準教科書。(2) Burger, Graeber & Schindlmayr 'Managing Energy Risk'（Wiley）およびBurger et al. (2004, Quantitative Finance) のスポット市場モデル。(3) Weron 'Modeling and Forecasting Electricity Loads and Prices' (Wiley 2006)。経済学側のサーベイは López Prol & Schill 'The Economics of Variable Renewables and Electricity Storage' (Annual Review of Resource Economics 2021; arXiv:2012.15371) が再エネ・蓄電の価値低減（cannibalization）と均衡論点を整理しており、序章の理論枠組みに最適。",
+            "source": "https://books.google.com/books/about/Stochastic_Modelling_of_Electricity_and.html?id=Cf83bYwRUPgC / https://arxiv.org/pdf/2012.15371"
+          }
+        ],
+        "open_questions": [
+          "ほくでんネットワークの需給実績データで「蓄電池」区分の充放電実績がいつから・どの粒度で公開されているか（蓄電池のボラティリティ低減効果の直接推定に必要）",
+          "JEPXの入札カーブ（価格感応度つき売買入札曲線）データの入手可否と粒度（構造モデル・価格インパクト関数の校正精度を左右する）",
+          "北海道エリアで蓄電池運開が価格スプレッドに与えた影響が既に統計的に検出可能か（2025-2026年運開分のイベントスタディの検出力）",
+          "均衡概念の選択：静学的ゼロ利潤（Schmalensee型）で審査に十分か、動学均衡（Karaduman型）まで求められるか（指導教員との要確認事項）",
+          "出力制御（curtailment）下での気象IVの妥当性：出力制御前の潜在発電量を気象データから再構築する精度",
+          "蓄電池コスト（円/kWh、年経費率）の想定値：均衡容量の結果がコスト前提に大きく感応するため、METI審議会資料等での最新値の特定が必要",
+          "需給調整市場・容量市場収益のスタッキングを均衡条件に含めるか（含めないと参入採算を過小評価し均衡容量が過小になる）"
+        ],
+        "thesis_implications": "1年・実務家・金融専攻という制約下では、次の3部構成が「金融工学修論として審査に耐える×実装可能」の交点として最も現実的。第1部（実証）：JEPX北海道エリアプライスの30分値から日次実現ボラティリティを構築し、HAR-RVおよびGARCH-X（外生変数=太陽光・風力発電比率、net demand、連系線潮流、出力制御）で再エネ→ボラティリティの因果を推定。識別には気象IV（風速・日射量）を使い、出力制御による外生性の毀損を明示的に処理する。Rintamäki et al. (2017)の北海道版という明確な位置づけができ、新規性を主張しやすい。第2部（シミュレーション）：完全予見LP（効率・容量・劣化制約つき）で蓄電池の裁定運用と収益を計算し、残余需要曲線ベースの簡易価格インパクト関数で「蓄電池が価格を平準化する」フィードバックを組み込む。第3部（均衡）：蓄電池容量を増やしながら裁定収益を再計算し、限界参入者の収益=年換算投資コストとなるゼロ利潤点（均衡容量）を数値的に求め、Butters et al. (Econometrica 2025)のカリフォルニア結果と比較する。レジームスイッチングのフル推定や構造bid stackモデル、動学均衡の構造推定はリスクが高く、主軸にしないこと（RSは価格シミュレーション用の簡易版に留め、LSMリアルオプションはやるなら最終章の拡張扱い）。データは全て無償公開（JEPX、ほくでんネットワーク、OCCTO、気象庁）で、計算負荷も小さく、Python（arch, statsmodels, Pyomo/PuLP）で完結する。北海道は蓄電池接続申込が全国最速で急増しており、「均衡容量に対して現在のパイプラインは過剰か」という実務的問いに直結する点も、実務家修論としての価値を高める。最優先の次アクションは、(1)ほくでんの蓄電池実績データの粒度確認、(2)均衡概念の深さ（静学ゼロ利潤で足りるか）の指導教員合意、(3)蓄電池コスト前提の一次資料特定、の3点。"
+      },
+      "storage-economics-jp": {
+        "summary": "日本の系統用蓄電池は2023年以降ブーム的に拡大しており（接続検討申込113GW・2025年3月時点、うち契約は約1/10、連系済みは0.23GW）、事業経済性は「JEPXアービトラージ＋需給調整市場＋容量市場＋長期脱炭素電源オークション（LTDA）＋補助金」のスタッキングで成立している。CAPEXは2024年度実績でシステム5.4万円/kWh＋工事費1.4万円/kWh（50MWh以上は4.9万円/kWh、海外製2〜4万円/kWh）。JEPXの日次スプレッドは全国平均約20円/kWh（2024年、2020年比5倍）。需給調整市場は2024年度に蓄電池が高値約定（三次②で234.89円/ΔkW・30分、2024年4月）したが、上限価格引下げ（19.51→15円/ΔkW・30分、2026年3月〜）と調達量削減で縮小局面。容量市場は北海道14,972円/kW（2029年度向け）と上限近傍。LTDAは20年固定収入だが他市場収益の約9割還付。実務の共通見解は「アービトラージ単独では投資回収困難、フル・スタッキング＋補助金1/3でIRR9〜10%程度」。北海道はLTDA蓄電池落札の集中地域（第1回の約35%）で、100%マーチャント案件（札幌Helios 50MW/104MWh）も出現しており、均衡分析の対象として好適。",
+        "findings": [
+          {
+            "topic": "蓄電池CAPEX実績（2024年度・経産省検討会）",
+            "detail": "系統用蓄電池のシステム価格は2024年度実績で5.4万円/kWh（前年度比約2割減）、工事費は1.4万円/kWh。容量区分別では50MWh以上が最安の4.9万円/kWh。海外製システム採用案件では2〜4万円/kWhの水準もあり、国内外の価格差が大きい。経産省目標は2030年度に工事費込み7万円/kWh以下、中長期的には揚水並みの2.3万円/kWh。均衡モデルのCAPEXパラメータとしては「国内標準6.8万円/kWh（5.4＋1.4）、低位ケース4〜5万円/kWh」が妥当。",
+            "source": "経産省「2024年度定置用蓄電システム普及拡大検討会 結果とりまとめ（案）」https://www.meti.go.jp/shingikai/energy_environment/storage_system/pdf/2024_005_03_00.pdf ／ SOLAR JOURNAL https://solarjournal.jp/news/59061/"
+          },
+          {
+            "topic": "実案件の総事業費ベンチマーク",
+            "detail": "自然エネルギー財団レポート（2025年7月）によれば蓄電池本体は約2〜5万円/kWhで、数十MWh級の蓄電所は建設費込み数十億円規模。関西電力×オリックスの紀の川蓄電所（48MW/113MWh、2024年12月運開）は建設費80億円（≒7.1万円/kWh、日経2024年11月23日）。プロジェクト全体のオールインコストは8〜12万円/kWhが一つの目安とする実務情報もある。",
+            "source": "自然エネルギー財団「系統用蓄電池事業の可能性：現状と課題」(2025/7) https://www.renewable-ei.org/activities/reports/20250716.php ／ グローシップ・パートナーズ https://www.growship.com/notes/bess-intro-price/"
+          },
+          {
+            "topic": "系統接続費用・保証金制度",
+            "detail": "工事費負担金（特定負担）は系統空き容量・接続距離・電圧により数千万円〜数億円、上位系統混雑時は数億円規模の負担要請例もある。2026年4月から系統連系保証金が想定工事費負担金の5%→10%に引き上げられ、分割払いの初回は50%以上に変更。接続検討申込の殺到（2025年3月時点約113GW、2023年1月比12倍）に対し契約済は約1/10で、参入待ち行列自体が「参入圧力」の証拠となる。",
+            "source": "みらい電設コラム https://mirai-ds.co.jp/column/bess-grid-deposit-cost/ ／ 資源エネルギー庁 スマート系統WG資料 https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/007_01_01.pdf ／ 自然エネルギー財団(2025)"
+          },
+          {
+            "topic": "寿命・効率・サイクル想定（技術パラメータ）",
+            "detail": "リチウムイオン電池のサイクル寿命は概ね4,000〜6,000回、事業期間は15〜20年想定が標準。運用は1日1〜2サイクル（経産省/三菱総研の試算は1日1〜2ブロック、1ブロック=3時間を前提）。往復効率（RTE）は85〜90%程度が実務の標準想定で、LCOS（均等化貯蔵コスト）評価ではサイクル劣化とカレンダー劣化、SoC制約、市場同時参加禁止の制約を織り込む必要がある。",
+            "source": "battery-lab https://battery-lab.green-energy.co.jp/detail/14/ ／ Qiita（BESS収益性評価の方法論）https://qiita.com/satoru_higuchi/items/a51d68676708c7107164 ／ 環境エネルギー情報局 http://media.e-energy.earth/battery-market-strategy/"
+          },
+          {
+            "topic": "JEPXアービトラージの相場観",
+            "detail": "2024年の日次最高値-最安値スプレッドは全国平均約20円/kWh（2020年頃は約4円/kWh→約5倍に拡大）、時に100円/kWh超。典型パターンは深夜10円未満・太陽光余剰の昼間0.01円（下限価格、日本はネガティブプライス未導入）・夕方ピーク20円超。簡易試算では「夜間10円充電→夕方20円放電」で粗利10円/kWh/サイクル、8MWhなら約8万円/日・年約2,900万円（効率ロス・稼働率控除前）。収益近似式は「年間収益＝Σ(日次スプレッド×放電量×RTE)−託送・損失」で、スプレッド×サイクル数×効率が実務の基本形。",
+            "source": "ScienceX https://www.scix.co.jp/column-revenue ／ Borderless法律事務所 BESS投資ガイド2025 https://www.borderless.law/en/topics/battery_investment_guide_2025/ ／ enegaeru https://www.enegaeru.com/electricitymarket-arbitrage"
+          },
+          {
+            "topic": "需給調整市場：蓄電池の高収益と急速な縮小リスク",
+            "detail": "2024年度は蓄電池の約定価格が突出（2024年4月の三次調整力②で蓄電池平均落札234.89円/ΔkW・30分＝電力需給調整力取引所実績。2024年7-8月時点でも蓄電池28〜39円/ΔkW・h vs 火力4.1〜8.1円）。その後、三次②価格低下に伴い収益の中心は一次調整力に移行。制度面では2026年3月13日取引分から一次〜三次①の上限価格が19.51円→15円/ΔkW・30分に引き下げられ（競争未改善なら10円→7.5円へ段階引下げも視野）、一次・二次の調達量も削減方針。全商品の前日取引化・同時市場統合も予定され、調整力収益は「先細り前提」で感度分析すべき収益源。",
+            "source": "自然エネルギー財団(2025)（電力需給調整力取引所2024年度実績の引用）／ 資源エネルギー庁 制度検討作業部会「需給調整市場について」https://www.meti.go.jp/shingikai/enecho/denryoku_gas/jisedai_kiban/system_review/pdf/109_06_00.pdf ／ SOLAR JOURNAL https://solarjournal.jp/information/64108/"
+          },
+          {
+            "topic": "容量市場価格（北海道は上限近傍で推移）",
+            "detail": "2029年度向けメインオークション（2026年1月公表）のエリアプライスは北海道14,972円/kW・年、東北・東京15,111円、九州15,112円、中部～四国12,388円。約定総額は経過措置控除後2兆2,093億円（2028年度向け約1.85兆円から約4,000億円増）。2028年度向けでは北海道は上限価格14,812円/kWで約定したとされる。蓄電池の均衡モデルでは「容量収益≒1.5万円/kW・年（北海道）」が固定収益の基準値。ただし変動電源・蓄電池の容量価値評価には調整係数がかかる点に注意。",
+            "source": "OCCTO約定結果 https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2029_jitsujukyu_kanren/260123_mainauction_youryouyakujokekka_kouhyou_jitsujukyu2029.pdf ／ アワリーマッチング解説 https://note.com/dsharing/n/n41ccdfd700f8"
+          },
+          {
+            "topic": "長期脱炭素電源オークション（LTDA）の制度構造",
+            "detail": "落札者は原則20年間の固定容量収入（物価連動）を得る一方、他市場収益（卸・非化石等、可変費控除後）の約9割をOCCTOに還付する義務を負う。応札上限価格は第1・2回が10万円/kW・年、第3回から閾値が20万円/kW・年に引き上げ（蓄電池・揚水はより低い水準に抑制）。約定平均単価は第1回約5.8万円/kW・年、第2回約6.8〜6.9万円/kW・年（個別電源の約定単価は非公開）。90%還付により落札蓄電池のマーチャント・アップサイドは大幅に制限され、参入判断が市場価格シグナルから切り離される点が均衡分析上重要。",
+            "source": "ENERGY ADVISOR https://energy-advisor.jp/capacity14/ ／ アワリーマッチング https://note.com/dsharing/n/n4aa669dc7573 ／ スマートジャパン（第3回制度変更）https://www.itmedia.co.jp/smartjapan/articles/2504/30/news088.html ／ Greenberg Traurig LTDA Round 3分析 https://natlawreview.com/article/bess-and-japan-power-market-current-state-play-ltda-auction-round-3"
+          },
+          {
+            "topic": "LTDA蓄電池の落札実績推移（3回分）",
+            "detail": "第1回（2023年度応札）：蓄電池応札455.9万kWに対し落札109.2万kW（落札率24%）。第2回（2024年度応札）：蓄電池落札136.9万kW（3-6h区分96.1万kW＋6h以上40.9万kW、応札倍率は募集上限1.5GWの5倍超）。第3回（2025年度応札、2026年5月公表）：リチウムイオン電池55.1万kW（落札率36%）＋リチウムイオン以外の蓄電池70万kW（同58%）。第3回では蓄電池・揚水の募集枠が1GW→0.8GW（LiB+揚水リプレース0.4GW／非LiB+新設揚水+LDES 0.4GWに分割）に縮小され、LiB向け募集量は激減傾向。脱炭素電源全体の第3回約定は426.1万kW・年間4,748億円。",
+            "source": "OCCTO約定結果2023年度応札 https://www.occto.or.jp/assets/market-board/market/oshirase/2024/files/240426_longauction_youryouyakujokekka_kouhyou_besshi_ousatsu2023.pdf ／ 同2024年度・2025年度応札 https://www.occto.or.jp/assets/various/capacity-market/jitsujukyukanren/2025_boshuyoukou_long/260513_longauction_youryouyakujokekka_kouhyou_besshi_ousatsu2025.pdf ／ メガソーラービジネス https://project.nikkeibp.co.jp/ms/atcl/19/news/00001/05814/"
+          },
+          {
+            "topic": "北海道のLTDA蓄電池落札案件（個別リスト）",
+            "detail": "第1回落札の北海道案件：レノバ苫小牧蓄電所70,213kW・白老蓄電所39,027kW・森町睦実2蓄電所56,351kW、CHC Japan札幌宮の沢28,060kW・留辺蘂25,250kW、ヘキサ・エネルギーサービス恵庭23,217kW・白老北吉原23,393kW・白老石山39,004kW・美唄39,004kW、城洋商事長沼37,515kW。合計約38.1万kWで全国の蓄電池落札109.2万kWの約35%と最大の集中地域。第2回はリチャージャブルエナジー室蘭46,270kW（6h以上）、SRE北海道G 46,270kW（6h以上）、スター4号北見39,383kWなど。北海道は「系統連系要件（出力変動緩和要件、現在廃止）の歴史＋風力適地＋容量市場高価格」で蓄電池立地が先行。",
+            "source": "OCCTO落札電源一覧（2023年度応札・2024年度応札）https://www.occto.or.jp/assets/market-board/market/oshirase/2024/files/240426_longauction_youryouyakujokekka_kouhyou_besshi_ousatsu2023.pdf"
+          },
+          {
+            "topic": "北海道のマーチャント/レベニュースタッキング実例",
+            "detail": "HD Renewable Energy×Brawn Capital×Manoa Energyの「Helios」（札幌市、50MW/104MWh、Tesla Megapack 2XL、2025年12月運開）は日本初級の「100%マーチャント」案件で、JEPX（1日48コマ取引）→2026年Q2に需給調整市場（EPRX）→2028年までに容量市場参入を計画。初通年で最大20億円の取引収益を想定（≒19,000円/kWh・年、40,000円/kW・年に相当する強気水準）。大和エナジー・インフラも北海道で160MWhのレベニュースタッキング型BESSを建設。北海道でLTDA非依存の市場駆動参入が始まっている点は均衡分析の実証対象になる。",
+            "source": "Energy-Storage.News https://www.energy-storage.news/hdre-brawn-capital-put-100-merchant-bess-into-operation-in-northern-japan/ ／ https://www.energy-storage.news/daiwa-energy-infrastructure-builds-160mwh-revenue-stacking-bess-in-hokkaido-japan/"
+          },
+          {
+            "topic": "補助金の規模と補助率",
+            "detail": "経産省「再エネ導入拡大・系統用蓄電池等電力貯蔵システム導入支援事業」は2021年度約128〜130億円（補正）→2022年度約173億円→2024年度（令和6年度）約346億円→2025年度（令和7年度）約363億円・採択37件と過去最大規模で拡大。令和7年度補正でも総額616億円の内数で新規公募（2025年12月公表）。FIP転・再エネ併設型蓄電池向け「再生可能エネルギー電源併設型蓄電池導入支援事業」は補助率1/3以内（系統側定格出力1,000kW以上等は1/2以内）。補助金は実質CAPEXを約1/3〜1/2圧縮し、均衡条件（NPV=0）の閾値を大きく動かす政策変数。",
+            "source": "日経エネルギーNext https://project.nikkeibp.co.jp/energy/atcl/19/feature/00029/021700015/ ／ 資源エネルギー庁公募 https://www.enecho.meti.go.jp/appli/public_offer/2025/1224_03.html ／ carbonplanning https://www.carbonplanning.jp/post/r7s-saieneheisetsu ／ 自然エネルギー財団(2025)"
+          },
+          {
+            "topic": "FIP転＋併設蓄電池の拡大",
+            "detail": "FIT32円以上・残期間10年以上・出力制御多発エリアで「FIP転＋蓄電池」の経済性が高いとされ、蓄電池導入費用は約5年で回収、FIT継続比+3,900万円の売電増という試算例（enegaeru）。実例として山佐の矢護山発電所40MW（2025年7月FIP転・9月蓄電池運用開始）、伊藤忠×九電工の協業（2025年7月）、ソーラーフロンティア×FPSの業務提携（2025年8月）。2025年4月からDCリンク（PCS手前接続）解禁、2026年度から出力制御の優先順位がFIT→FIPに変更されFIP転インセンティブが強化。FIP併設はLTDAの90%還付を受けない点が構造的優位。",
+            "source": "enegaeru https://www.enegaeru.com/fip-batterystorage-value ／ メガソーラービジネス（山佐）https://project.nikkeibp.co.jp/ms/atcl/19/news/00001/05404/ ／ 伊藤忠プレスリリース https://www.itochu.co.jp/ja/news/press/2025/250728.html ／ Greenberg Traurig分析"
+          },
+          {
+            "topic": "「アービトラージ単独で回収可能か」への実務的見解",
+            "detail": "自然エネルギー財団の事業者ヒアリング（2025年7月レポート）は「スポット市場（アービトラージ）だけでは十分な利益を得られず、需給調整市場が大きな収益源」と明言。enegaeruの10MWh（5MW×2h）モデルでは全市場スタッキングでも補助金なしIRR約5〜6%（回収15〜18年）、初期費用1/3補助でIRR約9〜10%。法律事務所系ガイドは「容量・アービトラージ・調整力のスタッキング＋補助金でIRR10%超が可能」とし、単独市場依存を否定。つまり現状の均衡は「アービトラージ＋固定収益（容量/LTDA）＋補助金」で辛うじてハードルレートを超える水準にあり、アービトラージ収益単独での参入持続には日次スプレッドの大幅拡大（＝ボラティリティ増）が必要という含意。",
+            "source": "自然エネルギー財団 https://www.renewable-ei.org/activities/reports/20250716.php ／ enegaeru https://www.enegaeru.com/revenuesimulationforgridstoragebatteries ／ Borderless法律事務所 https://www.borderless.law/en/topics/battery_investment_guide_2025/"
+          },
+          {
+            "topic": "導入見通しと市場規模（マクロ想定）",
+            "detail": "三菱総研は2030年の系統用蓄電池導入を14.1〜23.8GWh（出力4.68〜7.94GW）と予測。2023年時点の系統用+併設型は約2GWh強。BNEFアナリストは2026年以降、日本の系統用BESS年間導入が1GW超と予想。接続契約済12GWが全量運開すれば三菱総研予測を大幅超過する。均衡分析では「北海道エリアの蓄電池スタック容量」を外生シナリオでなくスプレッド収益の内生関数として置く根拠になる。",
+            "source": "三菱総合研究所(2023)（自然エネルギー財団2025年7月レポートより引用）／ Energy-Storage.News（BNEF菊間一柊氏コメント）https://www.energy-storage.news/japan-large-scale-battery-storage-opportunities-in-an-evolving-market/"
+          }
+        ],
+        "thesis_implications": "修論の「再エネ増によるボラティリティ増大 vs 蓄電池普及によるボラティリティ低減の均衡点」分析には、参入均衡条件を「NPV=0：Σ_t[アービトラージ収益(σ_t)＋容量市場収益＋調整力収益−OPEX]×割引率 ≧ CAPEX−補助金」と定式化できる。使えるパラメータの基準値：CAPEX 6.8万円/kWh（国内2024年度実績、低位4〜5万・海外調達2〜4万、補助後は約2/3）、RTE85〜90%、1〜2サイクル/日、寿命15〜20年/4,000〜6,000サイクル、容量収益≒1.5万円/kW・年（北海道は上限近傍）、調整力収益は上限価格引下げ（19.51→15円/ΔkW・30分）と調達量削減で逓減トレンドとして感度分析。アービトラージ収益は「日次スプレッド×放電量×RTE」で近似し、スプレッド分布はJEPX北海道エリアプライス（30分値）から直接推計可能。理論上の重要な構造として、(1)蓄電池自身の充放電がスプレッドを圧縮する内生性（cannibalization）が「参入が止まる均衡」を生む、(2)LTDA（20年固定・他市場収益9割還付）と補助金は参入判断を価格シグナルから切り離すため、北海道では市場均衡を超えた「政策駆動の過剰参入」が起こり得る（＝ボラティリティが均衡水準以下まで低下する可能性）、(3)日本はネガティブプライス未導入（下限0.01円）でスプレッドの下方が打ち切られる、の3点をモデルに組み込むべき。北海道はLTDA蓄電池落札の全国最大集中地域（第1回の約35%）かつ100%マーチャント案件（Helios）も存在するため、政策駆動参入と市場駆動参入の比較・識別が可能な理想的フィールドである。",
+        "open_questions": [
+          "LTDAの個別電源・蓄電池の約定単価は非公開のため、蓄電池の実際の落札価格水準（円/kW・年）は推計が必要（応札上限10万円/kW・年と平均約定5.8〜6.9万円/kW・年から範囲を置くしかない）",
+          "北海道エリアのJEPX日次スプレッド分布・0.01円コマ数の時系列統計は公表資料になく、JEPXスポット約定価格CSV（30分値）から自前で計算する必要がある",
+          "系統用蓄電池の運転維持費（O&M、円/kW・年）の公表された定量ベンチマークが乏しく、事業者ヒアリングか海外文献（NREL ATB等）からの補完が必要",
+          "需給調整市場の上限価格の段階的引下げ（15→10→7.5円/ΔkW・30分）と2026年度の前日取引化・同時市場統合後の蓄電池調整力収益の見通しは不確実性が高い",
+          "LTDA落札蓄電池（90%還付対象）の実際の運転パターンがスポット価格シグナルにどの程度反応しているか（ボラティリティ低減効果が還付により減衰するか）は未検証",
+          "第3回LTDA落札の『しろくま』『ポーラーベアー』等の匿名SPC案件の所在地（北海道か否か）は落札一覧からは特定できず、別途調査が必要",
+          "蓄電池のサイクル劣化コスト（円/kWh/サイクル）を機会費用としてアービトラージ入札に織り込む実務の具体的な水準"
+        ]
+      }
+    },
+    "critiques": {
+      "data-feasibility": {
+        "verdicts": [
+          {
+            "design": "A",
+            "score": 5.5,
+            "assessment": "被説明変数側のデータは完璧に揃う（JEPXエリアプライス30分値2005年度～、北海道電力NW需給実績の再エネ出力・需要・連系線潮流・出力制御30分値2016年度～/詳細フォーマット2022年度～、OCCTO連系線データ、アメダス風速）。ボラティリティ指標（RV・日中レンジ・0.01円コマ比率・スパイク頻度）の構築、および(i)の「再エネ→ボラ」の推定はデータ面で問題なく実行可能。しかし本デザインの核心である(ii)「蓄電池導入容量→ボラ低減」の推定に必要な『北海道の系統用蓄電池・連系済み容量の月次時系列』は単一統計として存在せず、審議会資料の散発的な時点データ・HEPCO受付状況Excel（2024年12月に様式変更あり）・落札リストからの自力構築が必要。さらに深刻なのは、構築できたとしても連系済み容量は全国でも約25万kW（2025年6月）と僅少で、北海道の実働は北豊富240MW/南早来17MW/千歳等の数件のみ＝時系列の分散がほぼ数個のステップ関数であり、回帰係数として識別することはデータの情報量的にほぼ不可能な点。従って「両者の限界効果の比率＝均衡代替比率」という本デザインの結論部分は、片方の係数が統計的に立たないため計算式としては書けても信頼区間が発散する。9エリアパネルでの補強も、他エリアの連系済み蓄電池はさらに少なく分散を追加しない。デザインの半分（再エネ側）はデータ十分、もう半分（蓄電池側）はデータの母集団自体がまだ存在しない、という評価になる。",
+            "risks": [
+              "蓄電池連系済み容量の月次系列が公的統計に存在せず、時点データの繋ぎ合わせによる測定誤差（申込・契約・連系済みの区別、2024年12月の公表様式変更）が係数を直接汚染する",
+              "連系済み容量の変動が数イベントしかなく、蓄電池係数が識別不能→『均衡代替比率』が統計的に無意味な数値になる",
+              "エリア集計の需給実績では蓄電池の充放電が観測できても寄与が僅少（2025年5月の最小需要日で△0.5万kW）で、ボラ低減効果がノイズに埋没する",
+              "価格下限0.01円のcensoring：RVや標準偏差が左裾打ち切りで過小評価され、再エネ係数もバイアスを受ける（Tobit等の手当がないと審査で突かれる）",
+              "2022年度燃料ショック・2021年1月高騰が再エネ起因ボラと交絡（絶対値ベースのボラ指標では致命的）",
+              "出力制御の本格化（2026年度1.23%見通し）で気象IVの外生性が崩れる、北海道特有の識別問題"
+            ],
+            "fixes": [
+              "蓄電池側は回帰係数ではなくイベントスタディに切り替える：北豊富240MW/720MWh稼働（2023年3月）、南早来、千歳BPP、Helios 50MW/104MWh（2025年12月運開）等の個別稼働日を外生イベントとし、稼働前後のスプレッド・0.01円コマ比率・分位点の変化を差分検定する。回帰よりデータの実情に合う",
+              "『均衡代替比率』は実測係数の比ではなく、再エネ係数（実測）×蓄電池効果（イベントスタディ点推定またはBのシミュレーション値）のハイブリッドとして提示し、推定でなく感度分析として扱う",
+              "蓄電池容量の独自月次データセット構築（審議会＋受付状況Excel＋LTDA/容量市場落札リストの所在地・運開年を突合）自体を論文の貢献として明示的に位置づける",
+              "ボラ指標は0.01円コマ比率（発生確率のロジット/Tobit）と分位点回帰を主軸にし、censoring問題を正面から処理する",
+              "燃料費指数（LNG/石炭輸入価格）と2021年1月・2022年度ダミーを必ず統制、ボラは対システムプライス相対値も併用"
+            ]
+          },
+          {
+            "design": "B",
+            "score": 7.5,
+            "assessment": "逆説的だが、データ実現可能性の観点では3案中最も頑健。理由は、Aの致命的弱点である『蓄電池の観測データ不足』を、蓄電池を観測対象ではなくモデル内生変数（LP最適運転＋ゼロ利潤参入）に置くことで回避しているため。必要データを棚卸しすると：(1)モデルへの確率的入力（再エネ出力・需要の30分値、気象）→HEPCO/気象庁で完備、(2)検証用の実現価格→JEPXで完備、(3)蓄電池コスト・技術パラメータ→経産省検討会実績値（CAPEX 5.4+1.4万円/kWh、RTE85-90%、4,000-6,000サイクル）が一次資料で取れる、(4)将来蓄電池・再エネシナリオ→LTDA落札電源一覧（事業者名・所在地・容量・運開年）と洋上風力促進区域情報で構築可能、(5)連系線容量・潮流→OCCTO無料登録で取得可。唯一の実質的なデータギャップは供給曲線（メリットオーダー）構築で、①JEPXの入札カーブはシステム全体のみ公表でエリア別残余供給曲線は直接観測できない、②道内火力ユニットの熱効率・起動費・最低出力は公表されず仮定が必要、③水力・揚水の機会費用のモデル化が恣意的になりやすい、の3点。ただしOCCTOユニット別発電実績公開システム＋供給計画＋燃料輸入価格（貿易統計/HJKS）で近似構築した先行例は多数あり（Carmona型bid stack、Karadumanの南豪州）、実現可能性は「重いが可能」の範疇。データではなく工数と検証（実現価格の再現度）がボトルネック。",
+            "risks": [
+              "エリア別入札カーブが非公表のため供給曲線はユニット諸元の仮定積み上げになり、価格再現性（特にスパイクと0.01円張り付き）の検証で苦戦する可能性が高い",
+              "ゼロ利潤条件を『アービトラージ収益＝固定費』だけで定義すると、実務では裁定単独でNPV<0（自然エネ財団ヒアリング）であり、均衡容量がゼロまたは極小と出て現実（申込169万kW）と乖離する",
+              "北海道の実参入はLTDA（20年固定・他市場収益9割還付）と補助金1/3による政策駆動が主で、自由参入NPV=0の前提が現地の制度環境と噛み合わない",
+              "火力の起動費・最低出力・水力の扱いの仮定次第でボラティリティ（分布の裾）が大きく変わり、頑健性の主張が難しい",
+              "需給調整市場（EPRX）収益をスタッキングに入れる場合、約定データは商品・エリア別で電源（蓄電池）別に分解できず、蓄電池の獲得収益の推計に追加仮定が要る"
+            ],
+            "fixes": [
+              "ゼロ利潤条件を『裁定＋容量市場収益（北海道≒1.5万円/kW・年）＋補助金』の複数シナリオで定義し、(a)純市場駆動、(b)補助金込み、(c)LTDA型（9割還付）の3ケースで均衡容量を比較する設計にする。政策駆動参入で均衡を超えた過剰導入（ボラの過剰低下）が起こり得ること自体を分析結果として提示すれば、制度データの制約を貢献に転化できる",
+              "供給曲線の検証は水準の完全再現でなく分布特性（スプレッド分布、0.01円頻度、スパイク頻度）の再現に目標を絞り、実現価格とのQQプロット等で示す",
+              "燃料費は貿易統計のLNG/石炭CIF価格＋標準熱効率（エネ庁発電コスト検証WGの公開値）で構築し、仮定の出所をすべて一次資料に紐づける",
+              "連系線は90万kW（現状）/120万kW（2028新々北本）/320万kW（日本海ルート）の3シナリオを必ず入れる。均衡蓄電池容量の連系線感応度は政策的含意として最も刺さる",
+              "モデルの外部検証としてAのイベントスタディ結果（北豊富稼働前後のスプレッド変化）とシミュレーションの価格インパクトを突合する"
+            ]
+          },
+          {
+            "design": "C",
+            "score": 4,
+            "assessment": "データ実現可能性の観点で最も脆弱。LSMC自体に必要な入力（価格過程のパラメータ、スプレッドの分布、CAPEX低下トレンド＝経産省2030年目標7万円/kWh等）は公開データから推定・設定可能だが、本デザインの構造の核である2つの関数がいずれも観測データから推定できない。第一に『ボラティリティ＝f(再エネ導入量)』はAと同じデータで推定可能（これは取れる）。第二に『累積蓄電池参入→将来スプレッド圧縮（共食い）関数』は、日本全体で連系済み25万kW・北海道で数件という現状では、JEPXデータからの直接推定が原理的に不可能。CAISOのスプレッド22%圧縮やButters et al.の弾性値（5,000MWhで卸価格5.6%低下）を外挿するか、Bと同型の残余需要シミュレーションで内生的に生成するしかなく、後者を選ぶ時点でCはBのモデル一式を前提とする上位互換的な拡張になってしまう。つまりCは単独では成立せず、データ面のボトルネックがBと同一＋αである。また収益過程をGBMで置く標準的LSMC（Shin & Lee 2024）は、下限0.01円の打ち切り・季節性・制度変更（EPRX上限価格引下げ2026年3月、FIT→FIP制御順変更）だらけのJEPX収益系列と整合させるための追加モデリングが必要で、1年の修論工数では投資タイミングの一点を出すために全体の説得力を犠牲にするリスクが大きい。",
+            "risks": [
+              "共食い（価格インパクト）関数が観測不能で、海外弾性値の外挿かBのシミュレーション依存になり、単独デザインとして自立しない",
+              "収益過程のGBM仮定がJEPXの下限打ち切り・強い季節性・レジーム変化と不整合で、オプション価値の推定が仮定駆動になる",
+              "制度変更（EPRX上限価格19.51→15円、LTDA、補助金拡大）が投資家の期待収益過程を非定常にし、パラメータの推定期間の選び方だけで結論が変わる",
+              "均衡『参入量』の導出には結局参入者全体の相互作用モデルが必要で、リアルオプション（個別投資家の停止問題）と均衡（集計）の接続部分が理論・データ両面で未整備"
+            ],
+            "fixes": [
+              "単独デザインとして採用せず、Bの最終章の拡張（均衡容量への収束経路とタイミング：不確実性下では参入がNPV=0点より手前で止まる、というオプション価値の定性・定量補正）として位置づける",
+              "共食い関数はBの残余需要シミュレーションから数値的に生成し、その関数形（スプレッドの容量弾性）をButters et al.(2025)のERCOT値・CAISO実績と比較して外部妥当性を示す",
+              "GBMではなくBで推定した季節性付き価格過程からモンテカルロで収益分布を直接生成し、LSMCはその上で回す（分布仮定の恣意性を排除）"
+            ]
+          }
+        ],
+        "missing": [
+          "蓄電池の個別ユニットの充放電実績が観測できるかの確定：HEPCO需給実績にはエリア集計の『蓄電池』列があるが、OCCTOユニット別発電実績公開システムに北豊富等の大型蓄電池が収載されるか（対象閾値・電源区分）は未確認。収載されるなら北豊富の実充放電パターンでLPモデルの運転仮定（完全予見vs実際）を検証でき、B/Cの説得力が大きく上がる。最優先の追加確認事項",
+          "『北海道の蓄電池連系済み容量の月次時系列』構築の具体的手順書が未設計：接続検討/契約申込/連系済みの3段階の定義差、2024年12月の公表様式変更前後の接続方法、落札リストの運開予定年と実運開日の突合方法を、着手前にプロトコル化すべき",
+          "道内火力ユニットの諸元（熱効率・最低出力・起動費）の入手可能性がデザインBの前提なのに未調査：供給計画・電力調査統計・有価証券報告書・エネ庁発電コスト検証WGでどこまで埋まるか、埋まらない部分の仮定の置き方を事前に確認する必要がある",
+          "ゼロ利潤条件に含める収益範囲の意思決定が未了：実務コンセンサスは『裁定単独ではNPV<0、スタッキング＋補助金でIRR9-10%』であり、裁定のみの均衡定義では現実の参入圧力（申込169万kW）を説明できない。EPRX収益の推計方法（商品・エリア別データから蓄電池分をどう切り出すか）と併せて設計段階で確定すべき",
+          "下限価格0.01円のcensoringの計量的処理方針（Tobit/発生確率モデル/分位点）が3デザイン共通の前提なのに、どのボラ指標にどの手当を当てるかが未定",
+          "出力制御増加（2026年度1.23%見通し）による気象IVの外生性毀損への対処（制御前潜在発電量の気象ベース推計）の実装方法",
+          "2022年度燃料ショック・2021年1月高騰の統制方法（燃料費指数の系列選定：貿易統計CIF/JKM/HJKS）",
+          "蓄電池のJEPX裁定とEPRX参加の市場間配分行動：2024年度は三次②高値約定でEPRX優先が実態であり、『蓄電池容量→スポットのスプレッド圧縮』の変換係数（スポット市場に振り向けられる比率）を仮定しないとB/Cの共食い速度を過大評価する",
+          "ラピダス・データセンター等の需要増シナリオ（産業用需要2035年度+53%）が均衡点を動かす需要側変数として3デザインとも明示的に扱われていない"
+        ],
+        "overall": "データ実現可能性の総合判定：B（7.5点）＞A（5.5点）＞C（4点）。共通して被説明変数側（JEPX30分値、HEPCO需給実績、OCCTO連系線、気象庁）は完全に無料公開で揃い、問題はすべて蓄電池側の変数にある。決定的な事実は2つ：(1)『北海道の系統用蓄電池導入容量の時系列』は単一統計が存在せず自力構築が必要で、しかも構築しても連系済みは全国25万kW・道内数件と分散がなく、回帰の説明変数としては機能しない。(2)蓄電池の充放電実績はエリア集計値（HEPCO需給実績の蓄電池列、2022年度～）しか確実には取れず、寄与もまだ僅少。この2点により、蓄電池効果を実測回帰で識別するAの後半と、共食い関数を実データから推定する必要があるCは、2026年時点のデータでは成立しない。Bだけが蓄電池をモデル内生変数として扱うことでこの観測制約を回避しており、残るギャップ（エリア別供給曲線の非公表、火力ユニット諸元の仮定）は先行研究（Karaduman南豪州、Carmona型bid stack）で確立した近似手法で埋められる。推奨は『B主軸＋Aの前半を実証章として統合』：第1章でAの再エネ→ボラ実証（GARCH-X/分位点回帰、ここはデータ完備）と大型蓄電池稼働のイベントスタディ、第2章でBの均衡シミュレーション（連系線90/120/320万kWシナリオ、ゼロ利潤条件は裁定単独/スタッキング/LTDA型の3定義）、Cは最終章の拡張（Bのモデルから生成した価格過程上でのLSMC）に格下げする。着手前の必須確認は、①OCCTOユニット別発電実績システムでの蓄電池ユニットの収載有無、②蓄電池容量時系列の構築プロトコル、③火力ユニット諸元の入手可能性、の3点。特に①が取れれば北豊富の実運転データでLPモデルを検証でき、修論の実証的価値が一段上がる。"
+      },
+      "identification": {
+        "verdicts": [
+          {
+            "design": "A",
+            "score": 6,
+            "assessment": "実行可能性は3案中最も高く、Rintamäki(2017)・Ketterer(2014)・Fuke & Ohashi(2025)の延長として審査に耐える骨格を持つ。しかし核心である「蓄電池係数」の識別が現状の設計では成立していない。(1)同時性: 蓄電池はボラ・スプレッドが高いから参入する（参入待ち行列169万kWはまさに高ボラの結果）ため、導入容量→ボラの回帰係数は上方（ゼロ方向またはプラス方向）にバイアスされる。さらに導入容量はほぼ単調増加のトレンド変数であり、燃料価格正常化・連系線運用容量拡大（50→55→65%）・需要増と共線し、時間トレンドと分離できない。連系「容量」ではなく、でんき予報の蓄電池充放電30分実績（2022年度以降取得可）を使わない限り、係数は「2023年以降ダミー」とほぼ同義になる。(2)検閲: 0.01円張り付きコマ（2026年度春8.9%）は分散を機械的に「圧縮」するため、RVやSDをそのまま被説明変数にすると「余剰悪化＝ボラ低下」という逆符号の測定を招く。左裾は打ち切りとして別扱いが必須。(3)出力制御: 制御時は観測される再エネ出力が価格の関数になり、気象IVの排除制約が崩れる（methods-finance調査の指摘どおり）。制御前の潜在出力（気象ベース推計）を説明変数にする処理が必要だが、2026年度以降制御率1.23%へ急増するため、まさに分析の中心期間で問題が最大化する。(4)パネルの幻想: 9エリアパネルは市場統合時にエリアプライスが同一値になるため、実質的な独立変動は分断コマ（北海道-東北で16〜29%）にしか存在しない。しかも分断の発生自体が道内再エネ・蓄電池の関数（内生）であり、N=9のクラスタ頑健標準誤差は信頼できない。パネルは「識別補強」ではなく見かけの自由度水増しになる恐れが強い。(5)均衡代替比率の外挿: 再エネ×ボラの関係はU字型（Wozabal 2016, Schöniger & Morawetz 2022）で局所線形近似が構造的に不適切。現在の限界効果の比を将来シナリオ（蓄電池容量が現状連系済みの数十倍）へ外挿するのはLucas批判の教科書的事例であり、「均衡点」という論文タイトルの主張を誘導形係数の比だけで支えるのは内的整合性を欠く。",
+            "risks": [
+              "蓄電池導入容量の係数が時間トレンド・燃料価格正常化と識別不能（疑似相関で『蓄電池がボラを下げた』と誤結論するリスクが最大）",
+              "0.01円張り付きが分散指標を機械的に押し下げ、『再エネ増→ボラ低下』という逆符号推定を生む",
+              "2021年1月高騰（燃料・制度起因）と2022年度燃料危機がGARCHの分散推定を支配し、再エネ係数を汚染する",
+              "出力制御増加期（2025年度以降）に気象IVの排除制約が崩壊する",
+              "エリアパネルのクロスセクション相関（統合時は完全相関）で標準誤差が過小になり、有意性を過大評価する",
+              "限界効果比の将来外挿がU字型非線形性・政策非不変性と矛盾し、審査で『均衡』の名に値しないと指摘される"
+            ],
+            "fixes": [
+              "蓄電池変数を『連系容量ストック』から『30分充放電実績（でんき予報）』と『大型案件の稼働イベント』の2系統に分解する。北豊富240MW/720MWh（2023年3月）、南早来17MW、Helios 50MW/104MWh（2025年12月）稼働前後のイベントスタディ（同期間の他エリアや気象条件をマッチングした差の差分析）を主識別戦略に格上げする",
+              "操作変数の具体候補: ①再エネ側=風速のパワーカーブ変換値・日射量から作る『制御前潜在出力』（出力制御の内生性を回避、気温は需要経路の統制として別途投入し排除制約を守る）、②蓄電池稼働側=需給調整市場（EPRX）の上限価格引下げ（19.51→15円/ΔkW、2026年3月）や商品別調達量削減という行政決定（蓄電池の機会費用を外生的に動かしJEPX裁定への配分をシフトさせる）、③LTDA落札結果（全国一律オークションの制度パラメータで決まる配分であり、道内の短期ボラ期待とは独立性が相対的に高い）、④北本連系線の計画停止スケジュール（分断の外生ショック）",
+              "被説明変数を分解する: 打ち切りに頑健な指標（0.01円コマ比率のロジット/Tobit、日中レンジの分位点回帰=Powell型打ち切り分位点回帰、スパイク発生ロジット[Hagfors 2016型]）を併用し、単一のRVに依存しない",
+              "構造変化の明示処理: 2021年1月〜3月は燃料・制度起因としてダミーまたは除外、JKM/原油価格・kWh在庫を統制、グロスビディング・インバランス制度改定（2022年4月）・FIT→FIP制御順変更（2026/27年度）をレジーム分割点として頑健性確認",
+              "パネルは主戦場にせず、北海道単独時系列＋『分断コマのみサブサンプル』＋『システムプライスとの乖離幅』を被説明変数とする設計に変更。分断ダミー自体を内生変数として扱う（分断の決定要因モデルを併置）",
+              "均衡代替比率は『現状近傍の局所的トレードオフ』と明示的に限定し、将来シナリオへの外挿はデザインB型のシミュレーションに委ねる（AとBの役割分担を論文構成上明確化）"
+            ]
+          },
+          {
+            "design": "B",
+            "score": 7.5,
+            "assessment": "「均衡点」というリサーチクエスチョンに構造上最も忠実で、蓄電池の自己共食い（cannibalization）を内生化できる唯一の設計。Schmalensee(2022)のゼロ利潤自由参入、Butters et al.(2025 Econometrica)、Karaduman（南豪州=北海道と構造酷似）という強い理論・実証の系譜に接続でき、0.01円下限も供給曲線の制約として自然に扱える（Aの検閲問題を回避できるのはBの明確な優位）。ただし内的整合性の観点で3つの重大な欠陥がある。第一に、任務(5)の指摘どおり『アービトラージ収益=年間固定費』というゼロ利潤条件は日本の収益構造と乖離している。実務の共通見解は『アービトラージ単独では回収不能、フル・スタッキング＋補助金1/3でIRR9〜10%』であり、容量市場収益（北海道約1.5万円/kW・年、上限近傍）と補助金を無視すると均衡蓄電池容量を大幅に過小推定する。逆にLTDA（20年固定・他市場収益9割還付）は参入判断を価格シグナルから完全に切り離すため、『自由参入』の前提自体が北海道のLTDA落札集中（第1回の全国比約35%）と矛盾する。北海道は市場駆動参入（Helios型マーチャント）と政策駆動参入（LTDA型）が併存するフィールドであり、これをモデルで区別しないと均衡の概念が空洞化する。第二に、完全競争メリットオーダーの仮定は北海道電力の支配的地位と整合しない。Andrés-Cerezo & Fabra(2023)が示すとおり市場支配力・垂直統合は蓄電池の運用と投資の双方を歪め、2021年1月のKanamura & Bunn(2022)が示す大手の999円買い戻し入札のような行動は競争的入札曲線では再現できない。第三に、北本連系線の扱い: 潮流は価格の内生的結果なので、東北側の輸入供給曲線（またはエリア間価格差の関数としての潮流）をモデル化しないと、分断頻度（現在16〜29%）を再現できず均衡価格分布が歪む。加えて実装リスク: 電源ユニット別費用データ、水力・揚水の機会費用（水価値）の推定は1年修論では重い。モデルが実績の価格分布（スパイク頻度、0.01円コマ比率、日次スプレッド分布）をバックテストで再現できることを示さない限り、均衡容量の数値は審査で信用されない。",
+            "risks": [
+              "ゼロ利潤条件がアービトラージ収益のみに依存し、容量市場・需給調整市場・LTDA・補助金を無視して均衡容量を過小推定する（結論の符号すら変わり得る最大のリスク）",
+              "完全競争仮定が北海道電力の市場支配力・垂直統合と矛盾し、価格スパイクと出し惜しみ行動を再現できない",
+              "北本連系線潮流を外生固定すると分断頻度・エリア価格分布が実績と乖離する",
+              "メリットオーダー曲線構築（ユニット別燃料費・水力機会費用・起動費）のデータ・工数負担が1年修論の範囲を超過する",
+              "モデルの妥当性検証（実績価格分布の再現）を省くと、均衡容量の推定値が『仮定の産物』として棄却される",
+              "洋上風力最大390万kW・ラピダス/DC需要増（産業需要+53%）・新々北本/日本海ルートHVDCなど、均衡点自体を動かす将来変数の不確実性が大きい"
+            ],
+            "fixes": [
+              "参入条件を『NPV=0: Σ[裁定収益(内生)＋容量市場収益(約1.5万円/kW・年)＋調整力収益(シナリオ変数、上限価格引下げを反映した逓減トレンド)−OPEX]×割引率 ≧ CAPEX(6.8万円/kWh基準、補助金1/3で感度)』に拡張。調整力市場は明示的にモデル化せず『外生収益アダー＋JEPX裁定への容量配分制約』として扱えば工数を抑えつつ整合性を保てる",
+              "参入を二層に分離: LTDA・補助金採択済み案件（落札電源一覧から所在地・容量・運開年を特定可能）は『政策駆動の外生的容量パス』として所与とし、限界的マーチャント参入者にのみゼロ利潤条件を課す。これにより『政策駆動参入が市場均衡容量を超過し、ボラが均衡水準以下まで低下する』という北海道固有の含意を導出でき、論文の独自貢献になる",
+              "完全競争ケースを基準としつつ、Andrés-Cerezo & Fabra(2023)型の簡易なマークアップ（残余需要の傾きに応じた入札上乗せ）を頑健性ケースとして追加。フルの寡占均衡は解かない（工数超過）",
+              "連系線は『東北側価格を外生確率過程とし、価格差に応じて容量上限まで潮流が流れる』簡易輸入供給関数で内生化。運用容量パラメータ（90/120/320万kW、活用率50/55/65%）のシナリオ軸を明示",
+              "供給曲線はユニット積み上げの完全版ではなく、実績データからの残余需要-価格の準構造推定（区分回帰またはKaraduman型の価格インパクト関数推定）で代替し、構築コストを削減する",
+              "必須の妥当性検証: 2023〜2025年度の実績で、モデルが(i)価格の日次スプレッド分布、(ii)0.01円コマ比率、(iii)分断頻度、(iv)スパイク頻度を再現できることをバックテスト章として独立に示す"
+            ]
+          },
+          {
+            "design": "C",
+            "score": 4,
+            "assessment": "投資の不可逆性と参入タイミングという視点は金融戦略コースの修論として魅力的だが、単独デザインとしては内的整合性と実証的裏付けの両面で最も脆弱。第一に、モデルの入力となる『ボラティリティが再エネ導入量の関数として上昇し、蓄電池累積参入がスプレッドを圧縮する』という状態遷移則は、デザインAの推定（前述の識別問題をそのまま継承）かデザインBのシミュレーション（ならばCはBの付録にすぎない）からしか得られず、Cは自立した識別戦略を持たない。第二に、Shin & Lee(2024)型のGBM収益過程の仮定は、平均回帰的でかつ共食いにより構造的に減衰するスプレッド動学と正面から矛盾する。共食い外部性を入れた瞬間に収益過程は個社の状態変数ではなく産業全体の累積容量に依存する平均場ゲームとなり、Grenadier型の競争均衡では待機オプション価値が競争で侵食されてNPV=0トリガーに収束する——つまり自由参入極限ではデザインBと同じ答えに帰着し、C独自の付加価値は『参入が有限で市場支配力がある場合』に限られるが、その推定は修論の工数を大きく超える（Dumitrescu et al. 2024のFBSDE級の数理）。第三に、日本の制度環境との不整合が致命的: LTDAの20年固定収入と補助金の採択サイクルは、参入タイミングを価格ボラではなく公募スケジュールで決めており、『不確実性下の最適待機』というリアルオプションの中核メカニズムが北海道の実際の参入行動（LTDA集中）を説明しない。100%マーチャントのHelios型案件のみに適用範囲を限定すれば理論的には成立するが、その場合サンプルは事実上1件で実証になじまない。結論として、Cは主軸ではなくBの最終章の拡張（マーチャント参入者の投資タイミングに対する不確実性の効果の感度分析）として位置づけるべき。methods-finance調査の『LSMはやるなら最終章の拡張扱い』という判断は正しい。",
+            "risks": [
+              "収益過程のGBM仮定が平均回帰＋共食い減衰というスプレッドの実態と矛盾し、オプション価値を過大評価する",
+              "状態遷移則（再エネ→ボラ、蓄電池→スプレッド圧縮）を外部から借用するため、AまたはBの識別問題を無検証で継承する",
+              "共食い外部性＋複数参入者の均衡はゲーム論的リアルオプション（平均場/FBSDE級）となり、1年修論の数理・計算能力を超過する",
+              "LTDA・補助金駆動の参入が支配的な北海道で『価格不確実性下の待機オプション』が参入行動の説明モデルとして反実仮想的になる",
+              "実証対象となる純マーチャント案件が事実上Helios 1件で、モデルの検証可能性がない"
+            ],
+            "fixes": [
+              "単独デザインとしては放棄し、デザインBの均衡シミュレーションを前提とした最終章の拡張に格下げする: Bで得たスプレッドの将来パス（共食い織り込み済み）を収益過程として与え、マーチャント参入者1社の投資タイミングをLSMCで評価する構成なら整合的かつ実装可能",
+              "収益過程はGBMではなく、Bのシミュレーション出力にフィットさせた平均回帰過程（減衰トレンド付きOU過程等）を用いる",
+              "リアルオプションの問いを『参入タイミング』から『LTDA応札（20年固定・アップサイド放棄）vs マーチャント残留（変動収益・オプション保持）の選択』に再定義すると、日本の制度に固有の意思決定問題となり新規性・実務的価値が大きく上がる",
+              "均衡参入量の導出はCでは行わず、Bのゼロ利潤均衡に委ねる（役割の重複を排除）"
+            ]
+          }
+        ],
+        "missing": [
+          "蓄電池の『実際の充放電行動』の実証が3案とも欠落している。でんき予報の蓄電池30分実績（2022年度以降）を使えば、充放電と日中スプレッド・0.01円コマの関係を直接観察でき、Lamp & Samano(2022)型の『実際の運用は最適裁定と乖離する』検証は識別問題の少ない確実な貢献になる。均衡モデル（B）の運用仮定（完全予見LP）の妥当性検証にも必須",
+          "市場分断の内生性の明示的扱い。北海道-東北の分断コマ比率（16→29%）は識別の前提条件であると同時に、道内再エネ・蓄電池の結果変数でもある。分断発生の決定要因モデル（連系線運用容量・計画停止・需給ギャップのロジット）を併置しないと、A・Bとも『どのコマの価格が北海道固有の情報を持つか』が定義できない",
+          "気象IVの排除制約の詳細検討。北海道では風速・気温が暖房需要（需要側）にも直結するため、風速IVが需要経路を通じて価格に影響する恐れがある。気温・暖房度日を統制した上での過剰識別検定、および出力制御コマを除外/潜在出力に置換した頑健性確認の設計が未記載",
+          "検定力（power）の事前評価。全国連系済み蓄電池は約25万kW（2025年6月）にすぎず、道内稼働済み大型案件は数件。『蓄電池→ボラ低減』を実績データの回帰で検出できるだけの変動が本当にあるのか、イベントスタディの最小検出可能効果量を先に試算すべき。検出不能なら実証は再エネ側に集中し、蓄電池側はシミュレーションに委ねる構成へ早期に舵を切る判断材料になる",
+          "需要側の構造変化シナリオ。ラピダス（約60万kW）・データセンター（30万kW超）による産業需要+53%（2035年度）はネット負荷の形状と余剰頻度を根本的に変え、均衡蓄電池容量の推定値を大きく動かす。B・Cの将来シナリオに需要成長軸がない",
+          "0.01円下限撤廃（ネガティブプライス導入）の政策シナリオ。下限撤廃が議論されている以上、均衡分析の結論が『下限あり』前提に依存する度合いを感度分析で示さないと政策的含意が短命化する",
+          "指導教員（大橋和彦教授）の最類似研究Fuke & Ohashi(2025)との差別化の明文化。『九州・太陽光・価格変動性』から『北海道・風力・蓄電池・均衡』への拡張点（蓄電池の内生化、均衡容量の導出）を研究計画書の段階で明示し、テーマ重複の懸念を先回りして解消すべき",
+          "北海道固有の風力連系要件（出力20kW以上への変動緩和用蓄電池併設義務）の扱い。道内の風力出力変動は既に部分的に平滑化されており、欧州文献の風力係数をそのまま参照した仮説設定にはバイアスがある。併設蓄電池と系統用蓄電池の効果を概念的に区別する必要がある",
+          "エリア間パネルを使うなら、市場統合コマの扱い（統合時はシステムプライスと同一）とエリア数9・分断時のみ独立という設計上の制約から、Driscoll-Kraay型標準誤差やワイルドクラスタブートストラップ等、小クラスタ・強クロスセクション相関下の推論手法の選定が必要"
+        ],
+        "overall": "3案の役割分担を明確にした上で「B（構造均衡）を主軸、Aのイベントスタディ・IV実証を検証章、CはBの最終章の拡張」というハイブリッド構成を推奨する。理由は次の通り。(1)研究の核心的問い『再エネによるボラ増大と蓄電池によるボラ低減の均衡点』は、蓄電池の自己共食いを内生化しない限り答えられず、誘導形（A）の限界効果比では原理的に到達できない。均衡はBの自由参入・ゼロ利潤条件（Schmalensee 2022, Butters et al. 2025の標準）でのみ整合的に定義できる。(2)ただしBの現行案には致命的な欠陥が2つある。第一に、ゼロ利潤条件をアービトラージ収益のみに課している点。日本の実務では容量市場（北海道約1.5万円/kW・年）・需給調整市場・LTDA・補助金1/3のスタッキングで初めてIRR9〜10%が成立するため、裁定収益単独の均衡条件は均衡容量を大幅に過小推定する。少なくとも容量収益と補助金を固定アダーとして参入条件に入れ、LTDA落札分（20年固定・9割還付で価格シグナルから切断された政策駆動参入。北海道は第1回落札の約35%が集中）は外生容量パスとして与え、限界的マーチャント参入者にのみゼロ利潤条件を課す二層構造にすべきである。この修正は同時に『政策駆動参入が市場均衡を超過させ得る』という北海道固有の学術的・政策的貢献を生む。第二に、モデルが実績の価格分布（日次スプレッド、0.01円コマ比率8.9%、分断頻度29%、スパイク）を再現できることのバックテスト検証が計画にない。これがなければ均衡容量の数値は審査で信用されない。(3)Aは単独では蓄電池係数の識別が成立しない（高ボラ→参入→ボラ低下の同時性、導入容量のトレンド性、0.01円検閲、出力制御による気象IVの毀損、9エリアパネルの見かけの自由度）が、識別戦略を絞れば価値ある検証章になる。具体的には①北豊富（2023年3月）・Helios（2025年12月)等の大型案件稼働イベントスタディ、②行政決定による外生ショック（連系線活用率50→55→65%、充電制御装置導入2023年1月、EPRX上限価格引下げ2026年3月、FIT→FIP制御順変更、北本計画停止スケジュール）、③風速・日射の『制御前潜在出力』IV、の3点に集中する。被説明変数は打ち切りに頑健な複数指標（0.01円コマ比率ロジット、打ち切り分位点回帰による日中レンジ、スパイクロジット）に分解し、2021年1月・2022年度燃料危機は燃料価格統制とレジーム分割で処理する。(4)Cは単独では状態遷移則を外部依存しGBM仮定が共食い動学と矛盾するため主軸に不適。ただし『LTDA応札（固定収入・アップサイド放棄）vsマーチャント残留（オプション保持）の選択』として再定義すればBの均衡出力を収益過程に用いる整合的な最終章になり、金融戦略コースの修論としての金融工学的色彩も強まる。総じて、事前調査の質は高く研究空白（北海道×風力×蓄電池×均衡）の確認も妥当だが、成否は『蓄電池側の識別を回帰に求めすぎない』『均衡条件に日本の収益スタッキングと政策駆動参入を組み込む』の2点の設計修正にかかっている。優先次アクションは、(a)イベントスタディの検定力試算（蓄電池効果が実績データで検出可能かの早期判定）、(b)ゼロ利潤条件の収益範囲について指導教員と合意、(c)でんき予報の蓄電池充放電30分値の粒度・欠損の確認、の3点。"
+      },
+      "novelty-contribution": {
+        "verdicts": [
+          {
+            "design": "A",
+            "score": 6,
+            "assessment": "実行可能性は3案中最も高く、Fuke & Ohashi (2025, J. Commodity Markets) の「九州・太陽光・分位点回帰」を「北海道・風力・蓄電池」へ拡張する形は指導体制（大橋教授）とも整合的で、Sakaguchi & Fujii (2021) がFY2019で止まっている以上「FY2020以降・北海道・蓄電池変数の明示的導入」は日本初と言える。ただし致命的な弱点が2つある。第一に、肝心の蓄電池側の識別がほぼ不可能である。連系済み系統用蓄電池は全国でも約25万kW（2025年6月）に過ぎず、北海道の観測データ内変動が小さすぎて「蓄電池容量→ボラ低減」の係数はノイズに埋もれるか、逆因果（スプレッドが大きいエリア・時期に蓄電池が参入する）で符号が逆転する恐れが強い。第二に、本デザインの「均衡代替比率」（風力+1MWのボラ増を相殺する蓄電池MW数）は2つの限界効果の比にすぎず、ファイナンスの意味での均衡（ゼロ利潤・無裁定・最適化の帰結）ではない。線形外挿はWozabal (2016) やSchöniger & Morawetz (2022) が示すU字型の非線形性とも矛盾し、審査で「均衡と呼ぶ根拠は何か」と突かれると防御できない。単体では優れた応用計量論文にはなるが、金融工学修論としては『均衡』の看板を下ろすか、構造パートと接合する必要がある。",
+            "risks": [
+              "蓄電池連系済み容量の観測変動が小さすぎ、係数が識別できない・有意にならないリスク（研究の後半が空振りになる）",
+              "蓄電池参入の内生性：スプレッド・ボラが大きいから蓄電池が来るという逆因果で、OLS/GARCH-Xでは蓄電池係数が正（ボラ増）に偏るバイアス",
+              "0.01円下限による打ち切りで分散・RVが過小計測され、再エネ係数も蓄電池係数も歪む（Tobit/打ち切り処理を怠ると計量的に不備）",
+              "出力制御（2026年度に急増見通し）による気象IVの外生性毀損：制御時は気象→出力の物理的リンクが切れる",
+              "2021年1月・2022年度の燃料起因スパイクを再エネ起因ボラと分離できないと係数が汚染される",
+              "『均衡代替比率』の線形外挿がU字型文献（Wozabal 2016; Schöniger & Morawetz 2022）と理論的に不整合",
+              "手法（GARCH-X・パネル）自体に方法論的新規性がなく、エネルギー経済学の応用と見なされてファイナンス修論としての評価が割れる可能性"
+            ],
+            "fixes": [
+              "蓄電池効果は連続変数の回帰ではなく、大型案件の稼働イベントスタディ（北豊富240MW/720MWh 2023年3月、南早来、千歳BPP、Helios 50MW/104MWh 2025年12月）＋差分の差分（他エリアを対照群）に切り替える。対象アウトカムはボラよりも「日次4時間スプレッド」の方が検出力が高い（CAISOの22%圧縮がベンチマーク）",
+              "0.01円張り付きはHagfors (2016) 型ロジット（発生確率モデル）とTobitで明示処理し、ボラ指標は打ち切りに頑健なもの（分位点間レンジ等）を併用する",
+              "気象IV（風速のパワーカーブ変換・日射量）を使い、出力制御期間は「制御前潜在出力（気象ベース推計）」を説明変数にして外生性を守る",
+              "燃料価格（JKM/原油）・需要をコントロールし、2021年1月と2022年度をダミー・サンプル分割で処理、ボラ指標は相対値・季節調整併用",
+              "『均衡代替比率』という語を避け、「限界相殺比率（marginal offset ratio）」等と正確に命名し、均衡分析はB へ接続する第一段（誘導形エビデンス＋Bのキャリブレーション入力）と位置づける",
+              "分位点回帰でボラだけでなく分布の裾（スパイク・下限張り付き）への効果を分解し、Maciejowska (2020) 型の「分布への効果」としてファイナンス的含意（テールリスク・ヘッジ需要）に接続する"
+            ]
+          },
+          {
+            "design": "B",
+            "score": 8,
+            "assessment": "3案の中で学術的貢献とファイナンス理論への接続が最も明確。自由参入・ゼロ利潤条件は「裁定収益が固定費をちょうど回収する水準までスプレッドが縮小する」という設備容量空間での長期無裁定条件そのものであり、Schmalensee (2022, Energy Journal) の競争均衡＝費用最小化の定理、Butters, Dorsey & Gowrisankaran (2025, Econometrica)、Karaduman (南豪州) という一級の理論・実証系譜に直結する。この枠組みの日本・JEPXへの適用は和英文献とも存在せず「日本初」を明確に主張できる。さらに北海道固有の3要素——(i) 0.01円下限による価格分布の左裾打ち切り（欧州の負値価格と異なる裁定機会の非対称性）、(ii) 北本連系線90→120→320万kWという外生的容量シナリオ、(iii) LTDA（他市場収益9割還付）と補助金1/3which により参入判断が価格シグナルから切り離される政策ウェッジ——をモデルに組み込めば、単なる欧米モデルの移植を超える貢献になる。特に(iii)は「政策駆動参入が市場均衡容量をオーバーシュートさせ、ボラティリティを競争均衡水準以下に押し下げ、マーチャント蓄電池（Helios等）の収益を毀損する」という、ファイナンス教員に最も刺さる論点（政策による無裁定条件の歪みと投資インセンティブ）を生む。最大のリスクは、実務家1年でメリットオーダー曲線の構築・検証まで抱え込むと工数が爆発し、検証不十分な「単なるシミュレーション」に堕ちること。",
+            "risks": [
+              "メリットオーダー供給曲線のボトムアップ構築（電源別燃料費・起動費・水力/揚水の機会費用）は工数が重く、シミュレーション価格が実際のJEPX価格を再現できないと全体の信頼性が崩れる（JEPXの低流動性・戦略的入札（Kanamura & Bunn 2022）は限界費用ベースの競争モデルと乖離する）",
+              "完全競争仮定のリスク：Andrés-Cerezo & Fabra (2023, RAND) が示す通り市場支配力・垂直統合下では運用・投資とも歪む。北海道は大手電力のシェアが高く、競争均衡の妥当性を審査で問われる",
+              "アービトラージ収益のみのゼロ利潤条件は誤特定：実務では容量市場（北海道約1.5万円/kW・年）・需給調整市場・補助金のスタッキングで参入が決まっており（自然エネルギー財団2025：裁定単独では回収不能）、卸市場だけの均衡容量は過小推定になる",
+              "（再エネ, 蓄電池）同時参入均衡の拡張はスコープクリープ。1年では計算・検証とも untenable",
+              "蓄電池の価格インパクト関数の推定は、現状の連系量が小さいためデータからは直接推定できず、残余需要曲線の傾きに依存する仮定計算にならざるを得ない",
+              "需要成長（ラピダス・DCで産業用需要2035年度+53%）を無視すると余剰・スプレッド構造の前提が数年で陳腐化する"
+            ],
+            "fixes": [
+              "ボトムアップの供給曲線構築は捨て、JEPXが公表する入札カーブ（売り/買い入札量）から残余需要・価格インパクト関数を半構造的に推定する簡略化を採る（Butters et al. も本質は残余需要への裁定のフィードバック）。検証は実際の北海道エリアプライスの分布モーメント（平均・SD・0.01円頻度・スプレッド分布）の再現で行い、再現性を本文で明示的に報告する",
+              "ゼロ利潤条件を「裁定収益＋容量市場収益（1.5万円/kW・年）＋調整力収益（上限価格引下げの逓減シナリオ）−OPEX ＝ 年換算CAPEX（6.8万円/kWh基準、低位4〜5万・海外2〜4万で感度分析）」と定式化し、収益スタッキングを明示的に入れる",
+              "政策カウンターファクチュアルを核に据える：①純市場均衡（マーチャントのみ）、②LTDA・補助金あり（9割還付・CAPEX1/3圧縮）の2均衡を比較し、政策ウェッジがもたらす過剰/過少参入とボラ水準の乖離を定量化する。これが本論文の看板になる",
+              "連系線シナリオ（90/120/320万kW）と再エネシナリオ（洋上風力最大390万kW）のグリッドで均衡蓄電池容量の等高線を描き、『均衡点の移動』として政策的含意を示す",
+              "完全競争仮定の頑健性チェックとして、蓄電池所有構造（再エネ併設 vs 独立系）別のシナリオ、またはSioshansi (2010) 型の出し惜しみケースを付す",
+              "同時参入拡張（capture price ≥ LCOE）は「今後の課題」に格下げし、再エネ容量は外生シナリオに固定する",
+              "実現ボラ・スプレッドの誘導形実証（デザインAの縮小版）を第1章に置き、モデルの入力（再エネ→残余需要変動）と出力（ボラ低減）の双方をデータで裏打ちして「シミュレーション研究」批判を封じる"
+            ]
+          },
+          {
+            "design": "C",
+            "score": 5,
+            "assessment": "見かけ上は最も「ファイナンスらしい」——不可逆投資・不確実性・LSMC（Longstaff-Schwartz）は金融工学のコア技術であり、審査員への訴求力はある。しかし理論的に重大な落とし穴がある：Leahy (1993) およびGrenadier (2002) が示す通り、自由参入・競争均衡の下では先制競争がオプション・プレミアムを侵食し、均衡の投資トリガーは近視眼的NPVルール（＝デザインBのゼロ利潤条件）に収束する。つまり「共食い外部性＋自由参入」を真面目に解くとCはBに退化し、逆にオプション価値が残る設定にするには参入障壁や寡占（系統接続枠の希少性は現実的な根拠になり得るが）を明示的にモデル化する必要があり、これは修論の射程を超える。実務上も、先行例Shin & Lee (2024, Energies) は収益をGBMで外生的に置いた単一主体モデルにすぎず、これを北海道に載せ替えるだけでは増分が小さい。スプレッド過程に「再エネ導入で上昇・蓄電池累積参入で圧縮」という構造を持たせる場合、その確率過程の特定化（GBMは明らかに不適、平均回帰＋レジーム）と推定に耐えるデータがなく、仮定の塔になる。単体の主軸としては、均衡概念の詰めの甘さと「シミュレーションの上にシミュレーションを重ねる」構造の両面で3案中最も審査リスクが高い。",
+            "risks": [
+              "Leahy (1993)・Grenadier (2002) の競争的リアルオプションの結論により、自由参入下ではオプション価値が消え、Bと同じ答えに高コストで到達するだけになる（審査員がこの文献を知っていれば必ず指摘される）",
+              "スプレッドの確率過程（再エネでドリフト上昇・蓄電池参入で圧縮）の特定化が恣意的になり、結論がプロセス仮定に全面依存する",
+              "北海道の蓄電池収益の時系列が短く（実質2023年以降）、過程パラメータの推定が不可能に近い",
+              "リスク中立測度への変換の根拠が薄い：電力スプレッドのリスクの市場価格を識別する取引デリバティブ（北海道エリアの先物）が存在せず、割引率・測度の選択が恣意的とされる",
+              "投資タイミングは接続検討865万kW・契約申込169万kWという現実の待ち行列（系統接続枠）に律速されており、「いつ投資するか」の自由度というモデルの前提自体が北海道の実態と乖離している",
+              "LSMCの実装・検証に時間を食い、実証パートが痩せて「データに触っていない金融工学ごっこ」との評価を受けるリスク"
+            ],
+            "fixes": [
+              "単体の主軸にせず、デザインBの最終章の拡張として位置づける：「競争均衡（B）ではオプション価値が消えるが（Leahy/Grenadier）、系統接続枠の希少性・LTDA落札枠が事実上の参入制限として機能する場合、待機オプション価値が復活する」という論理で、B均衡とC単一主体オプション価値の差分を『参入制限のレント』として解釈する構成なら理論的な深みが出る",
+              "スプレッド過程はGBMを捨て、Aの実証（またはBのシミュレーション出力）から推定した平均回帰・レジームスイッチ過程を使い、実証→構造→オプションの一貫パイプラインにする",
+              "リスク中立化の困難は正面から論じ、実物確率＋CAPMベース割引率での感度分析に留める（誤魔化すより明示した方が審査に強い）",
+              "接続待ち行列・保証金引上げ（2026年4月、5%→10%）を投資の摩擦としてカリブレーションに使い、「なぜ申込113GWに対し連系0.23GWか」をオプション（待機）の観点から解釈するコラム的分析にすると実務家修論としての独自性が出る"
+            ]
+          }
+        ],
+        "overall": "推奨は「B を主軸に、A の縮小版を第1章の実証的基礎として組み込み、C は最終章の理論的拡張（やらなくてもよい）に格下げする」ハイブリッド構成である。理由は3点。(1) 新規性の所在：国内先行研究（Sakaguchi & Fujii 2021; Maekawa 2018; Fuke & Ohashi 2025）で「再エネ→価格水準（メリットオーダー効果）」は既に厚く、修論の差別化はボラティリティ・スプレッドと蓄電池参入の均衡に置くしかない。その均衡を担えるのはBだけであり、Schmalensee (2022)–Karaduman–Butters et al. (2025, Econometrica) の系譜の「日本初・北海道初」適用という明快な貢献主張ができる。Aの「限界効果の比」は均衡ではなく、Cは自由参入下でBに退化する（Leahy 1993; Grenadier 2002）。(2) ファイナンス適合性：Bのゼロ利潤・自由参入条件は「設備容量空間の長期無裁定条件」としてフレーミングでき、さらに北海道固有のLTDA（他市場収益9割還付）・補助金1/3という政策ウェッジが無裁定条件を歪め「政策駆動の過剰参入→ボラが競争均衡水準を下回り、マーチャント案件（Helios等）の収益を毀損する」という仮説は、資産価格・投資理論の言葉で語れる本研究最大のセールスポイントである。審査員向けの推奨フレーミングは『電力価格ボラティリティは裁定可能な状態変数である——蓄電池の自由参入はボラティリティを固定費回収水準まで裁定し尽くす。では誰がボラティリティ・プレミアムを得るのか、そして政策はこの無裁定均衡をどう歪めるのか』。これはエネルギー経済学ではなくファイナンスの問いとして立っている。(3) 実行可能性とリスク管理：Aは蓄電池係数の識別不能リスク（連系済み全国25万kWでは変動が足りない）で後半が空振りになり、Cは確率過程の仮定の塔になる。Bも供給曲線のボトムアップ構築を抱えると破綻するため、JEPX公表の入札カーブから残余需要を半構造的に推定する簡略化と、実際の価格分布モーメント再現による検証を必須の規律とすべきである。スコアの序列はB(8) > A(6) > C(5) だが、これは単体採用時の評価であり、A+B結合なら9点相当の設計になる。なお指導面ではFuke & Ohashi (2025) との重複回避と「均衡概念の深さ（静学ゼロ利潤で足りるか）」の合意を最優先で大橋教授と取り付けること。",
+        "missing": [
+          "均衡条件の収益スタッキング：3案とも卸市場アービトラージ中心の設計だが、実務の参入判断は容量市場（北海道1.5万円/kW・年）・需給調整市場（上限価格引下げで逓減中）・補助金込みで決まる（裁定単独では回収不能が実務コンセンサス）。ゼロ利潤条件に他収益源を入れないと均衡容量が系統的に過小になる——この誤特定への対処が3案いずれにも明示されていない",
+          "蓄電池導入量時系列データの構築計画：連系済み容量の月次系列は単一統計が存在せず、審議会資料・TSO受付Excel・LTDA/容量市場落札リストからの自力構築が必要。これは工数もかかるが独自データセットとして貢献にもなる。データ構築のマイルストーンが設計に組み込まれていない",
+          "ファイナンスとしての『リスクプレミアム』の視点：ボラティリティが上がると誰のヘッジコストが上がり、先物・相対契約のプレミアムがどう動くかという資産価格側の含意が全デザインで欠落。東京エリア電力先物（EEX/TOCOM）との裁定・ベーシスに一節でも触れると金融戦略コースとしての適合性が格段に上がる",
+          "リスク中立測度 vs 実物測度の扱い：特にCで、北海道エリアにはヘッジ手段となる取引デリバティブがなく市場の完備性が成立しない。割引率・測度選択の正当化方針が未設計",
+          "市場支配力・垂直統合の頑健性（Andrés-Cerezo & Fabra 2023）：北海道は大手電力シェアが高く、完全競争均衡の妥当性チェック（所有構造別分析）が必要だがBの設計に明示されていない",
+          "需要側シナリオ：ラピダス（約60万kW）・データセンターによる産業用需要+53%（2035年度）は余剰緩和と夕方スパイクの両面で均衡点を動かす第一級の変数だが、3案とも供給側（再エネ・蓄電池・連系線）のみで需要成長が欠落",
+          "制度イベントのタイムライン設計：FIT→FIP出力制御順変更（2026/27年度）、需給調整市場上限価格引下げ（2026年3月）、新々北本運開（2028年3月）等の構造変化点をサンプル分割・イベント・シナリオのどれで扱うかの整理がない",
+          "Fuke & Ohashi (2025) との差別化の明文化：最類似研究の共著者が自コースの教員である以上、「何が同じで何が新しいか」を研究計画段階で書面化し合意しておくことが、審査戦略上も倫理上も必須",
+          "0.01円下限の制度変更リスク：マイナス価格導入論（JPEA提言等）が進行中であり、下限撤廃されれば打ち切りモデルの前提と蓄電池の裁定機会の下方が変わる。感度分析またはディスカッションでの言及が必要",
+          "検証（validation）の規律：Bのシミュレーションが実際の北海道エリアプライスの分布（平均・SD・0.01円頻度・スプレッド・分断頻度）をどの程度再現するかの定量的検証基準を事前に決めておかないと「単なるシミュレーション」批判を封じられない"
+        ]
+      },
+      "completeness": {
+        "verdicts": [
+          {
+            "design": "A",
+            "score": 7,
+            "assessment": "実行可能性は3案中最も高く、データも全て公開情報で揃う。Rintamäki(2017)＋Ketterer(2014)の北海道版という位置づけも明確。しかし核心である「蓄電池の限界効果」の識別が現状のデータではほぼ不可能という致命的な穴がある。全国の連系済み系統用蓄電池は約25万kW（2025年6月末）にすぎず、北海道でも市場裁定型の稼働実績は2023年以降の数件（北豊富240MW、Helios 50MW等）に限られる。時系列変動が乏しい説明変数の係数から「均衡代替比率」を外挿する設計は、審査で「係数が識別できていない」「局所線形効果をU字型の非線形関係（Wozabal 2016, Schöniger & Morawetz 2022）に外挿している」と二重に突っ込まれる。さらに9エリアパネルでの識別補強は、エリア間で市場分断が起きていないコマでは価格が同一になるため独立な観測とみなせず、パネルの利点が幻想になりかねない。",
+            "risks": [
+              "蓄電池容量の月次時系列データが公的統計として存在せず（data-sources調査で確認済み）、独自構築しても変動が小さすぎて係数が推定できない",
+              "逆因果：蓄電池はボラティリティ（スプレッド）が高い場所・時期に参入するため、単純回帰では蓄電池係数が正（ボラ増大）に偏る内生性",
+              "北海道の蓄電池は風力併設の変動緩和用（1%/分制御要件）と市場裁定用が混在しており、「蓄電池容量」1変数ではボラ低減メカニズムが異なるものを合算してしまう",
+              "0.01円下限による左裾打ち切り：RVやGARCHをそのまま適用すると censoring でボラティリティを過小評価。出力制御（数量調整）が価格調整を代替する同時性も未処理",
+              "2021年1月・2022年度の燃料起因スパイクを再エネ起因ボラと分離しないと係数が汚染される",
+              "限界効果の「比率」を均衡と呼ぶのは概念の飛躍。ゼロ利潤条件も参入行動も入っておらず、経済学的な意味での均衡ではないと審査で指摘される",
+              "北本連系線の潮流・分断は内生変数であり、単に説明変数に入れるとbad control問題が生じる"
+            ],
+            "fixes": [
+              "蓄電池の限界効果推定は諦め、識別可能な設計に置換：①大型BESS稼働（北豊富2023/3、Helios 2025/12等）・新北本増強(2019/3)・連系線活用率変更(50→55→65%)をイベントとする差分の差分／イベントスタディ、②30分コマ単位で「その時間帯に蓄電池充放電が観測されたコマ」の高頻度分析（でんき予報の蓄電池30分値を活用）",
+              "ボラ指標を金融理論と接続：GARCHの条件付き分散だけでなく、蓄電池収益の直接ドライバーである日次スプレッド・4時間スプレッドを被説明変数に加える（Lamp & Samano 2022のCAISOスプレッド圧縮の再現）",
+              "下限張り付きはTobit/打ち切りモデルまたはHagfors(2016)型の発生確率ロジットで別建てし、RVは張り付きコマを除外したロバスト版と併記",
+              "再エネ変数は気象IV（風速の出力カーブ変換、日射量）で操作し、出力制御時は気象ベースの潜在発電量に置換して外生性を回復",
+              "燃料費指数（JKM/JEPXシステムプライスまたはスポットLNG）・需要・季節をコントロールし、2021年1月と2022年度はダミーまたはサンプル分割",
+              "「均衡代替比率」という語を撤回し、「弾性値の比較静学」として正直に位置づけるか、デザインBの簡易版を第3章として接合する"
+            ]
+          },
+          {
+            "design": "B",
+            "score": 6,
+            "assessment": "「均衡点」というリサーチクエスチョンに正面から答える唯一の設計で、Schmalensee(2022)・Butters et al.(2025)・Karaduman(2023)という強い理論系譜に乗れる。しかし最大の穴は、ゼロ利潤条件を「アービトラージ期待収益＝年間固定費」と定義している点が北海道の現実と乖離していることだ。storage-economics-jp調査が示すとおり、実務の共通見解は「アービトラージ単独では回収不能、フル・スタッキング＋補助金1/3でIRR9〜10%」であり、しかも北海道は長期脱炭素電源オークション(LTDA)落札の全国最大集中地（第1回の約35%）。LTDAは20年固定収入＋他市場収益9割還付で参入判断を価格シグナルから切り離すため、北海道の蓄電池参入の大半は「自由参入」ではなく「政策駆動参入」である。この設計のまま提出すると「モデルの均衡条件が対象市場の参入メカニズムを記述していない」という根本批判を受ける。加えて構造モデルのフル実装（UC制約、確率的入力、同時参入均衡）は1年の実務家修論では明確にオーバースコープ。",
+            "risks": [
+              "ゼロ利潤条件にEPRX（2024年度は三次②で234.89円/ΔkW・30分の高値約定→上限15円へ引下げ）・容量市場（北海道約1.5万円/kW年）・LTDA・補助金が入っておらず、均衡容量を大幅に過小推定する",
+              "LTDA・補助金による政策駆動参入を無視すると、実際の参入パイプライン（契約申込169万kW）をモデルが全く説明できず、モデルの妥当性検証(validation)で破綻する",
+              "メリットオーダー曲線に起動停止費用・最低出力制約（unit commitment）を入れないと価格スパイクが再現できず、ボラティリティの右裾を過小評価（Prokhorov & Dreisbach 2022が指摘する構造）",
+              "北本連系線の潮流を外生固定すると誤り：分断時のみ北海道価格が独立形成されるため、連系線は容量制約付きで内生化必須。さらに2028年+30万kW・2030年代HVDC200万kWで均衡自体が移動する",
+              "ラピダス・データセンターによる需要+53%（2035年度、OCCTO想定）を無視すると、余剰緩和・夕方スパイク増の両効果を取り逃がし、将来シナリオの前提が古いと指摘される",
+              "揚水（京極600MW等）・DR・火力柔軟性という競合柔軟性資源が蓄電池の裁定機会を先食いする構造が欠落",
+              "モデルの検証（実績価格の分布・スプレッドを再現できるか）の計画がなく、キャリブレーションで1年が溶けるリスク",
+              "同時市場（2020年代後半導入予定）・FIT→FIP出力制御順変更(2026/27年度)・EPRX上限引下げで、推定期間の制度と予測期間の制度が別物になる"
+            ],
+            "fixes": [
+              "均衡条件を「アービトラージ＋容量収入(約1.5万円/kW年)＋調整力収益（感度分析：逓減シナリオ）−OPEX ≧ 年換算CAPEX（6.8万円/kWh基準、補助金・海外調達の低位4万円で感度）」の収益スタッキング型NPV=0に書き換える",
+              "参入を2部門に分割：LTDA落札分（落札電源一覧から容量・運開年を外生投入）＋マーチャント参入（ゼロ利潤で内生）。「政策駆動参入で均衡水準を超えた過剰参入＝ボラの過剰低下が起こるか」を新規の問いに昇格させると独自貢献になる",
+              "フル構造推定は放棄し、完全予見LP裁定＋残余需要ベースの簡易価格インパクト関数＋容量の反復計算（methods-finance調査の推奨構成）に軽量化。UCは起動費のスパイク・アドダーで近似",
+              "連系線は90/120/320万kWの3シナリオ、需要はラピダス有無の2シナリオでマトリクス提示し、「均衡点はパラメータの関数」として示す（点推定を主張しない）",
+              "検証章を必ず設ける：2023-2025年度の実績価格分布（平均・SD・0.01円比率・日次スプレッド）をモデルが再現できることを示してから反実仮想へ進む",
+              "再エネ側の同時参入（capture price≥LCOE）は「拡張」ではなく脚注・付録に格下げし、スコープを守る"
+            ]
+          },
+          {
+            "design": "C",
+            "score": 4,
+            "assessment": "投資の不可逆性・待機オプションという金融工学らしい切り口で、金融戦略コースの修論としての「見栄え」は良い。しかし3案中で問いとの整合性が最も弱い。第一に、リサーチクエスチョンは「ボラ増とボラ減の均衡点」であり、単一投資家の最適停止問題を解いても市場全体の均衡容量には到達しない。共食い外部性下の複数主体参入タイミングはリアルオプション・ゲーム（先制参入・消耗戦）になり、これを1年で解いて実データにあてはめるのは博士論文級の難度。第二に、収益過程をGBMで置く先行例（Shin & Lee 2024）をそのまま使うと、電力スプレッドの平均回帰性・季節性・レジーム性（Weron 2014以来の定型事実）と矛盾し、計量の審査員に確実に突っ込まれる。第三に、北海道の現実ではLTDA（20年固定収入）と補助金が不確実性の大半を除去するため、「待つオプションの価値」自体が制度によって殺されており、モデルの前提が対象市場で成立していない。",
+            "risks": [
+              "「均衡参入量」の均衡概念が未定義：単一エージェントLSMCと自由参入均衡は別物で、接続するには平均場ゲームやDumitrescu et al.(2024)型FBSDEが必要になり実装不能",
+              "GBM仮定と電力価格の平均回帰・スパイク・0.01円打ち切りの不整合。スプレッド過程の推定自体が一仕事",
+              "待機オプションの主要ドライバーは実は「CAPEX低下トレンド」（2024年度5.4万円/kWh、前年比2割減）だが、デザイン文面では価格不確実性しか見ておらず、蓄電池投資で最も重要な不確実性を取り違えている",
+              "LTDA・補助金・容量市場が下方リスクを政策的に吸収する日本の制度環境では、「不可逆性×不確実性→投資遅延」の教科書的メカニズムが弱く、政策含意が薄くなる",
+              "共食い外部性・再エネ導入シナリオ・制度変更（EPRX上限引下げ、同時市場）を全部確率過程に入れると識別不能、外すと問いに答えられないジレンマ",
+              "1年タイムラインで、スプレッド過程推定→LSMC実装→ゲーム的拡張→均衡計算まで到達する現実性が乏しい"
+            ],
+            "fixes": [
+              "主軸から降ろし、デザインA/Bの最終章「投資タイミングの拡張分析」に格下げする（methods-finance調査の推奨と同じ結論）",
+              "どうしても主軸にするなら問いを絞る：「LTDA固定収入はマーチャント投資の待機オプション価値をどれだけ消すか（＝政策が投資を何年前倒しするか）」という制度比較のオプション評価なら1年で完結し、独自性もある",
+              "収益過程はGBMでなく、季節性付き平均回帰（OU）過程または年間スプレッド収益のブートストラップに置換",
+              "不確実性の主役をCAPEX低下率＋スプレッド共食い（累積参入量の減衰関数）の2因子にし、価格レベルの不確実性は従属変数化する"
+            ]
+          }
+        ],
+        "missing": [
+          "非スポット収益の欠落（最重要）：需給調整市場・容量市場・LTDA・補助金が蓄電池の参入条件の過半を占める（実務見解：アービトラージ単独では回収不能）にもかかわらず、3案とも均衡条件がスポット裁定のみで書かれている。特にLTDAの「20年固定収入＋他市場収益9割還付」は参入を価格シグナルから切り離すため、北海道（LTDA蓄電池落札の約35%が集中）では「自由参入・ゼロ利潤」の前提自体が成立していない可能性が高い",
+          "政策駆動参入 vs 市場駆動参入の識別：北海道にはLTDA案件群と100%マーチャント案件（Helios 50MW/104MWh）が併存する。この対比は「均衡を超えた過剰参入が起こるか」という本修論の核心を検証できる稀有な材料だが、どのデザインにも組み込まれていない",
+          "FIPプレミアムと併設蓄電池：FIPプレミアムは再エネの入札機会費用を変え（プレミアム分だけ0.01円でも売る誘因）、下限張り付き頻度に直接効く。2026/27年度の出力制御順FIT→FIP変更、2025年4月のDCリンク解禁による併設蓄電池急増は、系統用蓄電池と行動原理が異なる「第2の蓄電池群」を生むが、全デザインで無視されている",
+          "制度変更リスクの体系的整理の欠如：同時市場（エネルギー・調整力同時約定、2020年代後半）、EPRX上限価格引下げ（19.51→15円、2026年3月）、マイナス価格導入論、蓄電池向け託送料金見直し。推定期間の制度と将来シナリオ期間の制度が別物になるのに、構造変化の扱いが設計に明示されていない",
+          "蓄電池以外の柔軟性資源との競合：北海道には京極揚水（600MW級）があり、火力の柔軟運転・DR・そして北本連系線増強（2028年+30万kW、2030年代HVDC+200万kW）が蓄電池と同じスプレッドを食い合う。Schöniger & Morawetz(2022)が「連系線と柔軟性電源が再エネ出力変動より価格分散に効く」と示す以上、これらを外した均衡蓄電池容量は過大推定になる",
+          "需要側の構造変化：ラピダス（約60万kW）・データセンターで北海道の産業用需要は2035年度+53%（OCCTO想定）。需要増は昼の余剰緩和（下限張り付き減）と夕方スパイク増の両方向に効き、均衡点を動かす第一級の変数だが、デザインA/Cには全く登場しない",
+          "ボラティリティ概念と蓄電池収益の不一致：GARCHの条件付き分散（日次リターンのボラ）と蓄電池の収益ドライバー（日内スプレッド、コマ間レンジ）は別の統計量。どの「ボラティリティ」の均衡を論じるのかの定義が曖昧なままで、金融の審査員に最初に突かれる論点",
+          "金融戦略コースとしてのファイナンス要素の薄さ：電力先物（EEX Japan/TOCOM）のリスクプレミアム、ボラティリティが小売・発電事業者のヘッジコストに与える影響、割引率・資本コスト（ゼロ利潤条件のWACCをいくつに置くか）など、金融らしい接続点が未設計",
+          "蓄電池容量データの構築コスト：連系済み容量の月次時系列は存在せず（審議会資料・受付状況Excel・落札リストからの独自構築が必要）。これ自体は貢献になり得るが、工数を研究計画のクリティカルパスとして明示すべき",
+          "指導教員との重複調整：最類似研究Fuke & Ohashi(2025)の共著者・大橋和彦教授が同コース所属。枠組み拡張として整合的な反面、差別化ポイント（風力・蓄電池・均衡）の早期合意がないとテーマ承認段階で手戻りする",
+          "1年タイムラインの現実性：データ構築（蓄電池時系列の独自作成＋7カテゴリの結合）だけで2〜3ヶ月かかる。B案フル実装・C案のゲーム的均衡は期間内完了の見込みが薄く、「どこで止めても論文になる」段階的設計（実証→シミュレーション→均衡の順に積む）が計画に必要",
+          "検証（validation）計画の不在：B/C案ともモデルが2023-2025年度の実績価格分布・スプレッドを再現できることを示す章が設計されておらず、シミュレーション結果の信頼性を担保できない"
+        ],
+        "overall": "3案とも「蓄電池の経済性＝スポット裁定」という単純化の上に立っており、北海道の現実（収益スタッキング＋LTDA・補助金による政策駆動参入＋連系線増強＋需要急増）を反映していない点が共通の最大の穴である。特に「自由参入ゼロ利潤」を額面通り置くB案は、北海道がLTDA落札の全国最大集中地であるという事前調査自身の発見と矛盾しており、このままでは審査で自己矛盾を突かれる。推奨は「A案を修正した実証を主軸（第1部）＋B案を軽量化した収益スタッキング型ゼロ利潤シミュレーション（第2部）」のハイブリッドである。具体的には、(1)第1部でRV・スプレッド・0.01円張り付き頻度を被説明変数に、気象IVと燃料費統制を入れたGARCH-X/HAR-RVで「再エネ→ボラ」を推定し、蓄電池側は回帰でなく大型BESS稼働・連系線増強のイベントスタディで識別する。(2)第2部で完全予見LP裁定＋簡易価格インパクト関数＋スタッキングNPV=0の反復計算により、LTDA参入を外生・マーチャント参入を内生とした「政策駆動下の均衡蓄電池容量」を、連系線90/120/320万kW×ラピダス有無のシナリオマトリクスで提示する。この構成なら「政策駆動参入は市場均衡を超えたボラ低下を生むか」という、国際文献（Butters et al. 2025, Karaduman 2023）にも接続する独自の問いを立てられ、どの段階で時間切れになっても提出可能な論文として成立する。C案は主軸としては不適で、やるなら「LTDAが待機オプション価値を消し投資を何年前倒しするか」に問いを絞った最終章の拡張に留めるべきである。着手前の必須アクションは、①大橋教授とのテーマ重複・差別化の合意、②「ボラティリティ」の操作的定義（分散かスプレッドか）と均衡概念（静学ゼロ利潤で足りるか）の指導教員合意、③蓄電池容量時系列の独自構築の工数見積もり、の3点。"
+      }
+    }
+  },
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Research"
+    },
+    {
+      "type": "workflow_phase",
+      "index": 2,
+      "title": "Critique"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "research:lit-vre-volatility",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a36e587b360ed2896",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543793507,
+      "queuedAt": 1784543790547,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: 再エネ（太陽光・風力）の導入拡大が卸電力市場の価格水準とボラティリティに与える影響に関する学術文献（国際）。\n- メリットオーダー効果、限界費用ゼロ電源が供給曲…",
+      "lastProgressAt": 1784544962856,
+      "tokens": 67136,
+      "toolCalls": 28,
+      "durationMs": 1169349,
+      "resultPreview": "{\"summary\":\"再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定した。理論面ではメリットオーダー効果（限界費用ほぼゼロの再エネが供給曲線を右シフトさせ価格水準を下げる）が確立しており、Sensfuß et al.(2008)が原点。ボラティリティへの影響は電源種別・市場条件で符号が異なる。風力は価格水準を下げつつボラティリティを高める結果が主流（Ketterer 2014独、Woo et al. 2011テキサス、Mwampashi et al. 2021豪州）だが、太陽光はピーク需要帯の発電で日内価格プロファイルを平坦化しボラティリティを下げる（Kyritsis et al. 2017、Rintamäki et al. 2017）。さらにWozabal et al.(2016)とSchöniger & Morawetz(2022)は再エネ比率と価格分散の関係がU字型（…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "research:lit-storage-equilibrium",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "adc9a6ac854426f21",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543793084,
+      "queuedAt": 1784543790547,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "系統用蓄電池の経済学、特に「均衡」に関する国際学術文献15本…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: 系統用蓄電池の経済学に関する学術文献（国際）。特に「均衡」に関わるもの。\n- エネルギーアービトラージ価値の実証: Sioshansi et al. (2009…",
+      "lastProgressAt": 1784544759859,
+      "tokens": 68113,
+      "toolCalls": 22,
+      "durationMs": 966774,
+      "resultPreview": "{\"summary\":\"系統用蓄電池の経済学、特に「均衡」に関する国際学術文献15本を特定した。裁定価値の実証はSioshansi et al.(2009, PJM)が嚆矢で、蓄電容量の拡大が価格スプレッド自体を縮小させ限界収益が逓減する「自己共食い(cannibalization)」が理論・実証の双方で確立している。均衡分析では、Schmalensee(2022)が価格上限のない競争均衡における蓄電容量が期待費用最小化と一致することを解析的に示し、Andrés-Cerezo & Fabra(2023, RAND)は市場支配力・垂直統合が運用と投資を歪めることを示した。構造推定ではKaraduman(2023, 南豪州)とButters, Dorsey & Gowrisankaran(2025, Econometrica, テキサス)が動学的均衡モデルで自由参入均衡の蓄電容量を内生化し、再…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "research:lit-jepx-japan",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a68b35fd5fa673870",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543813252,
+      "queuedAt": 1784543790547,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "JEPXスポット価格と再エネ・蓄電池に関する先行研究を和英で調…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: JEPX（日本卸電力取引所）スポット価格・日本の電力市場に関する研究（和文・英文）。\n- JEPXスポット価格の形成・ボラティリティ・エリア間価格差を扱った実証…",
+      "lastProgressAt": 1784545153717,
+      "tokens": 85453,
+      "toolCalls": 40,
+      "durationMs": 1340465,
+      "resultPreview": "{\"summary\":\"JEPXスポット価格と再エネ・蓄電池に関する先行研究を和英で調査し、査読論文を中心に15本超を特定した。メリットオーダー効果の実証はSakaguchi & Fujii（2021）、Maekawa et al.（2018）、Fuke & Ohashi（2025）等で確立済みで、風力のMOEは太陽光より大きく北海道で有意との結果がある。ボラティリティを直接扱う研究はMa et al.（2023、地域間連系とrealized volatility）とFuke & Ohashi（2025、太陽光と価格変動性の季節性）が最重要。2021年1月高騰はKanamura & Bunn（2022）ほか複数が分析済み。一方、「北海道エリア単体」「蓄電池普及によるボラ低減・スプレッド圧縮の実証」「両者の均衡点分析」を扱った日本の学術研究は見当たらず、ここに明確な研究空白がある。なお一橋の…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "research:hokkaido-system",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a0963c679687d9179",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543811478,
+      "queuedAt": 1784543790547,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "北海道エリアは太陽光236万kW・風力136万kW（2025年3月末）と接…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: 北海道電力エリアの電力系統の現状と見通し（2024〜2026年の最新情報）。\n- 風力・太陽光の導入量（MW）と導入ポテンシャル、洋上風力の計画（八雲・島牧・岩…",
+      "lastProgressAt": 1784546206080,
+      "tokens": 142856,
+      "toolCalls": 64,
+      "durationMs": 2394602,
+      "resultPreview": "{\"summary\":\"北海道エリアは太陽光236万kW・風力136万kW（2025年3月末）と接続可能量（太陽光117万kW）の2倍超の変動再エネを抱える一方、平均需要約340万kWの小規模・準独立系統（本州とは直流90万kWのみ）であり、価格が域内需給に極めて敏感である。出力制御は2022年5月に初実施後まだ年率0.01～0.04%と僅少だが、2026年度は1.23%（76.5GWh）へ急増する見通し。JEPXスポットの独自集計では、北海道の0.01円コマ比率は2026年度春に8.9%へ跳ね上がり、東北との市場分断率も16%→29%へ上昇、日次スプレッドは再拡大中でボラティリティ増大が定量的に確認できる。他方、系統用蓄電池は契約申込169万kW・接続検討865万kW（2025年6月末）と需要規模比で全国最大級の導入圧力があり、北豊富240MW/720MWh等が既に稼働。2028年3月の…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "research:data-sources",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "a6f1ffa2f71bef9ba",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543811906,
+      "queuedAt": 1784543790547,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "修論に必要な7カテゴリのデータはほぼすべて無料の公開データで…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: この研究で使える具体的なデータソースの所在・粒度・入手可能性。以下を1つずつ確認:\n(1) JEPXスポット市場データ: エリアプライス（北海道含む9エリア）、…",
+      "lastProgressAt": 1784545262095,
+      "tokens": 82463,
+      "toolCalls": 39,
+      "durationMs": 1450189,
+      "resultPreview": "{\"summary\":\"修論に必要な7カテゴリのデータはほぼすべて無料の公開データで構築可能。JEPXスポット市場は2005年度以降の全期間、30分コマ×9エリアプライス（北海道含む）を公式サイトから年度別CSVで無料取得できる。北海道エリアの太陽光・風力発電実績・需要・連系線潮流・出力制御量の30分値は北海道電力NW「でんき予報」から2022年度以降四半期ZIP（CSV）で取得可（それ以前の年度は本体サイトに掲載）。連系線潮流はOCCTO系統情報サービス（無料登録）でも取得可。需給調整市場はEPRXサイトで商品別・エリア別の約定量・価格CSVが無料公開（三次②は2021年度〜）。長期脱炭素電源オークション・容量市場の蓄電池落札リストはOCCTOがPDFで公表。気象はアメダス風速が無料CSVで取得できる一方、全天日射量観測は札幌など全国約50地点に限られる点が制約。最大の課題は「北海道エリ…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "research:methods-finance",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "ad50065a7a100f3e9",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543797757,
+      "queuedAt": 1784543790548,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "修論テーマ「再エネ増加による卸電力価格ボラティリティ増大と…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: この研究に使える金融工学・エネルギーファイナンスの手法のサーベイと、修論（1年、実務家学生、金融専攻）としての現実的な実装難易度。\n- 電力価格・ボラティリティ…",
+      "lastProgressAt": 1784544526481,
+      "tokens": 76792,
+      "toolCalls": 28,
+      "durationMs": 728723,
+      "resultPreview": "{\"summary\":\"修論テーマ「再エネ増加による卸電力価格ボラティリティ増大と蓄電池普及による低減の均衡点分析（JEPX北海道）」に使える手法を日英で調査した。時系列側はGARCH-X/EGARCH/マルコフ・レジームスイッチング/HAR-RVが定番で、Weron(2014)とLago et al.(2021)が標準サーベイ。再エネがボラティリティに与える影響の実証はRintamäki et al.(2017)が直接の先行研究。蓄電池の裁定運用はLP/動的計画法（Sioshansi et al. 2009が古典）で定式化が確立し、Pythonで実装容易。「均衡点」はゼロ利潤・自由参入条件による均衡蓄電池容量として定式化でき、Schmalensee(2020)、Butters-Dorsey-Gowrisankaran(Econometrica 2025)、Karaduman(南豪州)が理…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 7,
+      "label": "research:storage-economics-jp",
+      "phaseIndex": 1,
+      "phaseTitle": "Research",
+      "agentId": "acc2f77c18ea684c4",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784543808554,
+      "queuedAt": 1784543790548,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "日本の系統用蓄電池は2023年以降ブーム的に拡大しており（接続…",
+      "promptPreview": "あなたは一橋大学経営管理研究科・金融戦略コースの修士論文の研究計画づくりを支援する専門リサーチャーです。テーマ:「再エネ（太陽光・風力）の増加による卸電力価格ボラティリティの増大と、蓄電池普及によるボラティリティ低減の均衡点の分析（JEPX、特に北海道エリア）」。\n最初に必ずToolSearchツールを query=\"select:WebSearch,WebFetch\" で呼んでWeb検索ツールをロードし、それから調査を始めること。日本語と英語の両方で検索し、一次資料（論文・官公庁・取引所・系統運用者）を優先し、出典URLを必ず記録すること。今日は2026年7月20日。最新の情報（2024〜2026年）を意識すること。\n調査対象: 日本の系統用蓄電池の事業経済性（2024〜2026年の最新情報）。均衡条件（参入が止まる収益水準）を定式化するために必要。\n- 収益源のスタッキング: JEPX…",
+      "lastProgressAt": 1784545868371,
+      "tokens": 125648,
+      "toolCalls": 55,
+      "durationMs": 2059817,
+      "resultPreview": "{\"summary\":\"日本の系統用蓄電池は2023年以降ブーム的に拡大しており（接続検討申込113GW・2025年3月時点、うち契約は約1/10、連系済みは0.23GW）、事業経済性は「JEPXアービトラージ＋需給調整市場＋容量市場＋長期脱炭素電源オークション（LTDA）＋補助金」のスタッキングで成立している。CAPEXは2024年度実績でシステム5.4万円/kWh＋工事費1.4万円/kWh（50MWh以上は4.9万円/kWh、海外製2〜4万円/kWh）。JEPXの日次スプレッドは全国平均約20円/kWh（2024年、2020年比5倍）。需給調整市場は2024年度に蓄電池が高値約定（三次②で234.89円/ΔkW・30分、2024年4月）したが、上限価格引下げ（19.51→15円/ΔkW・30分、2026年3月〜）と調達量削減で縮小局面。容量市場は北海道14,972円/kW（2029年度…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 8,
+      "label": "critique:data-feasibility",
+      "phaseIndex": 2,
+      "phaseTitle": "Critique",
+      "agentId": "a7d5b6e7e0cf5dc0d",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784546213402,
+      "queuedAt": 1784546208813,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "データ実現可能性の総合判定：B（7.5点）＞A（5.5点）＞C（4点…",
+      "promptPreview": "あなたは一橋大学金融戦略コースの修士論文の研究計画を審査する批判的レビュアーです。以下は事前調査の結果ダイジェストと、3つの研究デザイン案です。\n\n# 事前調査ダイジェスト\n## lit-vre-volatility\n要約: 再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定した。理論面ではメリットオーダー効果（限界費用ほぼゼロの再エネが供給曲線を右シフトさせ価格水準を下げる）が確立しており、Sensfuß et al.(2008)が原点。ボラティリティへの影響は電源種別・市場条件で符号が異なる。風力は価格水準を下げつつボラティリティを高める結果が主流（Ketterer 2014独、Woo et al. 2011テキサス、Mwampashi et al. 2021豪州）だが、太陽光はピーク需要帯の発電で日内価格プロファイルを平坦化しボラティリティを下げる（Kyritsis et …",
+      "lastProgressAt": 1784546385916,
+      "tokens": 69842,
+      "toolCalls": 1,
+      "durationMs": 172512,
+      "resultPreview": "{\"verdicts\":[{\"design\":\"A\",\"score\":5.5,\"assessment\":\"被説明変数側のデータは完璧に揃う（JEPXエリアプライス30分値2005年度～、北海道電力NW需給実績の再エネ出力・需要・連系線潮流・出力制御30分値2016年度～/詳細フォーマット2022年度～、OCCTO連系線データ、アメダス風速）。ボラティリティ指標（RV・日中レンジ・0.01円コマ比率・スパイク頻度）の構築、および(i)の「再エネ→ボラ」の推定はデータ面で問題なく実行可能。しかし本デザインの核心である(ii)「蓄電池導入容量→ボラ低減」の推定に必要な『北海道の系統用蓄電池・連系済み容量の月次時系列』は単一統計として存在せず、審議会資料の散発的な時点データ・HEPCO受付状況Excel（2024年12月に様式変更あり）・落札リストからの自力構築が必要。さらに深刻なのは、構築できた…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 9,
+      "label": "critique:identification",
+      "phaseIndex": 2,
+      "phaseTitle": "Critique",
+      "agentId": "a83ef79dea5939979",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784546215491,
+      "queuedAt": 1784546208814,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "3案の役割分担を明確にした上で「B（構造均衡）を主軸、Aのイベ…",
+      "promptPreview": "あなたは一橋大学金融戦略コースの修士論文の研究計画を審査する批判的レビュアーです。以下は事前調査の結果ダイジェストと、3つの研究デザイン案です。\n\n# 事前調査ダイジェスト\n## lit-vre-volatility\n要約: 再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定した。理論面ではメリットオーダー効果（限界費用ほぼゼロの再エネが供給曲線を右シフトさせ価格水準を下げる）が確立しており、Sensfuß et al.(2008)が原点。ボラティリティへの影響は電源種別・市場条件で符号が異なる。風力は価格水準を下げつつボラティリティを高める結果が主流（Ketterer 2014独、Woo et al. 2011テキサス、Mwampashi et al. 2021豪州）だが、太陽光はピーク需要帯の発電で日内価格プロファイルを平坦化しボラティリティを下げる（Kyritsis et …",
+      "lastProgressAt": 1784546428412,
+      "tokens": 69970,
+      "toolCalls": 1,
+      "durationMs": 212921,
+      "resultPreview": "{\"verdicts\":[{\"design\":\"A\",\"score\":6,\"assessment\":\"実行可能性は3案中最も高く、Rintamäki(2017)・Ketterer(2014)・Fuke & Ohashi(2025)の延長として審査に耐える骨格を持つ。しかし核心である「蓄電池係数」の識別が現状の設計では成立していない。(1)同時性: 蓄電池はボラ・スプレッドが高いから参入する（参入待ち行列169万kWはまさに高ボラの結果）ため、導入容量→ボラの回帰係数は上方（ゼロ方向またはプラス方向）にバイアスされる。さらに導入容量はほぼ単調増加のトレンド変数であり、燃料価格正常化・連系線運用容量拡大（50→55→65%）・需要増と共線し、時間トレンドと分離できない。連系「容量」ではなく、でんき予報の蓄電池充放電30分実績（2022年度以降取得可）を使わない限り、係数は「2023年以降ダミー…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 10,
+      "label": "critique:novelty-contribution",
+      "phaseIndex": 2,
+      "phaseTitle": "Critique",
+      "agentId": "a15187ffa0be3a016",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784546215223,
+      "queuedAt": 1784546208814,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "推奨は「B を主軸に、A の縮小版を第1章の実証的基礎として組み…",
+      "promptPreview": "あなたは一橋大学金融戦略コースの修士論文の研究計画を審査する批判的レビュアーです。以下は事前調査の結果ダイジェストと、3つの研究デザイン案です。\n\n# 事前調査ダイジェスト\n## lit-vre-volatility\n要約: 再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定した。理論面ではメリットオーダー効果（限界費用ほぼゼロの再エネが供給曲線を右シフトさせ価格水準を下げる）が確立しており、Sensfuß et al.(2008)が原点。ボラティリティへの影響は電源種別・市場条件で符号が異なる。風力は価格水準を下げつつボラティリティを高める結果が主流（Ketterer 2014独、Woo et al. 2011テキサス、Mwampashi et al. 2021豪州）だが、太陽光はピーク需要帯の発電で日内価格プロファイルを平坦化しボラティリティを下げる（Kyritsis et …",
+      "lastProgressAt": 1784546401008,
+      "tokens": 69884,
+      "toolCalls": 1,
+      "durationMs": 185784,
+      "resultPreview": "{\"verdicts\":[{\"design\":\"A\",\"score\":6,\"assessment\":\"実行可能性は3案中最も高く、Fuke & Ohashi (2025, J. Commodity Markets) の「九州・太陽光・分位点回帰」を「北海道・風力・蓄電池」へ拡張する形は指導体制（大橋教授）とも整合的で、Sakaguchi & Fujii (2021) がFY2019で止まっている以上「FY2020以降・北海道・蓄電池変数の明示的導入」は日本初と言える。ただし致命的な弱点が2つある。第一に、肝心の蓄電池側の識別がほぼ不可能である。連系済み系統用蓄電池は全国でも約25万kW（2025年6月）に過ぎず、北海道の観測データ内変動が小さすぎて「蓄電池容量→ボラ低減」の係数はノイズに埋もれるか、逆因果（スプレッドが大きいエリア・時期に蓄電池が参入する）で符号が逆転する恐れが強い。第二に…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 11,
+      "label": "critique:completeness",
+      "phaseIndex": 2,
+      "phaseTitle": "Critique",
+      "agentId": "ac1901308d6199f67",
+      "model": "claude-fable-5",
+      "state": "done",
+      "startedAt": 1784546214015,
+      "queuedAt": 1784546208814,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "lastToolSummary": "3案とも「蓄電池の経済性＝スポット裁定」という単純化の上に立…",
+      "promptPreview": "あなたは一橋大学金融戦略コースの修士論文の研究計画を審査する批判的レビュアーです。以下は事前調査の結果ダイジェストと、3つの研究デザイン案です。\n\n# 事前調査ダイジェスト\n## lit-vre-volatility\n要約: 再エネ導入が卸電力価格に与える影響の国際実証研究15本を特定した。理論面ではメリットオーダー効果（限界費用ほぼゼロの再エネが供給曲線を右シフトさせ価格水準を下げる）が確立しており、Sensfuß et al.(2008)が原点。ボラティリティへの影響は電源種別・市場条件で符号が異なる。風力は価格水準を下げつつボラティリティを高める結果が主流（Ketterer 2014独、Woo et al. 2011テキサス、Mwampashi et al. 2021豪州）だが、太陽光はピーク需要帯の発電で日内価格プロファイルを平坦化しボラティリティを下げる（Kyritsis et …",
+      "lastProgressAt": 1784546382888,
+      "tokens": 69937,
+      "toolCalls": 1,
+      "durationMs": 168873,
+      "resultPreview": "{\"verdicts\":[{\"design\":\"A\",\"score\":7,\"assessment\":\"実行可能性は3案中最も高く、データも全て公開情報で揃う。Rintamäki(2017)＋Ketterer(2014)の北海道版という位置づけも明確。しかし核心である「蓄電池の限界効果」の識別が現状のデータではほぼ不可能という致命的な穴がある。全国の連系済み系統用蓄電池は約25万kW（2025年6月末）にすぎず、北海道でも市場裁定型の稼働実績は2023年以降の数件（北豊富240MW、Helios 50MW等）に限られる。時系列変動が乏しい説明変数の係数から「均衡代替比率」を外挿する設計は、審査で「係数が識別できていない」「局所線形効果をU字型の非線形関係（Wozabal 2016, Schöniger & Morawetz 2022）に外挿している」と二重に突っ込まれる。さらに9エリアパネル…"
+    }
+  ],
+  "totalTokens": 928094,
+  "totalToolCalls": 280
+}

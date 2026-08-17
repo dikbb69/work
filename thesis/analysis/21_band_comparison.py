@@ -116,6 +116,54 @@ fig.tight_layout()
 fig.savefig(os.path.join(FIGDIR, "band_comparison.png"), dpi=160, bbox_inches="tight")
 print("saved band_comparison.png")
 
+# ---------- 3. 北海道内の対比: 風力 vs 太陽光 ＋ 北海道太陽光の時系列 ----------
+rows = []
+for fy in range(2016, 2026):
+    g = hp[hp["fy"] == fy].set_index("ts")["solar_pre"]
+    if g.notna().sum() < 5000:
+        continue
+    sh = band_shares(g)
+    sh["fy"] = fy
+    rows.append(sh)
+hs = pd.DataFrame(rows).set_index("fy")[BANDS]
+print("\n=== 北海道太陽光の年度別時系列 ===")
+print(hs.round(1).to_string())
+
+C_HS = "#F2A93B"
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12.8, 4.8), gridspec_kw={"width_ratios": [1, 1.25]})
+ax1.bar(xpos - w / 2, static["北海道 風力"], w, color=C_HW, label="北海道 風力")
+ax1.bar(xpos + w / 2, static["北海道 太陽光"], w, color=C_HS, label="北海道 太陽光")
+for i, b in enumerate(BANDS):
+    ax1.text(i - w / 2, static.loc[b, "北海道 風力"] + 1, f"{static.loc[b, '北海道 風力']:.0f}", ha="center", fontsize=9.5, color=C_HW, fontweight="bold")
+    ax1.text(i + w / 2, static.loc[b, "北海道 太陽光"] + 1, f"{static.loc[b, '北海道 太陽光']:.0f}", ha="center", fontsize=9.5, color="#B87710", fontweight="bold")
+ax1.set_xticks(xpos)
+ax1.set_xticklabels(BANDS, fontsize=10)
+ax1.set_ylabel("分散シェア（%）", fontsize=10, color=GRAY)
+ax1.set_title("北海道内の対比（FY2022-25）", fontsize=12.5)
+ax1.legend(fontsize=10, frameon=False, loc="upper left")
+
+for col, color in C_BANDS.items():
+    ax2.plot(hs.index, hs[col], color=color, lw=2.2, marker="o", ms=4.5, label=col)
+ax2.set_title("北海道 太陽光: 帯域分解の推移（年度別）", fontsize=12.5)
+ax2.set_xticks(hs.index)
+ax2.set_xticklabels([f"'{str(y)[2:]}" for y in hs.index], fontsize=9.5)
+ax2.set_ylabel("分散シェア（%）", fontsize=10, color=GRAY)
+ax2.set_ylim(0, None)
+ax2.legend(fontsize=9.5, frameon=False, ncol=2, loc="center left", bbox_to_anchor=(0.05, 0.5))
+for ax in (ax1, ax2):
+    ax.grid(axis="y", color="#DDDDDD", lw=0.6)
+    for sp in ["top", "right"]:
+        ax.spines[sp].set_visible(False)
+    ax.tick_params(colors=GRAY, labelsize=9.5)
+fig.suptitle("同じ北海道でも風力と太陽光は別物 — 風力は長周期74%、太陽光は日内65%（帯域構造は電源種の性質）",
+             fontsize=13, fontweight="bold", y=1.02)
+fig.text(0.995, -0.05,
+         "いずれも制御前出力（出力+抑制量）・フリート集約。移動平均カスケードによる非直交分解（交差項ありシェア合計≠100%）",
+         ha="right", fontsize=8, color=GRAY)
+fig.tight_layout()
+fig.savefig(os.path.join(FIGDIR, "band_comparison_hokkaido.png"), dpi=160, bbox_inches="tight")
+print("saved band_comparison_hokkaido.png")
+
 # ---------- Excel ----------
 wb = load_workbook(XLSX)
 if "帯域分解比較" in wb.sheetnames:
@@ -154,6 +202,21 @@ ch.set_categories(cats)
 ws.add_chart(ch, "G3")
 
 k0, k1 = put(ws, ks, h1 + 3, "② 九州太陽光の年度別時系列（分散シェア%）", "年度")
+s0, s1 = put(ws, hs, k1 + 3, "③ 北海道太陽光の年度別時系列（分散シェア%）", "年度")
+ch3 = LineChart()
+ch3.title = "北海道太陽光: 帯域別分散シェアの推移"
+ch3.height, ch3.width = 8.5, 13
+data3 = Reference(ws, min_col=2, max_col=5, min_row=s0, max_row=s1)
+cats3 = Reference(ws, min_col=1, min_row=s0 + 1, max_row=s1)
+ch3.add_data(data3, titles_from_data=True)
+ch3.set_categories(cats3)
+for ln, color in zip(ch3.series, ["5DB6E7", "0079C2", "176871", "D95B20"]):
+    ln.graphicalProperties.line.solidFill = color
+    ln.graphicalProperties.line.width = 22000
+    ln.smooth = False
+ch3.x_axis.delete = False
+ch3.y_axis.delete = False
+ws.add_chart(ch3, "G37")
 ch2 = LineChart()
 ch2.title = "九州太陽光: 帯域別分散シェアの推移"
 ch2.height, ch2.width = 8.5, 13

@@ -28,7 +28,7 @@
 | 文献 | `notes/25-literature-update.md` | F&O精読の要点、Drive取り込み記録 |
 | 解析 | `analysis/13_price_process_v1.py` | 価格過程 v1（g(net;season)+μ、床0.01、分断3レジーム混合、CRN、レバー: 風力+50万kW/泊/DC需要） |
 | 解析 | `analysis/23_pi_k_curve.py` | Phase C: 増分貪欲ディスパッチによる π(K)、K\*判定（13を exec して使う） |
-| 制度 | `notes/28-ltda-2025-results-and-ref-column.md`（作成中）, `notes/29-equilibrium-surface.md`, `notes/27-price-process-v2.md` | LTDA 2025年度結果とREFコラム、均衡面・フロンティア、供給曲線v2 の結果メモ |
+| 制度 | `notes/28-ltda-2025-results-and-ref-column.md`, `notes/29-equilibrium-surface.md`, `notes/27-price-process-v2.md` | LTDA 2025年度結果とREFコラム、均衡面・フロンティア、供給曲線v2 の結果メモ |
 | 解析 | `analysis/29_spatial_dispersion.py`, `30_btm_avoidable.py` | 6.4 空間分散シミュレーション（λ 感応度）、9.3.2 併設蓄電池の抑制回避可能率 |
 | 解析 | `analysis/28_equilibrium_surface.py` | 8.5 均衡面 π(K;K_wind,泊)・P_cap(K)・θ\* フロンティア・K\* 格子・EPRX 上限（26 を exec）。結果メモ `notes/29` |
 | 解析 | `analysis/26_price_process_v2.py`, `27_pi_k_curve_v2.py` | 供給曲線v2（年度別水準係数 θ_FY）と π(K) の水準感応度・損益分岐 θ\*・裾補正（27 は 26 を exec して使う）。結果メモ `notes/27-price-process-v2.md` |
@@ -88,14 +88,15 @@
 
 **タスク6: 9.2 / 9.3.2 — 9.3.2 は完了、9.2 (b)(c) は資料待ち（2026-09-29）**
 - 9.3.2: `analysis/30_btm_avoidable.py`（`data/processed/btm_avoidable_share.csv`）。2025/4〜2026/6 の抑制 13,184MWh・344h・53イベント（すべて 6〜17時、持続中央値 8h・最大 10h、設備容量比中央値 1.4%）。0.64kWh/kW・4h の回避可能率は一様 96.8%／集中（容量20%のサイトに抑制の77%、Maji の ERCOT 分布を援用）65.3%。実効回避価値＝上限×0.65〜0.97（抑制率1.35%で 280〜417円/kW-年）。表9.1 を新設（9.4 の表は 9.2・9.3 に繰り下げ）。
-- 9.2(b): OCCTO 2025年度応札分の約定結果別紙を Drive で受領 → `notes/28-ltda-2025-results-and-ref-column.md`（サブエージェント作成中）。取り込み後に (b) の数値（北海道の蓄電池落札容量・還付構造）を更新。9.2(c): SII 公募要領・交付実績は未受領。
-- 未取得: OCCTO 出力制御の月次検証資料（`notes/15` C5）→ 9.3.2 の「どのサイトに集中しているか」【要更新】。
+- 9.2(b): 完了。Drive の別紙は第3回（2025年度応札分）で既存CSVと一致。`notes/28` に全件表・約定総額・コラム（工藤 2025）の要点。9.2(b) を更新（北海道累計57.7万kW以上、第3回 蓄電池125.1万kW／応札273.1万kW、約定総額4,748億円/年≈11.1万円/kW/年 還付控除前、6時間以上要件、上限価格引上げ案）。`notes/16` に訂正4点を追記。残マーカー【要確認：第3回募集要綱の上限価格・還付閾値】。9.2(c): SII 公募要領・交付実績は未受領。
+- 未取得: OCCTO 出力制御の月次検証資料（`notes/15` C5）→ 9.3.2 の「どのサイトに集中しているか」【要更新】。第3回募集要綱（上限価格の最終値・還付3段階の閾値・6時間要件）。
+- 参考文献に追加予定（12_references.md の補完エージェント完了後）: 工藤美香 (2025) 自然エネルギー財団コラム 2025-07-16 https://www.renewable-ei.org/activities/column/20250716.php ／ OCCTO (2026) 長期脱炭素電源オークション約定結果（2025年度応札分）別紙 2026-05-13。
 
 **タスク7: 文献の取り込み — 格納11件すべて精読済み（2026-09-29 夕）**
 - 格納先: Drive フォルダ https://drive.google.com/drive/folders/1dPuGAp7oyQaN6gbSyrl_4rCgK4iOdmFv （id `1dPuGAp7oyQaN6gbSyrl_4rCgK4iOdmFv`、13ファイル）。B欄11件（E5〜E7, E9〜E16）＋D欄2件（自然エネルギー財団コラム、OCCTO 2025年度応札分約定結果別紙）。**E8・E17・METI検討会資料・Modo/CAISO は未取得**。
 - 精読ノート（`planning/thesis-jepx/literature/notes/`）: loukatou2021, shen-ilic-parsons2026, oeltz-pfingsten2025, sensfuss2008, wurzburg2013, malvaldi2017, ohlendorf-schill2020, grimaldi2025（=E15、著者判明）, landy2026（=E16、題名訂正）。`doi-list.md` セットEに編入、`library-check-list.md` 状況更新、`notes/26-literature-map.md` §10.2 に要点と原稿訂正を記録。
 - 原稿訂正（原典確認による）: 2.3 Shen ら（命題番号なし・エネルギー容量費のみイベント単位償却・最適規模でゼロ利潤の恒等式）、2.4 Loukatou ら（確率的最適制御、不採算は風力込み、抑制未モデル化）、Grimaldi ら（最適0.1kWh/kW、主因は裁定）、Landy ら（英国は単独優位、北日本の風力は併設優位。「共有が抑制と資本費を同時に削減」は E16 の結果ではないため削除）、10.4 Oeltz ら（「一貫して上回る」→日前単独比+4〜5割）。
-- E11・E12 も精読済み（st-martin2015, handschy2017）。2.5 の Handschy の引用を訂正、St. Martin の数値を追記。残: D欄2件 → `notes/28`（サブエージェント実行中）→ 9.2(b)。
+- E11・E12 も精読済み（st-martin2015, handschy2017）。2.5 の Handschy の引用を訂正、St. Martin の数値を追記。D欄2件は `notes/28` に整理済み → 9.2(b) 反映済み。
 
 **タスク8: 仕上げ — 一部着手（2026-09-29）**
 - 済: 本文から参照されていたが本体のなかった表6.3（分断方向）・7.1（PF価値と床コマ）・8.1（v1 in-sample）・8.2（レバー実験）を復元。付録 `manuscript/13_appendix.md`（A データ台帳、B 変数定義、C 図表↔ファイル対応、D スクリプト一覧）を新設。**結合版は `cat 00..13 > thesis_draft_v0.1.md`（13 を含める）**。表紙の執筆状況表を更新。

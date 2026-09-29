@@ -65,6 +65,15 @@ DOI解決は `https://doi.org/<DOI>` でアクセス。
 | D6b | Grenadier (2002) Option Exercise Games: An Application to the Equilibrium Investment Strategies of Firms. *Review of Financial Studies* 15(3) | [10.1093/rfs/15.3.691](https://doi.org/10.1093/rfs/15.3.691) |
 | D7 | Fanone, Gamba & Prokopczuk (2013) The case of negative day-ahead electricity prices. *Energy Economics* 35 | [10.1016/j.eneco.2011.12.006](https://doi.org/10.1016/j.eneco.2011.12.006) |
 
+## セットE: 追加編入（2026-09-29、原典確認済み）
+
+| # | 論文 | DOI |
+|---|---|---|
+| E1 | Tselika (2022) The impact of variable renewables on the distribution of hourly electricity prices and their variability: A panel approach. *Energy Economics* 113, 106194 | [10.1016/j.eneco.2022.106194](https://doi.org/10.1016/j.eneco.2022.106194) |
+| E2 | Emmanuel & Denholm (2022) A market feedback framework for improved estimates of the arbitrage value of energy storage using price-taker models. *Applied Energy* 310, 118250 | [10.1016/j.apenergy.2021.118250](https://doi.org/10.1016/j.apenergy.2021.118250) |
+| E3 | Atherton, Akroyd, Farazi, Mosbach, Lim & Kraft (2023) British wind farm ESS attachments: curtailment reduction vs. price arbitrage. *Energy & Environmental Science* 16, 4020–4040 | [10.1039/d3ee01355c](https://doi.org/10.1039/d3ee01355c) |
+| E4 | Maji, Irwin, Shenoy & Sitaraman (2025) A first look at node-level curtailment of renewable energy and its implications. *Proc. ACM e-Energy '25*, 293–304 | [10.1145/3679240.3734627](https://doi.org/10.1145/3679240.3734627) |
+
 ---
 
 ## 一括貼り付け用（DOIのみ・40本）

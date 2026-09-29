@@ -58,8 +58,8 @@
 
 - Tselika, K. (2022). The impact of variable renewables on the distribution of hourly electricity prices and their variability: A panel approach. Energy Economics 113, 106194. https://doi.org/10.1016/j.eneco.2022.106194
 - Emmanuel, M., & Denholm, P. (2022). A market feedback framework for improved estimates of the arbitrage value of energy storage using price-taker models. Applied Energy 310, 118250. https://doi.org/10.1016/j.apenergy.2021.118250
-- Atherton, J., Akroyd, J., Farazi, F., Mosbach, S., Lim, M. Q., & Kraft, M. (2023). British wind farm ESS attachments: curtailment reduction vs. price arbitrage. Energy & Environmental Science 16. https://doi.org/10.1039/D3EE01355C
-- Maji, D., Irwin, D., Shenoy, P., & Sitaraman, R. K. (2025). A first look at node-level curtailment of renewable energy and its implications. Proceedings of the 16th ACM International Conference on Future and Sustainable Energy Systems (e-Energy '25). https://doi.org/10.1145/3679240.3734627
+- Atherton, J., Akroyd, J., Farazi, F., Mosbach, S., Lim, M. Q., & Kraft, M. (2023). British wind farm ESS attachments: curtailment reduction vs. price arbitrage. Energy & Environmental Science 16, 4020–4040. https://doi.org/10.1039/d3ee01355c
+- Maji, D., Irwin, D., Shenoy, P., & Sitaraman, R. K. (2025). A first look at node-level curtailment of renewable energy and its implications. Proceedings of the 16th ACM International Conference on Future and Sustainable Energy Systems (e-Energy '25), 293–304. https://doi.org/10.1145/3679240.3734627
 - Loukatou, A., Johnson, P., Howell, S., & Duck, P. (2021). Optimal valuation of wind energy projects co-located with battery storage. Applied Energy 283, 116247. https://doi.org/10.1016/j.apenergy.2020.116247 ※巻・番号要確認
 - Shen, D., Ilic, M., & Parsons, J. (2026). Peak-load pricing and investment cost recovery with duration-limited storage. arXiv:2603.13678
 - Oeltz, D., & Pfingsten, T. (2025). Rolling intrinsic for battery valuation in day-ahead and intraday markets. arXiv:2510.01956

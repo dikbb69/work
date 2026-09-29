@@ -1,0 +1,381 @@
+﻿set,title,TL;DR,Market & Sample,Paper Type & Question,Dependent Variable & Volatility Definition,Method & Specification,Wind vs Solar Effects,Storage Treatment,Equilibrium Concept,Cost & Financial Assumptions,Identification & Endogeneity,Institutional Features,Key Quantitative Result,Japan & Storage Relevance,Limitations & Gap
+A,Ketterer2014_WindPriceGermany.pdf,"This paper analyzes the impact of wind power generation on Germany's electricity prices. It finds that wind power lowers the price level but increases its volatility. Regulatory changes in 2010 helped stabilize wholesale prices, fostering better integration of renewables into the power system.  "," - **Market:** German day-ahead electricity market, specifically the Phelix Day Base .
+- **Country:** Germany  .
+- **Sample Period:** January 2006 to January 2012 .
+- **Data Frequency:** Daily  ."," - **Paper Type:** Empirical  
+- **Research Question:** This paper investigates the relationship between intermittent wind power generation and electricity price behavior in Germany, evaluating the effect of wind electricity generation on the level and volatility of the electricity price using a GARCH model ."," - The main dependent variable is the day-ahead spot electricity price in Germany, specifically the Phelix Day Base .
+- Volatility is analyzed and constructed as the conditional variance (ht) within a GARCH model  . The model specifies `ht = ω + Σαiεt-i² + Σβjht-j` for the basic GARCH, and `ht = ω + Σαiεt-i² + Σβjht-j + ΣγkWt-k` when including wind generation (Wt)  ."," - The paper uses an ARX-GARCHX model, which is a variant of the Generalized Autoregressive Conditional Heteroskedasticity (GARCH) model  .
+- The model incorporates autoregressive terms, wind power generation, and load data as explanatory variables in both the mean and variance equations  .
+- The key equations are:
+    - Mean equation: `yt = μ + Σ(φi * yt-i) + Σ(θj * Wt-j) + εt` 
+    - Variance equation: `ht = ω + Σ(αi * εt-i²) + Σ(βj * ht-j) + Σ(γk * Wt-k)` 
+- Where `yt` is the log electricity price, `ht` is its conditional variance, `εt = √ht * Zt` with `Zt ~ NID(0,1)`, and `Wt` represents wind generation  ."," - The paper primarily focuses on the impact of wind power generation on electricity prices and volatility in Germany  .
+- Due to data restrictions, the impact of solar PV electricity is *not explicitly estimated* in this study .
+- The paper notes that solar PV feed-in data was only available for a much shorter period, from 2010 onwards .
+- While not explicitly modeled, the paper discusses that increasing solar PV feed-in can weaken the merit-order effect of wind, as solar PV mainly depresses peak power prices ."," - The paper mentions that flexible generation and electricity storage help balance renewable energy fluctuations and reduce price effects .
+- It notes that the main difficulty with storage is its investment cost .
+- The paper does not explicitly model storage as a price-taker or price-maker, nor does it detail whether its capacity is exogenous or endogenously determined by entry/investment. It primarily focuses on the impact of wind power on electricity prices and volatility."," - The paper does not explicitly state an equilibrium concept like zero-profit free entry, system cost minimization, or Cournot/strategic. It focuses on modeling the impact of wind power generation on electricity price levels and volatility using a GARCH model, rather than analyzing market equilibrium conditions   .
+- The analysis investigates how wind power affects wholesale electricity prices and volatility over time, and the impact of regulatory changes on this relationship  ."," - The paper mentions that providing responsive generation capacity needs to be profitable, but the main difficulty is their investment cost .
+- It also notes that the overall EEG levy continues to rise due to high liabilities from feed-in tariff payments, though the burden from balancing costs is reduced ."," - The paper mentions that the demand for electricity should be independent from variable wind feed-in to avoid endogeneity problems .
+- It addresses potential endogeneity by using forecasted wind power generation and simulated load data, arguing that their errors are independent of weather forecasts  .
+- Curtailment is addressed by noting that renewable electricity can be switched off only if grid stability is at risk .
+- The paper also states that the operator continues to receive feed-in tariff payments even if the installation is disconnected from the grid due to capacity constraints ."," - The paper discusses negative prices and price floors, noting that the energy exchange calls a second auction if the price falls below -150 Euro, with a price limit between -350 and -150 Euro . This rule was introduced in 2010 and revised in 2011 to avoid extreme negative prices .
+- Interconnectors are mentioned in the context of the German market not being isolated and electricity flows with neighboring countries. The paper controls for cross-border trade in the European electricity market . Specifically, it refers to interconnector capacities between Germany and Denmark, and the Baltic cable between Germany and Sweden, which are used to export excess wind production . The integration of the European electricity market has increased through the European Market Coupling Company (EMCC) .
+- Market rules, particularly the regulatory modification to wind electricity marketing in Germany, are a key institutional feature discussed. The rules were amended in January 2010, requiring Transmission System Operators (TSOs) to forecast renewable power production and sell it on the day-ahead market . This change reduced balancing costs and increased transparency for electricity users .","The most important quantitative result is that when the share of wind rises by one percentage point, the electricity price decreases by 1.46% ."," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper discusses the relevance of storage and flexible generation resources for integrating intermittent renewable electricity:
+  - Sufficient dispatchable capacity (which includes storage) is needed to meet energy needs during times of low wind or sunshine .
+  - Flexible generation systems and electricity storage help balance fluctuations from renewable energy and reduce their impact on electricity prices .
+  - Flexible generation operates with high variable but low fixed costs, allowing it to be switched on and off to equalize low renewable power feed-in .
+  - The main challenge for storage and flexible generation capacity is their investment cost .
+  - Conventional plants must balance renewable fluctuation and will operate fewer full-load hours, making it harder to recover investment costs for flexible conventional units ."," - The paper does not explicitly estimate the impact of solar PV electricity due to data restrictions, as data for solar PV feed-in was only available from 2010 onwards, a much shorter period.
+- Investigating the interaction between solar PV and wind power in an analysis with hourly prices would be interesting but is left for further research.
+- The study does not forecast the price, but rather checks that the actual conditional variance is positive.
+- The study does not include electricity trade flows as they are an outcome variable determined with the price on day-ahead markets.
+- What this paper does not do that a study of battery free-entry equilibrium and price volatility in Hokkaido would need is to specifically model battery storage, free-entry equilibrium, or analyze a regional market like Hokkaido, as its focus is on German electricity price volatility and wind power integration."
+A,Woo2011_WindSpotPriceVarianceTexas.pdf,Rising wind generation in Texas tends to reduce spot electricity prices but also increases price variance  . This implies that expanded wind deployment should be accompanied by increased use of price risk management  .," - Market: ERCOT (Electricity Reliability Council of Texas) zonal markets (Houston, North, South, and West zones)  
+- Country: Texas, USA  
+- Sample Period: January 2007 through May 2010 
+- Data Frequency: 15-min "," - Paper Type: Empirical   
+- Research Question: To estimate the impact of wind generation on the electricity spot-market price level and variance using Texas market data ."," - The main dependent variable is the 15-minute balancing-energy market price within each of the four ERCOT zonal markets .
+- The paper also analyzes the impact of wind generation on the spot-price variance . The volatility is not explicitly defined or constructed in the text as a separate variable, but rather the change in spot-price variance is predicted using a forecast variance formula ."," - The paper uses a partial-adjustment linear regression model .
+- The key equation is: `Yt = α + Στβxrt + γYt-1 + ΣiμiMit + ΣjφjWjt + ΣkηkHkt + εt` .
+- The disturbance term, `εt`, is assumed to follow a stationary AR(1) process: `εt = ρεt-1 + Ut` .","The paper does not estimate separate effects of solar generation on prices or volatility. It focuses exclusively on the impact of wind generation. The statistically significant estimates for wind generation (β₁) indicate that a 100-MWH increase in wind generation reduces market price by:
+- $0.39/MWH in the Houston zone 
+- $0.61/MWH in the North zone 
+- $0.32/MWH in the South zone 
+- $1.53/MWH in the West zone ", - Not addressed in this paper," - The paper mentions the 'equilibrium state' of zonal prices but does not explicitly state an equilibrium concept like zero-profit free entry, system cost minimization, or Cournot/strategic equilibrium .
+- The model describes how zonal prices can rapidly adjust to their equilibrium state within 1 hour .", - Not addressed in this paper," - The paper addresses endogeneity by treating certain variables as exogenous due to specific market conditions or characteristics  .
+- ERCOT's 15-min zonal loads are considered price-insensitive and thus exogenous, used to delineate market price movements due to fluctuating demands.
+- Nuclear generation is treated as exogenous because it is baseload and non-dispatchable, unlike other dispatchable generation types (hydro, coal, natural gas) which are endogenous due to ERCOT's least-cost dispatch decisions.
+- The Henry Hub natural gas price is used as an exogenous variable, being almost perfectly correlated with the Houston Ship Channel price, to quantify the positive price effect of marginal fuel.
+- The paper does not explicitly mention curtailment or how it is treated."," - The paper mentions the occurrence of negative prices in the Texas market, specifically for the Houston zone, with a minimum recorded price of -$1536/MWH .
+- It also notes that wind generators have a tax-credit incentive to make very low, even negative supply bids, allowing them to be treated as must-run and dispatched by the ERCOT independent system operator . This behavior helps unmask the price effects of wind generation without confounding bidding behaviors .
+- The ERCOT's least-cost dispatch decisions are mentioned in relation to how dispatchable generation (hydro, coal, natural gas) is handled, contrasting it with nuclear generation which is baseload and non-dispatchable .","The statistically significant estimates indicate that a 100-MWH increase in wind generation reduces market price by $0.39/MWH in the Houston zone, $0.61/MWH in the North zone, $0.32/MWH in the South zone, and $1.53/MWH in the West zone .",," - The authors note that their study does not address the impact of wind generation on spot electricity prices in a battery free-entry equilibrium or under price volatility in Hokkaido, Japan. The paper focuses on the Texas electricity market and does not include analysis of battery free-entry equilibrium or price volatility in Hokkaido.
+- The authors acknowledge that their choice of a linear model, while robust, prevents them from using a double-log specification that would better characterize the skewed spot-price distributions, due to the presence of negative prices .
+- They also state that their re-estimation of price regressions using alternative assumptions for the error term's stochastic process (AR(1)/GARCH(1,1), GARCH(1,1), AR(1)/ARCH(1), and ARCH(1)) resulted in non-stationary processes and a statistically significant but counter-intuitive result that rising nuclear generation tends to raise market prices, leading them to conclude these assumptions are inappropriate for quantifying the price effects of an increase in wind generation .
+- They simplify their analysis by assuming that wind generation is statistically independent of other drivers in the spot price regressions, noting that while wind generation and zonal loads are negatively correlated, including this correlation would complicate the computation and detract from exposition without materially adding to the understanding of fundamental issues .
+- In one sentence: This paper does not analyze the impact of battery free-entry equilibrium on price volatility in Hokkaido, as it focuses on wind generation's impact on spot-market prices and variance in Texas."
+A,Rintamaki2017_RenewableVolatilityDenmarkGermany.pdf,"This paper analyzes the impact of renewable energy on electricity price volatility in Denmark and Germany. Wind power decreases daily price volatility in Denmark but increases it in Germany, due to differences in flexible generation capacity and wind patterns. Solar power, however, decreases volatility in Germany. Weekly volatility increases in both regions due to VRE intermittency.  "," - **Markets**: Danish (Western Denmark, DK1, and Eastern Denmark, DK2) and German (DE) electricity markets .
+- **Countries**: Denmark and Germany .
+- **Sample Period**: January 1, 2010, to December 31, 2014, for Denmark; January 1, 2012, to December 31, 2014, for Germany.
+- **Data Frequency**: Hourly prices, forecasted hourly wind and solar power production, and hourly demand  ."," - **Paper Type:** Empirical  
+- **Research Question:** This paper aims to understand how variable renewable energy (VRE) generation affects electricity price volatility in Denmark and Germany, and to uncover the drivers of these effects  ."," - The main dependent variable is electricity price volatility .
+- For daily price volatility (Vd), it is defined as the natural logarithm of the standard deviation of hourly prices (ph) for day d, divided by the average daily price (pd) :
+  Vd = ln [ (1/24) Σ(ph - pd)² ] 
+- For weekly price volatility (Vw), it is defined as the natural logarithm of the standard deviation of daily average prices (pd) for week w, divided by the weekly average price (pw) :
+  Vw = ln [ (1/7) Σ(pd - pw)² ] "," - The primary method used is a seasonally adjusted autoregressive moving average (SARMA) model .
+- The key equation for the SARMA(p,q)(P,Q)[s] model is: `vt = ∑(i=1 to p) AiVt-i + ∑(i=1 to P) αi⋅sVt-i⋅s + ∑(i=1 to q) Bi⋅εt-i + ∑(i=1 to Q) βi⋅sεt-i⋅s + εt + γxt` .
+- This model includes `p` autoregressive (AR) terms, `q` moving average (MA) terms, `P` seasonal autoregressive (SAR) terms, and `Q` seasonal moving average (SMA) terms, with `s` representing periodicity .
+- The parameter vector `γ` is used to estimate the impact of exogenous variables `xt` on price volatility ."," - Yes, the paper estimates separate effects of wind and solar on daily price volatility and price levels in Germany    .
+- For daily price volatility in Germany:
+  - Wind power (windd) increases volatility: +0.0328 .
+  - Solar power (Asolard) decreases volatility: -0.0379 .
+- For price levels in Germany (peak hours):
+  - Wind power (windd) decreases peak prices: -0.1530 .
+  - Solar power (Asolard) decreases peak prices: -0.0528 .
+- For price levels in Germany (off-peak 1 hours):
+  - Wind power (windd) decreases off-peak 1 prices: -0.3073 .
+- For price levels in Germany (off-peak 2 hours):
+  - Wind power (windd) decreases off-peak 2 prices: -0.1874 .
+- The effect of combined wind and solar (vred) on daily volatility in Germany is statistically insignificant .", - Not addressed in this paper," - The paper mentions a ""supply-function equilibrium model"" in the introduction.
+- No specific equilibrium condition is stated as an equation in the text.",," - The paper acknowledges that spot market transmission flows are likely endogenous with price volatility, preventing causal conclusions about their impact .
+- It primarily uses an empirical approach with time-series models (SARMA) to understand the effects of VRE generation on price volatility .
+- The methodology is largely based on Mauritzen (2010), representing volatility via a seasonal autoregressive model with wind power production as an exogenous variable .
+- The paper uses forecasted hourly wind and solar power production and demand data for modeling, rather than realized values, because only forecasts are available to market participants when determining bids .
+- Curtailment is not explicitly addressed in the paper."," - Interconnectors (cross-border transmission lines) are discussed as affecting price volatility and enabling balancing of VRE generation   .
+- Market rules are mentioned in the context of regulatory changes that forced German transmission system operators to publish day-ahead forecasts for VRE generation .
+- The paper does not explicitly discuss negative prices or price floors, nor specific market rules for Japan.","The paper finds that in Denmark, wind power decreases the daily volatility of prices by flattening the hourly price profile, while in Germany, it increases volatility because it has a stronger impact on off-peak prices ."," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper discusses the need for flexible generation capacity and demand-response applications to manage the intermittency of variable renewable energy (VRE)  .
+- It also mentions that investments in flexible generation, along with transmission network extensions, integration of adjacent markets, and demand response, will be required to prevent intermittent renewable generation from threatening power system stability .
+- The paper suggests that capacity payments which incentivize flexible plants can be utilized .","The authors state the following limitations and areas for future research:
+- ""First, they estimate a single coefficient to represent the impact of VRE generation on price volatility even if the impact is more dynamic and dependent on the market situation."" 
+- ""We have studied only the whole dataset, while the impacts may change over time."" 
+- ""Second, the high frequency of trading in electricity markets means that time-series models may not capture processes driving price formation very accurately, which causes errors in the estimated coefficients for VRE."" 
+- ""A subject for further research could be to use different modelling techniques. Similar to Ketterer (2014), the impact of wind power on Danish price volatility could be established using a GARCH model."" 
+- ""On the other hand, German price volatility could be explored as a function of time and VRE penetration using the non-parametric regression model of Jónsson et al. (2010)."" 
+- ""Also, the link between VRE generation levels and supply curve elasticities can be established more formally using real supply and demand curve data (see Dillig et al., 2016) or agent-based or complementarity models."" 
+- ""Another avenue for future research is to estimate the impact of VRE generation on price volatility in other renewable-rich locations such as Spain, Ireland, and California."" 
+- ""Moreover, as the absolute value of the VRE forecast errors is likely to increase when the VRE capacity increases, trading volumes and prices on various intraday markets are subject to change."" 
+
+This paper does not address battery free-entry equilibrium, nor does it analyze price volatility in the Hokkaido region, focusing instead on Denmark and Germany and their specific market characteristics."
+A,Kyritsis2017_PricesRenewableIntegrationPolicy.pdf,"This paper analyzes how solar and wind power affect electricity prices and volatility in Germany (2010-2015). It finds both renewable sources influence prices, with solar reducing volatility and wind increasing it, highlighting different market flexibility challenges. The study emphasizes understanding these distinct impacts for effective renewable integration."," - **Market:** German electricity market, specifically day-ahead spot electricity prices (Phelix Day Base, Phelix Day Peak, Phelix Day Off-peak)  .
+- **Country:** Germany   .
+- **Sample Period:** January 1, 2010, to June 30, 2015 .
+- **Data Frequency:** Daily ."," - **Paper Type:** Empirical, Methodology  
+- **Research Question:** This paper investigates the effects of intermittent solar and wind power generation on electricity price formation in Germany, specifically exploring the dynamic relationship between day-ahead electricity prices and supply and demand forces in a multivariate context.  "," - The main object of analysis is electricity prices, specifically day-ahead electricity prices in Germany .
+- Volatility is analyzed, and it is defined as the conditional standard deviation ($h_t$) within a GARCH-in-Mean model . The variance equation for its construction is $h_t = c_0 + \alpha_1\epsilon_{t-1}^2 + b_1h_{t-1} + b_2s_t + b_3w_t + b_4l_t$, where $s_t$ is solar power generation, $w_t$ is wind power generation, and $l_t$ is total electricity load."," - The study uses a univariate GARCH-in-Mean model .
+- The mean equations for electricity prices (P_t, P_peak,t, P_off-peak,t) are specified as:
+  - P_t = α + β_1√h_t + Σ(β_1+i * P_t-i) + β_9S_t + β_10W_t + β_11l_t + ε_t 
+  - P_peak,t = α + β_1√h_t + Σ(β_1+i * P_t-i) + β_9S_t + β_10W_t + β_11l_t + ε_t 
+  - P_off-peak,t = α + β_1√h_t + Σ(β_1+i * P_t-i) + β_9S_t + β_10W_t + β_11l_t + ε_t 
+- The variance equation for the model is:
+  - h_t = c_0 + α_1ε^2_t-1 + b_1h_t-1 + b_2S_t + b_3W_t + b_4l_t "," - Yes, the paper estimates separate effects for solar and wind power on electricity prices and volatility  .
+- **Solar Power:**
+  - Reduces electricity price volatility .
+  - Exhibits a negative effect on electricity prices, particularly during peak hours .
+  - Coefficient for solar power (St) in the mean equation for all hours: -3.465E-05 .
+  - Coefficient for solar power (St) in the mean equation for peak hours: -6.838E-05 .
+  - Coefficient for solar power (St) in the variance equation for all hours: -1.483E-05 .
+  - Coefficient for solar power (St) in the variance equation for peak hours: -1.476E-05 .
+- **Wind Power:**
+  - Augments electricity price volatility .
+  - Exhibits a more severe negative effect on electricity prices than solar across all hours .
+  - Coefficient for wind power (Wt) in the mean equation for all hours: -4.481E-05 .
+  - Coefficient for wind power (Wt) in the mean equation for peak hours: -5.035E-05 .
+  - Coefficient for wind power (Wt) in the variance equation for all hours: 1.385E-05 .
+  - Coefficient for wind power (Wt) in the variance equation for peak hours: 1.953E-05 .
+- Both solar and wind power Granger cause electricity prices at the 1% significance level .", - Not addressed in this paper," - The paper states that electricity prices are influenced by the 'merit-order principle,' which originates from the standard microeconomic concept of perfect competition .
+- This principle implies that the price of electricity should be equal to the marginal cost of the last needed electricity generation technology, also known as the marginal plant .
+- Renewables, having nearly zero marginal cost, penetrate the supply curve, shifting it to the right and resulting in a lower electricity price due to the 'merit-order effect'  .",," - The paper does not explicitly address endogeneity through instruments, natural experiments, or structural assumptions, stating that it uses actual solar and wind power generation data because predicted data was limited and constructing a prediction model would introduce a generated regressor problem .
+- Curtailment is mentioned as a policy instrument for renewable support in Germany .
+- Negative electricity prices are identified as the first market signals for economic curtailment of renewables .
+- The paper suggests that reducing flexibility requirements through policy measures like economic curtailment of renewable generation can achieve similar results to increasing system flexibility ."," - Negative electricity prices are discussed as an outcome of large-scale renewable power generation and priority dispatch, where conventional plants may bid negative prices to avoid ramp-downs and continue production  .
+- The paper notes that negative prices are not problematic per se, but represent the limited system's flexibility .
+- Market rules are mentioned in the context of adjusting market design to improve efficiency and social welfare , and specifically, the German renewable support scheme's policy instruments (fixed-feed in tariffs, priority dispatch, and restrictive curtailment rules) are described as enabling Germany's rapid transition to renewables .
+- The concept of ","The most striking feature in the mean equation is the negative effect of solar and wind power generation on electricity prices, which is in line with the literature ."," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper discusses the limited economic possibilities of large-scale electricity storage, noting that it precludes inventory strategies in residential and commercial sectors .
+- It also mentions that electricity price spikes can be attributed to the limited economic possibilities of large-scale electricity storage .
+- The concept of 'flexibility' is frequently discussed, referring to the electricity markets' ability to efficiently cover fluctuating demand, influenced by the installed power plant mix and market interactions .
+- Increased system flexibility is identified as crucial for addressing renewable energy intermittency, such as variability or uncertainty, and rendering renewable energy sources viable and reliable .
+- Flexible conventional generation, adequate transmission, and renewable energy contribution to system stability are mentioned as ways to increase system flexibility .
+- Reducing flexibility requirements through policy measures like economic curtailment, energy storage, demand response, and market interconnection can also achieve similar results ."," - The authors state that a future research direction would be to investigate the same causal relations (from solar power generation, wind power generation, and total electricity load to electricity prices) in the context of non-linear models, while exploring the complex intraday dependence of hourly prices .
+- This paper does not address the impact of battery free-entry equilibrium or price volatility in Hokkaido, as it focuses on the German electricity market and its specific challenges related to large-scale renewable integration."
+A,Wozabal2016_IntermittentRenewablesPriceVariance.pdf,"This paper challenges the common belief that renewable electricity increases price variance. It finds that small to moderate amounts of intermittent renewables can decrease price variance, while large quantities have the opposite effect. The study, based on German data, suggests policies should support variance-absorbing technologies alongside renewable capacity build-up to ensure grid stability  ."," - Market: German day-ahead spot market, specifically the European Energy Exchange (EEX) and European Power Exchange (EPEX)   .
+- Country: Germany/Austria   .
+- Sample period: 2007 until 2013 .
+- Data frequency: Hourly observations are used to compute daily price variances ."," - **Paper Type:** This paper is primarily empirical, testing theoretical predictions with real-world data, but it also includes a theoretical framework.
+- **Research Question:** The paper investigates how intermittent renewable electricity production affects the variance of electricity prices on spot markets."," - The main object of analysis is the variance of electricity prices  .
+- The variance is chosen as a measure of dispersion due to its theoretical properties, allowing for decomposition of residual demand in regression models .
+- For the econometric analysis, daily price variances are used, computed from 24 hourly observations per day .
+- The variance is defined as a quadratic expression and is sensitive to outliers, so hourly observations deviating from the average price by more than three standard deviations are removed ."," - The paper uses a static market model for theoretical investigations .
+- It employs Ordinary Least Squares (OLS) regression models for empirical analysis .
+- The theoretical model relies on a supply function `S: R+ → R` which is increasing, convex, and differentiable .
+- A first-order Taylor approximation is used to relate price variance to the supply function's slope and residual demand variance: `Var(S(X)) ≈ S'(μ)² Var(X)` .
+- The OLS regressions use price variance as the dependent variable, explaining it with residual demand as an explanatory variable (Model 1), or its components (demand and IES infeed) as separate regressors (Model 2), or further disentangling renewable sources into wind and PV (Model 3) .
+- The models incorporate an inverse S-shaped supply function by including the squared average daily residual demand as a regressor .
+- The variance of residual demand is decomposed as `Var(X) = Var(Q – I) = Var(Q) – 2 Cov(Q, I) + Var(I)` .
+- Heteroskedasticity and autocorrelation robust standard errors are used in the regressions ."," - Yes, the paper estimates separate effects of wind and solar (PV) infeed on price variance .
+- The average marginal effect of PV infeed on price variance is an average reduction of 83 (per GWh) .
+- The average marginal effect of wind infeed on price variance is an average reduction of 7 (per GWh) .
+- The impact of average PV infeed on price variance is about 12 times larger than that of wind .
+- The estimated coefficients for PV infeed and its interaction with demand show a sharp decrease in price variance as PV infeed increases .
+- Wind infeed also reduces price variance, but less drastically, due to a negative interaction term between wind infeed and demand .
+- The coefficients from Model 3 (Table 3) for wind and PV are:
+  - Wind: 29.74 (p-value 0.011) 
+  - Wind^2: 0.50 (p-value 0.007) 
+  - PV: -53.71 (p-value 0.023) 
+  - PV^2: 9.93 (p-value 0.000) 
+  - Wind * demand: -0.74 (p-value 0.001) 
+  - PV * demand: -1.13 (p-value 0.023) 
+  - PV * wind: 2.52 (p-value 0.004) "," - The paper's theoretical model does not explicitly include storage as a price-taker or price-maker .
+- The model assumes a standard static market where no player is able to exercise market power, implying a price-taker behavior for all participants, including any implicit storage .
+- Storage capacity is not endogenously determined by entry/investment within the model's framework, as the market model is static .
+- The paper notes that storage plants earn money by buying electricity when prices are low and selling when high, implying that higher price variance incentivizes investment in such plants, but this is a general observation rather than a model assumption ."," - The paper assumes a competitive market where no player can exercise market power.
+- The market price is obtained by intersecting the inelastic demand with the supply curve, given by the equation `P = S(Q)`.", - Not addressed in this paper," - The paper uses a static market model with random residual demand as a structural assumption to analyze the effects of intermittent electricity sources (IES) on price variance  .
+- It also considers an inverse S-shaped supply function to incorporate plant inflexibility and load changing costs, which is a structural assumption based on observations in the German market  .
+- For the econometric analysis, the paper uses ordinary least squares (OLS) regression models and addresses heteroskedasticity and autocorrelation with robust standard errors, but does not explicitly mention instrumental variables or natural experiments to address endogeneity .
+- Curtailment is implicitly treated by assuming that IES production is always fed into the grid regardless of price, as long as prices are positive, due to marginal costs close to zero and feed-in tariffs ."," - The paper mentions the phenomenon of negative prices for electricity on the day-ahead spot market in Germany .
+- It discusses the existence of inflexible base load plants which prefer to produce at negative prices rather than switching off to avoid start-up costs .
+- The paper also refers to grid interconnections as a policy measure supporting variance absorbing technologies  .
+- Market rules are implicitly discussed through the German Renewable Energy Sources Act (EEG) that regulates subsidized renewable power production, requiring grid operators to buy all power from renewable sources at a regulated tariff and sell it on the day-ahead and intra-day market .
+- The day-ahead market operates with hourly prices determined in sealed bid, uniform price auctions at 12 p.m. for the next day .","The impact of average PV infeed on the price variance is about 12 times larger than that of wind, with an average reduction of 83 for PV compared to 7 in the case of wind ."," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper discusses the relevance of storage and flexibility resources, stating that policies supporting variance absorbing technologies like smart-grids, energy storage, or grid interconnections are needed to complement subsidy schemes for intermittent electricity sources (IES) .
+- It notes that the price variance is a major determinant for investing in plants like electricity storage plants, which profit by buying electricity when prices are low and selling when prices are high . Higher price variance incentivizes investment in such plants .
+- The paper suggests that increased flexibility in production and consumption is required due to structural changes in electricity markets from IES build-up, and this flexibility can be provided by electricity storage plants, demand response (e.g., smart grids), or flexible production technologies like gas turbines .
+- It also mentions that the expansion of storage capacity, demand response, or transmission capacities to neighboring grid areas could facilitate large-scale demand response . The promotion of electric cars with combined battery capacity is also suggested as a storage device when combined with a smart grid ."," - The paper does not explicitly incorporate the dynamics in the bidding that determines market prices in a dispatch model.
+- It also does not consider the modeling of strategic interactions of players on the market.
+- A study of battery free-entry equilibrium and price volatility in Hokkaido would need to model the strategic interactions of players and the specific market dynamics of Hokkaido, which this paper does not address. The paper focuses on the German market and does not delve into the specifics of battery free-entry equilibrium."
+A,SchonigerMorawetz2022_RenewablesPriceVarianceUShapeEurope.pdf,"This paper finds that increasing renewable electricity doesn't always raise spot price variance; it often lowers it, creating a U-shaped relationship. Flexibility options like storage and grid expansion are crucial for integrating high shares of renewables and maintaining system stability.   "," - The study analyzes the European electricity market, specifically focusing on nine countries: Austria/Germany (treated as one market zone), Denmark, GB, Greece, Italy, Portugal, Romania, Spain, and Sweden    .
+- The sample period covers 2015-2019  .
+- Data is primarily available at an hourly resolution, but the models use a daily resolution for the explained variable (daily spot price variance) and explanatory variables ."," - **Paper Type**: Empirical analysis   
+- **Research Question**: Does a higher share of renewable generation in the electricity grid necessarily lead to higher price variance in Europe? "," - The main dependent variable in the regression models is the daily spot price variance .
+- The variance is defined as the variance of past prices, which is considered the most straightforward definition typically used in economics ."," - The paper uses a panel model and single-country regression results .
+- The Basic Model is specified as: Var(Price)it = a + Rit β΄ + Kit γ' + θt + pt + Ci δ' + Uit .
+- The Extended Model is specified as: Var(Price)it = α + Mit β' + Kit γ' + θt + pt + Ci δ' + Uit .
+- The Wind & Solar Model is specified as: Var(Price)it = a+ Wit β' + Kit γ' + θt + pt + Ci d + Uit .
+- The models allow for a U-shaped relationship between residual load and price variance, including linear and squared terms for daily mean residual load ."," - Yes, the paper estimates separate effects of wind and solar on price variance using the ""Wind & Solar Model"".
+- **Wind:**
+  - Wind generation (Wind) has a positive effect on price variance, with a coefficient of 9.69 (p-value < 0.001) in the fixed effects model .
+  - The squared term (Wind²) also has a positive effect, with a coefficient of 0.03 (p-value < 0.001) .
+- **Solar:**
+  - Solar generation (Solar) has a positive effect on price variance, with a coefficient of 32.55 (p-value < 0.001) .
+  - The squared term (Solar²) also has a positive effect, with a coefficient of 0.75 (p-value < 0.001) .
+- The estimated coefficients for wind-related and solar-related variables are very similar to those from the Extended Model for other variables ."," - Storage is modeled as a price-taker  .
+- Storage capacity is treated as an exogenous variable ."," - The paper uses a standard static market model with an inelastic demand for electricity.
+- It constructs a two-stage game for electricity producers with the possibility of building up IRE generation.
+- The model is based on a numerical supply function equilibrium model.", - Not addressed in this paper," - The paper addresses endogeneity by assuming that the variance of wind and solar (and thus IRE and residual load) is determined by weather, making it unlikely that unobserved time-varying confounders influence IRE and price variance .
+- For load and residual load, it assumes no unobserved confounding variables exist between price variance and residual load .
+- Weekday- and month-fixed effects are used to control for recurring patterns and unobserved time-varying confounders related to electricity demand .
+- Curtailment is mentioned in the context of conventional power plants and ramping constraints, where it is noted that curtailment and ramping constraints are the main reasons for a U-shaped pattern in price variance at higher shares of wind generation ."," - Negative prices/price floors are discussed in the context of market signals for IRE producers and the scrapping of rules for new wind offshore generation in Denmark .
+- Interconnectors (referred to as export/import capacities or transmission capacities) are discussed as a factor influencing a country's ability to balance IRE infeed and impact price variance     .
+- Market rules are mentioned in relation to the Danish market, specifically the scrapping of rules for new wind offshore generation, which means generators avoid generation at negative prices .
+- The specific market rules for Japan (0.01 yen/kWh floor, gross bidding, January 2021 spike) are not addressed in this paper.",The minimum price variance for most countries is found to be between a 10% and 40% renewable electricity production share.," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper frequently discusses the relevance of storage and flexibility resources for managing electricity price variance and integrating renewable energy               .
+- Specific mentions include hydro (pump) storage, batteries, thermal storage technologies, and demand-side management (DSM) as flexibility options            ."," - The paper's regression models cannot fully explain price variance due to factors like supply shortages, policy shifts, and remuneration schemes not being explicitly covered .
+- Future research should quantify how price variance changes investment decisions in generation capacities, storage, transmission, and demand-side management (DSM) in the medium to long term .
+- This paper does not address the free-entry equilibrium of batteries or price volatility in specific regions like Hokkaido, as it focuses on European electricity markets and broader flexibility options."
+A,Maciejowska2020_RESPriceLevelVariabilityQuantile.pdf,"This paper analyzes how wind and solar energy affect German electricity prices and their variability using a quantile regression approach. It finds that both wind and solar reduce price levels, but their impact on price volatility differs based on demand levels, with solar stabilizing prices more for moderate demand and wind increasing or decreasing volatility depending on demand. "," - The paper studies the German electricity market.
+- The sample period spans from January 1, 2015, to January 29, 2018.
+- Data frequency is initially hourly observations, which are then transformed into daily, peak, and off-peak indexes."," - **Paper Type**: Methodology / Empirical   
+- **Research Question**: The paper assesses the impact of renewable energy sources (wind and solar) on the level and variability of German electricity spot prices using a quantile regression approach.  "," - The main object of analysis is the electricity price level and its variability  .
+- Volatility is analyzed and defined as the inter-quantile range (IQR)   .
+- The IQR is constructed as the difference between the 0.9 and 0.1 quantiles of electricity prices: IQRt = Pt(0.9) – Pt(0.1)  ."," - The primary method used is **Quantile Regression (QR)**  .
+- The key equation for the simple linear quantile regression model is:
+  `Pt(τ) = αο,τDt + BLtLt + BWtWt + BSSt + Σ(i=1 to p) θi,τPt-i` .
+- A non-linear model is also considered, which conditions the influence of fundamental variables on the level of forecasted load, with the key equation:
+  `Pt(τ) = αο,τDt + Σ(j=1 to 3) BLj,τLj,t + Σ(j=1 to 3) BWj,τWj,t + Σ(j=1 to 3) BSj,τSj,t + Σ(i=1 to p) θi,τPt-i` ."," - Yes, the paper estimates separate effects for wind and solar on both price level and volatility  .
+- **Price Level (Merit-Order Effect)**:
+  - Both wind and solar have a similar, negative impact on the price level, approximated by the price median .
+  - Wind coefficients (BW) are significantly lower than zero, indicating a price-dampening effect. For example, for daily index, the coefficient at quantile 0.5 is -0.166***  .
+  - Solar coefficients (BS) are also significantly lower than zero, supporting the merit-order effect. For example, for daily index, the coefficient at quantile 0.5 is -0.136***  .
+  - When load is low, solar has a stronger price dampening effect than wind .
+  - Wind has a stronger reducing impact on lower tails of the price distribution, while solar has a stronger reducing impact on higher tails .
+- **Price Variability (IQR)**:
+  - Wind and solar influence prices differently when price volatility (measured by IQR) is considered .
+  - Wind generation either increases IQR (when demand is low) or decreases it (when demand is high) .
+  - Solar power stabilizes the price variance for moderate demand levels .
+  - For the linear model (4) and daily data, the wind coefficient (BW) is -0.006, and the solar coefficient (BS) is -0.200***  .
+  - For the non-linear model (5) and daily data, the wind coefficient (BW) is 0.010, and the solar coefficient (BS) is -0.181***  .", - Not addressed in this paper, - Not addressed in this paper, - Not addressed in this paper," - The paper does not explicitly address endogeneity through instruments, natural experiments, or structural assumptions.
+- The paper does not address curtailment."," - Negative prices are mentioned as a consequence of increased renewable energy sources (RES) in electricity markets  .
+- Price spikes are also noted as a result of RES integration  .",The study found that a 10% increase of the installed capacity of wind is followed by a 1-5% rise of the variance .,"None of the specified terms (Japan, Hokkaido, batteries, storage, flexibility resources) are mentioned in this paper. The paper focuses on the German electricity market and the impact of renewable energy sources (wind and solar) on electricity price levels and variability.","The authors state that their analysis indicates a robustness of results, implying that although there are minor quantitative differences, the outcomes do not change the qualitative interpretation of the results and final conclusions . However, they suggest that future research could explore how the structure and level of RES affects both the level and the variability of electricity prices, which could inform generators' decision processes (e.g., where to sell electricity or bid at a power exchange) and help develop policies for a desired generation mix .
+
+This paper does not address battery free-entry equilibrium, price volatility in a specific region like Hokkaido, or the impact of battery storage on electricity markets, which would be crucial for such a study."
+A,Paraschiv2014_RenewablesEEXDayAheadPrices.pdf,"This paper analyzes the impact of renewable energies on German day-ahead electricity prices, finding they decrease spot prices and shift the merit order curve. While this benefits energy-intensive industries, final consumers face increased costs due to feed-in tariffs. The study highlights the need for an effective grid and reconsidered incentive schemes for renewables.  "," - **Market**: EEX (European Energy Exchange) day-ahead electricity prices  .
+- **Country**: Germany    .
+- **Sample Period**: January 1, 2010, to February 28, 2013  .
+- **Data Frequency**: Hourly  ."," - The paper is empirical and methodological  .
+- It investigates how renewable energy in Germany has affected day-ahead electricity prices and contributed to a shift in the merit order curve  ."," - The main object of analysis is the day-ahead electricity prices at EEX, which fall under the category of 'price level'  .
+- Volatility is analyzed, and it is defined and constructed as the standard deviation of market clearing prices for the same hour over the last five relevant delivery days  ."," - The paper uses a dynamic fundamental model, specifically a state space model with time-varying regression coefficients, estimated using the Kalman Filter and maximum likelihood  .
+- The key equations for the model are:
+  - Measurement equation: `Yi,t = Zi,tit + Vi,t` 
+  - Transition equation: `Yit = Yi,t-1 + Wi,t` 
+  - Where `Vi,t ~ N(0, Ri)` and `Wit ~ N(0, Qi)`, and `E(VitWit) = 0` .
+  - The demand forecast is modeled using an Autoregressive Moving Average model with exogenous regressors (ARMAX) and a GARCH(1,1) structure for conditional variance .
+- The demand calculation for total electricity is `Demandt = Vertical Net Loadt + Total Wind Infeedt + Total PV Infeedt` ."," - Yes, the paper estimates separate effects of wind and solar (photovoltaic, PV) on electricity prices  .
+- **Wind**: The infeed from wind energy decreases electricity prices, indicated by a negative sign of wind coefficients . This effect is particularly noticeable for night hours, causing negative prices due to excess electricity and low demand . The model shows a higher impact of wind on price formation at EEX than PV .
+- **Photovoltaic (PV)**: The infeed from PV also decreases electricity prices, shown by a negative sign of PV coefficients . This effect is noticeable for noon peak hours . The model shows a relatively constant coefficient magnitude for PV infeed over time, but it is higher over noon due to high sunshine intensity .
+- **Magnitude**: While specific numerical coefficients are not explicitly quoted in the summary, the paper states that the impact of wind is "," - The paper states that limited efficient storing capacities prevent inter-temporal smoothing of demand, which contributes to extremely large price changes at EEX .
+- It also mentions that the roll-out of renewable energies requires storage capacities for electricity, but the current market design does not compensate the provision of reserve capacity adequately .
+- The paper does not explicitly model storage as a price-taker or price-maker, nor does it detail if storage capacity is exogenous or endogenously determined by entry/investment within its fundamental model. However, the mention of 'limited efficient storing capacities' and the market design not compensating for 'reserve capacity' implies that storage capacity is largely treated as a given constraint rather than an endogenously determined variable within the scope of their model  ."," - The paper uses the concept of market clearing, where demand equals supply at any point in time  .
+- The equilibrium condition is implicitly stated as: Demand = Vertical Net Load + Total Wind Infeed + Total PV Infeed .", - Not addressed in this paper," - The paper accounts for endogeneity by using climatic data (sunshine duration, cloud cover, air temperature, relative humidity, cooling degree days) as exogenous variables to forecast electricity demand .
+- It also employs a dynamic fundamental model with time-varying regression coefficients to capture the evolving relationship between electricity prices and market fundamentals, which implicitly addresses some aspects of endogeneity by allowing coefficients to adapt over time  .
+- Curtailment is implicitly addressed through the discussion of negative prices at EEX, which can occur when the costs of shutting down and ramping up a power plant unit exceed the loss for accepting negative prices, indicating a situation where generation might be reduced or curtailed to avoid losses .
+- The paper notes that energy suppliers are willing to pay a small "," - The paper discusses negative prices at EEX, noting they occur when costs of shutting down and ramping up a power plant exceed the loss for accepting negative prices . Energy suppliers are willing to pay a small fee to avoid shutting down medium-load plants like coal plants for a few hours .
+- It mentions the development of an effective grid and interconnectors, specifically a 1400 megawatt subsea cable between Germany and Norway, which will allow the export of wind/solar power from Germany and import of hydropower from Norway . This interconnector aims to enhance security of supply and stabilize electricity prices .
+- Market rules are discussed in the context of the day-ahead auction for hourly delivery at EEX, which takes place daily at 12:00 noon. Participants submit bids with a minimum volume of 0.1 megawatt (MW) and a tick size of EUR 0.01 per MWh, with the market clearing price determined after 12:40 pm .
+- The paper does not address specific market rules for Japan (e.g., 0.01 yen/kWh floor, gross bidding, January 2021 spike).","The average Mean Absolute Percentage Error (MAPE) over all 24 hours for the estimated demand models is 0.040, with a minimum value of 0.030 and a maximum value of 0.046 for the in-sample period ."," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper mentions the lack of efficient storage opportunities, limited efficient storing capacities, and the need for storage capacities and flexible production facilities to handle renewable energy.   "," - The paper does not define a model for electricity prices in Section 4, but only aims at a descriptive analysis of price spikes at EEX .
+- The authors admit that their out-of-sample period is not strictly out-of-sample, as they use ex-post climatic data as input variables, though they believe this approach is a reasonable approximation given the accuracy of weather forecasts .
+- The paper does not analyze the impact of renewable energies on electricity generation in the UK, but focuses on Germany .
+- Future incentive schemes for the promotion of renewable energy in Germany should be reconsidered, and future investments in wind and PV installations should not be considered in isolation, but in a consistent way with the development of an effective grid .
+- The matters of production, storage, and transportation cannot be treated separately in future incentive schemes .
+- This paper does not address battery free-entry equilibrium or price volatility in Hokkaido, as its focus is on the German electricity market, renewable energy impacts on day-ahead prices, and the role of grid infrastructure and feed-in tariffs in Germany."
+A,Hagfors2016_ExtremePriceOccurrencesGermany.pdf,"This paper analyzes how fundamental factors influence extreme price occurrences in the German day-ahead electricity market. It develops models to predict the probability of extreme prices, finding that positive and negative price spikes have different drivers. Wind power is particularly important for negative prices, and the models effectively forecast these events for risk management.   "," - German day-ahead electricity market (EPEX) 
+- Country: Germany  
+- Sample period: January 4, 2010, to May 31, 2014 
+- Data frequency: Hourly "," - **Paper Type:** Empirical / Methodology 
+- **Research Question:** This paper investigates how fundamental drivers influence the probability of extreme price occurrences in the German day-ahead electricity market and develops models to predict these events."," - The main object of analysis is the prediction of extreme price occurrences, specifically the probability of extreme prices  .
+- Volatility is analyzed, defined as being modeled by first regressing spot prices on the seven first lags, and then using the regression residuals in an EWMA model with a smoothing constant λ = 0.94 ."," - The primary method used is a logit model to predict the probability of extreme price occurrences .
+- The models identify which fundamental variables drive the probability of extreme prices and quantify their impact.
+- The study also explores quantile regression in a related work."," - Yes, the paper estimates separate effects for wind and photovoltaic (solar) production on extreme price occurrences  .
+- **Wind Forecast (Trading Period 3 - Negative Prices):**
+  - Coefficient: 7.02236 
+  - Sign: Positive, indicating that high wind production increases the probability of negative prices .
+- **Photovoltaic Forecast (Trading Period 18 - Positive Spikes):**
+  - Coefficient: -2.37763 
+  - Sign: Negative, suggesting that higher photovoltaic production reduces the probability of extremely high prices .
+- **Wind Forecast (Trading Period 18 - Positive Spikes):**
+  - Coefficient: -1.58368 
+  - Sign: Negative, implying that higher wind production reduces the probability of positive spikes .", - Not addressed in this paper, - Not addressed in this paper, - Not addressed in this paper," - The paper does not explicitly address endogeneity through instrumental variables, natural experiments, or structural assumptions .
+- It mentions that electricity is a unique commodity due to simultaneous production and consumption, with no significant storage capacity, implying limited curtailment possibilities at times of scarcity .
+- The paper notes that producers with available capacity can set asking prices well above marginal costs during scarcity, contributing to high prices .
+- It also states that utilities have been willing to pay up to €120/MWh to get rid of excess electricity, indicating instances where curtailment might be economically preferable to negative prices ."," - Negative prices have been allowed at the EPEX since 1 September 2008 to ensure market clearing when supply exceeds demand .
+- Market participants bid a given quantity MWh at a set price, where the offered price must be in the range -€500/MWh to €3000/MWh .
+- The Equalization Mechanism Ordinance (AusglMechV) obliges Transmission System Operators (TSOs) to market EEG-electricity on the day-ahead market, changing the market mechanisms of trading energy from renewable sources .
+- Improved transfer capacity, which reduces congestion in the transmission system, is mentioned as a possible explanation for price dampening .
+- Future improvements to the transmission grid are expected to decrease negative price observations .","The models confirm that extremely high and negative prices have different drivers, and that wind power is particularly important in relation to negative price occurrences .", - Not addressed in this paper,"The authors state several limitations and areas for future research:
+- The current analysis may not be limited to two trading periods, but could be estimated for different times of the day, with alternatives like closer analysis of daytime negative prices or morning hours .
+- To further improve the estimated logit models' accuracy and confidence, a more advanced volatility model (e.g., GARCH) may improve model fitting .
+- Testing of the model could be done on different simulated fundamental variable scenarios and corresponding spot prices .
+- The methodology could be employed on other markets, such as Nord Pool or UK APX, and comparisons of extreme price dynamics in these markets could be conducted .
+- A possible approach is studying the energy input mix and its impact on extreme price occurrences and magnitude, as well as drivers .
+- The model is unable to make a sufficiently powerful logit model for predicting negative prices if wind forecasts are not included .
+- The test results illustrate that the logit model is able to recognize which states of the fundamental variables are most likely to lead to negative prices, but it is important to note that there are relatively few negative price observations in each trading period, and a single true/false positive has a visible impact .
+- A challenge in estimating a robust model is obtaining sufficiently many data points of extreme price occurrences, which complicates testing, as out-of-sample tests require enough data points to be credible .
+- The model should and will have the highest predictive power in a market situation similar to the original data sample, so new models should be estimated as German day-ahead electricity market fundamentals change over time .
+
+This paper does not address battery free-entry equilibrium, nor does it focus on the Hokkaido market or its specific price volatility characteristics, as it is centered on the German day-ahead electricity market and its fundamental drivers   ."
+A,Mwampashi2021_WindElectricityPricesAustralia.pdf,"This paper analyzes the impact of wind generation on electricity prices and volatility in Australia's National Electricity Market. It finds that increased wind generation reduces daily prices but increases price volatility, highlighting challenges for system security and reliability. The study also examines the effects of regulatory interventions and other factors on price dynamics."," - This paper studies the Australian National Electricity Market (NEM)      .
+- Specifically, it focuses on four mature markets within the NEM: New South Wales (NSW), South Australia (SA), Victoria (VIC), and Tasmania (TAS)  .
+- The sample period spans from January 1, 2011, to December 31, 2020 .
+- The data used is daily, aggregated from high-frequency 5- and 30-minute wholesale electricity prices  ."," - **Paper Type**: Empirical study  
+- **Research Question**: This paper aims to gauge the effects of increasing wind power generation on the level and volatility of wholesale electricity prices in the Australian National Electricity Market (NEM)  ."," - The main object of analysis is the dynamics of electricity prices, specifically both the price level and price volatility  .
+- Price volatility is defined as a time-dependent standard deviation inferred from the observed price dynamics via the estimated model parameters .
+- The eGARCH model is used to model the variance of log(σ²), where σt is the time-dependent standard deviation  ."," - The study employs an exponential generalized autoregressive conditional heteroskedasticity (eGARCH) model  .
+- The model specification is ARX-eGARCHX .
+- The key equations are:
+  - Mean equation: P_t = μ + Σ(Φ_i P_{t-i}) + Σ(δ_j Z_{t-j}) + ε_t 
+  - Variance equation: log(σ_t^2) = ω + Σ(α_i Z_{t-i} + γ_i (|Z_{t-i}| - E|Z_{t-i}|)) + Σ(β_k log(σ_{t-k}^2)) ","The paper primarily focuses on wind generation and does not estimate separate effects of wind and solar on prices or volatility. Solar generation is largely excluded from the analysis for two main reasons :
+- Wind generation is considered marginal in Queensland (QLD), and QLD is excluded from the analysis .
+- Large-scale solar penetration in other National Electricity Market (NEM) regions has historically been very low .
+
+However, the impact of solar generation is examined indirectly via the Terranora interconnector and the QNI, assuming that part of the imports from QLD to NSW come from solar generation that peaks during the day .", - Not addressed in this paper," - The paper mentions that the system operator (AEMO) ensures the expected demand for electricity is met in the most cost-efficient way using an algorithm that dispatches generators from the cheapest to the most expensive .
+- This implies a system cost minimization approach for dispatching generators.", - Not addressed in this paper," - The paper includes variables like electricity consumption and gas prices in the analysis to ensure the estimated model does not suffer from endogeneity issues .
+- It also uses an exponential generalized autoregressive conditional heteroskedasticity (eGARCH) model to study electricity price and volatility dynamics, which models both simultaneously while accounting for heteroskedasticity and asymmetry .
+- Curtailment is mentioned in the context of wind penetration, noting that a drop in penetration between 2018 and 2019 reflects increasing instances of wind curtailment/spilling in 2019 . It is also noted that curtailment is not considered a problem but reflects market economics ."," - **Negative prices or price floors** are discussed as an important feature of the electricity market in Australia, with the minimum price (market price floor) in the NEM set at -1,000 AUD/MWh. The paper notes that SA was the first state to experience negative prices when low demand coincided with high wind generation  .
+- **Interconnectors** are discussed as a key factor influencing electricity price dynamics, enabling trade between regions and affecting both price levels and volatility  .",The most important quantitative result is that a 1 GWh increase in wind generation decreases daily prices up to 1.3 AUD/MWh and typically increases price volatility up to 2% .," - Japan is mentioned in the context of Australia's renewable electricity capacity installation rate being four to five times faster than Japan .
+- Japan is also mentioned in relation to international gas prices, specifically the Japan Korea Marker (JKM) LNG prices .
+- Hokkaido is not mentioned in this paper.
+- The paper discusses the importance of investing in electricity storage for a more flexible system to accommodate the intermittency of the VRE sector .
+- It notes that storage technologies, such as pumped hydro and battery storage, capitalize on low price periods .
+- The paper mentions that SA installed the world's largest lithium-ion battery at the Hornsdale wind-farm, which has played a substantial role in lowering the cost of frequency control services .
+- It projects that battery storage installations will increase significantly from nearly zero in 2020 to about 5.6 GW by 2036-37 .
+- The paper also highlights that fast-start, firm, and flexible (dispatchable) capacity will be needed in coal-generation dominant regions to meet lost output from wind generation .
+- AGL Energy is planning to replace the Liddell power station in NSW with technologies including battery storage and an upgrade of its Bayswater power station ."," - **Limitations and Future Research stated by the authors:**
+    - The authors note that exploring the issue of modeling power market dynamics other than for modeling or forecasting of volatility alone raises interesting questions which require further examination, but state that ""this is beyond the scope of the present study as this analysis requires thorough investigation of variance measures and their applicability in electricity markets"" .
+    - The paper also states that ""other reasons include strategic bidding practices and plant ramping, which are beyond the scope of this study"" .
+- **What this paper does not do for a study of battery free-entry equilibrium and price volatility in Hokkaido:**
+    - This paper does not address battery free-entry equilibrium, nor does it analyze electricity markets outside of Australia's National Electricity Market (NEM), such as Hokkaido."
+A,NaviaSimon2025_PriceStabilityInsuranceValueRenewables.pdf,"This paper demonstrates that increasing renewable energy deployment in European markets significantly stabilizes electricity prices and reduces their sensitivity to natural gas price fluctuations. This stabilization provides a substantial ""insurance value"" of renewables, leading to social welfare gains that current market mechanisms do not fully internalize, suggesting explicit consideration in energy policy decisions."," - The paper simulates European power markets, including all EU countries, the United Kingdom, and Switzerland  .
+- The sample period for historical variability in electricity demand and fossil fuel prices is 1990 to 2021  .
+- Weather conditions are drawn from a sample between 1982 and 2016 .
+- Simulations are performed for the future horizon years 2024 and 2030 .
+- Data frequency is hourly for electricity prices, demand, and generation, covering 8,760 hours in a year  ."," - **Paper Type**: Methodology / Empirical     
+- **Research Question**: The paper aims to understand how renewable technologies will affect the properties of power prices, specifically their annual volatility and sensitivity to natural gas price fluctuations, in future European markets  ."," - The main object of analysis is power price stability, specifically its annual volatility and sensitivity to natural gas price fluctuations  .
+- The paper also analyzes the impact of renewable technologies on annual power price spikes .
+- Volatility is defined as the standard deviation of the annual average price of electricity ."," - The primary method used is Monte Carlo simulation to generate future scenarios, combined with the GenX model for market simulation  .
+- The GenX model is an open-source electricity resource capacity expansion model used to replicate market dispatch, minimizing total variable costs to satisfy demand .
+- The key equation for annual price P(y) is the arithmetic average of hourly prices :
+  `P(y) = (1/8,760) * Σ(h=1 to 8,760) p*(y, h)`
+- The β-sensitivity, a measure of electricity price sensitivity to natural gas prices, is derived from a linear projection :
+  `L_K(P(y), \, P_gas, X) = β(K) P_gas + τ' Χ`","n/a
+
+The paper does not estimate separate effects of wind and solar on prices or volatility. Instead, it analyzes the combined impact of ""variable renewable capacity"" (wind and solar PV technologies) on the β-sensitivity and price stability. For instance, scenarios for additional deployment increase both wind and solar PV capacity together  ."," - Storage technologies are modeled such that they are charged and discharged in an optimal dispatch solution that minimizes the total cost of electricity generation for the full year .
+- The model assumes perfect foresight for hourly profiles, allowing batteries and reservoirs to operate optimally .
+- Storage capacity is considered exogenous, as it is part of the fixed configuration of capacities for a set of zones .
+- The paper mentions that the projected natural gas capacity in 2030 is maintained unaltered, thereby limiting the amount of additional storage that can be added profitably ."," - The model uses a competitive market equilibrium concept, assuming perfect competition and perfect foresight for the full year.
+- The dispatch outcome maximizes the total economic surplus of generators and buyers in day-ahead markets.
+- The equilibrium condition is where aggregate demand and aggregate supply are equal, represented as: ∑ᵢ dᵢ (y, h, p*) = ∑ⱼ sⱼ (y, h, p*)."," - The paper mentions a pre-set value of loss load parameter at 3,000 euros in the analysis .
+- It also assumes a thermal efficiency of 49% for combined cycle gas turbines .
+- The paper notes that the discount rate and its calibration to reflect risk aversion and income uncertainty are part of the formulation's controversies, but it does not specify a value used in the analysis .
+- No specific values for capital cost, WACC, lifetime, round-trip efficiency, or degradation are explicitly stated as assumptions for the model's calculations."," - The paper addresses endogeneity by using Monte Carlo simulations that replicate historical variability and covariation of weather, demand, and fossil fuel prices  .
+- It simulates simultaneous shocks to fuel prices, weather, and demand to model the fundamental tension in systems with higher renewable capacity .
+- The methodology involves randomly drawing 300 repetitions from a normal multivariate distribution with a variance/covariance structure that replicates historical data, capturing annual frequency variations driven by macroeconomic factors .
+- Weather variability is replicated by randomly selecting weather years from 1987-2016, which affects capacity factors of variable renewables, hydrologic conditions, and hourly demand profiles  .
+- Curtailment of renewable electricity is mentioned as a consequence of very high levels of renewable capacity and excess capacity, which depresses revenues for all market participants and has implications for system stability . The GenX model used in simulations includes the possibility to curtail demand if the cost of satisfying it exceeds a pre-set value ."," - The paper discusses the expansion of interconnection capabilities in European markets as a driving factor of price formation .
+- It also mentions market rules, specifically the uniform-price auction or pay-as-clear nature of price setting in day-ahead European electricity markets, and restrictions on capacity markets as sources of revenue for power plants .
+- The most recent reform of electricity markets in Europe maintains the essential elements of day-ahead markets while including support measures for long-term PPAs and a requisite to use CFDs for new renewable capacity .","The paper finds that annual power price spikes would be more moderate by 2030, with the β-sensitivity falling from 1.4 euros to 1 euro, and further deployment of solar photovoltaic and wind exceeding 30% of the 2030 target would lower it below 0.5 euros ."," - The paper does not contain any results or discussion specific to Japan or Hokkaido.
+- The paper mentions batteries/storage/flexibility resources in several contexts:
+  - It discusses that systems with higher levels of storage capacity (in hydro reservoirs or batteries) might lead to biased policy conclusions regarding natural gas influence .
+  - It notes that the European Energy and Climate Plans envision additions to hydropower capacity, battery storage, and demand-side response, but on a much smaller scale than variable renewables .
+  - The GenX model used in simulations allows for the simulation of storage technologies, including hydropower plants with reservoirs and/or pumping capabilities and batteries .
+  - It states that batteries and reservoirs will be charged and discharged in the optimal dispatch solution provided by GenX .
+  - It also mentions that any technology in the model can set the marginal price, including variable renewables, storage, interconnectors or demand-side response .
+  - The paper suggests that future analysis should consider whether different combinations of technologies, including additional storage or improving interconnections, could achieve low β-sensitivity more effectively and generate market revenue .
+  - It briefly mentions that the operation of batteries or the charging of electric vehicles are key uses for hourly price characterizations ."," - The authors state that a full explanation of the differences in β-sensitivity across countries is beyond the scope of this paper and is a relevant area for future research .
+- Future analysis (particularly in the context of the design of support mechanisms for renewables) should consider a broader range of deployment possibilities and explicitly evaluate their influence on the β-sensitivity parameters of the EU electricity markets .
+- An important research question is whether other options to increase renewable capacity, such as different combinations of technologies, or including additional storage or improving interconnections, could achieve low β-sensitivity more effectively and generate market revenue that would make them investable without policy support .
+- The authors note that they do not attempt to reflect the energy independence and geopolitical security dimensions of renewable investment by the European Union in this Article .
+- They also state that their results do not account for transmission restrictions within countries and across smaller countries, and that the computational requirements of doing so would grow notably and make it unfeasible in the context of this paper .
+- Additionally, the paper does not model balancing costs, and cannot model local node constraints and balancing costs derived from the variability of renewables .
+- This paper does not address the specific geographical region of Hokkaido, nor does it model the impact of battery free-entry equilibrium on price volatility, as it focuses on European markets and assumes fixed capacity configurations rather than market entry dynamics for storage."

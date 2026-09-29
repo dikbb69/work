@@ -1,17 +1,19 @@
 # literature フォルダの内容と品質チェック記録
 
-更新: 2026-07-29
+更新: 2026-09-29（2026-07-29版に追記）
 
 ## ファイル構成
 
 | ファイル | 内容 | 由来 |
 |---|---|---|
 | `doi-list.md` | コア41本の検証済みDOIリスト | Crossref照合済み（A6・A10は7/28修正済み） |
-| `unified_review.csv` | 統一スキーマ13列×41本のSciSpace抽出表（全体） | `2026-07-28_09_29_38_export.xlsx` から変換（UTF-8 BOM） |
+| `unified_review.csv` | 統一スキーマ13列＋TL;DR×41本のSciSpace抽出表（全体、先頭列にセットA〜D） | Drive `参考研究_20260728/2026-07-28_summary.xlsx`（`raw/` に保存）から2026-09-29に再生成（UTF-8 BOM）。zip引継ぎ時に欠落していたもの |
 | `setA_review.csv` 〜 `setD_review.csv` | 上記のセット別分割（A11・B13・C9・D8本） | 同上 |
 | `notes/*.md` | Chat with PDFのQ&Aログを論文別に分割した15ファイル | `ChatLog.docx` から機械分割 |
+| `notes/fuke-ohashi2025.md` | **F&O原典の精読ノート**（データ・式・Table 7/9/10/11・差別化3列表） | 2026-09-29、Drive SetC のPDF全文から |
+| `raw/2026-07-28_summary.xlsx` | SciSpace抽出表の原本 | Drive から取得 |
 
-原本（xlsx/docx）は `Downloads\参考研究_20260728\` に残置。PDF本体も同フォルダのSetA〜D。
+原本（xlsx/docx）は Google Drive `参考研究_20260728`（id 126xMwK20awVDlnK0vVBYtHxv5OQRjkZu）。PDF本体も同フォルダのSetA〜D（MCP経由で本文テキストを読める）。
 
 ## 品質チェック結果（2026-07-29実施）
 
@@ -33,7 +35,7 @@
    - Butters, Dorsey & Gowrisankaran（均衡条件の式・価格インパクト弾性・パラメータ表）
    - Karaduman（価格インパクト推定法・北海道比較表）
    - Schmalensee（命題の正確な条件）
-   - **Fuke & Ohashi（7問 → 差別化3列表の素材。大橋教授面談用）**
+   - ~~Fuke & Ohashi（7問 → 差別化3列表の素材。大橋教授面談用）~~ → 原典精読で代替済（`notes/fuke-ohashi2025.md` §4 に3列表）
    - Andrés-Cerezo & Fabra（市場支配力の2経路・マークアップ）
 2. ギャップ検索8クエリ（§5、Deep Review推奨）→ `novelty-check.md` に保存
 3. BibTeX/RISの一括エクスポート → `references.bib`

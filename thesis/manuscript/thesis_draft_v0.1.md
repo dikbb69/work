@@ -863,7 +863,7 @@ ERCOTの実績（2年で6分の1）は、本研究のπ(K)曲線の急峻さを�
 - [A10] Mwampashi, Nikitopoulos, Konstandatos & Rai (2021) Wind generation and the dynamics of electricity prices in Australia. Energy Economics 103, 105547. https://doi.org/10.1016/j.eneco.2021.105547
 - [A11] Navia Simon & Diaz Anadon (2025) Power price stability and the insurance value of renewable technologies. Nature Energy 10, 329–341. https://doi.org/10.1038/s41560-025-01704-0
 - [B1] Butters, Dorsey & Gowrisankaran (2025) Soaking Up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium. Econometrica 93(3). https://doi.org/10.3982/ECTA20411 【頁未確認】【要確認: 精読ノート（butters-dorsey-gowrisankaran2025.md）は NBER WP 29133（2024年9月改訂版）を読んだ版と記載。公刊版（Econometrica 93(3)）との異同は未確認】
-- [B2] Karaduman — Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets（WP）. https://gsb-faculty.stanford.edu/omer-karaduman/files/2022/09/Economics-of-Grid-Scale-Energy-Storage.pdf
+- [B2] Karaduman (2023) — Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets（WP）. https://gsb-faculty.stanford.edu/omer-karaduman/files/2022/09/Economics-of-Grid-Scale-Energy-Storage.pdf
 - [B3] Schmalensee (2022) Competitive Energy Storage and the Duck Curve. The Energy Journal 43(2). https://doi.org/10.5547/01956574.43.2.rsch 【頁未確認】【要確認: 精読ノート（schmalensee2022.md）は MIT CEEPR WP 2020-012 に基づくと記載。公刊版（Energy Journal 43(2)）との異同は未確認】
 - [B4] Andrés-Cerezo & Fabra (2023) Storing power: market structure matters. RAND Journal of Economics 54(1), 3–53. https://doi.org/10.1111/1756-2171.12429
 - [B5] Sioshansi, Denholm, Jenkin & Weiss (2009) Estimating the value of electricity storage in PJM. Energy Economics 31(2), 269–277. https://doi.org/10.1016/j.eneco.2008.10.005
@@ -909,7 +909,7 @@ ERCOTの実績（2年で6分の1）は、本研究のπ(K)曲線の急峻さを�
 - Landy, M., Schmidt, O., Johnson, N., & Staffell, I. (2026). Maximising the economic value of renewable and battery storage hybrids with revenue stacking. Energy & Environmental Science 19, 4469–4494. https://doi.org/10.1039/d6ee00776g
 - Grimaldi, A., Minuto, F. D., Perol, A., Casagrande, S., & Lanzini, A. (2025). Techno-economic optimization of utility-scale battery storage integration with a wind farm for wholesale energy arbitrage considering wind curtailment and battery degradation. Journal of Energy Storage 112, 115500. https://doi.org/10.1016/j.est.2025.115500
 - Maji, D., Irwin, D., Shenoy, P., & Sitaraman, R. K. (2025). A first look at node-level curtailment of renewable energy and its implications. Proceedings of the 16th ACM International Conference on Future and Sustainable Energy Systems (e-Energy '25), 293–304. https://doi.org/10.1145/3679240.3734627
-- Loukatou, A., Johnson, P., Howell, S., & Duck, P. (2021). Optimal valuation of wind energy projects co-located with battery storage. Applied Energy 283, 116247. https://doi.org/10.1016/j.apenergy.2020.116247 ※巻・番号要確認
+- Loukatou, A., Johnson, P., Howell, S., & Duck, P. (2021). Optimal valuation of wind energy projects co-located with battery storage. Applied Energy 283, 116247. https://doi.org/10.1016/j.apenergy.2020.116247
 - Shen, D., Ilic, M., & Parsons, J. (2026). Peak-load pricing and investment cost recovery with duration-limited storage. arXiv:2603.13678
 - Oeltz, D., & Pfingsten, T. (2025). Rolling intrinsic for battery valuation in day-ahead and intraday markets. arXiv:2510.01956
 - 電気学会論文誌B 146(2) (2026). 蓄電池事業者が参加する同時市場における市場参加者の損益評価手法. https://doi.org/10.1541/ieejpes.146.125 ※著者名・DOI要確認 【頁未確認】
@@ -919,7 +919,8 @@ ERCOTの実績（2年で6分の1）は、本研究のπ(K)曲線の急峻さを�
 - 経済産業省 資源エネルギー庁・調達価格等算定委員会 各年度「意見」（FY2020〜27）
 - 経済産業省 定置用蓄電システム普及拡大検討会 資料（2024年度第3回「系統用・再エネ併設蓄電システムのコスト面・収益面での課題整理」2024年8月29日、第4回「系統用蓄電システムの需給調整市場における収益性分析」（三菱総合研究所）2024年11月11日、2024年度結果とりまとめ 2025年3月7日、2025年度第1回）
 - 自然エネルギー財団 (2025年7月16日). 総論：長期脱炭素電源オークションの有効性を問う（連載コラム）
-- 電力広域的運営推進機関（OCCTO）容量市場 約定結果（2024〜2029年度向け）、長期脱炭素電源オークション 約定結果（2023〜2025年度）、出力制御の月次検証資料
+- 電力広域的運営推進機関（OCCTO）容量市場 約定結果（2024〜2029年度向け）、長期脱炭素電源オークション 約定結果 本文・別紙（落札電源一覧）（2023年度・2024年度・2025年度応札分、最終公表 2026年5月13日）、出力制御の月次検証資料
+- 工藤美香 (2025). 総論：長期脱炭素電源オークションの有効性を問う（長期脱炭素電源オークションの課題 1）. 自然エネルギー財団 連載コラム, 2025年7月16日. https://www.renewable-ei.org/activities/column/20250716.php
 - 北海道電力ネットワーク 需給実績・出力制御実績、系統ワーキンググループ資料（岩松線ローカル混雑）
 - 日本卸電力取引所（JEPX）スポット市場約定価格（2016年4月〜2026年7月）
 - Modo Energy (2025). ERCOT battery revenues 2023–2025（ウェブ資料）; CAISO (2025). 2024 Special Report on Battery Storage

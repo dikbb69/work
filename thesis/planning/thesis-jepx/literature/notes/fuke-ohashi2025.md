@@ -89,3 +89,10 @@ $$P_t(\tau) = \alpha_{0,\tau} + \alpha_{1,\tau} D^{hday}_t + \alpha_{2,\tau} D^{
 - "Following Maciejowska (2020), the IQR is defined as the difference between the electricity prices at the 0.9 and 0.1 quantiles"（§4.2）
 - "While this study relies on aggregated daily PV time data, electricity markets operate on an hourly (or even half-hourly, as in the case of JEPX) basis and exhibit substantial intra-day price variation. Utilizing hourly data would enable a more detailed analysis"（§6、限界）
 - "the valuation of real options for solar PV-based storage facilities may differ between low- and high-temperature periods"（Abstract）
+
+## 6. 本研究による再現結果（`analysis/25_fo_replication.py`、2026-09-29）
+- 九州FY2016〜19・PV time日次・n=1,434・ブートストラップ150回。IQR係数: 需要 夏+0.330\*\*（F&O +0.325\*\*）、太陽光 春−0.259\*\*（F&O −0.228\*）、夏−0.421 n.s.（−0.356 n.s.）、冬−0.100・秋−0.189 n.s. → **表9をほぼ完全に再現**
+- 水準（τ=0.1/0.5/0.9）: 太陽光 冬−0.87/−0.81/−0.97（F&O −0.78/−0.88/−1.06）、春−0.42/−0.48/−0.68（−0.45/−0.50/−0.68）、夏−0.15/−0.44/−0.57（−0.16/−0.42/−0.52）、秋−0.63/−0.52/−0.82（−0.61/−0.51/−0.80）
+- 同一サンプルでTB4h（日内）をOLS: 太陽光 冬+0.74\*\*\*・春+0.28\*\*\*・夏+0.02・秋+0.91\*\*\* → 春は「日間IQR縮小・日内拡大」が同時成立。FY2023〜25の九州では IQR 全季節負（−0.42〜−0.74）、TB4h 全季節正（+0.77〜+2.15）
+- 北海道（風力追加）: 風力の日間IQRはFY2016〜19非有意、FY2023〜25で冬−3.17\*\*\*・秋−3.87\*（縮小）。日内TB4hはFY2016〜19で拡大せず（春−14.6\*\*\*）、FY2023〜25の春+5.0\*\*\*・夏+3.5\*（床形成後の転換）
+- 原稿への反映: 第6章6.5（表6.5〜6.7）、第10章10.2。結果CSV: `data/processed/fo_replication_results.csv`

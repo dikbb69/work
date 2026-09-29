@@ -2,7 +2,7 @@
 
 - 作成日: 2026年9月29日
 - スクリプト: `analysis/28_equilibrium_surface.py`（26 の供給曲線 v2 を exec）→ `data/processed/{equilibrium_surface, capacity_price_of_k, breakeven_frontier, kstar_grid, eprx_rent_cap}.csv`、`figures/hokkaido/{equilibrium_surface, breakeven_frontier}.png`
-- 位置づけ: HANDOFF タスク3。原稿 8.5（表8.5〜8.7・図8.3）、9.4（表9.1〜9.2・図9.1）、5.4.3・11.3 の一文に反映
+- 位置づけ: HANDOFF タスク3。原稿 8.5（表8.6〜8.7・図8.3）、9.4（表9.1〜9.2・図9.1）、5.4.3・11.3 の一文に反映
 
 ## 1. π(K; K_wind, 泊) 面（θ=1、円/kW-年、泊なし／あり）
 

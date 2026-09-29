@@ -49,7 +49,7 @@
 | 補助図 帯域分解の比較（北海道風力 vs 九州太陽光） | `band_comparison.png`、`band_comparison_hokkaido.png` | `21_band_comparison.py` |
 | 補助図 併設（BTM）の根拠 | `btm_case.png` | `20_btm_case.py` |
 
-表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.1b `price_level_theta.csv`、表8.3 `pi_k_curve.csv`、表8.4 `pi_k_curve_v2.csv`、表8.5 `equilibrium_surface.csv`、表8.6 `capacity_price_of_k.csv`、表8.7 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
+表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.2 `price_level_theta.csv`、表8.4 `pi_k_curve.csv`、表8.5 `pi_k_curve_v2.csv`、表8.6 `equilibrium_surface.csv`、表8.7 `capacity_price_of_k.csv`、表8.8 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
 
 ## 付録D 解析スクリプト一覧（`analysis/`）
 

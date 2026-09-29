@@ -27,6 +27,9 @@ SEASON_MAP = {7: "夏", 8: "夏", 12: "冬", 1: "冬", 2: "冬",
               3: "春秋", 4: "春秋", 5: "春秋", 6: "春秋", 10: "春秋", 11: "春秋",
               9: "端境"}
 MAIN_SEASONS = ["夏", "冬", "春秋"]
+# 頑健性: 環境変数 EXCLUDE_FY="2021,2022" で燃料危機期を除外した推定（出力名に _ex2021-22 を付す）
+EXCLUDE_FY = [int(v) for v in os.environ.get("EXCLUDE_FY", "").split(",") if v.strip()]
+OUT_SUFFIX = ("_ex" + "-".join(str(v)[2:] for v in EXCLUDE_FY)) if EXCLUDE_FY else ""
 
 
 def build_daily(area, pcol):
@@ -49,7 +52,10 @@ def build_daily(area, pcol):
     d["demand"] = p.groupby("day")["demand"].sum() / 1000
     d["fy"] = d.index.year - (d.index.month < 4).astype(int)
     d["season"] = d.index.month.map(SEASON_MAP)
-    return d[(d["fy"] >= 2016) & (d["fy"] <= 2025)].dropna()
+    d = d[(d["fy"] >= 2016) & (d["fy"] <= 2025)].dropna()
+    if EXCLUDE_FY:
+        d = d[~d["fy"].isin(EXCLUDE_FY)]
+    return d
 
 
 def run_reg(d, ycol):
@@ -76,7 +82,7 @@ def run_reg(d, ycol):
 all_rows = []
 for area, pcol in [("hokkaido", "p_hokkaido"), ("kyushu", "p_kyushu")]:
     d = build_daily(area, pcol)
-    print(f"\n===== {area}（n={len(d)}日, FY2016-25） =====")
+    print(f"\n===== {area}（n={len(d)}日, FY2016-25{' 除外' + str(EXCLUDE_FY) if EXCLUDE_FY else ''}） =====")
     for ycol, lab in [("mean_p", "水準: 日平均価格"), ("sd", "変動性: 日内SD"), ("tb4", "変動性: TB4hスプレッド")]:
         tab, r2 = run_reg(d, ycol)
         tab.insert(0, "被説明変数", lab)
@@ -90,5 +96,5 @@ for area, pcol in [("hokkaido", "p_hokkaido"), ("kyushu", "p_kyushu")]:
         print(disp[["係数", "推定値", "SE", "有意"]].to_string(index=False))
 
 res = pd.concat(all_rows, ignore_index=True)
-res.to_csv(os.path.join(PROC, "vol_regression_results.csv"), index=False)
-print("\nsaved vol_regression_results.csv")
+res.to_csv(os.path.join(PROC, f"vol_regression_results{OUT_SUFFIX}.csv"), index=False)
+print(f"\nsaved vol_regression_results{OUT_SUFFIX}.csv")

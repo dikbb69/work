@@ -5,7 +5,7 @@
 定義:
   需要期・夏   = 7-8月
   需要期・冬   = 12-2月
-  不需要期     = 4-5月・10-11月（春・秋）
+  不需要期     = 3-6月・10-11月（春・秋）。9月は端境期として除外
   太陽光大/小 = 各季節内で「日次の太陽光発電量（制御前）」の上位1/3 / 下位1/3の日
   価格        = 北海道エリアプライス（60分平均）の時刻別平均
 
@@ -47,10 +47,11 @@ p["day"] = p["ts"].dt.normalize()
 p["hour"] = p["ts"].dt.hour
 p["solar_pre"] = p["solar"].fillna(0) + p["solar_curt"].fillna(0)
 
+# 季節区分（2026-09-29 確定）: 9月は端境期として3季節から除外
 SEASONS = [
     ("需要期・夏（7-8月）", [7, 8]),
     ("需要期・冬（12-2月）", [12, 1, 2]),
-    ("不需要期（4-5・10-11月）", [4, 5, 10, 11]),
+    ("不需要期（3-6・10-11月）", [3, 4, 5, 6, 10, 11]),
 ]
 
 # 24時間そろった日のみ
@@ -150,8 +151,9 @@ for col in range(1, 10):
 
 # 目次に追記
 toc = wb["目次"]
-row = toc.max_row + 1
-toc.cell(row=row, column=1, value="価格カーブ形状")
-toc.cell(row=row, column=2, value="追加: 3季節×太陽光大小の時間帯別価格カーブ（FY2023-25）")
+if "価格カーブ形状" not in {toc.cell(row=r, column=1).value for r in range(1, toc.max_row + 1)}:
+    row = toc.max_row + 1
+    toc.cell(row=row, column=1, value="価格カーブ形状")
+    toc.cell(row=row, column=2, value="追加: 3季節×太陽光大小の時間帯別価格カーブ（FY2023-25）")
 wb.save(XLSX)
 print("saved sheet 価格カーブ形状 →", XLSX)

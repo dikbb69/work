@@ -46,10 +46,11 @@ p["wind_pre"] = p["wind"].fillna(0) + p["wind_curt"].fillna(0)
 cnt = p.groupby("day")["hour"].count()
 p = p[p["day"].isin(cnt[cnt == 24].index)]
 
+# 季節区分（2026-09-29 確定）: 9月は端境期として3季節から除外
 SEASONS = [
     ("需要期・夏（7-8月）", [7, 8]),
     ("需要期・冬（12-2月）", [12, 1, 2]),
-    ("不需要期（4-5・10-11月）", [4, 5, 10, 11]),
+    ("不需要期（3-6・10-11月）", [3, 4, 5, 6, 10, 11]),
 ]
 
 # ============================================================
@@ -257,9 +258,12 @@ ws["A9"] = "注: 出力1kWあたり。hを増やすと総価値は増えるが�
 ws["A9"].font = Font(size=9, color="595959")
 
 toc = wb["目次"]
+_existing = {toc.cell(row=r, column=1).value for r in range(1, toc.max_row + 1)}
 for sheet, desc in [("風力価格カーブ", "追加: 風力大小×3季節の価格カーブ"),
                     ("風力×裁定指標", "追加: 風力三分位×TB4h/PF/床/安値分断"),
                     ("duration曲線", "追加: PF価値のh依存＋κ(h)")]:
+    if sheet in _existing:
+        continue
     row = toc.max_row + 1
     toc.cell(row=row, column=1, value=sheet)
     toc.cell(row=row, column=2, value=desc)

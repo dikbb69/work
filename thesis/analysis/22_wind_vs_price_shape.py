@@ -53,10 +53,11 @@ daily["wind_gwh"] = p.groupby("day")["wind_pre"].sum() / 1000
 daily["solar_gwh"] = p.groupby("day")["solar_pre"].sum() / 1000
 daily["month"] = daily.index.month
 
+# 季節区分（2026-09-29 確定）: 9月は端境期として3季節から除外
 SEASONS = [
     ("需要期・夏（7-8月）", [7, 8]),
     ("需要期・冬（12-2月）", [12, 1, 2]),
-    ("不需要期（4-5・10-11月）", [4, 5, 10, 11]),
+    ("不需要期（3-6・10-11月）", [3, 4, 5, 6, 10, 11]),
 ]
 
 
@@ -168,8 +169,9 @@ for res, base_row in [("風力", 4), ("太陽光", 12)]:
 ws.cell(row=36, column=1, value="注: 五分位＝各季節内の日次発電量（制御前）による5等分。TB4h＝上位4h平均−下位4h平均。風力のTB4hはほぼ平坦（形状不変）、太陽光は不需要期に急拡大").font = Font(size=9, color="595959")
 
 toc = wb["目次"]
-row = toc.max_row + 1
-toc.cell(row=row, column=1, value="量と価格の関係")
-toc.cell(row=row, column=2, value="追加: 発電量五分位×価格水準・TB4hスプレッド（風力vs太陽光・季節別）")
+if "量と価格の関係" not in {toc.cell(row=r, column=1).value for r in range(1, toc.max_row + 1)}:
+    row = toc.max_row + 1
+    toc.cell(row=row, column=1, value="量と価格の関係")
+    toc.cell(row=row, column=2, value="追加: 発電量五分位×価格水準・TB4hスプレッド（風力vs太陽光・季節別）")
 wb.save(XLSX)
 print("saved xlsx 量と価格の関係")

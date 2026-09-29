@@ -13,7 +13,7 @@
 | E3 | Atherton, J., Akroyd, J., Farazi, F., Mosbach, S., Lim, M. Q., & Kraft, M. (2023). British wind farm ESS attachments: curtailment reduction vs. price arbitrage | *Energy & Environmental Science* 16. doi:10.1039/D3EE01355C（Cambridge C4E preprint 305 も可） | 47サイト、回収の主因が裁定、スコットランドで抑制削減大、回収年数の数値、巻・頁 |
 | E4 | Maji, D., Irwin, D., Shenoy, P., & Sitaraman, R. K. (2025). A first look at node-level curtailment of renewable energy and its implications | *Proc. ACM e-Energy '25*. doi:10.1145/3679240.3734627 | 「20%のノードが抑制の77%」「74.3%が混雑起因」の該当箇所、LMP による要因識別法 |
 
-## B. 補助的に引用予定・本文未確認【E5〜E7, E9〜E16 は Drive 格納済み（2026-09-29）→ 精読ノート作成。E8・E17 は未取得】
+## B. 補助的に引用予定・本文未確認【E5〜E7, E9〜E16 は Drive 格納済み（2026-09-29）→ 精読ノート作成済み。E8・E17 は未取得】
 
 | # | 検索用 | 誌名・巻・DOI | 確認したい点 |
 |---|---|---|---|
@@ -23,8 +23,8 @@
 | E8 | 蓄電池事業者が参加する同時市場における市場参加者の損益評価手法 | *電気学会論文誌B* 146(2), 125–（2026）. doi:10.1541/ieejpes.146.125（J-STAGE） | 著者名、要旨、プライスメーカーとしての扱い ｜状況: 未取得 |
 | E9 | Sensfuß, F., Ragwitz, M., & Genoese, M. (2008). The merit-order effect: A detailed analysis of the price effect of renewable electricity generation on spot market prices in Germany | *Energy Policy* 36(8), 3086–3094. doi:10.1016/j.enpol.2008.03.035 | MOE の原典として書誌確認のみ ｜状況: 精読済み → `notes/sensfuss2008.md` |
 | E10 | Würzburg, K., Labandeira, X., & Linares, P. (2013). Renewable generation and electricity prices: Taking stock and new evidence for Germany and Austria | *Energy Economics* 40, S159–S171. doi:10.1016/j.eneco.2013.09.011 | レビューとしての書誌確認のみ ｜状況: 精読済み → `notes/wurzburg2013.md` |
-| E11 | St. Martin, C. M., Lundquist, J. K., & Handschy, M. A. (2015). Variability of interconnected wind plants: correlation length and its dependence on variability time scale | *Environmental Research Letters* 10, 044004（OA） | 相関距離の時間スケール依存の数値（第6章6.4 の λ 校正に使用） ｜状況: Drive格納済み・精読中 |
-| E12 | Handschy, M. A., Rose, S., & Apt, J. (2017). Is it always windy somewhere? Occurrence of low-wind-power events over large areas | *Renewable Energy* 101, 1124–1130. doi:10.1016/j.renene.2016.10.004 | 低風力イベントの同時発生の数値 ｜状況: Drive格納済み・精読中 |
+| E11 | St. Martin, C. M., Lundquist, J. K., & Handschy, M. A. (2015). Variability of interconnected wind plants: correlation length and its dependence on variability time scale | *Environmental Research Letters* 10, 044004（OA） | 相関距離の時間スケール依存の数値（第6章6.4 の λ 校正に使用） ｜状況: 精読済み → `notes/st-martin2015.md` |
+| E12 | Handschy, M. A., Rose, S., & Apt, J. (2017). Is it always windy somewhere? Occurrence of low-wind-power events over large areas | *Renewable Energy* 101, 1124–1130. doi:10.1016/j.renene.2016.10.004 | 低風力イベントの同時発生の数値 ｜状況: 精読済み → `notes/handschy2017.md` |
 | E13 | Malvaldi, A., Weiss, S., Infield, D., Browell, J., Leahy, P., & Foley, A. M. (2017). A spatial and temporal correlation analysis of aggregate wind power in an ideally interconnected Europe | *Wind Energy* 20(8), 1315–1329. doi:10.1002/we.2095 | 集約後に残る相関の数値 ｜状況: 精読済み → `notes/malvaldi2017.md` |
 | E14 | Ohlendorf, N., & Schill, W.-P. (2020). Frequency and duration of low-wind-power events in Germany | *Environmental Research Letters* 15, 084045（OA） | 数日規模イベントの頻度・持続 ｜状況: 精読済み → `notes/ohlendorf-schill2020.md` |
 | E15 | Grimaldi, A., Minuto, F. D., Perol, A., Casagrande, S., & Lanzini, A. (2025). Techno-economic optimization of utility-scale battery storage integration with a wind farm for wholesale energy arbitrage considering wind curtailment and battery degradation | *Journal of Energy Storage* 112, 115500. doi:10.1016/j.est.2025.115500（確定） | 著者・巻・DOI、抑制・劣化を含む最適化の結論 ｜状況: 精読済み → `notes/grimaldi2025.md` |

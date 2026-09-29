@@ -90,7 +90,7 @@
 
 ### 学術的意義
 
-第一に、「再エネの増加は価格ボラティリティを高める」という通説を、電源種（太陽光・風力）と時間スケール（レベル・日内形状・多日変動）で分解して検証する。先行研究は再エネと価格変動性の関係について市場や電源種によって符号が異なることを報告しているが（Rintamäki et al. 2017; Schöniger and Morawetz 2022）、風力主導市場でこれを日本のデータで体系的に扱った研究はない。第二に、蓄電池投資を内生化した自由参入均衡の枠組み（Butters, Dorsey and Gowrisankaran 2025）を、その限界として明記された条件——出力制御、duration、連系線制約、下限価格、複数市場——が一次的に重要となる市場に適用する。第三に、「市場が正当化する容量」と「現実の参入」の乖離を政策ウェッジとして定義し、その内訳を分解するという問いを定式化する。
+第一に、「再エネの増加は価格ボラティリティを高める」という通説を、電源種（太陽光・風力）と時間スケール（レベル・日内形状・多日変動）で分解して検証する。先行研究は再エネと価格変動性の関係について市場や電源種によって符号が異なることを報告しているが（Rintamäki et al. 2017; Schöniger and Morawetz 2022）、風力主導市場でこれを日本のデータで体系的に扱った研究はない。国内の最類似研究（Fuke and Ohashi 2025）は日次集計に基づき、著者自身が時間値による日内変動の分析を今後の課題としており、海外でも日次時系列が再エネの効果を過小評価することが指摘されている（Tselika 2022）。第二に、蓄電池投資を内生化した自由参入均衡の枠組み（Butters, Dorsey and Gowrisankaran 2025）を、その限界として明記された条件——出力制御、duration、連系線制約、下限価格、複数市場——が一次的に重要となる市場に適用する。第三に、「市場が正当化する容量」と「現実の参入」の乖離を政策ウェッジとして定義し、その内訳を分解するという問いを定式化する。
 
 ### 実務的意義
 
@@ -255,7 +255,7 @@ LTDAは脱炭素電源の新規投資を促すため、原則20年間の固定�
 
 ### 5.2.1 ボラティリティの3分解
 
-「価格ボラティリティ」を次の3つに分けて測る。（i）レベル＝日平均価格（MOEの対象）、（ii）日内形状＝TB4hスプレッドおよび日内標準偏差（ダックカーブと蓄電池の裁定原資の対象）、（iii）多日変動＝日平均価格の日次系列の変動（風力の長周期変動の対象）。通説はこの3つを区別しておらず、本研究は各電源がどの成分に効くかを分けて示す。
+「価格ボラティリティ」を次の3つに分けて測る。（i）レベル＝日平均価格（MOEの対象）、（ii）日内形状＝TB4hスプレッドおよび日内標準偏差（ダックカーブと蓄電池の裁定原資の対象）、（iii）多日変動＝日平均価格の日次系列の変動（風力の長周期変動の対象）。通説はこの3つを区別しておらず、本研究は各電源がどの成分に効くかを分けて示す。この分解は先行研究の指標を整理する物差しでもある。Wozabal et al. (2016) の「日次分散」と Rintamäki et al. (2017) の「日次変動性」は24時間の日内分散であり（ii）に、Rintamäki et al. の「週次変動性」（週内の日平均価格の分散）と Fuke and Ohashi (2025) の日間IQRは（iii）に、Ketterer (2014) や Kyritsis et al. (2017) のGARCH条件付き分散は日次系列の（iii）に対応する。先行研究で符号が割れる一因は、この物差しの違いにある。
 
 ### 5.2.2 帯域分解
 
@@ -263,7 +263,7 @@ LTDAは脱炭素電源の新規投資を促すため、原則20年間の固定�
 
 $$x - \bar{x} = (x - MA_6) + (MA_6 - MA_{24}) + (MA_{24} - MA_{168}) + (MA_{168} - \bar{x})$$
 
-の4成分（6時間未満、6〜24時間、1〜7日、7日超）に分け、各成分の分散を元系列の分散で除した分散シェアを報告する。移動平均は鋭いバンドパスではないため成分は非直交で、交差項によりシェアの合計は100%にならない。同一のフィルタを北海道・九州の風力・太陽光に適用して比較する。年度別にも計算し、帯域構造の安定性を確認する。
+の4成分（6時間未満、6〜24時間、1〜7日、7日超）に分け、各成分の分散を元系列の分散で除した分散シェアを報告する。移動平均は鋭いバンドパスではないため成分は非直交で、交差項によりシェアの合計は100%にならない。同一のフィルタを北海道・九州の風力・太陽光に適用して比較する。年度別にも計算し、帯域構造の安定性を確認する。時間スケール別の加算的な成分分解という発想は、実現ボラティリティを日・週・月の成分のカスケードとして表す Corsi (2009) のHARモデルと同型であり、風力の空間集約が高周波成分から相殺されるという St. Martin, Lundquist and Handschy (2015) の相関距離の知見を、価格側で検証する準備でもある。
 
 ### 5.2.3 回帰仕様
 
@@ -289,9 +289,9 @@ Sakaguchi and Fujii (2021) の仕様に沿い、時間別価格を被説明変�
 
 ### 5.3.1 完全予見バックテストと実行可能戦略
 
-蓄電池の仕様は出力1MW・容量4MWh（4時間）、往復効率0.85（放電側に一括適用）、1日1サイクル、日をまたぐ持ち越しなし、価格テイカーとする。完全予見（PF）戦略は当日の実現価格を知って最安4時間に充電・最高4時間に放電し、粗利が負の日は休止する。PFは実現可能収益の上界である。
+蓄電池の仕様は出力1MW・容量4MWh（4時間）、往復効率0.85（放電側に一括適用）、1日1サイクル、日をまたぐ持ち越しなし、価格テイカーとする。完全予見（PF）戦略は当日の実現価格を知って最安4時間に充電・最高4時間に放電し、粗利が負の日は休止する。PFは実現可能収益の上界である。価格テイカー・完全予見の裁定を線形計画で解く定式化は Sioshansi et al. (2009) 以来の標準であり、Lamp and Samano (2022) がCAISOで示したように実運用はこの上界に届かない。
 
-実行可能戦略として、（a）前日の実現価格の時間帯ランクをそのまま使う戦略、（b）D−2までの実績から需要（平日/休日別28日平均）と太陽光（7日平均）を予測し残余需要のランクで配置する戦略、（c）過去28日・同曜日区分の平均価格のランクを使う戦略（気候値）を評価し、PFに対する比率（capture率）をヘアカットの校正に用いる。DP（SoC制約下の厳密最適）との比較でランク法の妥当性を確認する。
+実行可能戦略として、（a）前日の実現価格の時間帯ランクをそのまま使う戦略、（b）D−2までの実績から需要（平日/休日別28日平均）と太陽光（7日平均）を予測し残余需要のランクで配置する戦略、（c）過去28日・同曜日区分の平均価格のランクを使う戦略（気候値）を評価し、PFに対する比率（capture率）をヘアカットの校正に用いる。DP（SoC制約下の厳密最適）との比較でランク法の妥当性を確認する。価格モデルを置かずに履歴から学習する近似動的計画（Jiang and Powell 2015）のような高度な実行可能戦略も存在するが、本研究はヘアカットの校正が目的であるため、透明で再現可能な単純戦略を用いる。
 
 ### 5.3.2 duration曲線
 
@@ -307,11 +307,13 @@ $$p_t = g(net_t; season) + \mu(season, hour), \quad p_t \ge 0.01$$
 
 でモデル化する。$g$ は季節別に $net$ の80分位ビンの中央値を単調化した局所供給曲線、$\mu$ は $g$ の残差の季節×時刻別中央値（夕方のランプ・希少性プレミアム）である。市場分断を扱うため、安値分断・連系・高値分断の3レジームを $net$ の多項ロジットで確率化し、連系時はシステムプライスを外生に適用する混合仕様も推定する。推定期間はFY2023〜25で、FY2026上期をout-of-sampleとする。制御前太陽光・風力は $cf \times K_{pv}, cf \times K_{wind}$ で表され、導入量をシナリオ変数として気象パスを保存したまま動かせる。
 
+電力価格モデルの類型（Weron 2014）でいえば、$g$ は純需要から価格を導く基礎（fundamental）モデル、$\mu$ と分断レジームの混合は統計・レジームスイッチの要素であり、JEPXにおける買い・売り主導のレジーム転換（Kanamura and Bunn 2022）を分断の3レジームに置き換えたものにあたる。欧州の簡約形モデルが負値価格を明示的に生成する（Fanone et al. 2013）のに対し、日本の0.01円/kWh下限は分布の左側打ち切りとして扱う。推定期間外の検証は Lago et al. (2021) の作法（最終区間・1年以上）に従うべきところ、FY2026上期は3か月分にとどまるため暫定的な検証である。
+
 現行モデルの限界として、FY2026のような高スプレッド局面の再現が不十分であり、供給曲線上側の非定常性（燃料価格・退役）への対応が課題である【供給曲線v2として実装予定】。
 
 ### 5.4.2 フリートの内生化
 
-規模 $K$ の蓄電池フリートを10万kW刻みで逐次投入する増分貪欲ディスパッチにより、フリートが価格に与える影響を内生化する。各増分はその時点の価格で最安4時間に充電・最高4時間に放電し（正マージンの日のみ）、純需要と価格を更新する。これは「各参入者が残されたスプレッドを順に取る」競争均衡の近似である。フリート $K$ 投入後の価格での限界参入者（価格テイカー・完全予見）の年間裁定粗利を $\pi_{spot}(K)$ とし、実現可能収益は capture率と充電側の託送従量負担を控除して求める。
+規模 $K$ の蓄電池フリートを10万kW刻みで逐次投入する増分貪欲ディスパッチにより、フリートが価格に与える影響を内生化する。各増分はその時点の価格で最安4時間に充電・最高4時間に放電し（正マージンの日のみ）、純需要と価格を更新する。これは「各参入者が残されたスプレッドを順に取る」競争均衡の近似である。価格テイカーモデルが貯蔵の価値を過大評価する問題に対し、Emmanuel and Denholm (2022) は貯蔵を100MW刻みで追加しながら価格への影響を回帰で戻す市場フィードバックの枠組みを提案しており、本研究の増分投入は同じ発想を供給曲線モデル上で実装したものである。Karaduman (2023) は南豪州で価格インパクトを無視すると収益性を約2倍過大評価することを示している。フリート $K$ 投入後の価格での限界参入者（価格テイカー・完全予見）の年間裁定粗利を $\pi_{spot}(K)$ とし、実現可能収益は capture率と充電側の託送従量負担を控除して求める。
 
 ### 5.4.3 均衡条件
 
@@ -319,7 +321,7 @@ $$p_t = g(net_t; season) + \mu(season, hour), \quad p_t \ge 0.01$$
 
 $$\pi_{spot}(K) \cdot c + \kappa \cdot P_{cap} - c_{req} = 0$$
 
-で定義し、その解を $K^*$ とする（$c$ はcapture率、$\kappa \cdot P_{cap}$ は実効容量収入、$c_{req}$ は年間固定費に託送等固定費を加えた参入必要収益）。参入は二層構造とし、LTDA・補助金による政策層のストックは外生、マーチャント層のみがゼロレント条件に従う。主結果は政策層を除いた純市場ケースで報告する。
+で定義し、その解を $K^*$ とする（$c$ はcapture率、$\kappa \cdot P_{cap}$ は実効容量収入、$c_{req}$ は年間固定費に託送等固定費を加えた参入必要収益）。参入は二層構造とし、LTDA・補助金による政策層のストックは外生、マーチャント層のみがゼロレント条件に従う。主結果は政策層を除いた純市場ケースで報告する。このゼロレント条件は Butters et al. (2025) の動学的参入均衡の定常・確定版にあたり、投資家間の競争が進むほど個別利潤が消えて総容量が決まるという Zhao et al. (2022) の極限に対応する。競争的参入の下で待機オプションの価値が侵食され参入が近視眼的なNPV判断に近づくこと（Leahy 1993; Grenadier 2002）が、静学的なゼロレント条件を用いる根拠である。
 
 需給調整市場は、機会費用に基づく価格上限・前日調達への移行・実績の価格崩落・同時市場への移行を根拠にゼロレントとして扱い、調達量×実勢ΔkW価格÷Kで定義したレントの上限を感応度として示す。容量市場価格のK依存（容量市場側のカニバリ）は公表需要曲線から閉形式で導けるが、v1では定数として扱う。
 
@@ -359,7 +361,7 @@ $$\pi_{spot}(K) \cdot c + \kappa \cdot P_{cap} - c_{req} = 0$$
 
 表6.2は5.2.3の仕様による推定結果である（FY2016〜25、北海道3,632日、九州3,652日）。
 
-**北海道**。水準（日平均価格）に対して、太陽光は夏−0.47、冬−0.78、不需要期−0.36円/kWh per GWh/日、風力は−0.29、−0.36、−0.29で、いずれも1%水準で有意である。日内形状に対しては電源種で明確に分かれる。太陽光は不需要期にTB4hスプレッドを+0.31円/GWh（1%有意）、日内標準偏差を+0.12（同）増加させる一方、冬には減少させる（TB4h −0.84）。風力はTB4hに対して夏−0.37、冬−0.38（いずれも1%有意）、不需要期−0.003（非有意）であり、**いかなる季節においても日内形状を拡大させない**。
+**北海道**。水準（日平均価格）に対して、太陽光は夏−0.47、冬−0.78、不需要期−0.36円/kWh per GWh/日、風力は−0.29、−0.36、−0.29で、いずれも1%水準で有意である。日内形状に対しては電源種で明確に分かれる。太陽光は不需要期にTB4hスプレッドを+0.31円/GWh（1%有意）、日内標準偏差を+0.12（同）増加させる一方、冬には減少させる（TB4h −0.84）。風力はTB4hに対して夏−0.37、冬−0.38（いずれも1%有意）、不需要期−0.003（非有意）であり、**いかなる季節においても日内形状を拡大させない**。電源種の非対称は、Wozabal et al. (2016) がドイツの日次分散（日内24時間の分散）で示した「太陽光の効果は風力の約12倍」と同じ方向である。Kyritsis et al. (2017) がドイツのGARCHで得た「太陽光は変動性を下げ風力は上げる」とは逆に見えるが、彼らの変動性は日次系列の条件付き分散（日間）であり、対象が異なる（6.5）。
 
 **九州**。太陽光は冬（TB4h +0.125）と不需要期（+0.095）で日内スプレッドを有意に拡大させ、水準への効果はGWhあたり−0.06円と北海道より小さい（フリート規模が大きく、床への到達により限界的な効果が飽和しているため）。風力は導入量が小さく、有意な効果は検出されない。
 
@@ -382,7 +384,7 @@ $$\pi_{spot}(K) \cdot c + \kappa \cdot P_{cap} - c_{req} = 0$$
 
 ## 6.3 分位点回帰：高分位のMOEとその減衰
 
-Sakaguchi and Fujii (2021) の仕様を再現・延長した分位点回帰では、北海道の風力MOEは高分位ほど強く、τ=0.9で−11.2円/kWh per GW（FY2016〜19）であった。風力が倍増したFY2023〜25では−4〜−7円/kWhへ減衰している。この減衰は北本連系線の増強と市場統合による実効市場サイズの拡大と整合的であり、市場分断の方向が高値分断（道内＞本州）87〜92%から約60%へ、安値分断が1〜5%から約30%へと転換したこと（表6.3）と表裏の関係にある。「シェアが増えるほどMOEが強まる」という単純な外挿は北海道では成立しない。
+Sakaguchi and Fujii (2021) の仕様を再現・延長した分位点回帰では、北海道の風力MOEは高分位ほど強く、τ=0.9で−11.2円/kWh per GW（FY2016〜19）であった。風力が倍増したFY2023〜25では−4〜−7円/kWhへ減衰している。この減衰は北本連系線の増強と市場統合による実効市場サイズの拡大と整合的であり、市場分断の方向が高値分断（道内＞本州）87〜92%から約60%へ、安値分断が1〜5%から約30%へと転換したこと（表6.3）と表裏の関係にある。「シェアが増えるほどMOEが強まる」という単純な外挿は北海道では成立しない。連系が強い市場ほど再エネの変動性への効果が小さいという Schöniger and Morawetz (2022) の欧州横断の結果、および東北の再エネが東京価格に効く度合いが連系容量で制限されるという Ma et al. (2023) の観察と整合する。
 
 風力の多い日には安値分断の時間が夏8.1→10.3、冬3.1→8.3、不需要期4.6→9.1時間/日と増加する。風力は現時点で、床（0.01円）を作る前に、輸出の飽和による道内価格の本州からの切り離しを駆動している。
 
@@ -441,7 +443,7 @@ Sakaguchi and Fujii (2021) の仕様を再現・延長した分位点回帰で�
 
 ## 6.6 小括
 
-通説「再エネの増加は価格ボラティリティを高める」は、電源種と時間スケールで分解すると次のように判定される。先行研究の指標（日間IQR）を再現したうえで同一サンプルで日内指標に替えると符号が変わることから（6.5）、時間スケールの指定なしにこの通説は判定できない。太陽光は水準を下げ、不需要期を中心に日内形状（スプレッド）を拡大させる——ダックカーブの形成であり、通説は条件付きで成立する。風力は水準を下げるが日内形状を拡大させず、風力の変動は日内ではなく数日から週の帯域に分布する——通説は風力について棄却される。ただし、風力の中立性は北海道の市場・系統構造（単一価格ゾーンと分散立地）の下での記述であり、普遍法則ではない（6.4）。また、風力の中立性は床（0.01円）に到達する前の局面の記述であり、導入がさらに進んで床に達すると下側だけが切り取られてスプレッドが開く（第8章）。
+通説「再エネの増加は価格ボラティリティを高める」は、電源種と時間スケールで分解すると次のように判定される。先行研究の指標（日間IQR）を再現したうえで同一サンプルで日内指標に替えると符号が変わることから（6.5）、時間スケールの指定なしにこの通説は判定できない。太陽光は水準を下げ、不需要期を中心に日内形状（スプレッド）を拡大させる——ダックカーブの形成であり、通説は条件付きで成立する。風力は水準を下げるが日内形状を拡大させず、風力の変動は日内ではなく数日から週の帯域に分布する——通説は風力について棄却される。ただし、風力の中立性は北海道の市場・系統構造（単一価格ゾーンと分散立地）の下での記述であり、普遍法則ではない（6.4）。Rintamäki et al. (2017) が同じ風力についてデンマークで日内変動性の低下、ドイツで上昇という符号の逆転を示したことがその証左であり、北海道はデンマーク型に属する。また、風力の中立性は床（0.01円）に到達する前の局面の記述であり、導入がさらに進んで床に達すると下側だけが切り取られてスプレッドが開く（第8章）。
 # 第7章 実証結果II：蓄電池のスポット価値
 
 ## 7.1 PF価値の実測：床は九州の半分、価値は九州並み
@@ -458,7 +460,7 @@ FY2016〜25の時系列（図7.1）では、PF価値はFY2016〜19に0.6〜1.1�
 
 FY2016〜25の時系列（図7.1）では、戦略bはFY2016〜18にcapture率10〜24%とほぼ機能せず、FY2022〜23に戦略aを逆転した。九州で観察した「価格形状の支配要因が再エネに移ったことの検出器」としての戦略bの逆転が、北海道でも遅れて作動し始めている。戦略cは全年度で81〜84%と安定している。
 
-DP（SoC制約下の厳密最適）との比較では、空SoC起点で充放電順序が実行不能な日が約25%あるが、年間価値の差は−0.3〜−1.7%にとどまり、ランク法は頑健である。均衡分析では気候値ベースのcapture率0.81をヘアカットとして用いる。この水準はButters et al. (2025) が報告する「価格不確実性下の価値は完全予見の約7割」と整合し、風力地域はその下限側にある。
+DP（SoC制約下の厳密最適）との比較では、空SoC起点で充放電順序が実行不能な日が約25%あるが、年間価値の差は−0.3〜−1.7%にとどまり、ランク法は頑健である。均衡分析では気候値ベースのcapture率0.81をヘアカットとして用いる。この水準はButters et al. (2025) が報告する「価格不確実性下の価値は完全予見の約7割」と整合し、風力地域はその下限側にある。Lamp and Samano (2022) がCAISOの実運用について示した「最適裁定より鈍い応答」も同じ観察であり、capture率が1を下回ることは市場を問わない。
 
 ## 7.3 風力の日次水準と裁定指標
 
@@ -477,7 +479,7 @@ DP（SoC制約下の厳密最適）との比較では、空SoC起点で充放電
 
 ## 7.4 duration曲線
 
-FY2023〜25の実績価格によるPF価値は2時間6,026円、4時間10,317円、6時間13,062円、8時間14,354円/kW-年で、4時間比で0.58・1.00・1.27・1.39である。4時間から6時間でスポット価値は+27%、6時間から8時間で+9%と限界価値は逓減する。一方、容量市場の調整係数は4時間83.6%、6時間93.2%、8時間98.3%（2029年度向け北海道）で、4時間から6時間の+9.6ポイントは約定価格14,972円/kWなら約1,440円/kW-年に相当する。風力の変動が長周期に分布する市場では、より長いdurationの価値が両市場で残る。最適durationはスポットと容量市場の合算で決まり、4時間固定は保守的な仮定である。
+FY2023〜25の実績価格によるPF価値は2時間6,026円、4時間10,317円、6時間13,062円、8時間14,354円/kW-年で、4時間比で0.58・1.00・1.27・1.39である。4時間から6時間でスポット価値は+27%、6時間から8時間で+9%と限界価値は逓減する。durationに対する限界価値の逓減は Sioshansi et al. (2009) がPJMで示した形と同じである。一方、容量市場の調整係数は4時間83.6%、6時間93.2%、8時間98.3%（2029年度向け北海道）で、4時間から6時間の+9.6ポイントは約定価格14,972円/kWなら約1,440円/kW-年に相当する。風力の変動が長周期に分布する市場では、より長いdurationの価値が両市場で残る。最適durationはスポットと容量市場の合算で決まり、4時間固定は保守的な仮定である。
 
 ## 7.5 小括
 
@@ -512,13 +514,15 @@ FY2023〜25の気象・需要パス上で、価格過程に構造イベントを
 
 表8.3 限界参入者の実現可能スポット収益 π(K)（円/kW-年）
 
-カニバリゼーションは速い。フリート容量50万kWで $\pi$ は半減以下となり、約100万kWでスポット原資はほぼ枯渇する。泊の再稼働や風力の倍増は曲線を上方にシフトさせるが、飽和点は100〜120万kW程度しか動かない。この速度感はERCOTで観察された「2年で6分の1」と整合的である。なお、1パスで充放電窓を固定する近似では、大容量で フリートが安値時間を高値に反転させ $\pi(K)$ が偽の上昇を示したため、増分化によって単調減衰を確保している。
+カニバリゼーションは速い。フリート容量50万kWで $\pi$ は半減以下となり、約100万kWでスポット原資はほぼ枯渇する。泊の再稼働や風力の倍増は曲線を上方にシフトさせるが、飽和点は100〜120万kW程度しか動かない。この速度感はERCOTで観察された「2年で6分の1」と整合的である。貯蔵の自己共食いは Sioshansi et al. (2009) が1GWの貯蔵で裁定価値が2割超減ることを示して以来の論点であり、Lamont (2013) の限界価値曲線、Lamp and Samano (2022) のスプレッド圧縮の実証、Karaduman (2023) の価格インパクト（無視すると収益性2倍過大）と整合する。なお、1パスで充放電窓を固定する近似では、大容量で フリートが安値時間を高値に反転させ $\pi(K)$ が偽の上昇を示したため、増分化によって単調減衰を確保している。
 
 ## 8.4 均衡容量の判定：純市場では K* = 0
 
-参入に必要なスポット実現収益は $c_{req} - \kappa P_{cap}$ で、標準ケース（容量市場1.25万・$c_{req}$ 3.45万円/kW-年）で22,000円、楽観ケース（3.2万）で19,500円、保守ケース（容量0.83万・3.7万）で28,700円/kW-年である。$\pi(0)$ は4,944〜5,847円にすぎず、いずれのシナリオ・ケースでも参入必要水準に達しない。したがって現行の資本費と価格構造の下では、純市場の均衡容量は $K^* = 0$ である。
+参入に必要なスポット実現収益は $c_{req} - \kappa P_{cap}$ で、標準ケース（容量市場1.25万・$c_{req}$ 3.45万円/kW-年）で22,000円、楽観ケース（3.2万）で19,500円、保守ケース（容量0.83万・3.7万）で28,700円/kW-年である。$\pi(0)$ は4,944〜5,847円にすぎず、いずれのシナリオ・ケースでも参入必要水準に達しない。したがって現行の資本費と価格構造の下では、純市場の均衡容量は $K^* = 0$ である。Schmalensee (2022) が示すように、価格上限が停電価値を下回らなければ競争的貯蔵の均衡はシステム費用最小化と一致するから、この結果は「現行の価格構造の下で追加の蓄電池はシステム費用を下げない」とも読める。ただし本研究の $\pi(K)$ は歴史的価格に基づく部分均衡であり、火力の退出や連系線増強の内生的反応を含まない（10.5）。
 
 K=0で参入が立つ年間固定費（損益分岐AFC）は約1.05〜1.14万円/kW-年で、資本費に換算すると約1.5万円/kWh（現行実勢6.8万円/kWhの2割強）である。蓄電池産業戦略の長期目標（揚水並み2.3万円/kWh）まで資本費が下がっても、現行の価格構造と容量市場価格の下では純市場参入は開かない。
+
+託送等固定費と充電従量負担の扱いは損益分岐に一次的である。Mercier et al. (2023) は欧州の日前市場で系統利用料が裁定価値を20〜50%削り参加を大きく減らすことを示しており、北海道の0.69万円/kW-年の固定費と1.2円/kWhの従量負担も同じ役割を果たす。
 
 Butters et al. (2025) はCAISOで「補助なしでは2030年まで導入がほとんど進まないが、資本費30%低下で大きく進む」と報告した。北海道の結果はより厳しく、参入には資本費の約8割の低下、あるいはスプレッド水準の大幅な上昇が必要である。ただし8.1で述べたモデルの裾圧縮とFY2026型スプレッドの過小評価により、この閾値は保守側に偏っている可能性がある。
 
@@ -543,7 +547,7 @@ Butters et al. (2025) はCAISOで「補助なしでは2030年まで導入がほ�
 
 ### (b) 長期脱炭素電源オークション
 
-LTDAの落札蓄電池は北海道で少なくとも43.7万kW、全国で371.3万kWである。ブロック平均5.8〜8.0万円/kW/年の20年固定収入は、本研究の $c_{req}$（3.2〜3.7万円/kW-年）を大きく上回る。他市場収益の約9割を還付する構造のため、LTDA電源は市場収益に依存せず建設される。接続済み容量と近い将来の運開の相当部分はこの政策層で説明される【要精緻化：還付構造を織り込んだ実効値とエリア別集計】。
+LTDAの落札蓄電池は北海道で少なくとも43.7万kW、全国で371.3万kWである。ブロック平均5.8〜8.0万円/kW/年の20年固定収入は、本研究の $c_{req}$（3.2〜3.7万円/kW-年）を大きく上回る。他市場収益の約9割を還付する構造のため、LTDA電源は市場収益に依存せず建設される。接続済み容量と近い将来の運開の相当部分はこの政策層で説明される【要精緻化：還付構造を織り込んだ実効値とエリア別集計】。蓄電池・揚水の応札が募集量の5倍を超え、制度の有効性が問われていること（自然エネルギー財団 2025）は、政策層が市場収益と独立に参入を作り出していることの傍証である。再エネの市場価値の低下が固有の統合問題ではなく政策選択の産物であるという Brown and Reichenberg (2021) の議論と同型で、蓄電池の参入も何が駆動しているかで市場価値の解釈が変わる。
 
 ### (c) 補助金
 
@@ -555,17 +559,17 @@ SIIの系統用蓄電池等導入支援事業は資本費の一定割合を補�
 
 ### (e) 残差＝期待
 
-(a)〜(d)で説明できない残りは、参入者が将来について抱く期待に帰属する。候補は、FY2026上期に観察された高スプレッド（TB4h中央値18.7円）の定常化、資本費の継続的低下、需給調整市場の移行期レント、そしてデータセンター需要と泊再稼働の実現である。実物オプションの枠組み（Leahy 1993; Grenadier 2002）では、競争的参入の下で待機オプションの価値は競争によって侵食され、参入は近視眼的なNPV判断に近づく。参入ラッシュはこの意味で「期待の先取り競争」として解釈しうる。残差は「測れない」のではなく、(a)〜(d)の計測後に定義される量であり、第10章で解釈する。
+(a)〜(d)で説明できない残りは、参入者が将来について抱く期待に帰属する。候補は、FY2026上期に観察された高スプレッド（TB4h中央値18.7円）の定常化、資本費の継続的低下、需給調整市場の移行期レント、そしてデータセンター需要と泊再稼働の実現である。実物オプションの枠組みでは、収益の不確実性の下で待機が最適となりうる（Shin and Lee 2024 は韓国の蓄電池についてLSMCで投資タイミングを計算している）。しかし競争的参入の下では待機オプションの価値は競争によって侵食され、Grenadier (2002) の数値例では競争者が2社で50%、5社で15%に落ち、参入は近視眼的なNPV判断に近づく（Leahy 1993）。参入ラッシュはこの意味で「期待の先取り競争」として解釈しうる。残差は「測れない」のではなく、(a)〜(d)の計測後に定義される量であり、第10章で解釈する。
 
 ## 9.3 併設蓄電池のローカル価値
 
 ### 9.3.1 出力制御の立ち上がりと価格に映らない抑制
 
-北海道の風力抑制はエネルギーベースで2022〜24年度に0.01〜0.04%、2025年度に0.10%、2026年度上期に1.35%と立ち上がり、抑制時間は12→109→235時間である。抑制が発生した時間のエリア価格は、床（0.01円）が60〜68%、0.01〜5円が19〜28%、そして5円超が12.8%（FY2025・26とも）である。5円超での抑制はエリア全体の余剰ではなく、ローカル系統の混雑や下げ代の制約を示唆する。第3章で述べたとおり、2025年11月に66kV岩松線で道内初のローカル混雑による出力制御が実施されており、時期は整合する。ノーダル価格のない日本では、この損失はエリア価格に映らず、エリア価格に基づく第8章の $\pi_{spot}$ は併設蓄電池のこの価値をゼロと計上している。
+北海道の風力抑制はエネルギーベースで2022〜24年度に0.01〜0.04%、2025年度に0.10%、2026年度上期に1.35%と立ち上がり、抑制時間は12→109→235時間である。抑制が発生した時間のエリア価格は、床（0.01円）が60〜68%、0.01〜5円が19〜28%、そして5円超が12.8%（FY2025・26とも）である。5円超での抑制はエリア全体の余剰ではなく、ローカル系統の混雑や下げ代の制約を示唆する。第3章で述べたとおり、2025年11月に66kV岩松線で道内初のローカル混雑による出力制御が実施されており、時期は整合する。ノーダル価格のない日本では、この損失はエリア価格に映らず、エリア価格に基づく第8章の $\pi_{spot}$ は併設蓄電池のこの価値をゼロと計上している。抑制がローカルな現象であることは海外でも確認されており、Maji et al. (2025) はERCOTの2023年ノード別データで、20%のノードが抑制電力量の77%を占め、抑制の74.3%が余剰ではなく送電混雑に起因することをノード価格から識別した。ノーダル価格のある市場では混雑は価格に映り併設蓄電池の価値として取引可能になるが、ゾーン価格の日本では同じ損失が市場の外に置かれる。
 
 ### 9.3.2 回避価値の上限試算
 
-併設蓄電池が抑制分を全量吸収できる場合の回避価値の上限は、設備利用率26%・FIP基準価格14円/kWhとして、抑制率1.35%で430円/kW風力-年、3%で957円、5%で1,594円、九州太陽光並みの8%で2,551円/kW風力-年である。系統WGの併設前提（風力1kWあたり0.64kWh）で蓄電池容量あたりに換算すると673〜3,986円/kWh-年で、実勢資本費6.8万円/kWhに対して年0.7〜4%に相当する。現状では小さいが、洋上風力の導入後にはFTMのスポット価値と同等の規模になりうる【要精緻化：容量制約下の回避可能率、OCCTO月次検証資料との突合】。
+併設蓄電池が抑制分を全量吸収できる場合の回避価値の上限は、設備利用率26%・FIP基準価格14円/kWhとして、抑制率1.35%で430円/kW風力-年、3%で957円、5%で1,594円、九州太陽光並みの8%で2,551円/kW風力-年である。系統WGの併設前提（風力1kWあたり0.64kWh）で蓄電池容量あたりに換算すると673〜3,986円/kWh-年で、実勢資本費6.8万円/kWhに対して年0.7〜4%に相当する。現状では小さいが、洋上風力の導入後にはFTMのスポット価値と同等の規模になりうる。英国の47風力サイトの併設蓄電池を評価した Atherton et al. (2023) は、回収の主因はどのサイトでも価格裁定であり、抑制の多いスコットランドのサイトでは回収が遅い代わりに抑制削減が大きいことを示した。併設蓄電池の価値が裁定と抑制回避の二層からなり、後者の比重が系統制約で決まるという構図は本研究の①＋②の分解と同じである【要精緻化：容量制約下の回避可能率、OCCTO月次検証資料との突合】。
 
 ### 9.3.3 定式化
 
@@ -584,7 +588,7 @@ $K^*>0$ に転じるパラメータの組み合わせ（資本費×容量市場�
 
 序論で示した5段のストーリーに沿って結果を統合する。
 
-第一に、「再エネの増加は価格ボラティリティを高める」という通説は、電源種で分岐する。太陽光は日内形状を変え（ダックカーブ）、不需要期を中心に日内スプレッドを拡大させる。風力は水準を平行に下げるだけで日内形状を変えない。風力の変動は数日から週の帯域に分布し、この帯域構造は導入量が4倍になっても不変であった。
+第一に、「再エネの増加は価格ボラティリティを高める」という通説は、電源種で分岐する。太陽光は日内形状を変え（ダックカーブ）、不需要期を中心に日内スプレッドを拡大させる。風力は水準を平行に下げるだけで日内形状を変えない。風力の変動は数日から週の帯域に分布し、この帯域構造は導入量が4倍になっても不変であった。日間の散らばりに限れば風力も太陽光も価格を安定させる（6.5）。これは再エネが価格の燃料価格感応度を下げるという Navia Simon and Diaz Anadon (2025) の「保険価値」と同じ方向であり、通説の反対側にも先行研究の裏付けがある。
 
 第二に、蓄電池のスポット価値は「ボラティリティ一般」ではなく日内形状（TB4hスプレッド）で決まる。北海道の価値の源泉は夕方スパイクと床の形成であり、風力の導入そのものはこれをほとんど動かさない。風力主導市場では「再エネ→ボラ→蓄電池価値」というスポット市場を通じた連鎖がほぼ切れている。
 
@@ -600,7 +604,7 @@ ERCOTの実績（2年で6分の1）は、本研究のπ(K)曲線の急峻さを�
 
 ## 10.3 機構の考察
 
-風力が日内形状を変えない理由は、第一に風力に系統的な日内サイクルがなく（何時に吹くかは決まっていない）、第二に北海道が広域単一価格ゾーンであるため地理的に分散した風力がフリートとして集約されて日内の高周波が相殺された後に価格に効くことにある。前者が本質、後者が平行シフトを「綺麗にする」補助機構である。この中立性は市場・系統構造の産物であり、洋上風力が道北に集中してサイト間相関が高まれば減衰しうる。
+風力が日内形状を変えない理由は、第一に風力に系統的な日内サイクルがなく（何時に吹くかは決まっていない）、第二に北海道が広域単一価格ゾーンであるため地理的に分散した風力がフリートとして集約されて日内の高周波が相殺された後に価格に効くことにある。前者が本質、後者が平行シフトを「綺麗にする」補助機構である。Rintamäki et al. (2017) がデンマークについて挙げた機構——風が終日ほぼ一様に吹き、水力を持つ隣国との連系が太いため、ピークとオフピークの価格がほぼ等しく下がる——は北海道の前半と一致する。他方、彼らがドイツで観察した「夜間に偏った風力が変動性を上げる」機構が北海道で働かないのは、道内に系統的な日内偏りがないためであり、この点が空間分散シミュレーション（6.4）で確かめるべき仮説である。この中立性は市場・系統構造の産物であり、洋上風力が道北に集中してサイト間相関が高まれば減衰しうる。
 
 床が価値の転換点になるのは、打ち切りの非対称性による。風力は価格を平行に下げるが、0.01円以下には下がれない。床に当たると安い側だけが切り取られ、夕方スパイクは残るため、スプレッドが開く。太陽光が最初からダックカーブで価値を作るのに対し、風力は床を通じてのみ価値を作る。
 
@@ -608,11 +612,11 @@ ERCOTの実績（2年で6分の1）は、本研究のπ(K)曲線の急峻さを�
 
 ## 10.4 外的妥当性
 
-東北エリア（風力・太陽光が混合し、東京への連系が太い）と九州エリア（太陽光主導・床が飽和）は本研究の枠組みの自然な比較対象である。九州で観察したスプレッドのFY2023年反転（蓄電池普及前に揚水運用の拡大が起こした圧縮）は、北海道の将来の姿でもある。同時市場への移行（2030年代前半）とノーダル化の議論は、需給調整市場のゼロレント仮定とBTMのローカル価値の扱いを変えうる。
+東北エリア（風力・太陽光が混合し、東京への連系が太い）と九州エリア（太陽光主導・床が飽和）は本研究の枠組みの自然な比較対象である。九州で観察したスプレッドのFY2023年反転（蓄電池普及前に揚水運用の拡大が起こした圧縮）は、北海道の将来の姿でもある。同時市場への移行（2030年代前半）とノーダル化の議論は、需給調整市場のゼロレント仮定とBTMのローカル価値の扱いを変えうる。欧州の日前・当日市場では複数市場への入札が単一市場を一貫して上回るという結果（Oeltz and Pfingsten 2025）があり、国内でも同時市場で蓄電池がプライスメーカーとして参加する際の損益評価手法が提案されている（電気学会論文誌B 2026）。スポット単独のゼロレント仮定は、これらの市場設計の下では再検討を要する。
 
 ## 10.5 限界
 
-本研究の分析は部分均衡である。システムプライスは外生であり、供給側（火力の退出）・連系線増強・揚水運用の内生的反応は価格過程に埋め込まれた歴史的応答として固定されている。価格過程はFY2026型の高スプレッドを再現できておらず、これは $K^*$ の判定の一次感度である。BTMの価値は上限試算にとどまり、容量制約下の実効値は今後の課題である。厚生分析は本研究のスコープ外であり、私的均衡の実証命題に限定した。
+本研究の分析は部分均衡である。システムプライスは外生であり、供給側（火力の退出）・連系線増強・揚水運用の内生的反応は価格過程に埋め込まれた歴史的応答として固定されている。価格過程はFY2026型の高スプレッドを再現できておらず、これは $K^*$ の判定の一次感度である。BTMの価値は上限試算にとどまり、容量制約下の実効値は今後の課題である。厚生分析は本研究のスコープ外であり、私的均衡の実証命題に限定した。貯蔵の所有構造や市場支配力が運用と投資を歪めうること（Sioshansi 2010; Andrés-Cerezo and Fabra 2023）も扱っておらず、本研究の参入者は競争的な価格テイカーである。
 # 第11章 結論
 
 ## 11.1 要約
@@ -630,3 +634,79 @@ ERCOTの実績（2年で6分の1）は、本研究のπ(K)曲線の急峻さを�
 ## 11.3 今後の課題
 
 第一に、価格過程の非定常性への対応（供給曲線v2）と、それに基づく $K^*$ の再判定である。第二に、風力導入量と蓄電池容量の2次元均衡面の構築と、容量市場価格のK依存の実装である。第三に、併設蓄電池の容量制約下の回避可能率と、OCCTOの月次検証資料による抑制の分解である。第四に、空間分散シミュレーションによる風力中立性の機構検証である。第五に、同時市場への移行後の需給調整市場の扱いと、洋上風力の大量導入後の帯域構造の再検証である。
+# 参考文献（ドラフト）
+
+本リストはコア文献（DOI照合済み）を先に掲げ、追加文献・資料を続ける。書式は「著者 (年). 題名. 誌名 巻(号), 頁. DOI」。頁は精読ノートで確認後に補う。
+
+## A. 学術文献（コア）
+
+- [A1] Ketterer (2014) The impact of wind power generation on the electricity price in Germany. Energy Economics 44. https://doi.org/10.1016/j.eneco.2014.04.003
+- [A2] Woo, Horowitz, Moore & Pacheco (2011) The impact of wind generation on the electricity spot-market price level and variance: The Texas experience. Energy Policy 39(7). https://doi.org/10.1016/j.enpol.2011.03.084
+- [A3] Rintamäki, Siddiqui & Salo (2017) Does renewable energy generation decrease the volatility of electricity prices? An analysis of Denmark and Germany. Energy Economics 62. https://doi.org/10.1016/j.eneco.2016.12.019
+- [A4] Kyritsis, Andersson & Serletis (2017) Electricity prices, large-scale renewable integration, and policy implications. Energy Policy 101. https://doi.org/10.1016/j.enpol.2016.11.014
+- [A5] Wozabal, Graf & Hirschmann (2016) The effect of intermittent renewables on the electricity price variance. OR Spectrum 38. https://doi.org/10.1007/s00291-015-0395-x
+- [A6] Schöniger & Morawetz (2022) What comes down must go up: Why fluctuating renewable energy does not necessarily increase electricity spot price variance in Europe. Energy Economics. https://doi.org/10.1016/j.eneco.2022.106069
+- [A7] Maciejowska (2020) Assessing the impact of renewable energy sources on the electricity price level and variability. Energy Economics 85, 104532. https://doi.org/10.1016/j.eneco.2019.104532
+- [A8] Paraschiv, Erni & Pietsch (2014) The impact of renewable energies on EEX day-ahead electricity prices. Energy Policy 73. https://doi.org/10.1016/j.enpol.2014.05.004
+- [A9] Hagfors et al. (2016) Prediction of extreme price occurrences in the German day-ahead electricity market. Quantitative Finance 16(12). https://doi.org/10.1080/14697688.2016.1211794
+- [A10] Mwampashi, Nikitopoulos, Konstandatos & Rai (2021) Wind generation and the dynamics of electricity prices in Australia. Energy Economics 103, 105547. https://doi.org/10.1016/j.eneco.2021.105547
+- [A11] Navia Simon & Diaz Anadon (2025) Power price stability and the insurance value of renewable technologies. Nature Energy 10. https://doi.org/10.1038/s41560-025-01704-0
+- [B1] Butters, Dorsey & Gowrisankaran (2025) Soaking Up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium. Econometrica 93(3). https://doi.org/10.3982/ECTA20411
+- [B2] Karaduman — Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets（WP）. https://gsb-faculty.stanford.edu/omer-karaduman/files/2022/09/Economics-of-Grid-Scale-Energy-Storage.pdf
+- [B3] Schmalensee (2022) Competitive Energy Storage and the Duck Curve. The Energy Journal 43(2). https://doi.org/10.5547/01956574.43.2.rsch
+- [B4] Andrés-Cerezo & Fabra (2023) Storing power: market structure matters. RAND Journal of Economics 54(1). https://doi.org/10.1111/1756-2171.12429
+- [B5] Sioshansi, Denholm, Jenkin & Weiss (2009) Estimating the value of electricity storage in PJM. Energy Economics 31(2). https://doi.org/10.1016/j.eneco.2008.10.005
+- [B6] Sioshansi (2010) Welfare Impacts of Electricity Storage and the Implications of Ownership Structure. The Energy Journal 31(2). https://doi.org/10.5547/ISSN0195-6574-EJ-Vol31-No2-7
+- [B7] Lamont (2013) Assessing the economic value and optimal structure of large-scale electricity storage. IEEE Trans. Power Systems 28(2). https://doi.org/10.1109/TPWRS.2012.2218135
+- [B8] Lamp & Samano (2022) Large-scale battery storage, short-term market outcomes, and arbitrage. Energy Economics 107. https://doi.org/10.1016/j.eneco.2021.105786
+- [B9] Hirth (2013) The market value of variable renewables. Energy Economics 38. https://doi.org/10.1016/j.eneco.2013.02.004
+- [B10] Brown & Reichenberg (2021) Decreasing market value of variable renewables can be avoided by policy action. Energy Economics 100, 105354. https://doi.org/10.1016/j.eneco.2021.105354
+- [B11] López Prol & Schill (2021) The Economics of Variable Renewable Energy and Electricity Storage. Annual Review of Resource Economics 13. https://doi.org/10.1146/annurev-resource-101620-081246
+- [B12] Zhao, Jafari, Botterud & Sakti (2022) Strategic energy storage investments: A case study of the CAISO electricity market. Applied Energy 325. https://doi.org/10.1016/j.apenergy.2022.119909
+- [B13] Mercier, Olivier & De Jaeger (2023) The value of electricity storage arbitrage on day-ahead markets across Europe. Energy Economics 122, 106721. https://doi.org/10.1016/j.eneco.2023.106721
+- [C1] Fuke & Ohashi (2025) Seasonal variation in the impact of solar power generation on electricity price level and variability. J. Commodity Markets 40 ※最重要（大橋教授共著）. https://doi.org/10.1016/j.jcomm.2025.100521
+- [C2] Sakaguchi & Fujii (2021) The Impact of Variable Renewable Energy Penetration on Wholesale Electricity Prices in Japan Between FY 2016 and 2019. Frontiers in Sustainability 2:770045. https://doi.org/10.3389/frsus.2021.770045
+- [C3] Kanamura & Bunn (2022) Market making and electricity price formation in Japan. Energy Economics 107, 105765. https://doi.org/10.1016/j.eneco.2021.105765
+- [C4] Rassi & Kanamura (2023) Electricity price spike formation and LNG prices effect under gross bidding scheme in JEPX. Energy Policy 177, 113552. https://doi.org/10.1016/j.enpol.2023.113552
+- [C5] Ma, Du, Xu & Chen (2023) Cross-regional effects of renewable power generation on the electricity market: an empirical study on Japan's electricity spot market. Applied Economics 55(18). https://doi.org/10.1080/00036846.2022.2101609
+- [C6] Ikeda (2019) Illiquidity in the Japan electric power exchange. J. Commodity Markets. https://doi.org/10.1016/j.jcomm.2018.08.001
+- [C7] Li, Xie, Zhang, Xiao & Gao (2024) Grid variability and value assessment of long-duration energy storage under rising photovoltaic penetration: Evidence from Japan. Energy 307, 132607. https://doi.org/10.1016/j.energy.2024.132607
+- [C8] Maekawa, Hai, Shinkuma & Shimada (2018) The Effect of Renewable Energy Generation on the Electric Power Spot Price of the Japan Electric Power Exchange. Energies 11(9):2215. https://doi.org/10.3390/en11092215
+- [C9] Li, Bu, Kopsakangas-Savolainen & Goto (2025) A revisiting of 2021 Japanese electricity spot market dysfunction event. Energy Policy, 114802. https://doi.org/10.1016/j.enpol.2025.114802
+- [D1] Weron (2014) Electricity price forecasting: A review of the state-of-the-art. Int. J. Forecasting 30(4). https://doi.org/10.1016/j.ijforecast.2014.08.008
+- [D2] Lago, Marcjasz, De Schutter & Weron (2021) Forecasting day-ahead electricity prices: A review of state-of-the-art algorithms, best practices and an open-access benchmark. Applied Energy 293. https://doi.org/10.1016/j.apenergy.2021.116983
+- [D3] Corsi (2009) A Simple Approximate Long-Memory Model of Realized Volatility. J. Financial Econometrics 7(2). https://doi.org/10.1093/jjfinec/nbp001
+- [D4] Shin & Lee (2024) Investment Decision for Long-Term Battery Energy Storage System Using Least Squares Monte Carlo. Energies 17(9):2019. https://doi.org/10.3390/en17092019
+- [D5] Jiang & Powell (2015) Optimal Hour-Ahead Bidding in the Real-Time Electricity Market with Battery Storage Using Approximate Dynamic Programming. INFORMS J. Computing 27(3). https://doi.org/10.1287/ijoc.2015.0640
+- [D6a] Leahy (1993) Investment in Competitive Equilibrium: The Optimality of Myopic Behavior. QJE 108(4). https://doi.org/10.2307/2118461
+- [D6b] Grenadier (2002) Option Exercise Games: An Application to the Equilibrium Investment Strategies of Firms. Review of Financial Studies 15(3). https://doi.org/10.1093/rfs/15.3.691
+- [D7] Fanone, Gamba & Prokopczuk (2013) The case of negative day-ahead electricity prices. Energy Economics 35. https://doi.org/10.1016/j.eneco.2011.12.006
+
+## B. 追加学術文献（2026年9月調査、編入検討中）
+
+- Sensfuß, F., Ragwitz, M., & Genoese, M. (2008). The merit-order effect: A detailed analysis of the price effect of renewable electricity generation on spot market prices in Germany. Energy Policy 36(8), 3086–3094. https://doi.org/10.1016/j.enpol.2008.03.035
+- Würzburg, K., Labandeira, X., & Linares, P. (2013). Renewable generation and electricity prices: Taking stock and new evidence for Germany and Austria. Energy Economics 40, S159–S171. https://doi.org/10.1016/j.eneco.2013.09.011
+- St. Martin, C. M., Lundquist, J. K., & Handschy, M. A. (2015). Variability of interconnected wind plants: correlation length and its dependence on variability time scale. Environmental Research Letters 10(4), 044004. https://doi.org/10.1088/1748-9326/10/4/044004
+- Handschy, M. A., Rose, S., & Apt, J. (2017). Is it always windy somewhere? Occurrence of low-wind-power events over large areas. Renewable Energy 101, 1124–1130. https://doi.org/10.1016/j.renene.2016.10.004（arXiv:1607.06702）
+- Malvaldi, A., Weiss, S., Infield, D., Browell, J., Leahy, P., & Foley, A. M. (2017). A spatial and temporal correlation analysis of aggregate wind power in an ideally interconnected Europe. Wind Energy 20(8), 1315–1329. https://doi.org/10.1002/we.2095
+- Ohlendorf, N., & Schill, W.-P. (2020). Frequency and duration of low-wind-power events in Germany. Environmental Research Letters 15(8), 084045. https://doi.org/10.1088/1748-9326/ab91e9
+- Fertig, E., Apt, J., Jaramillo, P., & Katzenstein, W. (2012). The effect of long-distance interconnection on wind power variability. Environmental Research Letters 7(3), 034017. https://doi.org/10.1088/1748-9326/7/3/034017
+
+- Tselika, K. (2022). The impact of variable renewables on the distribution of hourly electricity prices and their variability: A panel approach. Energy Economics 113, 106194. https://doi.org/10.1016/j.eneco.2022.106194
+- Emmanuel, M., & Denholm, P. (2022). A market feedback framework for improved estimates of the arbitrage value of energy storage using price-taker models. Applied Energy 310, 118250. https://doi.org/10.1016/j.apenergy.2021.118250
+- Atherton, J., Akroyd, J., Farazi, F., Mosbach, S., Lim, M. Q., & Kraft, M. (2023). British wind farm ESS attachments: curtailment reduction vs. price arbitrage. Energy & Environmental Science 16. https://doi.org/10.1039/D3EE01355C
+- Maji, D., Irwin, D., Shenoy, P., & Sitaraman, R. K. (2025). A first look at node-level curtailment of renewable energy and its implications. Proceedings of the 16th ACM International Conference on Future and Sustainable Energy Systems (e-Energy '25). https://doi.org/10.1145/3679240.3734627
+- Loukatou, A., Johnson, P., Howell, S., & Duck, P. (2021). Optimal valuation of wind energy projects co-located with battery storage. Applied Energy 283, 116247. https://doi.org/10.1016/j.apenergy.2020.116247 ※巻・番号要確認
+- Shen, D., Ilic, M., & Parsons, J. (2026). Peak-load pricing and investment cost recovery with duration-limited storage. arXiv:2603.13678
+- Oeltz, D., & Pfingsten, T. (2025). Rolling intrinsic for battery valuation in day-ahead and intraday markets. arXiv:2510.01956
+- 電気学会論文誌B 146(2) (2026). 蓄電池事業者が参加する同時市場における市場参加者の損益評価手法. https://doi.org/10.1541/ieejpes.146.125 ※著者名・DOI要確認
+
+## C. 制度・データ資料（一次資料）
+
+- 経済産業省 資源エネルギー庁・調達価格等算定委員会 各年度「意見」（FY2020〜27）
+- 経済産業省 定置用蓄電システム普及拡大検討会 資料（2024年度第3回「系統用・再エネ併設蓄電システムのコスト面・収益面での課題整理」2024年8月29日、第4回「系統用蓄電システムの需給調整市場における収益性分析」（三菱総合研究所）2024年11月11日、2024年度結果とりまとめ 2025年3月7日、2025年度第1回）
+- 自然エネルギー財団 (2025年7月16日). 総論：長期脱炭素電源オークションの有効性を問う（連載コラム）
+- 電力広域的運営推進機関（OCCTO）容量市場 約定結果（2024〜2029年度向け）、長期脱炭素電源オークション 約定結果（2023〜2025年度）、出力制御の月次検証資料
+- 北海道電力ネットワーク 需給実績・出力制御実績、系統ワーキンググループ資料（岩松線ローカル混雑）
+- 日本卸電力取引所（JEPX）スポット市場約定価格（2016年4月〜2026年7月）
+- Modo Energy (2025). ERCOT battery revenues 2023–2025（ウェブ資料）; CAISO (2025). 2024 Special Report on Battery Storage

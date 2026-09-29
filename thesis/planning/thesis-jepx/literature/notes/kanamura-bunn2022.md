@@ -45,3 +45,48 @@ To control for the effects discussed in a volatility regression, the authors' mo
 - Temperature: Used as a regime switching driver and a surrogate variable for demand and supply, influencing transition probabilities between scarcity regimes  (Kanamura & Bunn, 2022) .
 - Buy-Sell Volumes: The balance of buy-sell volumes submitted to the JEPX day-ahead auction, which determines whether price formation is predominantly driven by buyers or sellers  (Kanamura & Bunn, 2022).
 In summary, the paper provides a detailed econometric framework for understanding JEPX price formation, emphasizing the role of market-making and strategic bidding behavior. While it doesn't directly address a January 2021 spike, its analysis of market structure, liquidity, and the impact of various control variables offers a robust foundation for future econometric studies on price volatility.
+
+## 原典精読（2026-09-29）
+- 書誌: Energy Economics, 107, 105765, doi:10.1016/j.eneco.2021.105765（受理 2021-12-09、公開 2022-01-05、京都大学 GSAIS／London Business School）
+- 出所: Google Drive 参考研究_20260728/SetC（原文精読 2026-09-29）
+- **上の SciSpace ログへの訂正**: 「Data Needed for Volatility Regression Control」節に列挙された変数（Wind/PV 発電量、Oil、Gross bidding／Implicit auction ダミー等）は Sakaguchi & Fujii (2021) の変数であり、Kanamura & Bunn (2022) には含まれない。本論文の変数は価格、買い入札量、売り入札量、気温のみ（Table 26）。引用時は混同しないこと。
+
+### 1. 問いと貢献（著者の主張する新規性）
+- 問い: 2017 年 4 月のマーケットメイク介入（旧一電によるグロスビディング）は JEPX の「ファンダメンタルな価格形成」を改善したか。ビッドアスク・参加者数・チャーンといった通常指標は板寄せ市場では観察しにくいため、モデルベースで「価格がファンダメンタルズ（需給・気温）により整合的に反応するようになったか」を検定する。
+- 主張する新規性: 買い−売り入札量差（scarcity）を Inverse Box–Cox 関数で価格に写像し、気温依存の遷移確率をもつ2レジーム切替でモデル化（"The main novelty of the formulation however is the modelling of buy–sell volumes"）。結論: 2017 年以降「the buy and sell volumes had more intuitive and distinct effects upon price formation」、気温情報が価格とボラティリティに整合的に埋め込まれた。
+
+### 2. データ・市場・期間
+- JEPX 前日市場システムプライス、買い入札量 B_t、売り入札量 S_t（コマ別）、東京気温。FY2015–FY2019（2019 年は 2020-03-08 まで、脚注9）。介入前 = FY2015–16、介入後 = FY2017–19。
+- Table 3: 買い超過（B_t > S_t）のコマの比率 FY2015 5.36%、2016 20.63%、2017 33.56%、2018 51.77%、2019 60.08%。買い超過の最大値 6.8 → 20.2 百万 kWh。30℃超の比率（6–9月）10.04／7.51／8.78／15.71／10.69%。
+- 脚注23: グロスビディングは任意で強制力がない。脚注25: METI (2018) によれば 2017 年 8–12 月に平均約 960 MWh/コマのグロスビディング売り入札が買い戻されなかった。
+
+### 3. 手法
+- scarcity BS_t = B_t − S_t。価格 P_t = f(BS_t) = (1 + θ BS_t/…)^{1/θ} 型の IBC 関数（式1、抽出テキストで記号が崩れているため原 PDF 参照）。
+- BS_t は年次正弦波＋日内・週内周期をもつ平均回帰過程で、レジーム1／2で平均回帰係数・ボラティリティが異なる（式2）。遷移確率は気温の 18℃ からの乖離に依存（TDTP モデル）。比較モデル: 定数遷移確率（CTP）、MS-GARCH(1,1)、発電スタックモデル（Table 10）。
+- 「変動性」は BS_t のレジーム別 σ とそれを IBC で変換した価格ボラティリティ。Table 11 で気温と価格がボラティリティに与える符号を解析。
+- 検証: FY2018 のローリング予測で MAE 1.611、RMSE 2.204（§4）。
+
+### 4. 主要結果（数値）
+- Table 9（レジームの期待持続時間、コマ数）: FY2015 需要主導 2.255／供給主導 16.893；FY2016 2.556／17.402；FY2017 供給主導 2.869／需要主導 25.464；FY2018 3.679／31.283；FY2019 3.852／37.320。→ 介入前は供給主導レジームが長く、介入後は需要主導レジームが長い（「市場メイクが小売の買い参加を引き出した」）。
+- Table 11（気温→ボラティリティの符号、夏）: FY2015 +、2016 −、2017 +、2018 +、2019 +。介入後は一貫して正。
+- FY2018・19 の夏（猛暑）に売り側レジームが散在するのは「reduction of the buyback from the generators under gross bidding scheme during spiky price periods」（§4, 脚注25）。
+- 結論（§5）: 「In 2015 and 2016, there was an excess of sell-side volumes and throughout the years the model indicated no predominance of the buy-side driver. With market-making requiring the generators to post both buy and sell volumes from 2017, the market dynamic revealed a more balanced and interspersed sequence of buy and sell side pressures.」
+
+### 5. 著者が挙げる限界・今後の課題
+- レジーム切替モデルは過学習・誤特定に脆弱。レジーム確率のパターン差に他の理由がありうる。
+- モデルベース分析は「市場がどう機能しているかの indication」に過ぎず、流動性の伸び・新規参入・派生商品の活性化など他の証拠と併せて評価すべき。
+- ファンダメンタル変数の透明性が限られ気温を代理に用いる（脚注21: 全国の気温差は無視）。FY2019 後半は COVID-19 の影響。
+
+### 6. 本研究との関係（精読後の更新）
+- 引用予定箇所: 第3章制度（グロスビディング＝マーケットメイクの制度史と、任意性・買戻し行動の実態；Table 3 の買い超過比率の推移で「JEPX が売り手市場から買い手市場へ転じた」事実）、第2章2.3（右裾のボラティリティが需給逼迫（scarcity）と気温で説明されるという構造の先行例）、第6章（政策くさびとしての市場メイク：市場の「信頼」が参加を呼ぶという議論）。
+- 支持する点: 本研究が FY2016–19 と FY2023–25 を分ける際、FY2017 の介入で価格形成の構造が変わった（Sakaguchi & Fujii の Gross bidding ダミー +1.547 と併読）ことの根拠。「気温→ボラティリティが介入後に一貫して正」は、本研究の右裾（τ=0.9）が需要側要因で動くという解釈と整合。
+- 対立点／注意: システムプライスのみで北海道は対象外。再エネ変数なし。2021 年 1 月危機は対象外（データは 2020-03 まで）。Rassi & Kanamura (2023) が同モデル系統で FY2020–21 を扱う。
+- 手法の源流: 板データ（B_t − S_t）を scarcity 指標に使う発想。本研究では制御変数候補（北海道エリアの売り／買い入札量は JEPX 公開データで入手可）。
+- 新規性チェック: 本論文は市場メイクの効果検証。本研究は再エネ（風力）と蓄電池の価値・参入を扱い、市場メイクは制度背景として引用するのみ。
+
+### 7. 引用に使える原文
+1. "The result is clarity that after a market-making intervention in 2017, the buy and sell volumes had more intuitive and distinct effects upon price formation, compared to previously."（Abstract）
+2. "the durations of supply-driven regimes are longer than those of demand-driven regimes before the year 2017, resulting from insufficient market making. In contrast, the durations of supply-driven regimes became shorter than those of demand-driven regimes after the year 2017."（§4, p.8）
+3. "This is mainly due to the reduction of the buyback from the generators under gross bidding scheme during spiky price periods."（§4, p.8）
+4. "regime switching models are prone to overfitting and misspecification. There could be other reasons why the regime probabilities exhibit different patterns in the sample years."（§5）
+5. "it was found that approximately 960 MWh per half hour trading frame of gross bidding sales bids on average were not repurchased as a result."（脚注25, METI 2018 の引用）

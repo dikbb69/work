@@ -73,6 +73,15 @@ DOI解決は `https://doi.org/<DOI>` でアクセス。
 | E2 | Emmanuel & Denholm (2022) A market feedback framework for improved estimates of the arbitrage value of energy storage using price-taker models. *Applied Energy* 310, 118250 | [10.1016/j.apenergy.2021.118250](https://doi.org/10.1016/j.apenergy.2021.118250) |
 | E3 | Atherton, Akroyd, Farazi, Mosbach, Lim & Kraft (2023) British wind farm ESS attachments: curtailment reduction vs. price arbitrage. *Energy & Environmental Science* 16, 4020–4040 | [10.1039/d3ee01355c](https://doi.org/10.1039/d3ee01355c) |
 | E4 | Maji, Irwin, Shenoy & Sitaraman (2025) A first look at node-level curtailment of renewable energy and its implications. *Proc. ACM e-Energy '25*, 293–304 | [10.1145/3679240.3734627](https://doi.org/10.1145/3679240.3734627) |
+| E5 | Loukatou, Johnson, Howell & Duck (2021) Optimal valuation of wind energy projects co-located with battery storage. *Applied Energy* 283, 116247 | [10.1016/j.apenergy.2020.116247](https://doi.org/10.1016/j.apenergy.2020.116247) |
+| E6 | Shen, Ilic & Parsons (2026) Peak-load pricing and investment cost recovery with duration-limited storage. arXiv:2603.13678（プレプリント、命題番号なし） | [arXiv:2603.13678](https://arxiv.org/abs/2603.13678) |
+| E7 | Oeltz & Pfingsten (2025) Rolling intrinsic for battery valuation in day-ahead and intraday markets. arXiv:2510.01956v2 | [arXiv:2510.01956](https://arxiv.org/abs/2510.01956) |
+| E9 | Sensfuß, Ragwitz & Genoese (2008) The merit-order effect: A detailed analysis of the price effect of renewable electricity generation on spot market prices in Germany. *Energy Policy* 36(8), 3086–3094 | [10.1016/j.enpol.2008.03.035](https://doi.org/10.1016/j.enpol.2008.03.035) |
+| E10 | Würzburg, Labandeira & Linares (2013) Renewable generation and electricity prices: Taking stock and new evidence for Germany and Austria. *Energy Economics* 40, S159–S171 | [10.1016/j.eneco.2013.09.011](https://doi.org/10.1016/j.eneco.2013.09.011) |
+| E13 | Malvaldi, Weiss, Infield, Browell, Leahy & Foley (2017) A spatial and temporal correlation analysis of aggregate wind power in an ideally interconnected Europe. *Wind Energy* 20(8), 1315–1329 | [10.1002/we.2095](https://doi.org/10.1002/we.2095) |
+| E14 | Ohlendorf & Schill (2020) Frequency and duration of low-wind-power events in Germany. *Environmental Research Letters* 15, 084045 | [10.1088/1748-9326/ab91e9](https://doi.org/10.1088/1748-9326/ab91e9) |
+| E15 | Grimaldi, Minuto, Perol, Casagrande & Lanzini (2025) Techno-economic optimization of utility-scale battery storage integration with a wind farm for wholesale energy arbitrage considering wind curtailment and battery degradation. *Journal of Energy Storage* 112, 115500 | [10.1016/j.est.2025.115500](https://doi.org/10.1016/j.est.2025.115500) |
+| E16 | Landy, Schmidt, Johnson & Staffell (2026) Maximising the economic value of renewable and battery storage hybrids with revenue stacking. *Energy & Environmental Science* 19, 4469–4494 | [10.1039/d6ee00776g](https://doi.org/10.1039/d6ee00776g) |
 
 ---
 

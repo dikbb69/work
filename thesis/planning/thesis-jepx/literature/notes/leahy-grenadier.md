@@ -66,16 +66,16 @@ In summary, competitive entry in the battery storage market, characterized by th
 - Dixit (1989a) 型の例（p.1119）: D=x/q、x が GBM、c=0 のとき myopic 参入トリガー P̄ = α(r−μ)k/(α−1)（α>1）。σ=0 なら P̄=rk、σ↑で P̄ は rk を超える（待つオプションの価値）。この同じ P̄ が競争均衡の参入トリガーになる。
 - 直観（p.1106）: 競争はオプション価値を下げるが、同時に投資済み資本の価値も同じだけ下げるので、両者のトレードオフ（＝投資時点）は不変。
 
-#### 5. 著者が挙げる限界・今後の課題（第VII節、pp.1124–1126）
-- 無限分割可能性が必須: 投資が離散だと「myopic トリガーで参入すれば価格が離散的に下がり全員が損をする」（p.1125）。需要の不連続も同様。
-- 自由参入が必須: 潜在参入者数に上限があれば全企業が正利潤（fn.16、p.1126）。参入枠（quota）＋無限の潜在参入者だと myopic より早い参入になり非効率（Bartolini 1990）。
+#### 5. 著者が挙げる限界・今後の課題（第VII節、pp.1123–1126）
+- 無限分割可能性が必須: 投資が離散だと「myopic トリガーで参入すれば価格が離散的に下がり全員が損をする」（p.1124）。需要の不連続も同様。
+- 自由参入が必須: 潜在参入者数に上限があれば全企業が正利潤（fn.16、p.1125）。参入枠（quota）＋無限の潜在参入者だと myopic より早い参入になり非効率（Bartolini 1990）。
 - 固有ショック（idiosyncratic shocks）の不在: 中間ケースは未解決。
 - 拡張可能: 収穫逓減、危険回避、ジャンプ過程・離散時間・非マルコフ過程（第VI節の対応関係に依拠した予想）。
 
 #### 6. 本研究との関係
 - 引用予定箇所: 第9章9.2(e)「期待の説明」。本研究の自由参入均衡（K*=0）で、参入者が他社の累積参入による値幅圧縮を織り込まない「近視眼的」期待を置くことの理論的正当化として引用する。Leahy の Prop.1–2 は「他社の参入・退出が価格過程に与える効果を無視してよい」ことを示しており、本研究の「近視眼的参入」は仮定の粗さではなく競争均衡と整合的な行動であると位置づけられる。
 - 併せて第9章で「完全競争では待つオプションは無価値」（p.1106）を引き、K*=0 でも参入が続く現象を「オプション・プレミアムがゼロに近い参入」と解釈する土台にする。
-- 本研究が単純化した点（第10章の限界で明記）: (i) 本研究の蓄電池参入は MW 単位で離散、参入者数も有限 → Leahy の分割可能性・多数企業条件を満たさない（p.1125 の警告そのもの）。(ii) 本研究は確率的トリガーではなく確定的な二辺自由参入均衡（期待値ベース）であり、オプション価値は明示的に評価していない。(iii) 蓄電池参入は価格の「水準」だけでなく日内形状（スプレッド）を変えるが、Prop.2 はこの種の効果も連続性の下で無視可能としている。
+- 本研究が単純化した点（第10章の限界で明記）: (i) 本研究の蓄電池参入は MW 単位で離散、参入者数も有限 → Leahy の分割可能性・多数企業条件を満たさない（p.1124 の警告そのもの）。(ii) 本研究は確率的トリガーではなく確定的な二辺自由参入均衡（期待値ベース）であり、オプション価値は明示的に評価していない。(iii) 蓄電池参入は価格の「水準」だけでなく日内形状（スプレッド）を変えるが、Prop.2 はこの種の効果も連続性の下で無視可能としている。
 
 #### 7. 引用に使える原文
 - p.1105（要旨）: "This paper shows that the investment strategies that this literature derives may be optimal in competitive equilibrium even though the price process is now endogenous. This provides a simple means for computing equilibrium investment strategies."
@@ -83,7 +83,7 @@ In summary, competitive entry in the battery storage market, characterized by th
 - p.1106: "Such a myopic firm has static expectations regarding industry output, but rational expectations regarding other shocks that influence price in the market."
 - p.1106: "The introduction of competition reduces the value of this option, but does so by reducing the value of the invested capital. Since competition reduces the value of actual and potential capital at the same time, the trade-off between the two is unaffected."
 - p.1120: "Competition therefore does not alter the incentive to trade an idle firm for an active firm."
-- p.1125: "First, it is important that investment projects be infinitely divisible. ... If they invest at the myopic entry trigger, then their entry will reduce the price discretely, and all firms will lose money."
+- p.1124: "First, it is important that investment projects be infinitely divisible. ... If they invest at the myopic entry trigger, then their entry will reduce the price discretely, and all firms will lose money."
 
 ### B. Grenadier (2002) Option Exercise Games: An Application to the Equilibrium Investment Strategies of Firms
 - 書誌: Review of Financial Studies, 15(3), 691–721. DOI 10.1093/rfs/15.3.691

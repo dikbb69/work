@@ -29,7 +29,7 @@
 | 床 | 0.01円/kWh（30分コマまたは60分時間で ≤0.011円） |
 | 市場分断の3レジーム | 安値分断（道内＜システム−0.01）、連系（±0.01円以内）、高値分断（道内＞システム+0.01） |
 | 帯域分解 | 移動平均カスケード: <6h＝x−MA6h、6〜24h＝MA6h−MA24h、1〜7日＝MA24h−MA168h、>7日＝MA168h−平均（非直交） |
-| 価格水準係数 $\theta_{FY}$ | 供給曲線v2の年度別スケール（FY2023〜25の時間加重平均＝1） |
+| 価格水準係数 $\theta_{FY}$ | 水準係数付き価格過程の年度別スケール（FY2023〜25の時間加重平均＝1） |
 
 ## 付録C 図表と出力ファイルの対応
 
@@ -42,14 +42,15 @@
 | 図6.5 空間分散シミュレーション | `spatial_dispersion.png` | `29_spatial_dispersion.py` |
 | 図7.1 年間裁定粗利の時系列（PF・a・b・c） | `annual_backtest_series.png` | `19_hokkaido_extra_figs.py` |
 | 図8.1 風力導入量スイープ | `kwind_sweep.png` | `18_kwind_sweep.py` |
-| 図8.2 π(K)曲線（v1） | `pi_k_curve.png` | `23_pi_k_curve.py` |
-| 図8.3 均衡面 π(K; K_wind) | `equilibrium_surface.png` | `28_equilibrium_surface.py` |
-| 図8.4 π(K)の価格水準感応度（v2） | `pi_k_curve_v2.png` | `27_pi_k_curve_v2.py` |
-| 図9.1 break-evenフロンティア | `breakeven_frontier.png` | `28_equilibrium_surface.py` |
+| 図8.2 π(K)曲線（基本仕様） | `pi_k_curve.png` | `23_pi_k_curve.py` |
+| 図8.3 π(K; K_wind) | `equilibrium_surface.png` | `28_equilibrium_surface.py` |
+| 図8.4 π(K)の価格水準感応度（水準係数付き） | `pi_k_curve_v2.png` | `27_pi_k_curve_v2.py` |
+| 図9.1 損益分岐面 | `breakeven_frontier.png` | `28_equilibrium_surface.py` |
+| 図10.1 下限価格シナリオ別の π(K) | `negative_price_pi_k.png` | `32_negative_price.py` |
 | 補助図 帯域分解の比較（北海道風力 vs 九州太陽光） | `band_comparison.png`、`band_comparison_hokkaido.png` | `21_band_comparison.py` |
-| 補助図 併設（BTM）の根拠 | `btm_case.png` | `20_btm_case.py` |
+| 補助図 併設の根拠 | `btm_case.png` | `20_btm_case.py` |
 
-表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.2 `price_level_theta.csv`、表8.4 `pi_k_curve.csv`、表8.5 `pi_k_curve_v2.csv`、表8.6 `equilibrium_surface.csv`、表8.7 `capacity_price_of_k.csv`、表8.8 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
+表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.2 `price_level_theta.csv`、表8.4 `pi_k_curve.csv`、表8.5 `pi_k_curve_v2.csv`、表8.6 `equilibrium_surface.csv`、表8.7 `capacity_price_of_k.csv`、表8.8 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`、表10.1 `negative_price_scenarios.csv`・`negative_price_breakeven.csv`、表10.2 `negative_price_transfer.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
 
 ## 付録D 解析スクリプト一覧（`analysis/`）
 
@@ -72,9 +73,9 @@
 | `15_price_curve_shapes.py` | 北海道の時間帯別価格カーブの形状: 3季節 × 太陽光の大小（FY2023-25） |
 | `16_strategy_decomposition.py` | 戦略bの改善の分解: 「予測」か「平均化によるノイズ除去」か（北海道） |
 | `17_wind_battery_deepdive.py` | 風力×蓄電池の初期分析（北海道、FY2023-25） |
-| `18_kwind_sweep.py` | K_windスイープ: 風力導入量を0.5×〜3×に振ったときの蓄電池スポット価値（価格過程v1） |
+| `18_kwind_sweep.py` | K_windスイープ: 風力導入量を0.5×〜3×に振ったときの蓄電池スポット価値（基本仕様の価格過程） |
 | `19_hokkaido_extra_figs.py` | 北海道の追加図2点（進捗報告用） |
-| `20_btm_case.py` | 併設（BTM）蓄電池を研究対象に加える根拠のデータ整理（北海道・風力） |
+| `20_btm_case.py` | 併設蓄電池を研究対象に加える根拠のデータ整理（北海道・風力） |
 | `21_band_comparison.py` | 帯域分解の比較: 北海道風力 vs 九州太陽光（いずれも制御前出力） |
 | `22_wind_vs_price_shape.py` | 風力は水準を下げるがスプレッドを広げない — 発電量×価格の関係（季節別、太陽光と対比） |
 | `23_pi_k_curve.py` | フェーズC v1: 蓄電池フリートの内生化 → π(K)曲線 → 均衡容量K*の初回判定 |
@@ -82,8 +83,10 @@
 | `25_fo_replication.py` | Fuke & Ohashi (2025) 仕様の再現と、日内スプレッド（TB4h）との対比（第6章6.5） |
 | `26_price_process_v2.py` | 供給曲線 v2: 上側水準を年度別スケール係数 θ_FY で非定常化した価格過程（北海道） |
 | `27_pi_k_curve_v2.py` | フェーズC v2: 供給曲線 v2（26、年度別水準係数 θ）の上で π(K) と均衡容量 K* を再計算 |
-| `28_equilibrium_surface.py` | 8.5 均衡面と 9.4 break-even フロンティア（供給曲線 v2 の上で） |
+| `28_equilibrium_surface.py` | 8.5 2次元の感応度面と 9.4 損益分岐面（供給曲線 v2 の上で） |
 | `29_spatial_dispersion.py` | 6.4 空間分散シミュレーション: 集中立地の反実仮想（日内帯域を λ 倍に増幅）を価格過程 v2 に通す |
-| `30_btm_avoidable.py` | 9.3.2 併設（BTM）蓄電池の容量制約下での抑制回避可能率（北海道風力、2025/4〜2026/6 の時間値） |
+| `30_btm_avoidable.py` | 9.3.2 併設蓄電池の容量制約下での抑制回避可能率（北海道風力、2025/4〜2026/6 の時間値） |
 
-実行順序の依存: `01`/`11`/`12` → パネル・容量系列、`13` → 価格過程v1（`18`・`23` が exec）、`26` → 価格過程v2（`27`・`28`・`29` が exec）。`15`・`17`・`22` は同じ xlsx に書くため直列に実行する。
+実行順序の依存: `01`/`11`/`12` → パネル・容量系列、`13` → 基本仕様の価格過程（`18`・`23` が exec）、`26` → 水準係数付き価格過程（`27`・`28`・`29` が exec）。`15`・`17`・`22` は同じ xlsx に書くため直列に実行する。
+
+| `32_negative_price.py` | 下限価格（床）シナリオ: 負価格の導入が蓄電池の裁定価値・均衡容量・再エネ収入に与える影響 |

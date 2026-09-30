@@ -31,6 +31,10 @@
 | E16 | Landy, M., Schmidt, O., Johnson, N., & Staffell, I. (2026). Maximising the economic value of renewable and battery storage hybrids with revenue stacking（題名確定） | *Energy & Environmental Science* 19, 4469–4494. doi:10.1039/d6ee00776g（号数は PDF に記載なし） | 著者・DOI、併設による抑制・資本費削減の数値 ｜状況: 精読済み → `notes/landy2026.md` |
 | E17 | 風力の太陽光・貯蔵併設ハイブリッド化（題名要確認） | *Renewable Energy* (2024), PII S0960148124021256 | 著者・題名・DOI ｜状況: 未取得 |
 
+| E18 | De Vos, K. (2015). Negative wholesale electricity prices in the German, French and Belgian day-ahead, intra-day and real-time markets | *The Electricity Journal* 28(4), 36–50. doi:10.1016/j.tej.2015.04.001 | 負価格の頻度・深さ・発生条件（第10章10.2 の c の目安） ｜状況: 未取得 |
+| E19 | Weitzman, M. L. (1974). Prices vs. quantities | *Review of Economic Studies* 41(4), 477–491. doi:10.2307/2296698 | 価格規制が数量規制に勝る条件（限界費用の不確実性・限界便益の傾き）の命題（10.5） ｜状況: 未取得 |
+| E20 | 資源エネルギー庁 (2026-08-06) 再生可能エネルギー出力制御の長期見通し等について（次世代電力系統WG 資料1-1） | Web（METI） | 2035年度の出力制御率（北海道37%・太陽光43%）、優先給電ルール見直し＋FIP併設3kWh/kW で 53%→3% の試算、最小需要日の需給（10.3・10.5・9.3） ｜状況: 未取得（参考資料 20260930.md 経由の二次情報） |
+
 ## C. 原典精読済みだが最終確認が必要な箇所
 
 | # | 文献 | 確認したい点 |

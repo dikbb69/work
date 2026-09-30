@@ -67,6 +67,12 @@
 - Oeltz, D., & Pfingsten, T. (2025). Rolling intrinsic for battery valuation in day-ahead and intraday markets. arXiv:2510.01956
 - 電気学会論文誌B 146(2) (2026). 蓄電池事業者が参加する同時市場における市場参加者の損益評価手法. https://doi.org/10.1541/ieejpes.146.125 ※著者名・DOI要確認 【頁未確認】
 
+### 追加（第10章、2026-09-30、原典未確認）
+
+- De Vos, K. (2015). Negative wholesale electricity prices in the German, French and Belgian day-ahead, intra-day and real-time markets. The Electricity Journal 28(4), 36–50. https://doi.org/10.1016/j.tej.2015.04.001 【原典未確認】
+- Weitzman, M. L. (1974). Prices vs. quantities. The Review of Economic Studies 41(4), 477–491. https://doi.org/10.2307/2296698 【原典未確認】
+- 資源エネルギー庁 (2026). 再生可能エネルギー出力制御の長期見通し等について（次世代電力系統ワーキンググループ 資料1-1、2026年8月6日）【原典未確認：出力制御率の2035年度見通し・優先給電ルール見直しの試算】
+
 ## C. 制度・データ資料（一次資料）
 
 - 経済産業省 資源エネルギー庁・調達価格等算定委員会 各年度「意見」（FY2020〜27）

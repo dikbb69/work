@@ -1,0 +1,60 @@
+<section id="ap-dataquality" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">付録 ｜ データ</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">（予備）データの加工と品質確認</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">様式差・符号・欠測を一つずつ処理し、需給の恒等式と外部の公表値との突合でパネルの正しさを確かめた</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column">
+<table style="font-size:24px;width:1680px;line-height:1.4">
+<tr style="background:#14213D">
+<th style="width:19%;color:#F3F1EA;text-align:left;padding:8px 12px">論点</th>
+<th style="width:45%;color:#F3F1EA;text-align:left;padding:8px 12px">処理</th>
+<th style="width:36%;color:#F3F1EA;text-align:left;padding:8px 12px">確認方法・結果</th>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 12px"><b>粒度・単位</b></td>
+<td style="padding:8px 12px">全系列を60分平均に統一（九州は旧MWh・新MW平均を換算）</td>
+<td style="padding:8px 12px">行数＝日数×24（または×48）</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 12px"><b>時刻ラベル</b></td>
+<td style="padding:8px 12px">北海道・東北の新様式はコマ開始、九州は終了 → 揃えて結合</td>
+<td style="padding:8px 12px">需給の恒等式の残差 0.27GW以内</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 12px"><b>連系線の符号</b></td>
+<td style="padding:8px 12px">九州の新様式のみ反転し「負＝域外送電」に統一<br>（北海道・東北は反転不要）</td>
+<td style="padding:8px 12px">様式境界の昼間平均の跳び<br>（−2,197→+2,203MW）が解消</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 12px"><b>列構成の変更</b></td>
+<td style="padding:8px 12px">2026年4〜5月の22列ファイルを列名で対応づけ</td>
+<td style="padding:8px 12px">FY2026のみ修正、FY2016〜25は不変</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 12px"><b>欠測</b></td>
+<td style="padding:8px 12px">2018年9月の価格欠測480時間は地震後の取引停止として扱う</td>
+<td style="padding:8px 12px">胆振東部地震のブラックアウト期と一致</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 12px"><b>外部突合</b></td>
+<td style="padding:8px 12px">出力制御の初発生日、風力・太陽光の導入量（FIT/FIP認定分）</td>
+<td style="padding:8px 12px">初発生 2022/5/8 が公表と一致<br>風力（2023・24年末）86.4・130.0万kW<br>＝JWPA 83・128万kW と整合</td>
+</tr>
+<tr style="background:#E3EEF7">
+<td style="padding:8px 12px"><b>季節区分（10/4変更）</b></td>
+<td style="padding:8px 12px">夏7〜9月・冬12〜2月・不需要期3〜6月・10〜11月<br>（価格過程モデルの季節は気象学的4区分で別）</td>
+<td style="padding:8px 12px">季節を使う推定を再実行し原稿に反映済み</td>
+</tr>
+</table>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 4.1・4.3・付録A／B、data/README.md（連系線の符号・列構成・北海道東北パネル・FIT/FIP B表の追記）</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">50</p>
+<aside>予備のスライドです。データの信頼性について質問が出たときに使います。
+需給実績は年によって様式が違うので、まず粒度と単位をそろえ、全系列を1時間の平均に統一しました。時刻の付け方も、北海道と東北の新しい様式はコマの開始時刻、九州は終了時刻なので、揃えてから結合しています。
+いちばん気づきにくかったのが連系線、つまり地域間の送電線の流れの符号です。九州の新しい様式だけ符号が逆で、様式が切り替わる2024年2月から3月にかけて、昼間の平均が約マイナス2,200MWから約プラス2,200MWへ跳んでいたことで気づきました。九州の新様式だけ反転して統一しています。2026年4〜5月のファイルは列が2つ増えていたので、列の位置ではなく列名で対応づけるように直しました。この修正で数字が変わったのは2026年度だけです。
+2018年9月の480時間の欠測は、胆振東部地震によるブラックアウト、つまり大規模停電のあとの取引停止で、データの欠陥ではありません。
+品質は3つの方法で確認しました。供給の合計が需要と揚水と域外への送電の合計に一致するかで、残差は0.27GW以内でした。出力制御が最初に起きた日が、各社の公表と一致するか。そして風力の導入量が、日本風力発電協会の年末値とほぼ一致するかです。なお導入量はFIT/FIPの認定設備だけで、それ以外の設備は含みません。
+季節区分は10月4日に、9月を夏に含める形に変え、季節を使う推定をすべてやり直しています。価格過程モデルの季節は気象学的な4区分で、これとは別です。
+根拠: 原稿 4.1・4.3・付録A・B、data/README.md</aside>
+</section>

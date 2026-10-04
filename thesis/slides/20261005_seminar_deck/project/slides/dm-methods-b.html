@@ -1,0 +1,52 @@
+<section id="dm-methods-b" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">PART 3 ｜ データと方法</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">方法：蓄電池を内生化した π(K) と均衡容量 K*</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">純需要から価格を作り、蓄電池が増えるほど価格差が潰れる効果を入れて、参入が止まる容量 K* を求める</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;gap:36px;align-items:flex-start">
+<div style="width:330px;display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">北海道の時間値<br>推定：FY2023〜25<br>検証：FY2026上期<br>（4〜6月、推定期間外）</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析 ① 価格過程モデル</p>
+<p style="font-size:26px;line-height:1.45;color:#14213D"><b>p_t = max{0.01, 0.01 + θ_FY·[g(net_t; 季節)<br>　　　+ μ(季節, 時刻) − 0.01]}</b></p>
+<p style="font-size:24px;line-height:1.4">net＝需要−太陽光−風力−原子力（制御前）／g＝季節別の局所供給曲線<br>μ＝季節×時刻のプレミアム／0.01円＝床／θ＝年度の価格水準係数</p>
+</div>
+<div style="width:450px;display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果（検証）</p>
+<p style="font-size:26px;line-height:1.45">TB4h中央値はほぼ再現<br>PFは9〜24%過小（裾の圧縮）<br>FY2026上期：θだけでPFの78%</p>
+</div>
+</div>
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:12px;padding:20px 28px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">② フリートの内生化：10万kWずつ積んで価格を更新（増分貪欲ディスパッチ）</h3>
+<div style="display:flex;align-items:stretch;gap:12px">
+<div style="flex:1;background:#E3EEF7;border-radius:12px;padding:12px 18px"><p style="font-size:24px;line-height:1.4">フリート K に 10万kW を追加</p></div>
+<div style="display:flex;align-items:center"><x-shape kind="arrow-right" style="width:40px;height:22px;background:#5B6575"></x-shape></div>
+<div style="flex:1;background:#E3EEF7;border-radius:12px;padding:12px 18px"><p style="font-size:24px;line-height:1.4">その時点の価格で<br>最安4hに充電・最高4hに放電</p></div>
+<div style="display:flex;align-items:center"><x-shape kind="arrow-right" style="width:40px;height:22px;background:#5B6575"></x-shape></div>
+<div style="flex:1;background:#E3EEF7;border-radius:12px;padding:12px 18px"><p style="font-size:24px;line-height:1.4">純需要と価格を更新<br>安い時間↑・高い時間↓</p></div>
+<div style="display:flex;align-items:center"><x-shape kind="arrow-right" style="width:40px;height:22px;background:#5B6575"></x-shape></div>
+<div style="flex:1;background:#E3EEF7;border-radius:12px;padding:12px 18px"><p style="font-size:24px;line-height:1.4">限界参入者の裁定粗利 π(K)（完全予見）</p></div>
+</div>
+</div>
+<div style="background:#F8E9DF;border-radius:14px;display:flex;gap:36px;align-items:center;padding:20px 32px">
+<div style="width:560px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">③ 均衡条件（ゼロレント）</p>
+<p style="font-size:34px;font-weight:700;color:#14213D">π(K*)·c + κP_cap − c_req = 0</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<p style="font-size:26px;line-height:1.45;color:#2B3445">c＝capture率0.81／κP_cap＝容量市場の実効収入 約1.25万円/kW-年<br>c_req＝参入必要収益 3.2〜3.7万円/kW-年</p>
+<p style="font-size:26px;line-height:1.45;color:#14213D"><b>＝限界参入者の NPV がゼロ。契約型（LTDA・補助）は外生</b></p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 5.4.1〜5.4.3、表8.1・表8.2、3.3・3.7（容量収入・参入必要収益）</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">22</p>
+<aside>第8章の方法です。実績価格だけでは「蓄電池がたくさん入ったら」という問いに答えられないので、価格を作るモデルを置きます。上の段の式が価格過程モデルです。netは純需要で、需要から、出力制御で止める前の太陽光と風力、それに原子力を引いた、火力や水力が埋める残りの需要です。gは季節ごとの純需要と価格の関係、局所的な供給曲線で、μは季節と時刻ごとのプレミアム、夕方の立ち上がりを表します。日本のスポット価格には0.01円/kWhの下限があり、これを床と呼んで打ち切りとして扱います。θは年度の価格水準係数で、燃料価格などで動く床より上の部分だけを伸び縮みさせます。ここでの季節は気象学的な4区分で、第6章の3区分とは別です。右の検証のとおり、TB4hの中央値はほぼ再現しますが、裾が圧縮されるため完全予見の価値は9〜24%小さく出ます。推定に使っていない2026年度上期、まだ4〜6月の3か月分なので暫定的な検証ですが、θを1つ与えるだけで完全予見の価値の78%を再現しました。
+真ん中の段がフリートの内生化です。蓄電池を10万kWずつ追加し、そのたびに安い4時間で充電、高い4時間で放電させて価格を更新します。充電で安い時間が上がり、放電で高い時間が下がるので、価格差は自分たちで潰れていきます。K入った後の限界的な1kWの稼ぎがπ(K)です。
+下の橙の式が均衡条件です。π(K)にcapture率を掛け、充電の託送料金を引き、容量市場の実効収入、つまり約定価格に調整係数κを掛けた額を足しても、参入に必要な年間収益c_reqに届かなくなったところで参入が止まります。限界参入者のNPVがゼロになる点、すなわち自由参入均衡です。LTDAや補助金で建つ契約型の容量は外生とし、スポット裁定だけで採算を取るマーチャントの均衡を求めます。結果はパート5です。
+根拠: 原稿 5.4.1〜5.4.3、表8.1・表8.2</aside>
+</section>

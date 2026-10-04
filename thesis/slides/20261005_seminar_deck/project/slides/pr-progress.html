@@ -1,0 +1,54 @@
+<section id="pr-progress" style="background:#EDF1F6;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">PART 6 ｜ 進捗と今後</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">前回（8/17）からの進捗</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">初期実証の段階から、均衡・乖離・価格の下限まで含む全12章の原稿 v0.2 へ。10/4 に季節区分と一次資料を確定</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:1080px;display:flex;flex-direction:column;gap:14px">
+<table style="font-size:26px;width:1080px;line-height:1.3">
+<tr style="background:#14213D">
+<th style="width:22%;color:#F3F1EA;text-align:left;padding:8px 14px">時期</th>
+<th style="width:78%;color:#F3F1EA;text-align:left;padding:8px 14px">主な作業</th>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 14px"><b>8/17（前回）</b></td>
+<td style="padding:8px 14px">風力×蓄電池の初期実証。討議3点（符号の違い・均衡分析の優先・duration）</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 14px"><b>8月下旬〜9月</b></td>
+<td style="padding:8px 14px"><b>π(K)・K* の推計（マーチャントは K*=0）</b>、水準係数付き価格過程、2次元の感応度面・損益分岐面、空間分散、燃料危機期の除外、先行研究56本（コア41＋追加15）の原典精読、初稿 v0.1（全11章）</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:8px 14px"><b>9/30</b></td>
+<td style="padding:8px 14px"><b>第10章「価格の下限」を新設</b>、造語を一般的な用語に整理、題名・要旨・RQ を更新 → 原稿 v0.2（全12章）</td>
+</tr>
+<tr style="background:#E3EEF7">
+<td style="padding:8px 14px"><b>10/4</b></td>
+<td style="padding:8px 14px"><b>季節区分の変更（夏＝7〜9月）と再推定</b>、参考文献の原典照合、LTDA・SII・OCCTO の一次資料確認、図の見出しの用語修正</td>
+</tr>
+</table>
+<p style="font-size:24px;color:#5B6575;line-height:1.4">注: 8月下旬〜9月の作業は git 上 9/29 に一括記録。季節区分の変更で前回資料の数値は一部変化（例: 夏の風力大の日の PF 粗利 −2%→+7%、9月を含めたため）</p>
+<p style="font-size:26px;line-height:1.45;background:#F8E9DF;border-radius:12px;padding:16px 24px">10/4 の再推定で変わった点: 北海道の風力・夏の TB4h 係数 −0.348*** → <b>−0.156（非有意）</b>。7〜8月のみなら −0.35***。「風力は日内スプレッドを広げない」は維持</p>
+</div>
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:18px;padding:28px 32px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">前回の討議3点への回答</h3>
+<div style="display:flex;flex-direction:column;gap:4px;border-left:6px solid #0B6FB0;padding:2px 0 2px 18px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">① 三分位とスイープの符号の違い</p>
+<p style="font-size:26px;line-height:1.4">「床に届く前の局面」として 7.3 と第8章で書き分け</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;border-left:6px solid #0B6FB0;padding:2px 0 2px 18px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">② 均衡分析を優先してよいか</p>
+<p style="font-size:26px;line-height:1.4">π(K) と K* を推計し、マーチャントは <span style="color:#C2511A"><b>K*=0</b></span>（第8章）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;border-left:6px solid #0B6FB0;padding:2px 0 2px 18px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">③ duration の扱い</p>
+<p style="font-size:26px;line-height:1.4">7.4 に本論として残す（4h→6h でスポット価値 <span style="color:#C2511A"><b>+27%</b></span>）</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: HANDOFF.md §1・§4（2026-10-04 更新）／git log（8/17 以降）／本論文 6.2・表6.2・7.3・表7.3・7.4・第8章</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">45</p>
+<aside>前回8月17日のゼミからの進捗です。左の表が時系列、右が前回いただいた討議3点への回答です。8月下旬から9月は、まず π(K) を推計しました。蓄電池の総容量 K が増えたとき、最後に参入する蓄電池が1kWあたり年間いくら稼げるかの曲線です。これが参入に必要な水準と等しくなる容量が均衡容量 K* で、限界参入者の NPV がゼロになる点です。スポット裁定だけのマーチャントでは K*=0 でした。続いて頑健性を固めました。水準係数 θ は価格の水準を年度ごとに伸び縮みさせる係数で、2026年度上期の高い価格を取り込むために入れました。2次元の感応度面は風力の導入量と蓄電池容量を同時に振った計算、損益分岐面は資本費と容量収入の組み合わせごとに参入に必要な価格水準を示したものです。空間分散は風車が広く散らばっていることが結果を作っていないかの確認、燃料危機期の除外は2021〜22年度を抜いた推定です。並行して先行研究56本（コア41本と追加15本）を原典で読み直し、初稿を書きました。この期間は git 上すべて9月29日付で、個々の日付は特定できません。9月30日には、JEPX（日本卸電力取引所）の最低価格0.01円/kWh、つまり価格の下限を主線に格上げして第10章を新設しました。10月4日は季節区分を夏＝7〜9月に変えて再推定し、第9章の LTDA（長期脱炭素電源オークション）、SII（環境共創イニシアチブ）の補助金、OCCTO（電力広域的運営推進機関）による出力制御、つまり再エネの発電を止める措置の検証を一次資料で確認しました。下の囲みのとおり、北海道の風力の夏の TB4h、つまり1日の高い4時間と安い4時間の平均価格差への係数は、9月を含めたことで有意でなくなりましたが負のままで、風力が日内の価格差を広げないという主張は変わりません。前回資料とも数値が違い、夏の風力の多い日の完全予見（PF）粗利は、7〜8月だけだった前回の約−2%から+7%になりました。右側の回答です。①は床、つまり0.01円に届く前の局面として書き分け、②は均衡分析を進めて K*=0 を得、③は4時間から6時間でスポット価値が27%増えることを7.4に残しています。
+根拠: HANDOFF §1・§4（10/4 セッション）、git log、原稿 6.2・表6.2・7.3・表7.3・7.4、第8章</aside>
+</section>

@@ -1,0 +1,54 @@
+<section id="eq-theta" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第8章 自由参入均衡</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">価格水準を上げても K*=0：参入には現状の約3〜4.5倍の水準が必要</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">FY2026上期・FY2022 の水準でも π(0) は最大 9,733円（裾の補正後 12,572円）＜ 必要 19,500円</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:620px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">FY2023〜25 の気象・需要パスに、価格水準 θ＝1（現状）・1.57（FY2026上期）・1.72（FY2022）を与える</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">水準係数付き価格過程で π(K) を再計算し、裾の圧縮は ×1.25 の上限ケースで併記。π(K) は θ にほぼ比例 → 損益分岐 θ* を閉じた形で算出</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:34px;font-weight:700;color:#C2511A">θ* = 3.17〜4.55</p>
+<p style="font-size:26px;line-height:1.45">裾の補正後も 2.55〜3.65。FY2026上期の水準のさらに 2〜2.9倍が必要</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<img src="/_blob/8611a4a3be0a093250096c91bf31ac5c" alt="図8.3 価格水準シナリオ別のπ(K)。現状θ=1、FY2026上期水準θ=1.57、FY2022水準θ=1.72、FY2026上期水準＋泊3号の4本と、裾の補正の点線、参入必要水準の線" style="width:790px;height:457px;object-fit:contain;align-self:center">
+<table style="font-size:24px;width:1012px;line-height:1.3;color:#2B3445">
+<tr style="background:#E3EEF7">
+<th style="width:24%;text-align:left;color:#14213D;padding:7px 10px">K=0 の収益 π(0)</th>
+<th style="width:19%;text-align:right;color:#14213D;padding:7px 10px">θ=1（現状）</th>
+<th style="width:19%;text-align:right;color:#14213D;padding:7px 10px">θ=1.57（FY2026上期）</th>
+<th style="width:19%;text-align:right;color:#14213D;padding:7px 10px">θ=1.72（FY2022）</th>
+<th style="width:19%;text-align:right;color:#14213D;padding:7px 10px">θ=1.57 ＋泊3号</th>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:7px 10px">モデル値</td>
+<td style="text-align:right;padding:7px 10px">4,943</td>
+<td style="text-align:right;padding:7px 10px">8,738</td>
+<td style="text-align:right;padding:7px 10px"><b>9,733</b></td>
+<td style="text-align:right;padding:7px 10px">9,277</td>
+</tr>
+<tr style="background:#FDFDFB">
+<td style="padding:7px 10px">裾の補正 ×1.25</td>
+<td style="text-align:right;padding:7px 10px">6,598</td>
+<td style="text-align:right;padding:7px 10px">11,331</td>
+<td style="text-align:right;padding:7px 10px"><b>12,572</b></td>
+<td style="text-align:right;padding:7px 10px">12,003</td>
+</tr>
+</table>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 表8.5・図8.3・8.4節（円/kW-年、参入必要水準 19,500〜28,700円は c_req−κP_cap）</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">34</p>
+<aside>次に、K*=0 という結論が価格水準の前提に依存していないかを確かめました。先ほどの水準係数 θ を、ここでは価格水準のシナリオ変数として使います。左のデータ欄のとおり、気象と需要のパスは FY2023〜25 のまま、水準だけを現状の1、FY2026上期の1.57、燃料危機の FY2022 の1.72に置き換えて、π(K) を計算し直しました。右の図の実線がモデル値、細い点線は「裾の補正」、つまりモデルが圧縮してしまう分布の両端を補うために実績とモデルの比1.25を掛けた上限ケースです。下の表のとおり、K=0 の収益は FY2026上期水準で8,738円、FY2022 水準でも9,733円、裾の補正を加えても最大12,572円です。図の上の2本の線、楽観19,500円と標準22,000円の必要水準には、どれも届きません。保守ケースの28,700円はさらに上です。π(K) は θ にほぼ比例するので、参入がちょうど成り立つ損益分岐の θ*、シータ・スターは割り算で求まります。標準3.55、楽観3.17、保守4.55で、裾の補正後でも2.55〜3.65です。これは c_req を3ケースの値で置いた場合で、第9章では資本費と WACC から計算するため、現状の θ* は3.76と少し違う値になります。つまり FY2023〜25 の約3〜4.5倍、すでに高い FY2026上期の水準からさらに2〜2.9倍が必要で、観察された範囲の価格変動では K*=0 は覆りません。例外に近いのは FY2022 の実績価格そのもので、連系線増強前の分断構造を伴う実績の PF価値25,160円をそのまま使うと、実現可能収益は約18,600円と楽観ケースにほぼ届きます。燃料危機の水準と当時の分断構造が同時に続く場合に限って参入が開く、という読み方です。資本費に直すと、K=0 で参入が立つのは約1.5万円/kWhで、実勢6.8万円の2割強です。カリフォルニアの CAISO を分析した Butters et al. (2025) では資本費3割減で導入が大きく進むのに対し、北海道では約8割の低下が必要で、より厳しい結果です。
+根拠: 原稿 8.4・表8.5・図8.3（θ* の第9章系列は 9.4）</aside>
+</section>

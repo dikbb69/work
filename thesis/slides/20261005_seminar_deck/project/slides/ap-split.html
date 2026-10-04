@@ -1,0 +1,62 @@
+<section id="ap-split" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">付録 ｜ 第6章</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">（予備）分位点回帰と市場分断</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">風力が高値を削る効果は風力倍増後に弱まり、その裏で北海道だけが安くなる安値分断が増えた。</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:600px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">北海道の時間別エリアプライス・システムプライスと風力・太陽光出力。FY2016〜19 と風力倍増後の FY2023〜25 を比較</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">① 打ち切り分位点回帰（0.01円の下限を打ち切りとして扱う。Sakaguchi &amp; Fujii 2021 の再推定・延長）<br>② 価格差が ±0.01円を超える時間を高値分断／安値分断に区分</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45">τ=0.9 の風力MOEは −11.2 → <span style="color:#C2511A"><b>−4〜−7</b></span> に減衰。高値分断は約9割→約6割、安値分断は 3%→<span style="color:#C2511A"><b>29%</b></span>。風の強い日は安値分断の時間が増える</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="background:#E3EEF7;border-radius:12px;display:flex;flex-direction:column;gap:4px;padding:18px 28px">
+<p style="font-size:24px;font-weight:700;color:#14213D">分位点回帰 τ=0.9 の風力MOE（円/kWh per GW）</p>
+<p style="font-size:34px;font-weight:700;color:#14213D">−11.2（FY2016〜19） → <span style="color:#C2511A">−4〜−7（FY2023〜25）</span></p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#14213D">表6.3 市場分断の方向（コマ構成比、年度レンジの代表値）</p>
+<table style="font-size:26px;width:1032px;line-height:1.3">
+<tr style="background:#EDF1F6"><th style="width:46%;text-align:left;color:#14213D;padding:7px 10px">区分</th><th style="width:27%;text-align:center;color:#14213D;padding:7px 10px">FY2016〜19</th><th style="width:27%;text-align:center;color:#14213D;padding:7px 10px">FY2023〜25</th></tr>
+<tr style="background:#FDFDFB"><td style="padding:7px 10px">高値分断（道内＞本州）</td><td style="text-align:center;padding:7px 10px">89.5%</td><td style="text-align:center;padding:7px 10px">60%</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:7px 10px">連系（±0.01円以内）</td><td style="text-align:center;padding:7px 10px">7.5%</td><td style="text-align:center;padding:7px 10px">11%</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:7px 10px">安値分断（道内＜本州）</td><td style="text-align:center;padding:7px 10px">3%</td><td style="text-align:center;padding:7px 10px"><b><span style="color:#C2511A">29%</span></b></td></tr>
+</table>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<p style="font-size:24px;font-weight:700;color:#14213D">安値分断の時間：風力の少ない日 → 多い日（時間/日）</p>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:2px;padding:16px 24px">
+<p style="font-size:24px;color:#5B6575">夏（7〜9月）</p>
+<p style="font-size:34px;font-weight:700;color:#C2511A">7.2 → 10.7</p>
+</div>
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:2px;padding:16px 24px">
+<p style="font-size:24px;color:#5B6575">冬（12〜2月）</p>
+<p style="font-size:34px;font-weight:700;color:#C2511A">3.1 → 8.3</p>
+</div>
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:2px;padding:16px 24px">
+<p style="font-size:24px;color:#5B6575">不需要期</p>
+<p style="font-size:34px;font-weight:700;color:#C2511A">4.8 → 9.2</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 6.3・表6.3（方法は 5.2.4）。MOE は本研究の再推定／データ: JEPX・北海道電力NW</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">53</p>
+<aside>予備スライドです。高値側の効果と、連系線の役割について質問が出たときに使います。
+一つ目は分位点回帰です。価格の平均ではなく、価格分布の上の方や下の方で別々に係数を推定する方法で、VaRのように分布の裾の動きを見るものです。JEPXのスポット価格には0.01円の下限があるので、そこで打ち切られたデータとして扱いました。先行研究のSakaguchi and Fujii、2021年の仕様を、本研究で推定し直して期間を延長しています。上の青い帯は、風力のメリットオーダー効果、MOEです。燃料費ゼロの電源が入ると高い火力が押し出されて価格が下がる効果のことで、価格分布の90%点、τ=0.9で、FY2016〜19に−11.2円/kWh per GWでした。ところが風力が倍増したFY2023〜25には−4〜−7円に弱まっています。シェアが増えれば効果も強まる、という単純な外挿は北海道では成り立ちません。
+二つ目が市場分断です。北海道は本州と北本連系線だけでつながっていて、ここが混雑すると、北海道のエリアプライスが全国のシステムプライスから切り離されます。表6.3のとおり、FY2016〜19は北海道の方が高い高値分断が約9割でしたが、FY2023〜25は約6割に減り、北海道の方が安い安値分断が3%から29%に増えました。下のカードは風の弱い日と強い日の比較で、安値分断の時間は夏7.2から10.7、冬3.1から8.3、不需要期4.8から9.2時間/日に増えます。
+解釈としては、風力は現時点では、価格の下限、つまり床を作る前に、本州への送電が飽和することで北海道を安く切り離す方向に効いている、ということです。MOEの減衰も、連系線の増強と市場統合で実質的な市場の大きさが広がったことと整合的です。
+根拠: 原稿 6.3・表6.3、5.2.4</aside>
+</section>

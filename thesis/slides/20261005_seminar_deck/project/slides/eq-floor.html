@@ -1,0 +1,45 @@
+<section id="eq-floor" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第10章 価格の下限</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">価格の下限：負価格の効果は余剰の量に比例する</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">負価格の効き目は余剰の量しだい。現状では小さく、単独では参入を開かない</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:620px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">第8章と同じ価格モデル（FY2023〜25パス）で4シナリオ：現状・FY2026上期水準・泊3号再稼働・泊＋風力2倍。移転額は実績の価格・出力</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">床（0.01円）に達する時間だけ価格を −c 円に置く段差モデル（c＝0・5・10円、外生）。蓄電池を積み増して π(K) と θ* を再計算</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45">現状（床 年115h）は −10円でも π(0) <b>+14%</b>、θ* 3.76→3.40。泊＋風力2倍（年1,478h）では θ* 3.39→<span style="color:#C2511A"><b>1.85</b></span>。ただしどのシナリオも θ*＞1</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;gap:20px;align-items:center">
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:12px;padding:12px">
+<img src="/_blob/983719aeb0dc5ddc6b81d285319985b9" alt="図10.1 下限価格シナリオ別のπ(K)。実線は現状、破線は泊3号再稼働。下限を0円・−5円・−10円に下げた場合の限界参入者の収益" style="width:660px;height:375px;object-fit:contain">
+</div>
+<p style="flex:1;font-size:24px;line-height:1.5;color:#5B6575">読み方: 実線＝現状、破線＝泊3号再稼働。現状は4本がほぼ重なり、泊では下限を下げるほど線が上に開く</p>
+</div>
+<div style="display:flex;gap:20px">
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 24px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">再エネからの移転 ≫ 抑制の価値</h3>
+<p style="font-size:26px;line-height:1.45">FY2025: 19〜39億円 対 0.8〜1.6億円（<b>20倍超</b>）。FIP の停止規則などと一体で設計が要る</p>
+</div>
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 24px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">価格による調整か、数量か</h3>
+<p style="font-size:26px;line-height:1.45">現行は優先給電ルールの見直し（数量）。負価格は価格で同じ目的を狙う。ローカル混雑は解消しない</p>
+</div>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 10.2〜10.5・表10.1・表10.2・図10.1（FY2023〜25パス、capture率0.81）／JEPX・北海道電力NW 実績</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">38</p>
+<aside>最後に第10章、価格の下限です。JEPX、日本卸電力取引所のスポット価格には0.01円/kWhという下限、床があります。電気が余って価格が床に張り付くと、その先は価格ではなく出力制御という数量の割当で処理されます。この床を負の価格に置き換えたら蓄電池の価値はどう変わるかを、反実仮想で見ました。データは0.01円で打ち切られていて負の領域の形は推定できないので、左の分析のとおり、床に達する時間の価格だけをマイナス c 円に置く段差モデルにし、c を0、5、10円で振りました。目安は余剰時の電源の支払意思で、FIT、固定価格買取の電源は0円まで、FIP、市場価格にプレミアムが乗る電源はプレミアム分まで負価格を受け入れます。図は横軸が蓄電池の容量 K、縦軸が限界参入者の年間収益 π(K) で、π(0) は最初に入る1kWの収益です。実線の現状では4本がほぼ重なっています。床の時間が年115時間しかないため、−10円でも π(0) は14%増、前のスライドの参入に必要な価格水準 θ* は3.76から3.40です。下限を0円にするだけでは何も変わりません。破線の泊3号機再稼働では線が開き、表10.1の泊＋風力2倍、床が年1,478時間の場合は θ* が1.85と、必要な価格水準がほぼ半分になります。効果は余剰の量に比例するわけです。ただしどのシナリオでも θ* は1を超え、負価格だけでは参入は開きません。右下の二つの箱です。負価格は床の時間に発電するすべての再エネに支払いを求めるので、FY2025では再エネ側から19〜39億円が移り、出力制御を影の価格で測った0.8〜1.6億円の20倍を超えます。FIP のプレミアムを負価格の時間に止める規則などと一体の設計が必要です。またローカルな混雑による抑制は負価格では解消しません。現行制度は優先給電ルールの見直しという数量の側で併設を誘導しており、負価格は同じ目的を価格で達成する手段、と位置づけています。どちらが望ましいかの厚生評価は本研究の範囲外です。
+根拠: 原稿 10.2〜10.5・表10.1・表10.2・図10.1</aside>
+</section>

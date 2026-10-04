@@ -1,0 +1,113 @@
+{
+  "v": 4,
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-10-04T14:50:00Z"
+  },
+  "lists": "css",
+  "title": "修士論文 進捗報告 2026-10-05",
+  "order": [
+    "cover",
+    "agenda",
+    "summary",
+    "p1",
+    "bg-boom",
+    "bg-motive",
+    "bg-rq",
+    "bg-logic",
+    "p2",
+    "wh-history",
+    "wh-pilot",
+    "wh-logic",
+    "wh-compare",
+    "wh-kyushu",
+    "wh-objections",
+    "p3",
+    "st-structure",
+    "st-chapters",
+    "st-literature",
+    "dm-flow",
+    "dm-data",
+    "dm-methods-b",
+    "p4",
+    "em-curves",
+    "em-bands",
+    "em-quintile",
+    "em-regression",
+    "em-spatial",
+    "em-robust",
+    "em-value",
+    "em-tercile",
+    "p5",
+    "eq-pik",
+    "eq-theta",
+    "eq-gap",
+    "eq-colocated",
+    "eq-frontier",
+    "eq-floor",
+    "p6",
+    "im-investor",
+    "im-policy",
+    "im-floor",
+    "im-academic",
+    "im-limits",
+    "pr-progress",
+    "pr-schedule",
+    "pr-discuss",
+    "ap",
+    "ap-novelty",
+    "ap-dataquality",
+    "dm-methods-a",
+    "ap-counterfactual",
+    "ap-split",
+    "eq-model",
+    "ap-duration",
+    "ap-events",
+    "ap-surface"
+  ],
+  "sections": {
+    "s0": {
+      "description": "表紙・本日の内容・結論の先取り",
+      "start": "cover"
+    },
+    "s1": {
+      "description": "研究の背景・動機・問い",
+      "start": "p1"
+    },
+    "s2": {
+      "description": "なぜ九州ではなく北海道か",
+      "start": "p2"
+    },
+    "s3": {
+      "description": "論文の全体構成・データ・方法",
+      "start": "p3"
+    },
+    "s4": {
+      "description": "実証：価格形成と蓄電池の価値（第6・7章）",
+      "start": "p4"
+    },
+    "s5": {
+      "description": "自由参入均衡・乖離・価格の下限（第8〜10章）",
+      "start": "p5"
+    },
+    "s6": {
+      "description": "示唆・進捗・今後",
+      "start": "p6"
+    },
+    "s7": {
+      "description": "付録（予備スライド）",
+      "start": "ap"
+    }
+  },
+  "faces": {
+    "noto-sans-jp": {
+      "family": "Noto Sans JP",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    },
+    "noto-serif-jp": {
+      "family": "Noto Serif JP",
+      "href": "https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600;700&display=swap"
+    }
+  },
+  "designSystems": []
+}

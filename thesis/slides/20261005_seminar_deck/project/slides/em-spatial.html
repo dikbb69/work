@@ -1,0 +1,39 @@
+<section id="em-spatial" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第6章 実証I ｜ 価格形成</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">空間分散の反実仮想：本質は日内サイクルの不在</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">日内の揺れの振幅を上限の4倍にしても、TB4h中央値は+4%、PF価値は+7%しか増えない。</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:600px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">北海道 FY2023〜25 の実フリート風力（制御前、時間値）と、第8章の価格モデル（水準係数付き価格過程、θ=1）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">風力の日内帯域（6時間未満＋6〜24時間）の振幅を λ 倍に増幅（日次発電量は保存）。λ=2〜3 が文献校正、4 が上限。価格モデルに通して比べる</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45">λ=4 で日内シェアが 10.8%→41.4% に上がっても、TB4h 中央値 <span style="color:#C2511A"><b>+4%</b></span>、PF価値 <span style="color:#C2511A"><b>+7%</b></span>、風力→TB4h 係数の変化は 0.02〜0.03 程度。本質は日内サイクルの不在</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<img src="/_blob/ca4a456cfcfdf149ee7c63c9fa66ee79" alt="図6.5 空間分散シミュレーション：(a) 日内帯域の振幅倍率λとPF価値・TB4h中央値・床時間、(b) 風力→TB4hの係数" style="width:980px;height:414px;object-fit:contain">
+<table style="font-size:24px;width:980px;line-height:1.3">
+<tr style="background:#EDF1F6"><th style="width:21%;text-align:left;color:#14213D;padding:6px 8px">λ（表6.4抜粋）</th><th style="width:15%;text-align:center;color:#14213D;padding:6px 8px">日内シェア</th><th style="width:16%;text-align:center;color:#14213D;padding:6px 8px">TB4h中央値</th><th style="width:10.5%;text-align:center;color:#14213D;padding:6px 8px">PF価値</th><th style="width:37.5%;text-align:center;color:#14213D;padding:6px 8px">風力→TB4h 夏／冬／不需要期</th></tr>
+<tr style="background:#FDFDFB"><td style="padding:6px 8px">1（実フリート）</td><td style="text-align:center;padding:6px 8px">10.8%</td><td style="text-align:center;padding:6px 8px">7.96</td><td style="text-align:center;padding:6px 8px">8,266</td><td style="text-align:center;padding:6px 8px">−0.040／−0.019／+0.141</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:6px 8px">4（上限）</td><td style="text-align:center;padding:6px 8px"><b><span style="color:#C2511A">41.4%</span></b></td><td style="text-align:center;padding:6px 8px">8.31</td><td style="text-align:center;padding:6px 8px">8,846</td><td style="text-align:center;padding:6px 8px">−0.007／+0.006／+0.161</td></tr>
+</table>
+<p style="font-size:24px;color:#5B6575;line-height:1.4">単位: TB4h 円/kWh、PF価値 円/kW-年。モデル価格上の比較（λ 間の差で読む）</p>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 図6.5・表6.4（原稿 6.4、設計は 5.2.5）／λ の校正: St. Martin et al. (2015)</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">28</p>
+<aside>想定される反論への答えです。北海道の風力が日内の形を変えないのは、広い道内に散らばった風車を合計すると細かな揺れが打ち消し合うからで、風車が1か所に集まっていたら違うのではないか、という反論です。
+そこで反実仮想を作りました。データはFY2023〜25の実際の風力の、制御前の時間値です。そこから1日の中の波、つまり6時間未満と6〜24時間の成分を取り出し、その振れ幅をλ倍に増幅します。1日の発電量は変えません。λの大きさは、風の変動が離れた地点間でどこまで連動するかを測ったSt. Martinらの2015年の研究から逆算し、単一サイト相当で1.8〜4、中央値2.3です。2〜3を基準、4を上限として読みます。この系列を第8章の価格モデルに通します。燃料価格などで動く価格の水準をθという係数で表したモデルで、θ=1はFY2023〜25の水準です。蓄電池の価値はPF価値、つまり当日の価格を全部知っている前提で、4時間蓄電池が1日1回の売買で得る年間の粗利で測ります。
+図の左のパネルが結果です。横軸がλです。λ=4で1日の中の波のシェアは10.8%から41.4%まで上がりますが、オレンジのTB4h中央値は7.96円から8.31円で4%増、青いPF価値は8,266円から8,846円で7%増にとどまります。青い線は急に見えますが、左の目盛りは8,300円から8,800円ほどの狭い範囲です。右のパネルは風力→TB4hの係数で、どの季節も0.02〜0.03程度しか動きません。
+理由は、増幅した揺れに決まった時刻がないことです。毎日の高い4時間と安い4時間の差には、ほとんど効きません。分散立地は形を滑らかにする補助的な仕組みで、本質は風力に日内サイクルがないこと、が結論です。なお、これはモデル価格上の比較なので、水準ではなくλの間の差で判断しています。
+根拠: 原稿 6.4・表6.4・図6.5、11.3</aside>
+</section>

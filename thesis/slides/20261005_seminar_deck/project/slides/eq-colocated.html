@@ -1,0 +1,33 @@
+<section id="eq-colocated" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第9章 均衡からの乖離</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">併設蓄電池：価値はエリア価格の外にあるが、まだ小さい</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">出力制御の回避は無補償でエリア価格に映らない。現状の価値は1kW風力あたり年280〜417円</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:620px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">北海道の風力の出力制御量（時間値）、2025年4月〜2026年6月：計13,184MWh・344時間・53イベント</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">系統WGの併設前提（風力1kWあたり0.64kWh・4時間）で、容量の制約の下で吸収できる割合を計算。抑制が一様な場合と、容量20%のサイトに77%が集中する場合（ERCOTの分布）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45">回避可能率は<b>一様 96.8%／集中 65.3%</b>。実効的な回避価値は抑制率1.35%で<span style="color:#C2511A"><b>280〜417円/kW風力-年</b></span>（全量吸収の上限は430円、抑制率8%なら2,551円）</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:12px;padding:14px 15px">
+<img src="/_blob/29a91fdd58b0d807c9f6077afcfa875b" alt="北海道の風力の出力制御率の推移（FY2026は4〜6月で1.35%）と、抑制が起きた時間のエリア価格の内訳（床・0.01〜5円・5円超）" style="width:980px;height:407px;object-fit:contain">
+</div>
+<p style="font-size:26px;line-height:1.45;color:#2B3445;background:#F8E9DF;border-radius:12px;padding:18px 28px">注: OCCTO の月次検証では、北海道の制御の大半はエリア全体の需給要因。ローカル混雑は岩松線・富川線で最大0.8万kW程度、サイト別の内訳は非公表 → 一様／集中は範囲の境界</p>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 9.3・表9.1（北海道電力NW 需給実績の風力抑制量、FY2022〜2026年6月）／OCCTO 出力制御の検証（2026）</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">36</p>
+<aside>前のスライドの (d)、併設蓄電池です。風力発電所と同じ地点に置く蓄電池を併設と呼び、系統に単独でつなぐ系統用と区別します。併設の価値の源泉は出力制御の回避です。出力制御とは、電気が余るときに送配電事業者が再エネの出力を止めさせる措置で、北海道の風力では補償がありません。右の図の左側をご覧ください。風力の抑制率は2025年度の0.10%から、右端の橙の棒、2026年度は4〜6月だけで1.35%と急に立ち上がっています。右側は抑制が起きた時間のエリアプライス、つまり北海道エリアの卸価格の内訳で、上の橙の13%は価格が5円を超えていたのに抑制された時間です。日本は地点ごとの価格がないゾーン価格なので、この損失は価格に映らず、第8章のスポット収益ではゼロと数えています。そこで左の3点セットです。2025年4月から2026年6月の時間値、抑制量13,184MWh、344時間、53回のイベントを使い、国の系統ワーキンググループが置く併設の前提、風力1kWあたり0.64kWh・4時間の蓄電池で、どれだけ吸収できるかを計算しました。抑制が全体に一様なら96.8%、米国テキサスの ERCOT で観察された偏り、容量20%のサイトに抑制の77%が集中する分布を当てはめると65.3%を回避できます。金額では抑制率1.35%で1kWの風力あたり年280〜417円です。全量吸収の上限でも430円、九州の太陽光並みの8%で2,551円で、蓄電池の資本費に比べればまだ小さい。放電時間を2時間にしても2ポイントしか改善しないので、制約は kW ではなく kWh の側です。ただし下の注のとおり、広域機関 OCCTO の月次検証では、北海道の制御の大半はエリア全体の需給要因で、ローカルな混雑による制御は岩松線と富川線で最大0.8万kW程度です。北海道で抑制がどこに偏るかは地点よりも制御の配分規則で決まり、サイト別の内訳も公表されていないため、一様と集中の二つの数字は、答えの範囲を示す境界として読んでください。
+根拠: 原稿 9.3.1〜9.3.2・表9.1</aside>
+</section>

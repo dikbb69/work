@@ -1,0 +1,49 @@
+<section id="eq-frontier" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第9章 均衡からの乖離</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">損益分岐面：参入が開くのは条件が同時にそろう場合だけ</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">現状は過去3年の約3.8倍の価格水準が必要。条件が重なって開いても K* は申込234万kWに届かない</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:620px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">第8章の価格モデル（FY2023〜25の気象・需要パス）。θ の実績は FY2026上期 1.57・FY2022 1.72。資本費の実勢 6.8万円/kWh、容量市場の実効収入 1.25万円/kW-年</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">参入条件は価格水準係数 θ（FY2023〜25＝1）について線形 → 参入が開く θ* を閉じた形で計算。資本費 × 実効容量収入の格子（WACC 6%・20年）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45">現状は<b>θ*＝3.76</b>。θ*＜1 になるのは、資本費の低下と容量収入の増加が同時にそろう組合せだけ</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;gap:20px">
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:12px;padding:12px">
+<img src="/_blob/1109321a3e23dcf2caec740b7b18446a" alt="図9.1 損益分岐面。横軸は蓄電池の資本費、縦軸は実効容量収入、色は参入に必要な価格水準係数θ*。現状の点はθ*=3.76" style="width:680px;height:430px;object-fit:contain">
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-direction:column;gap:2px;border-left:6px solid #C2511A;padding:2px 0 2px 16px">
+<p style="font-size:34px;font-weight:700;color:#C2511A;line-height:1.3">3.76</p>
+<p style="font-size:24px;line-height:1.4">現状の θ*（6.8万円/kWh・1.25万円）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px;border-left:6px solid #5B6575;padding:2px 0 2px 16px">
+<p style="font-size:34px;font-weight:700;color:#14213D;line-height:1.3">1.42</p>
+<p style="font-size:24px;line-height:1.4">資本費が揚水並み 2.3万円/kWh でも（容量収入は現行）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:2px;border-left:6px solid #0B6FB0;padding:2px 0 2px 16px">
+<p style="font-size:34px;font-weight:700;color:#0B6FB0;line-height:1.3">0.67／0.42</p>
+<p style="font-size:24px;line-height:1.4">開く例: 2.3万円×1.75万円、4万円×2.5万円</p>
+</div>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.45;color:#2B3445;background:#F8E9DF;border-radius:12px;padding:18px 28px">開いても、容量価格の低下を入れた K* は北海道ブロック按分で20万kW以下、全国連系でも125万kW以下 → 申込234万kWには届かない</p>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 9.4・表9.2・表9.3・図9.1（WACC 6%・20年、FY2023〜25パス）／定置用蓄電システム普及拡大検討会・OCCTO 容量市場</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">37</p>
+<aside>では、どこまで条件がそろえばマーチャント参入が開くのか。それを一枚の地図にしたのが損益分岐面です。θ、シータは価格水準係数で、FY2023〜25の価格水準を1としたときの倍率です。FY2026上期は1.57、燃料高のFY2022は1.72でした。参入条件はこの θ について一次式なので、K がゼロのときに参入がちょうど開く θ*、シータスターを閉じた形で計算できます。必要な年間収益は、4時間分の資本費を WACC 6%・20年で年額にし、運転維持費と託送などの固定費を足したもので、投資額を年賦（アニュイティ）に直した額です。図をご覧ください。横軸が蓄電池の資本費、縦軸が容量市場からの実効収入、色の濃さが θ* です。右側の橙の点が現状で、θ* は3.76。過去3年の約3.8倍の価格水準が続かないと参入できません。第8章の標準ケースの3.55とは、必要収益の置き方が少し違います。第8章はケースごとの値、ここでは資本費から式で計算しています。左の青緑の点は揚水発電並みの2.3万円/kWh まで資本費が下がった場合ですが、容量収入が今のままなら1.42です。一番上の橙の実線、θ*=1 より左上に入れば、過去3年の価格水準のままで参入が開きます。そこに入るのは、2.3万円かつ容量収入1.75万円以上、あるいは4万円かつ2.5万円、といった条件が同時にそろう組合せだけです。さらに下の箱のとおり、開いた後の均衡容量は、参入で容量市場の価格も下がることを入れると、北海道を単独ブロックとして按分した場合は20万kW以下、全国と連系して約定する場合でも125万kW以下です。容量価格を一定と置けば200万kW超まで開く組合せもありますが、それは容量市場側の自己侵食を無視した上限です。申込234万kW をマーチャントの均衡として説明できる組合せは、観察できる範囲には見当たりません。したがって前の乖離は、パラメータの不確実性よりも、市場外収入と期待で説明すべきだ、というのが第9章の結論です。
+根拠: 原稿 9.4・表9.2・表9.3・図9.1</aside>
+</section>

@@ -1,0 +1,49 @@
+<section id="em-regression" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第6章 実証I ｜ 価格形成</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">日次回帰：日内形状を広げるのは太陽光だけ</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">需要と年度固定効果を統制しても、北海道の風力は TB4h を広げない。広げるのは不需要期の太陽光。</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:600px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">FY2016〜25 の日次（北海道 3,632日・九州 3,652日）。日平均価格・TB4h、制御前の太陽光・風力（GWh/日）、需要</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">価格指標 ＝ β（電源×季節）×発電量 ＋ γ×需要 ＋ 年度固定効果 ＋ 季節固定効果。HC3 標準誤差。β＝1GWh/日多い日の価格変化</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45">北海道の風力は全季節で水準を1GWh/日あたり0.25〜0.36円下げるが、TB4h を<b>正に有意に広げる季節はない</b>。太陽光は不需要期に TB4h <span style="color:#C2511A"><b>+0.233***</b></span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex">
+<div style="width:196px"></div>
+<p style="width:418px;font-size:26px;font-weight:700;color:#0B6FB0;text-align:center;border-bottom:3px solid #0B6FB0;padding:0 0 4px 0">北海道</p>
+<p style="width:418px;font-size:26px;font-weight:700;color:#5B6575;text-align:center;border-bottom:3px solid #5B6575;padding:0 0 4px 0">九州</p>
+</div>
+<table style="font-size:24px;width:1032px;line-height:1.3">
+<tr style="background:#EDF1F6"><th style="width:19%;text-align:left;color:#14213D;padding:7px 4px">表6.2</th><th style="width:13.5%;text-align:center;color:#14213D;padding:7px 4px">夏</th><th style="width:13.5%;text-align:center;color:#14213D;padding:7px 4px">冬</th><th style="width:13.5%;text-align:center;color:#14213D;padding:7px 4px">不需要期</th><th style="width:13.5%;text-align:center;color:#14213D;padding:7px 4px">夏</th><th style="width:13.5%;text-align:center;color:#14213D;padding:7px 4px">冬</th><th style="width:13.5%;text-align:center;color:#14213D;padding:7px 4px">不需要期</th></tr>
+<tr style="background:#FDFDFB"><td style="padding:7px 4px">水準・太陽光</td><td style="text-align:center;padding:7px 4px">−0.406***</td><td style="text-align:center;padding:7px 4px">−0.761***</td><td style="text-align:center;padding:7px 4px">−0.351***</td><td style="text-align:center;padding:7px 4px">−0.065***</td><td style="text-align:center;padding:7px 4px">−0.062***</td><td style="text-align:center;padding:7px 4px">−0.055***</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:7px 4px">水準・風力</td><td style="text-align:center;padding:7px 4px">−0.245***</td><td style="text-align:center;padding:7px 4px">−0.353***</td><td style="text-align:center;padding:7px 4px">−0.355***</td><td style="text-align:center;padding:7px 4px">−0.013</td><td style="text-align:center;padding:7px 4px">−0.272</td><td style="text-align:center;padding:7px 4px">0.065</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:7px 4px">TB4h・太陽光</td><td style="text-align:center;padding:7px 4px">0.033</td><td style="text-align:center;padding:7px 4px">−0.807***</td><td style="text-align:center;padding:7px 4px"><b><span style="color:#C2511A">0.233***</span></b></td><td style="text-align:center;padding:7px 4px">0.027*</td><td style="text-align:center;padding:7px 4px">0.123***</td><td style="text-align:center;padding:7px 4px"><b><span style="color:#C2511A">0.104***</span></b></td></tr>
+<tr style="background:#E3EEF7"><td style="padding:7px 4px"><b>TB4h・風力</b></td><td style="text-align:center;padding:7px 4px"><b>−0.156</b></td><td style="text-align:center;padding:7px 4px"><b>−0.363***</b></td><td style="text-align:center;padding:7px 4px"><b>−0.067</b></td><td style="text-align:center;padding:7px 4px">0.126</td><td style="text-align:center;padding:7px 4px">−0.349</td><td style="text-align:center;padding:7px 4px">0.275**</td></tr>
+</table>
+<p style="font-size:24px;color:#5B6575;line-height:1.4">円/kWh per GWh/日。FY固定効果・季節固定効果・需要コントロール、HC3。***p&lt;0.01、**p&lt;0.05、*p&lt;0.1</p>
+<p style="background:#E3EEF7;border-radius:12px;font-size:26px;line-height:1.45;color:#14213D;padding:16px 28px"><b>読み方</b>: 北海道の不需要期に太陽光が1GWh/日多い日は TB4h が0.233円広い</p>
+<div style="background:#F8E9DF;border-radius:12px;display:flex;flex-direction:column;gap:8px;padding:20px 28px">
+<p style="font-size:26px;line-height:1.45;color:#2B3445">・7〜8月に限ると、風力・夏の TB4h は <b>−0.35***</b>（9月を含めると縮むが負のまま）</p>
+<p style="font-size:26px;line-height:1.45;color:#2B3445">・九州の風力・不需要期 <b>+0.275**</b> は床の機構と整合（規模が小さく精度は低い）</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 表6.2（原稿 6.2、仕様は 5.2.3）／データ: JEPX・北海道電力NW・九州電力送配電</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">27</p>
+<aside>ここまでの図による観察を、回帰で確かめます。データはFY2016〜25の10年分の日次で、北海道3,632日、九州3,652日です。被説明変数は日平均価格とTB4hで、これを太陽光と風力の制御前の日次発電量、単位はGWh/日、に回帰します。発電量に季節ダミーを掛けて、電源ごと・季節ごとに別々の係数を取ります。季節は夏が7〜9月、冬が12〜2月、それ以外が不需要期です。需要をコントロールし、年度固定効果で燃料価格など年ごとの水準の変化を吸収しています。つまり比べているのは、同じ年度・同じ季節の中で、風が強かった日と弱かった日です。再エネの発電量は天気で決まるので、価格のショックに対して外生とみなしています。標準誤差は不均一分散に頑健なHC3です。
+係数の読み方は、例えば北海道の不需要期に太陽光が1GWh/日多い日は、TB4hが0.233円広がる、です。表の上2行が水準で、北海道では太陽光も風力も全季節で1%有意に価格を下げます。風力は0.25〜0.36円です。青く塗った一番下の行が、この章で一番大事な行です。北海道の風力→TB4hは、夏−0.156、冬−0.363、不需要期−0.067で、正に有意な季節は一つもありません。一方、太陽光は不需要期に0.233で、1%有意に広げます。
+注を2点。夏の風力の−0.156は有意ではありませんが、7〜8月に限ると−0.35で1%有意です。9月を入れると縮みますが負のままです。九州の風力は不需要期に0.275、5%有意で広げています。床、つまり価格が下限の0.01円に張り付くと、安い側だけが切り取られて値幅が開く、という機構と整合的ですが、九州の風力は規模が小さく、精度は低いと書いています。
+根拠: 原稿 6.2・表6.2、5.2.3</aside>
+</section>

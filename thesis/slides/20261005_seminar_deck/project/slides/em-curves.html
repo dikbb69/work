@@ -1,0 +1,51 @@
+<section id="em-curves" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第6章 実証I ｜ 価格形成</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">価格カーブ：太陽光は昼を彫り、風力は一日を平行に沈める</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">太陽光は昼の谷を深くして夕方の山を残す。風力は一日中ほぼ同じ幅で下げ、形を変えない。</p>
+</div>
+<div style="flex:1;display:flex;gap:48px">
+<div style="width:600px;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #0B6FB0;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0">データ</p>
+<p style="font-size:26px;line-height:1.45">北海道 FY2023〜25 の時間値。JEPXエリアプライスと、制御前（実績＋抑制量）の太陽光・風力の日次発電量</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
+<p style="font-size:26px;line-height:1.45">季節ごとに、日次発電量が上位1/3の日と下位1/3の日に分け、時刻別の平均価格を重ねる（太陽光・風力で別々に）</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
+<p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
+<p style="font-size:26px;line-height:1.45"><b>太陽光</b>: 不需要期の正午は約3.3円まで陥没、差は<span style="color:#C2511A"><b>−4.7円</b></span>（夏−3.8・冬−1.8円）。夕方の山は残る<br><b>風力</b>: 全時間平均で<span style="color:#C2511A"><b>−1.2〜−1.6円</b></span>の平行移動。風力出力の日内振幅は14〜20%と小さい</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:28px;align-items:flex-end">
+<div style="width:730px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:24px;font-weight:700;color:#14213D;line-height:1.2">図6.1 太陽光の多い日／少ない日</p>
+<img src="/_blob/fee92822474fc8d8dc34af881d502623" alt="図6.1 北海道の時間帯別価格カーブ、3季節×太陽光の多い日と少ない日（FY2023〜25平均）" style="width:730px;height:275px;object-fit:contain">
+</div>
+<div style="width:270px;display:flex;flex-direction:column;gap:6px;padding:0 0 24px 0">
+<p style="font-size:34px;font-weight:700;color:#C2511A">−4.7円</p>
+<p style="font-size:24px;line-height:1.4;color:#2B3445">不需要期・正午前後の差（円/kWh）。夕方の山は残る</p>
+</div>
+</div>
+<div style="display:flex;gap:28px;align-items:flex-end">
+<div style="width:730px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:24px;font-weight:700;color:#14213D;line-height:1.2">図6.2 風力の多い日／少ない日</p>
+<img src="/_blob/b90fc9163b347b40852ec48ed16ce4c1" alt="図6.2 北海道の時間帯別価格カーブ、3季節×風力の多い日と少ない日（FY2023〜25平均）" style="width:730px;height:275px;object-fit:contain">
+</div>
+<div style="width:270px;display:flex;flex-direction:column;gap:6px;padding:0 0 24px 0">
+<p style="font-size:34px;font-weight:700;color:#C2511A">−1.2〜−1.6円</p>
+<p style="font-size:24px;line-height:1.4;color:#2B3445">全時間平均の差（円/kWh）。曲線の形はほぼ不変</p>
+</div>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 図6.1・図6.2（原稿 6.1.1）／データ: JEPX エリアプライス・北海道電力NW 需給実績</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">24</p>
+<aside>ここから第6章、実証の前半です。最初の問いは、太陽光と風力が電力価格の「何を」動かすのか、です。データは北海道のFY2023〜25の時間別の値です。価格は、JEPX、日本卸電力取引所の前日スポット市場で決まる北海道エリアの価格、いわゆるエリアプライスを使います。発電量は「制御前出力」です。出力制御、つまり電気が余るときに系統の運用者が再エネを止めさせた分を、実績に足し戻した値です。足し戻さないと、晴れた日や風の強い日ほど発電量が小さく見えてしまいます。
+分析は単純で、季節ごとに発電量が多い上位3分の1の日と、少ない下位3分の1の日に分け、時刻ごとの平均価格を重ねました。上の図6.1が太陽光で、オレンジが多い日、青が少ない日です。右端の不需要期のパネルを見てください。オレンジの線は正午に約3.3円まで落ち込み、青との差は正午前後で4.7円あります。同じ差は夏で3.8円、冬で1.8円です。一方、夕方の山、夏なら18時に約19〜20円、冬なら17時に約14〜15円の山は、太陽光の多い日も少ない日もほぼ同じ高さで残っています。太陽光は昼の谷を深くし、夕方の山は削らない。昼に買って夕方に売る蓄電池から見ると、値幅が広がる方向です。
+下の図6.2が風力です。風の強い日のオレンジの線は、一日中ほぼ同じ幅で下にずれていて、全時間の平均で1.2〜1.6円安いだけです。曲線の形はほとんど変わりません。風力出力そのものの日内の振れ幅が平均の14〜20%と小さく、決まった時刻に増える電源ではないためです。株式の比喩でいえば、太陽光は日中の値幅を広げ、風力は相場全体の水準を下げる、という違いです。次の3枚で、これを数字で確かめます。
+根拠: 原稿 6.1.1・図6.1・図6.2</aside>
+</section>

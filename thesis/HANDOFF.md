@@ -114,6 +114,14 @@ apt-get install -y fonts-noto-cjk && rm -rf ~/.cache/matplotlib
 - Google Drive MCP: `read_file_content` の出力は大きいと tool-results ファイルに保存される → python で `fileContent` を取り出す。arXiv/ScienceDirect/METI 等は egress 制限で WebFetch 不可（WebSearch は可）。
 - Drive: `参考研究_20260728`（id 126xMwK20awVDlnK0vVBYtHxv5OQRjkZu）に SetA〜D の PDF 41本と SciSpace 抽出表。
 
+
+### 5b. ローカル環境（自分のPC）で続ける手順（2026-10-04 追記）
+1. `git clone https://github.com/dikbb69/work.git && cd work && git checkout claude/masters-thesis-research-plan-x2v1fe`（作業ブランチは全成果物プッシュ済み。`data/raw/` も含まれるので再ダウンロード不要）。
+2. Python 3.11 以上で `pip install numpy pandas matplotlib statsmodels openpyxl xlrd scipy jpholiday pymupdf python-docx pypandoc_binary`。図の日本語フォントは各スクリプトが `Noto Sans CJK JP` を指定しているので、未導入なら Noto Sans CJK JP を入れるか、`plt.rcParams["font.family"]` を手元のフォント（Mac: Hiragino Sans、Windows: Yu Gothic／Meiryo）に変える。
+3. Claude Code を `work/thesis` で起動し、最初に「HANDOFF.md を読んで続きから」と指示する。コミット・プッシュ先は同じブランチ。
+4. Drive の PDF はローカルの `Downloads/参考研究_*` を直接読ませる（Drive MCP は不要）。Word 出力は `pypandoc`（`analysis/` には無いので、必要なら 9/30 の手順: 章ファイルを連結 → pandoc → フォント設定）。
+5. 残タスクは §4 のタスク6（9.2(c) SII 資料、OCCTO 月次検証）、タスク8（図表番号の最終確認、参考文献の未確認3件）、第10章の原典未確認3件（E18〜E20）。
+
 ## 6. 注意点（審査で突かれやすい箇所・既知の問題）
 - Sakaguchi & Fujii の北海道分位点係数は原典では図のみ。6.3 の τ=0.9 −11.2 は本研究の再推定と明記済み。
 - Li et al. (2024) の利益表は単位表記に疑義（引用時は原典図で桁確認）。

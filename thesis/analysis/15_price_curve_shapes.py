@@ -3,9 +3,9 @@
 """北海道の時間帯別価格カーブの形状: 3季節 × 太陽光の大小（FY2023-25）
 
 定義:
-  需要期・夏   = 7-8月
+  需要期・夏   = 7-9月（2026-10-04 に9月を夏へ統合）
   需要期・冬   = 12-2月
-  不需要期     = 3-6月・10-11月（春・秋）。9月は端境期として除外
+  不需要期     = 3-6月・10-11月（春・秋）
   太陽光大/小 = 各季節内で「日次の太陽光発電量（制御前）」の上位1/3 / 下位1/3の日
   価格        = 北海道エリアプライス（60分平均）の時刻別平均
 
@@ -29,7 +29,7 @@ for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
         font_manager.fontManager.addfont(f)
     except Exception:
         pass
-plt.rcParams["font.family"] = "Noto Sans CJK JP"
+plt.rcParams["font.family"] = ["Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "Meiryo"]
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PROC = os.path.join(ROOT, "data", "processed")
@@ -47,9 +47,9 @@ p["day"] = p["ts"].dt.normalize()
 p["hour"] = p["ts"].dt.hour
 p["solar_pre"] = p["solar"].fillna(0) + p["solar_curt"].fillna(0)
 
-# 季節区分（2026-09-29 確定）: 9月は端境期として3季節から除外
+# 季節区分（2026-10-04 確定）: 夏=7-9月（9/29 版の端境=9月を夏に統合）
 SEASONS = [
-    ("需要期・夏（7-8月）", [7, 8]),
+    ("需要期・夏（7-9月）", [7, 8, 9]),
     ("需要期・冬（12-2月）", [12, 1, 2]),
     ("不需要期（3-6・10-11月）", [3, 4, 5, 6, 10, 11]),
 ]

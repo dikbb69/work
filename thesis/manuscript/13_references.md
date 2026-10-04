@@ -15,9 +15,9 @@
 - [A9] Hagfors et al. (2016) Prediction of extreme price occurrences in the German day-ahead electricity market. Quantitative Finance 16(12), 1929–1948. https://doi.org/10.1080/14697688.2016.1211794
 - [A10] Mwampashi, Nikitopoulos, Konstandatos & Rai (2021) Wind generation and the dynamics of electricity prices in Australia. Energy Economics 103, 105547. https://doi.org/10.1016/j.eneco.2021.105547
 - [A11] Navia Simon & Diaz Anadon (2025) Power price stability and the insurance value of renewable technologies. Nature Energy 10, 329–341. https://doi.org/10.1038/s41560-025-01704-0
-- [B1] Butters, Dorsey & Gowrisankaran (2025) Soaking Up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium. Econometrica 93(3). https://doi.org/10.3982/ECTA20411 【頁未確認】【要確認: 精読ノート（butters-dorsey-gowrisankaran2025.md）は NBER WP 29133（2024年9月改訂版）を読んだ版と記載。公刊版（Econometrica 93(3)）との異同は未確認】
+- [B1] Butters, Dorsey & Gowrisankaran (2025) Soaking Up the Sun: Battery Investment, Renewable Energy, and Market Equilibrium. Econometrica 93(3), 891–927. https://doi.org/10.3982/ECTA20411 ※精読は NBER WP 29133（2024年9月改訂版）。題名と要旨の数値は公刊版と同一（Crossref で確認、2026-10-04）
 - [B2] Karaduman (2023) — Economics of Grid-Scale Energy Storage in Wholesale Electricity Markets（WP）. https://gsb-faculty.stanford.edu/omer-karaduman/files/2022/09/Economics-of-Grid-Scale-Energy-Storage.pdf
-- [B3] Schmalensee (2022) Competitive Energy Storage and the Duck Curve. The Energy Journal 43(2). https://doi.org/10.5547/01956574.43.2.rsch 【頁未確認】【要確認: 精読ノート（schmalensee2022.md）は MIT CEEPR WP 2020-012 に基づくと記載。公刊版（Energy Journal 43(2)）との異同は未確認】
+- [B3] Schmalensee (2022) Competitive Energy Storage and the Duck Curve. The Energy Journal 43(2), 1–16. https://doi.org/10.5547/01956574.43.2.rsch ※精読は MIT CEEPR WP 2020-012
 - [B4] Andrés-Cerezo & Fabra (2023) Storing power: market structure matters. RAND Journal of Economics 54(1), 3–53. https://doi.org/10.1111/1756-2171.12429
 - [B5] Sioshansi, Denholm, Jenkin & Weiss (2009) Estimating the value of electricity storage in PJM. Energy Economics 31(2), 269–277. https://doi.org/10.1016/j.eneco.2008.10.005
 - [B6] Sioshansi (2010) Welfare Impacts of Electricity Storage and the Implications of Ownership Structure. The Energy Journal 31(2), 173–198. https://doi.org/10.5547/ISSN0195-6574-EJ-Vol31-No2-7
@@ -27,7 +27,7 @@
 - [B10] Brown & Reichenberg (2021) Decreasing market value of variable renewables can be avoided by policy action. Energy Economics 100, 105354. https://doi.org/10.1016/j.eneco.2021.105354
 - [B11] López Prol & Schill (2021) The Economics of Variable Renewable Energy and Electricity Storage. Annual Review of Resource Economics 13, 443–467. https://doi.org/10.1146/annurev-resource-101620-081246
 - [B12] Zhao, Jafari, Botterud & Sakti (2022) Strategic energy storage investments: A case study of the CAISO electricity market. Applied Energy 325, 119909. https://doi.org/10.1016/j.apenergy.2022.119909
-- [B13] Mercier, Olivier & De Jaeger (2023) The value of electricity storage arbitrage on day-ahead markets across Europe. Energy Economics 123, 106721. https://doi.org/10.1016/j.eneco.2023.106721 【要確認: 巻を122から123に修正。精読ノート mercier2023.md は Energy Economics 123 (2023) 106721。旧表記122は doi-list.md と一致】
+- [B13] Mercier, Olivier & De Jaeger (2023) The value of electricity storage arbitrage on day-ahead markets across Europe. Energy Economics 123, 106721. https://doi.org/10.1016/j.eneco.2023.106721
 - [C1] Fuke & Ohashi (2025) Seasonal variation in the impact of solar power generation on electricity price level and variability. J. Commodity Markets 40, 100521 ※最重要（大橋教授共著）. https://doi.org/10.1016/j.jcomm.2025.100521
 - [C2] Sakaguchi & Fujii (2021) The Impact of Variable Renewable Energy Penetration on Wholesale Electricity Prices in Japan Between FY 2016 and 2019. Frontiers in Sustainability 2:770045. https://doi.org/10.3389/frsus.2021.770045
 - [C3] Kanamura & Bunn (2022) Market making and electricity price formation in Japan. Energy Economics 107, 105765. https://doi.org/10.1016/j.eneco.2021.105765
@@ -53,7 +53,7 @@
 - St. Martin, C. M., Lundquist, J. K., & Handschy, M. A. (2015). Variability of interconnected wind plants: correlation length and its dependence on variability time scale. Environmental Research Letters 10(4), 044004. https://doi.org/10.1088/1748-9326/10/4/044004
 - Handschy, M. A., Rose, S., & Apt, J. (2017). Is it always windy somewhere? Occurrence of low-wind-power events over large areas. Renewable Energy 101, 1124–1130. https://doi.org/10.1016/j.renene.2016.10.004（arXiv:1607.06702）
 - Malvaldi, A., Weiss, S., Infield, D., Browell, J., Leahy, P., & Foley, A. M. (2017). A spatial and temporal correlation analysis of aggregate wind power in an ideally interconnected Europe. Wind Energy 20(8), 1315–1329. https://doi.org/10.1002/we.2095
-- Ohlendorf, N., & Schill, W.-P. (2020). Frequency and duration of low-wind-power events in Germany. Environmental Research Letters 15(8), 084045. https://doi.org/10.1088/1748-9326/ab91e9 【要確認: 号(8)はPDFに印字がなく論文番号からの推定（精読ノート ohlendorf-schill2020.md）。doi-list.md は号なし】
+- Ohlendorf, N., & Schill, W.-P. (2020). Frequency and duration of low-wind-power events in Germany. Environmental Research Letters 15(8), 084045. https://doi.org/10.1088/1748-9326/ab91e9
 - Fertig, E., Apt, J., Jaramillo, P., & Katzenstein, W. (2012). The effect of long-distance interconnection on wind power variability. Environmental Research Letters 7(3), 034017. https://doi.org/10.1088/1748-9326/7/3/034017
 
 - Tselika, K. (2022). The impact of variable renewables on the distribution of hourly electricity prices and their variability: A panel approach. Energy Economics 113, 106194. https://doi.org/10.1016/j.eneco.2022.106194
@@ -65,13 +65,13 @@
 - Loukatou, A., Johnson, P., Howell, S., & Duck, P. (2021). Optimal valuation of wind energy projects co-located with battery storage. Applied Energy 283, 116247. https://doi.org/10.1016/j.apenergy.2020.116247
 - Shen, D., Ilic, M., & Parsons, J. (2026). Peak-load pricing and investment cost recovery with duration-limited storage. arXiv:2603.13678
 - Oeltz, D., & Pfingsten, T. (2025). Rolling intrinsic for battery valuation in day-ahead and intraday markets. arXiv:2510.01956
-- 電気学会論文誌B 146(2) (2026). 蓄電池事業者が参加する同時市場における市場参加者の損益評価手法. https://doi.org/10.1541/ieejpes.146.125 ※著者名・DOI要確認 【頁未確認】
+- 清水龍一・亀井友暉・益田泰輔 (2026). 蓄電池事業者が参加する同時市場における市場参加者の損益評価手法. 電気学会論文誌B 146(2), 125–138. https://doi.org/10.1541/ieejpes.146.125
 
-### 追加（第10章、2026-09-30、原典未確認）
+### 追加（第10章、2026-09-30。書誌は 2026-10-04 に Crossref・METI で確認）
 
-- De Vos, K. (2015). Negative wholesale electricity prices in the German, French and Belgian day-ahead, intra-day and real-time markets. The Electricity Journal 28(4), 36–50. https://doi.org/10.1016/j.tej.2015.04.001 【原典未確認】
-- Weitzman, M. L. (1974). Prices vs. quantities. The Review of Economic Studies 41(4), 477–491. https://doi.org/10.2307/2296698 【原典未確認】
-- 資源エネルギー庁 (2026). 再生可能エネルギー出力制御の長期見通し等について（次世代電力系統ワーキンググループ 資料1-1、2026年8月6日）【原典未確認：出力制御率の2035年度見通し・優先給電ルール見直しの試算】
+- De Vos, K. (2015). Negative wholesale electricity prices in the German, French and Belgian day-ahead, intra-day and real-time markets. The Electricity Journal 28(4), 36–50. https://doi.org/10.1016/j.tej.2015.04.001 ※本文は要旨で確認
+- Weitzman, M. L. (1974). Prices vs. quantities. The Review of Economic Studies 41(4), 477–491. https://doi.org/10.2307/2296698
+- 資源エネルギー庁 (2026). 再生可能エネルギー出力制御の長期見通し等について. 総合資源エネルギー調査会 次世代電力系統ワーキンググループ 第12回 資料1-1（2026年8月6日）. https://www.meti.go.jp/shingikai/enecho/denryoku_gas/saisei_kano/smart_power_grid_wg/pdf/012_01_01.pdf
 
 ## C. 制度・データ資料（一次資料）
 
@@ -105,3 +105,4 @@
   - 要確認マーカーは4件（B1・B3: 精読ノートが WP 版基準、B13 Mercier: 巻の不一致、Ohlendorf & Schill: 号(8)が推定）。
   - 頁を持たない項目（B2 の WP、Shen・Oeltz の arXiv プレプリント）には頁未確認マーカーを付けていない。
   - 精読ノートが「PDF に明示なし」「推定」と注記しているが doi-list.md と一致するため据え置き: C7 Li et al. (2024) と C9 Li et al. (2025) の DOI、Sensfuß et al. (2008) の号(8)。Loukatou et al. (2021) の「※巻・番号要確認」は、精読ノート・doi-list.md とも Applied Energy 283, 116247 で一致したため解消済み（注記は残置）。
+- 2026-10-04 追補: B1 の頁 891–927・B3 の頁 1–16 を Crossref で補完。B13 の巻123と Ohlendorf の号(8) を Crossref で確定し、要確認マーカーを解除。電気学会論文誌B の著者（清水龍一・亀井友暉・益田泰輔、名城大学）と頁 125–138 を J-STAGE で特定し、本文の引用を「清水ほか 2026」に変更（02・11章）。第10章追加分（De Vos・Weitzman・エネ庁）の書誌を確認し、本文を3箇所訂正（10.2 負価格の深さの根拠、10.3 出力制御率37%の前提、10.5 優先給電ルール見直しの数値の読み方と Weitzman の条件）。残: LBNL Hybrid Power Plants (2024) の書誌、Fertig et al. (2012) の要否、副題欠落の疑い5件。

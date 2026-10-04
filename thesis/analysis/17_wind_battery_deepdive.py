@@ -25,7 +25,7 @@ for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
         font_manager.fontManager.addfont(f)
     except Exception:
         pass
-plt.rcParams["font.family"] = "Noto Sans CJK JP"
+plt.rcParams["font.family"] = ["Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "Meiryo"]
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PROC = os.path.join(ROOT, "data", "processed")
@@ -46,9 +46,9 @@ p["wind_pre"] = p["wind"].fillna(0) + p["wind_curt"].fillna(0)
 cnt = p.groupby("day")["hour"].count()
 p = p[p["day"].isin(cnt[cnt == 24].index)]
 
-# 季節区分（2026-09-29 確定）: 9月は端境期として3季節から除外
+# 季節区分（2026-10-04 確定）: 夏=7-9月（9/29 版の端境=9月を夏に統合）
 SEASONS = [
-    ("需要期・夏（7-8月）", [7, 8]),
+    ("需要期・夏（7-9月）", [7, 8, 9]),
     ("需要期・冬（12-2月）", [12, 1, 2]),
     ("不需要期（3-6・10-11月）", [3, 4, 5, 6, 10, 11]),
 ]

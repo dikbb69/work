@@ -25,7 +25,7 @@ for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
         font_manager.fontManager.addfont(f)
     except Exception:
         pass
-plt.rcParams["font.family"] = "Noto Sans CJK JP"
+plt.rcParams["font.family"] = ["Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "Meiryo"]
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PROC = os.path.join(ROOT, "data", "processed")
@@ -53,9 +53,9 @@ daily["wind_gwh"] = p.groupby("day")["wind_pre"].sum() / 1000
 daily["solar_gwh"] = p.groupby("day")["solar_pre"].sum() / 1000
 daily["month"] = daily.index.month
 
-# 季節区分（2026-09-29 確定）: 9月は端境期として3季節から除外
+# 季節区分（2026-10-04 確定）: 夏=7-9月（9/29 版の端境=9月を夏に統合）
 SEASONS = [
-    ("需要期・夏（7-8月）", [7, 8]),
+    ("需要期・夏（7-9月）", [7, 8, 9]),
     ("需要期・冬（12-2月）", [12, 1, 2]),
     ("不需要期（3-6・10-11月）", [3, 4, 5, 6, 10, 11]),
 ]
@@ -95,7 +95,7 @@ for r, (res, xcol, rowlab) in enumerate([("風力", "wind_gwh", "風力の日次
 axes[0, 0].set_ylabel("風力\n（円/kWh）", fontsize=10.5, color=GRAY)
 axes[1, 0].set_ylabel("太陽光\n（円/kWh）", fontsize=10.5, color=GRAY)
 axes[0, 0].legend(fontsize=9.5, frameon=False, loc="upper right")
-fig.suptitle("風力は「水準」だけを下げ、スプレッド（形状）を変えない — 太陽光は不需要期にスプレッドを拡大する（FY2023-25）",
+fig.suptitle("風力は「水準」を下げるが、スプレッド（形状）を系統的には拡大しない — 太陽光は不需要期にスプレッドを拡大する（FY2023-25）",
              fontsize=13.5, fontweight="bold", y=1.0)
 fig.text(0.995, -0.015,
          "各季節で日次発電量（制御前）の五分位に日をグループ化し、群平均をプロット。TB4h＝上位4h平均−下位4h平均。データ: JEPX・北海道電力NW需給実績",

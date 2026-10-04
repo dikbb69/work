@@ -69,7 +69,7 @@ put_df(ws, pv2, r1 + 3, 1, "π_実現可能_裾補正(K)")
 line_chart(ws, "π_実現可能(K) シナリオ別", r0, r1, 1, list(range(2, 2 + len(pv.columns) - 1)), "H3", "円/kW-年")
 be = pd.read_csv(os.path.join(PROC, "pi_k_breakeven_theta.csv"))
 put_df(ws, be, r1 + 14, 1, "損益分岐の θ*（K=0）")
-sheets[name] = "追加(9/29): θ=1／FY2026上期／FY2022／泊 の π(K) と損益分岐θ*（表8.5・図8.4）"
+sheets[name] = "追加(9/29): θ=1／FY2026上期／FY2022／泊 の π(K) と損益分岐θ*（表8.5・図8.3）"
 
 # 3. 均衡面
 es = pd.read_csv(os.path.join(PROC, "equilibrium_surface.csv"))
@@ -84,7 +84,7 @@ for tomari in ("なし", "あり"):
     r0, r1 = put_df(ws, pv, r, 1, f"泊{tomari}")
     line_chart(ws, f"π(K; K_wind) 泊{tomari}", r0, r1, 1, list(range(2, 2 + len(pv.columns) - 1)), "I" + str(r), "円/kW-年")
     r = r1 + 3
-sheets[name] = "追加(9/29): 風力0.5〜3×の均衡面（表8.6・図8.3）"
+sheets[name] = "追加(9/29): 風力0.5〜3×の均衡面（表8.6・図8.4）"
 
 # 4. フロンティア
 fr = pd.read_csv(os.path.join(PROC, "breakeven_frontier.csv"))

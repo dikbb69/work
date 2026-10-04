@@ -8,7 +8,7 @@
   y: 日平均価格（水準）／ 日内標準偏差・TB4hスプレッド（変動性2種）
   FY固定効果が燃料価格等の年次水準シフトを吸収し、年度内変動で識別。HC3頑健標準誤差
   九州でも同一仕様を推定（Fuke & Ohashi の対象市場でのクロスチェック）
-  季節: 夏=7-8月、冬=12-2月、不需要期=3-6・10-11月（内部名「春秋」）、端境=9月（係数は非報告）
+  季節: 夏=7-9月、冬=12-2月、不需要期=3-6・10-11月（内部名「春秋」）
 
 出力: data/processed/vol_regression_results.csv ＋ 標準出力の係数表
 """
@@ -21,11 +21,10 @@ import statsmodels.api as sm
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PROC = os.path.join(ROOT, "data", "processed")
 
-# 季節区分（2026-09-29 確定）: 夏=7-8月、冬=12-2月、不需要期（内部名 "春秋"）=3-6・10-11月、
-# 端境=9月（推定には含めるが係数は報告しない）
-SEASON_MAP = {7: "夏", 8: "夏", 12: "冬", 1: "冬", 2: "冬",
-              3: "春秋", 4: "春秋", 5: "春秋", 6: "春秋", 10: "春秋", 11: "春秋",
-              9: "端境"}
+# 季節区分（2026-10-04 確定。9/29 版の端境=9月を夏に統合）: 夏=7-9月、冬=12-2月、
+# 不需要期（内部名 "春秋"）=3-6・10-11月
+SEASON_MAP = {7: "夏", 8: "夏", 9: "夏", 12: "冬", 1: "冬", 2: "冬",
+              3: "春秋", 4: "春秋", 5: "春秋", 6: "春秋", 10: "春秋", 11: "春秋"}
 MAIN_SEASONS = ["夏", "冬", "春秋"]
 # 頑健性: 環境変数 EXCLUDE_FY="2021,2022" で燃料危機期を除外した推定（出力名に _ex2021-22 を付す）
 EXCLUDE_FY = [int(v) for v in os.environ.get("EXCLUDE_FY", "").split(",") if v.strip()]
@@ -60,7 +59,7 @@ def build_daily(area, pcol):
 
 def run_reg(d, ycol):
     X = pd.DataFrame(index=d.index)
-    for s in MAIN_SEASONS + ["端境"]:
+    for s in MAIN_SEASONS:
         m = (d["season"] == s).astype(float)
         X[f"solar_{s}"] = d["solar"] * m
         X[f"wind_{s}"] = d["wind"] * m

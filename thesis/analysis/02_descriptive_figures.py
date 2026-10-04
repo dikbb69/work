@@ -17,7 +17,7 @@ for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
         font_manager.fontManager.addfont(f)
     except Exception:
         pass
-plt.rcParams["font.family"] = "Noto Sans CJK JP"
+plt.rcParams["font.family"] = ["Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "Meiryo"]
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
 PROC = os.path.join(ROOT, "data", "processed")

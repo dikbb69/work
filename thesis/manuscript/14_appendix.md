@@ -20,7 +20,7 @@
 | 項目 | 定義 |
 |---|---|
 | 年度（FY） | 4月〜翌3月 |
-| 報告用の季節区分 | 夏＝7〜8月、冬＝12〜2月、不需要期＝3〜6月・10〜11月、端境期＝9月（推定に含め、係数は非報告） |
+| 報告用の季節区分 | 夏＝7〜9月、冬＝12〜2月、不需要期＝3〜6月・10〜11月 |
 | 価格過程の季節 | 気象学的4区分（12〜2月、3〜5月、6〜8月、9〜11月）。報告用区分とは別 |
 | 制御前出力 | 発電実績＋出力制御量 |
 | 純需要 $net$ | 需要 − 制御前太陽光 − 制御前風力 − 原子力 |
@@ -43,14 +43,14 @@
 | 図7.1 年間裁定粗利の時系列（PF・a・b・c） | `annual_backtest_series.png` | `19_hokkaido_extra_figs.py` |
 | 図8.1 風力導入量スイープ | `kwind_sweep.png` | `18_kwind_sweep.py` |
 | 図8.2 π(K)曲線（基本仕様） | `pi_k_curve.png` | `23_pi_k_curve.py` |
-| 図8.3 π(K; K_wind) | `equilibrium_surface.png` | `28_equilibrium_surface.py` |
-| 図8.4 π(K)の価格水準感応度（水準係数付き） | `pi_k_curve_v2.png` | `27_pi_k_curve_v2.py` |
+| 図8.3 π(K)の価格水準感応度（水準係数付き） | `pi_k_curve_v2.png` | `27_pi_k_curve_v2.py` |
+| 図8.4 π(K; K_wind) | `equilibrium_surface.png` | `28_equilibrium_surface.py` |
 | 図9.1 損益分岐面 | `breakeven_frontier.png` | `28_equilibrium_surface.py` |
 | 図10.1 下限価格シナリオ別の π(K) | `negative_price_pi_k.png` | `32_negative_price.py` |
 | 補助図 帯域分解の比較（北海道風力 vs 九州太陽光） | `band_comparison.png`、`band_comparison_hokkaido.png` | `21_band_comparison.py` |
 | 補助図 併設の根拠 | `btm_case.png` | `20_btm_case.py` |
 
-表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.2 `price_level_theta.csv`、表8.4 `pi_k_curve.csv`、表8.5 `pi_k_curve_v2.csv`、表8.6 `equilibrium_surface.csv`、表8.7 `capacity_price_of_k.csv`、表8.8 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`、表10.1 `negative_price_scenarios.csv`・`negative_price_breakeven.csv`、表10.2 `negative_price_transfer.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
+表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.4 `spatial_dispersion.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.2 `price_level_theta.csv`、表8.4 `pi_k_curve.csv`、表8.5 `pi_k_curve_v2.csv`、表8.6 `equilibrium_surface.csv`、表8.7 `capacity_price_of_k.csv`、表8.8 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`、表10.1 `negative_price_scenarios.csv`・`negative_price_breakeven.csv`、表10.2 `negative_price_transfer.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
 
 ## 付録D 解析スクリプト一覧（`analysis/`）
 

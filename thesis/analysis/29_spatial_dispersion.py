@@ -8,7 +8,7 @@
   2. 合成系列 x_λ = x + (λ−1)(b_<6h + b_6–24h) を 0〜設備容量でクリップし、日次エネルギーが実績と一致するよう日ごとに再スケール
      （λ=1 が実フリート。λ は「日内帯域の振幅倍率」。分散シェアは λ² で効く）
   3. net_λ = 需要 − 太陽光 − x_λ − 原子力 を供給曲線 v2（仕様A, θ=1）に通し、床時間・TB4h・p95・PF価値を比較
-  4. 日次回帰: 日内TB4h（モデル価格）を風力（合成, GWh/日）×季節（夏/冬/不需要期/端境）＋太陽光×季節＋需要＋FY・季節ダミーに回帰し、
+  4. 日次回帰: 日内TB4h（モデル価格）を風力（合成, GWh/日）×季節（夏/冬/不需要期）＋太陽光×季節＋需要＋FY・季節ダミーに回帰し、
      風力→日内形状の係数が λ でどう動くか（分散立地が「中立性」を作るか）を見る
 出力: data/processed/spatial_dispersion.csv・figures/hokkaido/spatial_dispersion.png
 """
@@ -26,7 +26,7 @@ for f in ["/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
         font_manager.fontManager.addfont(f)
     except Exception:
         pass
-plt.rcParams["font.family"] = "Noto Sans CJK JP"
+plt.rcParams["font.family"] = ["Noto Sans CJK JP", "Hiragino Sans", "Yu Gothic", "Meiryo"]
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, "..")
@@ -41,7 +41,7 @@ predict_A = ns["predict_A"]
 metrics = ns["metrics"]
 ETA = 0.85
 LAMBDAS = [1.0, 1.5, 2.0, 3.0, 4.0]
-SEASON_MAP = {7: "夏", 8: "夏", 12: "冬", 1: "冬", 2: "冬", 3: "春秋", 4: "春秋", 5: "春秋", 6: "春秋", 10: "春秋", 11: "春秋", 9: "端境"}
+SEASON_MAP = {7: "夏", 8: "夏", 9: "夏", 12: "冬", 1: "冬", 2: "冬", 3: "春秋", 4: "春秋", 5: "春秋", 6: "春秋", 10: "春秋", 11: "春秋"}  # 2026-10-04: 9月は夏
 
 # 連続時系列（欠測時間はゼロ埋めではなく補間）で帯域分解
 ts_full = pd.date_range(est["ts"].min(), est["ts"].max(), freq="h")
@@ -88,7 +88,7 @@ def daily_reg(df, pcol, wcol):
     d["season"] = d.index.month.map(SEASON_MAP)
     d = d.dropna()
     X = pd.DataFrame(index=d.index)
-    for s in ["夏", "冬", "春秋", "端境"]:
+    for s in ["夏", "冬", "春秋"]:
         m = (d["season"] == s).astype(float)
         X[f"wind_{s}"] = d["wind"] * m
         X[f"solar_{s}"] = d["solar"] * m

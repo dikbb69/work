@@ -108,10 +108,10 @@ for ax in (ax1, ax2):
     for sp in ["top", "right"]:
         ax.spines[sp].set_visible(False)
     ax.tick_params(colors=GRAY, labelsize=9.5)
-fig.suptitle("風力の出力制御は「立ち上がり」段階 — しかも1割強はエリア価格が高いのに抑制されている（ローカル制約）",
+fig.suptitle("風力の出力制御は「立ち上がり」段階 — しかも1割強はエリア価格が5円超でも抑制されている",
              fontsize=13, fontweight="bold", y=1.02)
 fig.text(0.995, -0.06,
-         "抑制＝需給実績の風力抑制量>0の時間。5円超での抑制はエリア余剰でなくローカル系統制約・下げ代制約を示唆＝エリア価格に映らないBTM固有の価値",
+         "抑制＝需給実績の風力抑制量>0の時間。5円超での抑制はローカル系統制約・下げ代制約・制御の配分規則を示唆＝エリア価格に映らない併設蓄電池の価値",
          ha="right", fontsize=8, color=GRAY)
 fig.tight_layout()
 fig.savefig(os.path.join(FIGDIR, "btm_case.png"), dpi=160, bbox_inches="tight")

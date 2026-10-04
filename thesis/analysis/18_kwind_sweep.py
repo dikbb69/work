@@ -83,7 +83,7 @@ for ax, ttl, yl in [(ax1, "蓄電池スポット価値（PF・仕様B）", "円/
 ax1.annotate("現状", (K_WIND_NOW, ax1.get_ylim()[0]), xytext=(5, 8),
              textcoords="offset points", fontsize=9, color=GRAY)
 ax1.legend(fontsize=10, frameon=False, loc="lower right")
-fig.suptitle("風力導入量×蓄電池価値（FY2023-25の気象・需要パス、価格過程v1・部分均衡）",
+fig.suptitle("風力導入量×蓄電池価値（FY2023-25の気象・需要パス、基本仕様の価格過程・部分均衡）",
              fontsize=13.5, fontweight="bold", y=1.02)
 fig.text(0.995, -0.04,
          "K_windはcf過程を保って一律スケール。蓄電池フリートの応答・p_system変化・供給側の内生反応は未反映（部分均衡）。ロジットの外挿範囲を含む",

@@ -150,7 +150,7 @@ for lab, v, ls in [("参入に必要な水準（標準: 2.20万円）", NEED["�
     ax.text(2, v + 300, lab, ha="left", fontsize=9, color="#666666")
 ax.set_xlabel("蓄電池フリート容量 K（万kW、4h）", fontsize=11, color="#595959")
 ax.set_ylabel("限界参入者の実現可能スポット収益 π(K)（円/kW-年）", fontsize=11, color="#595959")
-ax.set_title("π(K)曲線の価格水準感応度（供給曲線v2）— FY2026上期・FY2022の水準でも純市場の K*=0",
+ax.set_title("π(K)曲線の価格水準感応度（水準係数付き価格過程）— FY2026上期・FY2022の水準でもマーチャントの K*=0",
              fontsize=12.5, fontweight="bold", pad=12)
 ax.grid(axis="y", color="#DDDDDD", lw=0.6)
 for sp_ in ["top", "right"]:
@@ -158,7 +158,7 @@ for sp_ in ["top", "right"]:
 ax.tick_params(colors="#595959")
 ax.legend(fontsize=9.5, frameon=False, loc="center right")
 fig.text(0.99, 0.005,
-         f"実線=モデル値、点線=裾補正（×{TAIL:.2f}、FY2023-25の実績/モデルPF比）。仕様A・FY2023-25パス・capture0.81・充電従量1.2円/kWh控除・増分貪欲ディスパッチ（10万kW刻み）",
+         f"実線=モデル値、点線=裾の補正（×{TAIL:.2f}、FY2023-25の実績/モデルPF比）。決定論仕様・FY2023-25パス・capture0.81・充電従量1.2円/kWh控除・増分貪欲ディスパッチ（10万kW刻み）",
          ha="right", fontsize=7.5, color="#595959")
 fig.tight_layout()
 fig.savefig(os.path.join(FIGDIR, "pi_k_curve_v2.png"), dpi=160, bbox_inches="tight")

@@ -139,7 +139,7 @@ for lab, v, ls in [("参入に必要な水準（標準: 2.20万円）", CASES["�
     ax.text(298, v + 300, lab, ha="right", fontsize=9, color="#666666")
 ax.set_xlabel("蓄電池フリート容量 K（万kW、4h）", fontsize=11, color="#595959")
 ax.set_ylabel("限界参入者の実現可能スポット収益 π(K)（円/kW-年）", fontsize=11, color="#595959")
-ax.set_title("π(K)曲線と参入条件 — 現行構造では純市場の均衡容量 K*=0（政策層が参入を駆動）",
+ax.set_title("π(K)曲線と参入条件 — 現行構造ではマーチャントの均衡容量 K*=0（参入は市場外収入に依存する容量が駆動）",
              fontsize=13, fontweight="bold", pad=12)
 ax.grid(axis="y", color="#DDDDDD", lw=0.6)
 for sp_ in ["top", "right"]:
@@ -147,7 +147,7 @@ for sp_ in ["top", "right"]:
 ax.tick_params(colors="#595959")
 ax.legend(fontsize=10, frameon=False, loc="center right")
 fig.text(0.99, 0.005,
-         "価格過程v1仕様A・FY2023-25パス・capture0.81・充電従量1.2円/kWh控除。参入必要水準=c_req−容量市場収入。増分貪欲ディスパッチ（10万kW刻み）・部分均衡",
+         "基本仕様の価格過程（決定論仕様）・FY2023-25パス・capture0.81・充電従量1.2円/kWh控除。参入必要水準=c_req−容量市場収入。増分貪欲ディスパッチ（10万kW刻み）・部分均衡",
          ha="right", fontsize=7.5, color="#595959")
 fig.tight_layout()
 fig.savefig(os.path.join(FIGDIR, "pi_k_curve.png"), dpi=160, bbox_inches="tight")

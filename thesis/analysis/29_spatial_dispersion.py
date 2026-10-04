@@ -149,7 +149,7 @@ ax.set_title("(b) 風力の日次発電量が日内スプレッドに与える�
 ax.legend(fontsize=9, frameon=False); ax.tick_params(colors=GRAY)
 for sp_ in ("top", "right"):
     ax.spines[sp_].set_visible(False)
-fig.suptitle("空間分散シミュレーション — 日内帯域を増幅した集中立地の反実仮想（供給曲線v2・FY2023-25パス）", fontsize=12.5, fontweight="bold", y=1.02)
+fig.suptitle("空間分散シミュレーション — 日内帯域を増幅した集中立地の反実仮想（水準係数付き価格過程・FY2023-25パス）", fontsize=12.5, fontweight="bold", y=1.02)
 fig.text(0.99, -0.03, "λ: 実フリート風力の <6h・6–24h 帯域の振幅倍率（日次エネルギー保存・0〜設備容量でクリップ）。回帰はFY・季節ダミー、太陽光×季節、需要をコントロール（HC3）", ha="right", fontsize=7.5, color=GRAY)
 fig.tight_layout()
 fig.savefig(os.path.join(FIGDIR, "spatial_dispersion.png"), dpi=160, bbox_inches="tight")

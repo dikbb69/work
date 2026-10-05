@@ -8,46 +8,50 @@
   "title": "修士論文 進捗報告 2026-10-05",
   "order": [
     "cover",
-    "agenda",
     "summary",
-    "p1",
-    "bg-boom",
-    "bg-motive",
-    "bg-rq",
-    "bg-logic",
-    "p2",
-    "wh-history",
-    "wh-pilot",
+    "c-bg",
+    "c-rq",
     "wh-logic",
-    "wh-compare",
-    "wh-kyushu",
-    "wh-objections",
-    "p3",
-    "st-structure",
+    "c-kyushu",
     "st-chapters",
     "st-literature",
     "dm-flow",
     "dm-scope",
+    "c-method",
+    "c-curves",
+    "em-regression",
+    "c-robust",
+    "c-value",
+    "c-pik",
+    "eq-gap",
+    "eq-frontier",
+    "eq-floor",
+    "c-impl",
+    "c-progress",
+    "pr-discuss",
+    "ap",
+    "bg-boom",
+    "bg-motive",
+    "bg-rq",
+    "bg-logic",
+    "wh-history",
+    "wh-pilot",
+    "wh-compare",
+    "wh-kyushu",
+    "wh-objections",
+    "st-structure",
     "dm-data",
     "dm-methods-b",
     "dm-pik-steps",
-    "p4",
     "em-curves",
     "em-bands",
     "em-quintile",
-    "em-regression",
     "em-spatial",
     "em-robust",
     "em-value",
     "em-tercile",
-    "p5",
-    "eq-pik",
     "eq-theta",
-    "eq-gap",
     "eq-colocated",
-    "eq-frontier",
-    "eq-floor",
-    "p6",
     "im-investor",
     "im-policy",
     "im-floor",
@@ -55,8 +59,6 @@
     "im-limits",
     "pr-progress",
     "pr-schedule",
-    "pr-discuss",
-    "ap",
     "ap-novelty",
     "ap-fo",
     "ap-dataquality",
@@ -70,35 +72,31 @@
   ],
   "sections": {
     "s0": {
-      "description": "表紙・本日の内容・結論の先取り",
+      "description": "結論の先取り・背景と動機・問い",
       "start": "cover"
     },
     "s1": {
-      "description": "研究の背景・動機・問い",
-      "start": "p1"
+      "description": "なぜ九州ではなく北海道か",
+      "start": "wh-logic"
     },
     "s2": {
-      "description": "なぜ九州ではなく北海道か",
-      "start": "p2"
+      "description": "論文の構成・データ・方法",
+      "start": "st-chapters"
     },
     "s3": {
-      "description": "論文の全体構成・データ・方法",
-      "start": "p3"
+      "description": "実証：価格形成と蓄電池の価値（第6・7章）",
+      "start": "c-curves"
     },
     "s4": {
-      "description": "実証：価格形成と蓄電池の価値（第6・7章）",
-      "start": "p4"
+      "description": "自由参入均衡・乖離・価格の下限（第8〜10章）",
+      "start": "c-pik"
     },
     "s5": {
-      "description": "自由参入均衡・乖離・価格の下限（第8〜10章）",
-      "start": "p5"
+      "description": "示唆・進捗・相談",
+      "start": "c-impl"
     },
     "s6": {
-      "description": "示唆・進捗・今後",
-      "start": "p6"
-    },
-    "s7": {
-      "description": "付録（予備スライド）",
+      "description": "付録：詳細スライドと質疑用の予備",
       "start": "ap"
     }
   },

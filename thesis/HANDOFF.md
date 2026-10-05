@@ -199,3 +199,4 @@ apt-get install -y fonts-noto-cjk && rm -rf ~/.cache/matplotlib
 
 第10章の未確認事項: De Vos (2015)・Weitzman (1974)・エネ庁 2026-08-06 資料は原典未確認（`library-check-list.md` E18〜E20）。負価格の深さ c は外生（0・5・10円）。
 - 10/5 追記（ゼミ直前）: デッキ v5 で p.24「π(K) の計算手順」と付録 p.52「F付録 p.51「F&O の要点」O の要点」を追加、p.27 に冬の係数の機構を追記（計60枚）。想定問答 D・E（F&O／教授の関心、短周期変動の簡易診断）を QA_20261005.md に追加。教授の CEMA 2024 コメント（供給曲線の時間依存性・気温と需要）は `~/Downloads/240616 (Ohashi) Comments.pdf`。
+- 10/5 v6: ユーザー指示で本編を22枚に圧縮（統合スライド c-bg/c-rq/c-kyushu/c-method/c-curves/c-robust/c-value/c-pik/c-impl/c-progress を新設、区切りスライドと agenda・eq-pik を削除、外した詳細は付録 p.23〜62 に温存）。「二つの経路（価格経路／固定収入経路）」の再構成案は提案のみ（ユーザー: 一旦不要）。

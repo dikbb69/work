@@ -1,0 +1,34 @@
+<section id="c-robust" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">第6章 実証I ｜ 頑健性</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">頑健性：先行研究と逆に見えるのは時間スケールの違い</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">Fuke &amp; Ohashi の指標を再現したうえで同じデータで日内指標に替えると符号が反転。燃料危機期を除いても、風車を1か所に集めても結論は変わらない</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="flex:1;display:flex;gap:24px">
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 26px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">① 先行研究の再現と指標の置換（6.5）</h3>
+<p style="font-size:24px;line-height:1.45">九州 FY2016〜19（n=1,434）で F&amp;O の仕様を再現：太陽光・春の IQR 係数 <b>−0.259**</b> vs 原典 −0.228*。同じ標本で被説明変数を日内 TB4h に替えると <b>+0.284***</b></p>
+<p style="font-size:24px;line-height:1.45">九州 FY2023〜25：日間 IQR は全季節で負（−0.42〜−0.74）、日内 TB4h は全季節で正（+0.77〜+2.15）。日間を安定させながら日内を広げる</p>
+</div>
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 26px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">② 燃料危機期を除く（表6.8）</h3>
+<p style="font-size:24px;line-height:1.45">FY2021〜22 を除いても、北海道の太陽光・不需要期の TB4h は +0.233*** → <b>+0.314***</b> とむしろ強まり、風力は冬 −0.388***、夏・不需要期は非有意で、どの季節も広げない</p>
+<p style="font-size:24px;line-height:1.45">冬の負の係数は「山（夕方）を谷より多く削る」効果。昼が谷に転じた FY2023〜25 では太陽光 +0.05（非有意）、風力 −0.13**</p>
+</div>
+<div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 26px">
+<h3 style="font-size:28px;font-weight:700;color:#14213D">③ 空間分散の反実仮想（6.4）</h3>
+<p style="font-size:24px;line-height:1.45">風力の日内帯域の振幅を上限の4倍にして日内シェアを 10.8%→41.4% に上げても、TB4h 中央値 <b>+4%</b>、完全予見粗利 <b>+7%</b>、風力→TB4h 係数の変化は 0.02〜0.03</p>
+<p style="font-size:24px;line-height:1.45">分散立地は平行シフトを滑らかにする補助的な機構。本質は風力に日内サイクルがないこと</p>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.45;color:#14213D;background:#E3EEF7;border-radius:12px;padding:14px 26px">「再エネは価格ボラティリティを高めるか」は、どの時間スケールの変動かを指定しないと答えが定まらない。蓄電池の裁定原資は日内形状なので、第7章以降は TB4h を主指標にする</p>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 6.4・6.5（表6.4〜6.8）／Fuke &amp; Ohashi (2025) 表9／St. Martin et al. (2015)</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">14</p>
+<aside>頑健性を三つにまとめます。一つ目、九州を分析した Fuke and Ohashi の2025年の論文は「太陽光は価格の変動性を下げる」と報告しており、一見逆に見えます。彼らの仕様を同じ九州・同じ期間で再現すると、太陽光の春の係数は −0.259 で原典の −0.228 とほぼ一致します。そのうえで、同じ標本・同じ説明変数のまま、被説明変数を日内の TB4h に替えると +0.284 と符号が反転します。彼らの IQR は昼間平均価格が日をまたいでどれだけ散らばるかという日間の変動、TB4h は1日の中の高い4時間と安い4時間の差という日内の形状で、同じデータの上で同時に成り立つ別の量です。
+
+二つ目、燃料価格が高騰した FY2021〜22 を除いても、太陽光が不需要期に値幅を広げる係数はむしろ強まり、風力はどの季節も広げません。冬に太陽光も風力も有意に縮めているのは、夕方の山を谷より多く削るためで、昼が谷に転じた直近3年では太陽光の係数はゼロ近傍です。
+
+三つ目、風車が1か所に集まっていたら違うのではという反論に対し、日内の揺れの振幅を4倍にしても TB4h は4%しか増えません。本質は風力に決まった日内サイクルがないことです。結論として、通説は時間スケールを指定しないと判定できず、蓄電池の原資は日内の形状なので、以降は TB4h を主指標にします。</aside>
+</section>

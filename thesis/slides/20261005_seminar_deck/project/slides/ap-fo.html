@@ -1,0 +1,44 @@
+<section id="ap-fo" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">付録 ｜ 先行研究</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">（予備）Fuke &amp; Ohashi (2025) の要点と本研究の接続</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">九州の太陽光が価格の水準と日間の変動性に与えた効果を分位点回帰で示した研究。本研究は同じ仕様を再現したうえで、時間値で日内の形状へ延ばす</p>
+</div>
+<div style="flex:1;display:flex;gap:36px">
+<table style="font-size:24px;width:1080px;line-height:1.3">
+<tr style="background:#14213D">
+<th style="width:19%;color:#F3F1EA;text-align:left;padding:5px 12px">項目</th>
+<th style="width:46%;color:#F3F1EA;text-align:left;padding:5px 12px">Fuke &amp; Ohashi (2025, J. Commodity Markets)</th>
+<th style="width:35%;color:#F3F1EA;text-align:left;padding:5px 12px">本研究</th>
+</tr>
+<tr style="background:#FDFDFB"><td style="padding:5px 12px"><b>市場・期間</b></td><td style="padding:5px 12px">九州（太陽光シェア全国最大）、FY2016〜19 の日次</td><td style="padding:5px 12px">北海道 FY2016〜25（九州は再現と対照）</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:5px 12px"><b>被説明変数</b></td><td style="padding:5px 12px">PV time 日次価格＝太陽光が発電している昼間時間の時間値の単純平均</td><td style="padding:5px 12px">日平均価格・TB4h・日内SD（時間値から）</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:5px 12px"><b>手法</b></td><td style="padding:5px 12px">分位点回帰 τ=0.1〜0.9。季節×需要・太陽光・原子力、7日ラグ価格、休日・バイオマスダミー。変動性＝β₀.₉−β₀.₁（IQR）をブートストラップで検定</td><td style="padding:5px 12px">OLS（年度・季節固定効果、HC3）＋打ち切り分位点回帰（6.3）</td></tr>
+<tr style="background:#E3EEF7"><td style="padding:5px 12px"><b>変動性の意味</b></td><td style="padding:5px 12px"><b>日間</b>：昼間平均価格が日をまたいでどれだけ散らばるか</td><td style="padding:5px 12px"><b>日内</b>：1日の高い4時間と安い4時間の差</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:5px 12px"><b>主結果</b></td><td style="padding:5px 12px">MOE は全季節、冬が最強、高分位ほど大きい。太陽光は春・夏に IQR を縮小、秋・冬は非有意。機構＝需要と太陽光の相関が夏だけ正（+0.45）</td><td style="padding:5px 12px">太陽光は不需要期に TB4h を拡大。風力は水準を下げ、TB4h を広げない</td></tr>
+<tr style="background:#F8E9DF"><td style="padding:5px 12px"><b>明記された限界</b></td><td style="padding:5px 12px">日次集計は日内の価格変動を捨てる → 時間値データが今後の課題（§6）</td><td style="padding:5px 12px">まさにこの空白を埋める</td></tr>
+</table>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:4px;padding:12px 24px">
+<p style="font-size:26px;font-weight:700;color:#14213D">再現（表6.5、九州 FY2016〜19）</p>
+<p style="font-size:24px;line-height:1.45">太陽光・春の IQR 係数 −0.259** vs 原典 −0.228*、需要・夏 +0.330** vs +0.325**。同一サンプルで TB4h に替えると春 +0.284***（符号が反転）</p>
+</div>
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:4px;padding:12px 24px">
+<p style="font-size:26px;font-weight:700;color:#14213D">需要と太陽光の相関（脚注9の北海道版）</p>
+<p style="font-size:24px;line-height:1.45">北海道 FY2023〜25：冬 −0.42、春 −0.16、夏 +0.09、秋 −0.55（F&amp;O の季節区分）。九州の「夏に正」の機構は北海道にはなく、冬・秋は負</p>
+</div>
+<p style="font-size:24px;line-height:1.45;color:#2B3445;background:#E3EEF7;border-radius:12px;padding:12px 22px">対比の仕方：「中央部 vs 裾」ではなく「時間スケール（日間 vs 日内）」。両者は同じデータ・同じ説明変数の上で同時に成立する別の量</p>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: Fuke &amp; Ohashi (2025) 表7・表9・脚注9・§6／本論文 2.3・5.2.6・6.5（表6.5・6.6）・11.2／相関は北海道パネルの日次集計（10/5 計算、原稿未掲載）</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">52</p>
+<aside>予備のスライドです。最も近い先行研究である Fuke and Ohashi（2025）の要点と、本研究との接続をまとめています。
+
+まず彼らの研究です。対象は太陽光のシェアが全国で最も大きい九州で、2016年度から2019年度の日次データです。被説明変数が特徴的で、太陽光が発電している昼間の時間帯の時間値価格を単純平均した「PV time 日次価格」を使います。夜間を含む24時間平均だと日長の季節変化が混ざるためです。手法は分位点回帰で、価格分布の0.1分位から0.9分位まで、季節ごとに需要・太陽光・原子力の係数を推定します。変動性は、0.9分位の係数から0.1分位の係数を引いた IQR 係数で測り、ブートストラップで検定します。結果は、メリットオーダー効果、つまり太陽光が価格水準を下げる効果はすべての季節にあり、冬が最も強く、高い分位ほど大きい。そして太陽光は春と夏に変動性を縮小させるが、秋と冬には有意でない、です。機構として、需要と太陽光の相関が夏にだけ正、プラス0.45 になること、つまり日射が増えると冷房需要も増えて供給と需要が同じ方向に動き、価格が安定することを挙げています。
+
+本研究との接続は三つです。一つ目は再現です。彼らの仕様を九州の同じ期間で再現すると、太陽光の春の係数は −0.259 で原典の −0.228 とほぼ一致し、需要の夏も +0.330 対 +0.325 で一致しました。二つ目、同じサンプル・同じ説明変数で、被説明変数を日内の TB4h に替えると、春の太陽光の符号は正に反転します。彼らの IQR は昼間平均価格が日をまたいでどれだけ散らばるかという日間の変動、本研究の TB4h は1日の中の高い4時間と安い4時間の差という日内の形状で、別の量です。三つ目、彼ら自身が結論で、日次集計は日内の価格変動を捨てており時間値データの利用が今後の課題だと明記しています。本研究はまさにそこを埋めます。
+
+右下に、彼らの脚注9と同じ指標を北海道で計算したものを添えました。北海道では需要と太陽光の相関は冬にマイナス0.42、秋にマイナス0.55、夏はほぼゼロです。九州で変動性を安定させる「夏に正」の機構は北海道にはなく、暖房需要が支配する冬・秋では日射と需要が逆に動きます。質問が出たら、対比は「分布の中央と裾」ではなく「時間スケール」で答えます。
+
+根拠: Fuke &amp; Ohashi (2025) 表7・表9・脚注9・§6、原稿 2.3・5.2.6・6.5・11.2、精読ノート planning/thesis-jepx/literature/notes/fuke-ohashi2025.md</aside>
+</section>

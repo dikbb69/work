@@ -1,0 +1,66 @@
+<section id="dm-pik-steps" style="background:#F7F6F2;color:#2B3445;font-family:'Noto Sans JP', Arial, sans-serif;display:flex;flex-direction:column;gap:32px;padding:88px 120px 150px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">PART 3 ｜ データと方法</p>
+<h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">π(K) の計算手順：蓄電池を10万kWずつ入れて価格を更新する</h2>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">π(K)＝「K まで入った後の価格で、あと1kW が稼げる年間収益」。手順は4つ</p>
+</div>
+<div style="flex:1;display:flex;gap:36px">
+<div style="width:760px;display:flex;flex-direction:column;gap:12px">
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;gap:14px;align-items:flex-start;padding:14px 20px">
+<p style="width:36px;font-size:34px;font-weight:700;color:#C2511A;line-height:1.1">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:700;color:#14213D">価格を作る（価格過程モデル）</p><p style="font-size:24px;line-height:1.4">p＝g(純需要; 季節)＋μ(時刻)、下限0.01円。g は純需要が大きいほど高い供給曲線。FY2023〜25 の実績パス（1,096日）に当てる</p></div>
+</div>
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;gap:14px;align-items:flex-start;padding:14px 20px">
+<p style="width:36px;font-size:34px;font-weight:700;color:#C2511A;line-height:1.1">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:700;color:#14213D">10万kW を1枚入れる</p><p style="font-size:24px;line-height:1.4">その時点の価格で、各日の最安4時間に100MW 充電・最高4時間に85MW 放電（効率0.85）。粗利が正の日だけ稼働</p></div>
+</div>
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;gap:14px;align-items:flex-start;padding:14px 20px">
+<p style="width:36px;font-size:34px;font-weight:700;color:#C2511A;line-height:1.1">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:700;color:#14213D">価格を更新して次の1枚へ</p><p style="font-size:24px;line-height:1.4">充電した時間は純需要↑→価格↑、放電した時間は↓。価格差が少し潰れた新しい価格で次の10万kW が同じことをし、K まで繰り返す</p></div>
+</div>
+<div style="background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;gap:14px;align-items:flex-start;padding:14px 20px">
+<p style="width:36px;font-size:34px;font-weight:700;color:#C2511A;line-height:1.1">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px"><p style="font-size:26px;font-weight:700;color:#14213D">限界参入者を評価する</p><p style="font-size:24px;line-height:1.4">K 枚入った後の価格で、あと1kW（価格テイカー）が完全予見で得る年間粗利 π_PF(K)。π(K)＝π_PF×0.81−1,752円（充電の託送分）</p></div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<table style="font-size:24px;width:884px;line-height:1.3">
+<tr style="background:#14213D">
+<th style="width:34%;color:#F3F1EA;text-align:left;padding:6px 12px">K（万kW）</th>
+<th style="width:33%;color:#F3F1EA;text-align:right;padding:6px 12px">π_PF(K) 完全予見粗利</th>
+<th style="width:33%;color:#F3F1EA;text-align:right;padding:6px 12px">π(K) 実現可能収益</th>
+</tr>
+<tr style="background:#F8E9DF"><td style="padding:6px 12px"><b>0</b>（最初の1kW）</td><td style="text-align:right;padding:6px 12px"><b>8,266</b></td><td style="text-align:right;padding:6px 12px"><b>4,944</b></td></tr>
+<tr style="background:#FDFDFB"><td style="padding:6px 12px">25</td><td style="text-align:right;padding:6px 12px">5,172</td><td style="text-align:right;padding:6px 12px">2,437</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:6px 12px">50</td><td style="text-align:right;padding:6px 12px">3,490</td><td style="text-align:right;padding:6px 12px">1,075</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:6px 12px">100</td><td style="text-align:right;padding:6px 12px">986</td><td style="text-align:right;padding:6px 12px">−953</td></tr>
+<tr style="background:#FDFDFB"><td style="padding:6px 12px">150</td><td style="text-align:right;padding:6px 12px">193</td><td style="text-align:right;padding:6px 12px">−1,596</td></tr>
+</table>
+<p style="font-size:24px;color:#5B6575;line-height:1.4">円/kW-年、現状・FY2023〜25 平均（表8.4、π_PF は逆算）。K→大で π_PF→0、π→−1,752</p>
+<div style="background:#F8E9DF;border-radius:14px;display:flex;flex-direction:column;gap:6px;padding:16px 24px">
+<p style="font-size:26px;font-weight:700;color:#C2511A">均衡条件：π(K*)＋κP_cap＝c_req ⇔ π(K*)＝22,000円（標準）</p>
+<p style="font-size:24px;line-height:1.45">限界参入者の NPV＝0。容量市場の実効収入1.25万円を足しても必要収益3.45万円に届く K は無い（π(0)＝4,944 で既に不足）→ K*＝0。LTDA・補助金で建つ契約型は外生</p>
+<p style="font-size:24px;line-height:1.45;color:#5B6575">逐次（貪欲）＝各参入者が残ったスプレッドを順に取る競争の近似。1パス近似で減衰は速め → K*=0 の判定には保守側</p>
+</div>
+</div>
+</div>
+<p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 5.4.1〜5.4.3・8.1・8.3・表8.4（analysis/23・27）、Emmanuel &amp; Denholm (2022) の市場フィードバック、Leahy (1993)・Grenadier (2002)</p>
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">24</p>
+<aside>前のスライドの式を、手順として説明します。π(K) は「蓄電池が K だけ入った後の市場で、あと1kW 入れたら年にいくら稼げるか」です。4つの手順で計算します。
+
+1つ目、価格を作ります。純需要、つまり需要から太陽光・風力・原子力を引いた残りに対して、価格を返す供給曲線 g を季節ごとに実績から推定します。純需要が大きいほど高い火力が動くので右上がりで、g は純需要を80の区間に切った各区間の中央値を単調になるようつないだ階段状の曲線です。これに夕方の立ち上がりのような時刻ごとの上乗せ μ を足し、0.01円で打ち切ります。この価格の作り方を、FY2023〜25 の実際の気象と需要のパス、1,096日×24時間に当てます。
+
+2つ目、蓄電池を10万kW、1枚入れます。その時点の価格で、各日の最も安い4時間に100MW ずつ充電し、最も高い4時間に、効率0.85 を掛けた85MW ずつ放電します。粗利が正の日だけ動かします。
+
+3つ目、価格を更新します。充電した時間は純需要が100MW 増えるので供給曲線に沿って価格が上がり、放電した時間は価格が下がります。つまり、この1枚が自分で価格差を少し潰します。次の10万kW は、潰れた後の価格で同じことをします。これを K まで繰り返します。各参入者が残ったスプレッドを順に取っていく競争の近似で、増分貪欲ディスパッチと呼んでいます。
+
+4つ目、限界参入者の評価です。K 枚入った後の価格で、自分の売買では価格が動かない価格テイカーの1kW が、当日の価格を全部知って最安4時間に充電・最高4時間に放電したときの年間粗利を π_PF(K) とします。これに、現実の戦略で取れる割合 capture率0.81 を掛け、充電4kWh×365日に託送の従量1.2円を掛けた1,752円を引いたものが実現可能収益 π(K) です。
+
+右の表が結果です。K=0 のとき、完全予見の粗利は8,266円、実現可能収益は4,944円です。25万kW 入ると2,437円、50万kW で1,075円、100万kW ではマイナスになります。K を大きくすると粗利はゼロに近づき、実現可能収益は託送分のマイナス1,752円に収束します。
+
+均衡条件は、限界参入者の NPV がゼロ、つまり π(K) に容量市場の実効収入1.25万円を足した額が、参入に必要な年間収益3.45万円に等しくなる点です。言い換えると π(K) が2.2万円を超える K を探すのですが、K=0 でも4,944円しかないので、その K はありません。これが K*=0 です。LTDA や補助金で建つ契約型の蓄電池は、この条件とは無関係に入るので外生に置いています。
+
+最後に、なぜ逐次か。実際の均衡では全員が同時に価格を見て最適化しますが、ここでは先に入った蓄電池の充放電の時間帯は後から変えません。この1パス近似は減衰を速めに出す可能性がありますが、速いほど K* は小さくなるので、K*=0 の判定に対しては保守側に働きます。
+
+根拠: 原稿 5.4.1〜5.4.3・8.1・8.3・表8.4、analysis/23_pi_k_curve.py・27_pi_k_curve_v2.py</aside>
+</section>

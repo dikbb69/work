@@ -78,6 +78,7 @@
 ## 用語（HANDOFF §8。使用禁止の造語）
 政策ウェッジ→「均衡からの乖離（数量）」「市場外収入（原因）」／政策層・二層参入→「市場外収入に依存する容量（契約型）とマーチャント容量」／純市場→「マーチャント（スポット裁定のみ）」／BTM→「併設蓄電池」、FTM→「系統用蓄電池」／裾補正→「裾の補正」／風力中立性→「風力が日内形状を変えない性質」／break-even フロンティア→「損益分岐面」／均衡面→「2次元の感応度面」。K（フリート容量）と K*（均衡容量）。
 主張は条件付きで（「必然」と言わない）。厚生分析はスコープ外。
+10/5 追加: 「床」は使わない → 価格そのものは「下限価格（0.01円/kWh）」、張り付いた状態・時間・コマは「下限張り付き（時間・コマ）」、機構は「下限での打ち切り」。「PF価値」「PF粗利」は使わない → 「完全予見の裁定粗利」（略称「完全予見粗利」。表の列見出し・図の凡例でのみ PF を残し、ノートで一度定義する）。完全予見の値は常に「前日スポット・1日1サイクルでの上界」と限定する。
 
 ## 資産（図）の URL 表 — これ以外の画像は使わない
 | 図 | ファイル | URL | 縦横比 |
@@ -86,17 +87,17 @@
 | 図6.2 風力大小×3季節の価格カーブ | wind_price_curves_fy2023-25.png | /_blob/b90fc9163b347b40852ec48ed16ce4c1 | 2.65 |
 | 図6.3 帯域分解の年度別推移 | wind_bands_timeseries.png | /_blob/0aee6c495f4b23353813934305885fad | 1.86 |
 | 図6.4 発電量五分位×水準・TB4h | gen_vs_price_shape.png | /_blob/231e10eab811d2f6f4c9bd7b9b359dc6 | 1.58 |
-| 図6.5 空間分散シミュレーション | spatial_dispersion.png | /_blob/ca4a456cfcfdf149ee7c63c9fa66ee79 | 2.37 |
+| 図6.5 空間分散シミュレーション | spatial_dispersion.png | /_blob/06ef6b72910e569a289b6191316f2242 | 2.37 |
 | 図7.1 年間裁定粗利の時系列 | annual_backtest_series.png | /_blob/b9e9442482c8556134b2c4d01146f0b9 | 1.86 |
-| 図8.1 風力導入量スイープ | kwind_sweep.png | /_blob/37b3c3a98eeab32506b8a20edd773ecd | 2.35 |
+| 図8.1 風力導入量スイープ | kwind_sweep.png | /_blob/bee90690b6a65da237a25579a2276e43 | 2.35 |
 | 図8.2 π(K)曲線（基本仕様） | pi_k_curve.png | /_blob/8e8f7a58a825d332b866a812ee2cd634 | 1.80 |
 | 図8.3 π(K)の価格水準感応度 | pi_k_curve_v2.png | /_blob/8611a4a3be0a093250096c91bf31ac5c | 1.73 |
 | 図8.4 π(K; K_wind) | equilibrium_surface.png | /_blob/117ad2198d1d0fd36394b6f85d788a7a | 1.73 |
 | 図9.1 損益分岐面 | breakeven_frontier.png | /_blob/1109321a3e23dcf2caec740b7b18446a | 1.58 |
-| 図10.1 下限価格シナリオ別 π(K) | negative_price_pi_k.png | /_blob/983719aeb0dc5ddc6b81d285319985b9 | 1.76 |
+| 図10.1 下限価格シナリオ別 π(K) | negative_price_pi_k.png | /_blob/592e255311e3bb4edcdf85f0bb3b5893 | 1.76 |
 | 補助図 帯域分解の比較（北海道風力 vs 九州太陽光） | band_comparison.png | /_blob/3e3ab33c90040d5949760f1dbc06a537 | 2.39 |
 | 補助図 帯域分解（北海道） | band_comparison_hokkaido.png | /_blob/919d9197d8bc48a56fe7153719a41be8 | 2.39 |
-| 補助図 併設の根拠 | btm_case.png | /_blob/29a91fdd58b0d807c9f6077afcfa875b | 2.41 |
+| 補助図 併設の根拠（10/5 再描画: 下限価格の表記） | btm_case.png | /_blob/5af12fd0b22fb0e7d625f6912249d08e | 2.41 |
 | 風力導入量と連系線（北海道） | fig1-wind-vs-interconnection.png | /_blob/c7a711c46c51375942987d94ccf50704 | 1.39 |
 | 九州 ダックカーブ | kyushu/f1-duck-curve.png | /_blob/f993539aef7fd17c6ebc72505f6cd6d9 | 1.66 |
 | 九州 床（0.01円）コマ | kyushu/f2-floor-koma.png | /_blob/4b25eee86f2f152214ba2b1809c326c8 | 1.64 |

@@ -15,7 +15,7 @@ SVG_INNER = {"path", "rect", "circle", "ellipse", "line", "polyline", "polygon",
              "fegaussianblur", "feoffset", "feblend", "femerge", "femergenode", "feflood", "fecomposite"}
 TEXT = {"h1", "h2", "h3", "p", "ul", "ol", "li", "td", "th", "table"}
 BANNED = ["政策ウェッジ", "純市場", "政策層", "マーチャント層", "二層参入", "BTM", "FTM", "裾補正", "中立性",
-          "フロンティア", "均衡面", "供給曲線v2", "価格過程v1", "価格過程v2", "必然", "break-even"]
+          "フロンティア", "均衡面", "供給曲線v2", "価格過程v1", "価格過程v2", "必然", "break-even", "PF価値", "PF粗利"]
 ICONS = set("Activity Book Chart Chat Check CheckCircle Clock Cloud Code Database Globe GraduationCap Home Key Lightbulb Lightning Link Lock PaperPlane Play Search Settings Star ThumbsUp Tool Trust Users Verified Warning Wrench".split())
 BAD_CSS = [r"(?<![-\w])margin\s*:", r"z-index", r"\d(em|rem|vw|vh)\b", r"var\(", r"float\s*:", r"grid-template-areas",
            r"grid-area", r"currentcolor", r"!important"]

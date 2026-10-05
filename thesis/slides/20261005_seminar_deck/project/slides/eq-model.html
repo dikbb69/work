@@ -2,7 +2,7 @@
 <div style="display:flex;flex-direction:column;gap:10px">
 <p style="font-size:24px;font-weight:700;color:#0B6FB0;letter-spacing:2px">付録 ｜ 第8章 価格過程モデル</p>
 <h2 style="font-size:52px;font-weight:700;color:#14213D;line-height:1.2">（予備）価格過程モデル：中央値を再現し、水準は θ で捉える</h2>
-<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">中央値はほぼ再現できるが、分布の裾は圧縮される。FY2026春の全国的な水準上昇は、θ を1つ加えるだけで PF 価値の約78%まで再現できる</p>
+<p style="font-size:30px;font-weight:500;color:#C2511A;line-height:1.4">中央値はほぼ再現できるが、分布の裾は圧縮される。FY2026春の全国的な水準上昇は、θ を1つ加えるだけで完全予見粗利の約78%まで再現できる</p>
 </div>
 <div style="flex:1;display:flex;gap:48px">
 <div style="width:620px;display:flex;flex-direction:column;gap:20px">
@@ -12,11 +12,11 @@
 </div>
 <div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #5B6575;padding:4px 0 4px 20px">
 <p style="font-size:24px;font-weight:700;color:#5B6575">分析</p>
-<p style="font-size:26px;line-height:1.45">価格＝局所供給曲線 g（純需要）＋時刻別の残差 μ、床は 0.01円。床より上を年度別の水準係数 θ_FY で比例的に伸縮</p>
+<p style="font-size:26px;line-height:1.45">価格＝局所供給曲線 g（純需要）＋時刻別の残差 μ、下限価格は 0.01円。下限より上を年度別の水準係数 θ_FY で比例的に伸縮</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:6px;border-left:6px solid #C2511A;padding:4px 0 4px 20px">
 <p style="font-size:24px;font-weight:700;color:#C2511A">結果</p>
-<p style="font-size:26px;line-height:1.45">θ＝0.94／1.07／1.00（FY2023〜25）、FY2026上期 1.57、FY2022 1.72。FY2026 の TB4h 中央値は 9.2→14.3円（実績 18.7）、PF の再現は約78%。残る裾の圧縮は実績/モデル PF 比 1.25</p>
+<p style="font-size:26px;line-height:1.45">θ＝0.94／1.07／1.00（FY2023〜25）、FY2026上期 1.57、FY2022 1.72。FY2026 の TB4h 中央値は 9.2→14.3円（実績 18.7）、完全予見粗利の再現は約78%。残る裾の圧縮は実績/モデル比 1.25</p>
 </div>
 </div>
 <div style="flex:1;display:flex;flex-direction:column;gap:12px">
@@ -24,7 +24,7 @@
 <div style="display:flex;width:1012px;background:#14213D">
 <div style="width:263px"></div>
 <p style="width:374px;font-size:24px;font-weight:700;color:#F3F1EA;text-align:center;line-height:1.3;border-bottom:2px solid #B9C3D3;padding:8px 10px 4px">TB4h 中央値（円/kWh）</p>
-<p style="width:375px;font-size:24px;font-weight:700;color:#F3F1EA;text-align:center;line-height:1.3;border-bottom:2px solid #B9C3D3;padding:8px 10px 4px">PF 価値（円/kW-年）</p>
+<p style="width:375px;font-size:24px;font-weight:700;color:#F3F1EA;text-align:center;line-height:1.3;border-bottom:2px solid #B9C3D3;padding:8px 10px 4px">完全予見粗利（円/kW-年）</p>
 </div>
 <table style="font-size:24px;width:1012px;line-height:1.3;color:#2B3445">
 <tr style="background:#14213D">
@@ -89,21 +89,21 @@
 </tr>
 </table>
 </div>
-<p style="font-size:24px;color:#5B6575;line-height:1.4">FY2026 は4〜6月の3か月分。FY2022・FY2026 は形状を固定し θ のみ推定</p>
+<p style="font-size:24px;color:#5B6575;line-height:1.4">FY2026 は4〜6月の3か月分。FY2022・FY2026 は形状を固定し θ のみ推定。FY2022 は分断構造が違い、θ 付きでも実績の56%（裾がさらに厚い）</p>
 <div style="display:flex;gap:28px;padding:8px 0 0 0">
 <div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 28px">
 <p style="font-size:34px;font-weight:700;color:#C2511A">θ（FY2026上期）＝ 1.57</p>
 <p style="font-size:24px;line-height:1.4">システムプライスも同じ純需要で約1.6〜1.75倍。全国的な水準のシフト</p>
 </div>
 <div style="flex:1;background:#FDFDFB;border:1px solid #D5DAE1;border-radius:14px;display:flex;flex-direction:column;gap:8px;padding:20px 28px">
-<p style="font-size:34px;font-weight:700;color:#C2511A">PF の再現 78%</p>
+<p style="font-size:34px;font-weight:700;color:#C2511A">完全予見粗利の再現 78%</p>
 <p style="font-size:24px;line-height:1.4">形状は固定のまま θ を1つ与え、4,241円／実績 5,425円（3か月）</p>
 </div>
 </div>
 </div>
 </div>
 <p style="position:absolute;left:120px;bottom:64px;width:1500px;font-size:24px;color:#5B6575">出典: 本論文 5.4.1・表8.1・表8.2（表は単一曲線仕様、形状は FY2023〜25 で推定）／JEPX・北海道電力NW</p>
-<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">54</p>
-<aside>ここから第8章、自由参入均衡の分析です。均衡を解くには、蓄電池が増えたときに価格がどう動くかを計算できる「価格過程モデル」がまず必要です。左のデータ欄をご覧ください。使うのは北海道の時間値で、JEPX、日本卸電力取引所の前日スポット市場で北海道エリアに付く価格、つまりエリアプライスと、純需要です。純需要は、需要から出力制御前の太陽光・風力と原子力を引いた、火力など残りの電源が埋める需要です。分析欄のとおり、価格は、純需要から価格を返す季節別の局所供給曲線 g と、夕方の立ち上がりなど時刻ごとの上乗せ μ の和で表し、制度上の下限0.01円、以下「床」で打ち切ります。そのうえで、床より上の部分だけを年度ごとの水準係数 θ（シータ）で比例拡大します。風力や水力のような燃料費ゼロの部分は動かず、火力の部分が燃料価格に応じて上下する、という読みです。右の表をご覧ください。TB4h は1日の高い4時間と安い4時間の平均価格差で、4時間蓄電池の裁定の原資です。PF価値は、当日の価格をすべて知っている完全予見の前提で1年間に得られる粗利で、収益の上限にあたります。FY2023〜25 では中央値はほぼ合いますが、床とスパイクという両端が圧縮されるため、PF価値は表の θ=1 の列のとおり実績より低く出ます。市場分断を3つの状態で扱う仕様でも9〜24%の過小です。問題は一番下、オレンジの FY2026 の4〜6月で、実績の TB4h は18.7円に跳ねました。全国の基準価格であるシステムプライスも同じ純需要で約1.6〜1.75倍になっているので、北海道固有ではなく全国的な水準のシフトです。形状は変えずに θ を1.57と1つ与えるだけで、TB4h は9.2円から14.3円に、PF価値は実績の約78%まで戻ります。残る乖離は FY2023〜25 でも同程度に見られる定常的な過小評価で、実績とモデルの PF の比は1.25倍です。そこで以降は、この比を掛けた「裾の補正」を上限ケースとして併記します。金融の言葉でいえば、θ は形状を固定して水準だけを動かすファクターで、以降の均衡分析ではこれをシナリオ変数として使います。なお FY2026 の検証は3か月分の暫定的なものです。
+<p style="position:absolute;left:1672px;bottom:64px;width:100px;font-size:24px;color:#5B6575;text-align:right">55</p>
+<aside>予備のスライドです。第8章の価格過程モデルがどこまで実績を再現するかを示します。均衡を解くには、蓄電池が増えたときに価格がどう動くかを計算できる「価格過程モデル」がまず必要です。左のデータ欄をご覧ください。使うのは北海道の時間値で、JEPX、日本卸電力取引所の前日スポット市場で北海道エリアに付く価格、つまりエリアプライスと、純需要です。純需要は、需要から出力制御前の太陽光・風力と原子力を引いた、火力など残りの電源が埋める需要です。分析欄のとおり、価格は、純需要から価格を返す季節別の局所供給曲線 g と、夕方の立ち上がりなど時刻ごとの上乗せ μ の和で表し、制度上の下限価格0.01円で打ち切ります。そのうえで、下限より上の部分だけを年度ごとの水準係数 θ（シータ）で比例拡大します。風力や水力のような燃料費ゼロの部分は動かず、火力の部分が燃料価格に応じて上下する、という読みです。右の表をご覧ください。TB4h は1日の高い4時間と安い4時間の平均価格差で、4時間蓄電池の裁定の原資です。完全予見の裁定粗利は、当日の価格をすべて知っている前提で1年間に得られる粗利で、1日1サイクル・前日スポットでの収益の上界にあたります。FY2023〜25 では中央値はほぼ合いますが、下限張り付きとスパイクという両端が圧縮されるため、完全予見粗利は表の θ=1 の列のとおり実績より低く出ます。市場分断を3つの状態で扱う仕様でも9〜24%の過小です。問題は一番下、オレンジの FY2026 の4〜6月で、実績の TB4h は18.7円に跳ねました。全国の基準価格であるシステムプライスも同じ純需要で約1.6〜1.75倍になっているので、北海道固有ではなく全国的な水準のシフトです。形状は変えずに θ を1.57と1つ与えるだけで、TB4h は9.2円から14.3円に、完全予見粗利は実績の約78%まで戻ります。残る乖離は FY2023〜25 でも同程度に見られる定常的な過小評価で、実績とモデルの比は1.25倍です。一方、燃料危機の FY2022 は連系線増強前の分断構造でスパイクの裾がさらに厚く、θ を与えても実績の56%しか再現できません。そのため第8章では、FY2022 については実績の価格をそのまま使った値も併記しています。そこで以降は、この比を掛けた「裾の補正」を上限ケースとして併記します。金融の言葉でいえば、θ は形状を固定して水準だけを動かすファクターで、以降の均衡分析ではこれをシナリオ変数として使います。なお FY2026 の検証は3か月分の暫定的なものです。
 根拠: 原稿 5.4.1・8.1・表8.1・表8.2</aside>
 </section>

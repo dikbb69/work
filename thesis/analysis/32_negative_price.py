@@ -138,6 +138,6 @@ ax.set_title("下限価格シナリオ別の π(K)（実線: 現状、破線: �
 ax.grid(axis="y", color="#DDDDDD", lw=0.6); ax.tick_params(colors=GRAY)
 for sp_ in ("top", "right"): ax.spines[sp_].set_visible(False)
 ax.legend(fontsize=9.5, frameon=False, loc="center right")
-fig.text(0.99, 0.005, "床に達する時間だけ −c 円/kWh に置く段差モデル。負領域の供給曲線は識別できないため c は外生。FY2023-25パス・capture0.81・充電従量1.2円/kWh控除", ha="right", fontsize=7.5, color=GRAY)
+fig.text(0.99, 0.005, "価格が下限に達する時間だけ −c 円/kWh に置く段差モデル。負領域の供給曲線は識別できないため c は外生。FY2023-25パス・capture0.81・充電従量1.2円/kWh控除", ha="right", fontsize=7.5, color=GRAY)
 fig.tight_layout(); fig.savefig(os.path.join(FIGDIR, "negative_price_pi_k.png"), dpi=160, bbox_inches="tight")
 print("saved")

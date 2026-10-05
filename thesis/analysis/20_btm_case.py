@@ -91,7 +91,7 @@ ax1.text(len(fys) - 1, t1["抑制率%"].iloc[-1] / 2, "4-6月\nのみ", ha="cent
 
 labels = t2["年度"]
 bot = np.zeros(len(t2))
-for col, color, lab in [("床(≤0.01円)%", C_LB, "床（0.01円）"), ("0.01〜5円%", C_BLUE, "0.01〜5円"),
+for col, color, lab in [("床(≤0.01円)%", C_LB, "下限価格（0.01円）"), ("0.01〜5円%", C_BLUE, "0.01〜5円"),
                         ("5円超%", C_ORANGE, "5円超")]:
     ax2.bar(labels, t2[col], bottom=bot, color=color, width=0.45, label=lab)
     for i, v in enumerate(t2[col]):

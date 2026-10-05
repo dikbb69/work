@@ -70,8 +70,8 @@ for tomari, color, lab in [("なし", C0, "泊なし（現状）"), ("あり", C
     d = df[df["泊"] == tomari]
     ax1.plot(d["K_wind(万kW)"], d["PF価値(円/kW-年)"], color=color, lw=2.2, marker="o", ms=5, label=lab)
     ax2.plot(d["K_wind(万kW)"], d["床時間(h/年)"], color=color, lw=2.2, marker="o", ms=5, label=lab)
-for ax, ttl, yl in [(ax1, "蓄電池スポット価値（PF・仕様B）", "円/kW-年"),
-                    (ax2, "床（0.01円）時間", "時間/年")]:
+for ax, ttl, yl in [(ax1, "蓄電池スポット価値（完全予見の裁定粗利・仕様B）", "円/kW-年"),
+                    (ax2, "下限張り付き時間（価格＝0.01円/kWh）", "時間/年")]:
     ax.set_title(ttl, fontsize=12.5)
     ax.set_xlabel("風力導入量 K_wind（万kW）", fontsize=10.5, color=GRAY)
     ax.set_ylabel(yl, fontsize=10.5, color=GRAY)

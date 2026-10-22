@@ -48,7 +48,7 @@ def build_daily(area, pcol):
     d["tb4"] = srt[:, -4:].mean(axis=1) - srt[:, :4].mean(axis=1)
     d["solar"] = p.groupby("day")["solar_pre"].sum() / 1000   # GWh/日
     d["wind"] = p.groupby("day")["wind_pre"].sum() / 1000
-    d["demand"] = p.groupby("day")["demand"].sum() / 1000
+    d["demand"] = p.groupby("day")["demand"].sum(min_count=24) / 1000   # 需要が欠測の日（九州 2019-03-12〜31）は NaN にして除く
     d["fy"] = d.index.year - (d.index.month < 4).astype(int)
     d["season"] = d.index.month.map(SEASON_MAP)
     d = d[(d["fy"] >= 2016) & (d["fy"] <= 2025)].dropna()

@@ -73,29 +73,36 @@ for name, months in SEASONS:
     print(f"{name}: 太陽光大 {len(d_hi)}日 / 小 {len(d_lo)}日 | 昼(11-13時)差 "
           f"{(hi.loc[11:13].mean() - lo.loc[11:13].mean()):+.2f}円/kWh")
 
-# ---------- PNG（3面小倍数・共有y軸） ----------
-fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.6), sharey=True)
+# ---------- PNG（3季節の小倍数・共有軸。2×2 の4つ目の枠に凡例） ----------
+# 論文の Word 版では幅15〜15.5cm に縮小して載せるので、幅6.1インチ（15.5cm）で作り、
+# 図中の文字を9〜10pt にする（縮小後も8pt 以上）
+FIG_W, FS_TICK, FS_LABEL, FS_TITLE = 6.1, 9, 9.5, 10
+fig, axs = plt.subplots(2, 2, figsize=(FIG_W, 4.5), sharex=True, sharey=True, layout="constrained")
+axes = [axs[0, 0], axs[0, 1], axs[1, 0]]
+# 図の表示名（論文本文の季節名にそろえる）
+SEASON_LABEL = {"需要期・夏（7-9月）": "夏（7〜9月）", "需要期・冬（12-2月）": "冬（12〜2月）",
+                "不需要期（3-6・10-11月）": "不需要期（3〜6・10〜11月）"}
 for ax, (name, _) in zip(axes, SEASONS):
     cv = curves[name]
-    ax.plot(cv.index, cv["太陽光大"], color=C_SUN, lw=2.2, label="太陽光大の日（上位1/3）")
-    ax.plot(cv.index, cv["太陽光小"], color=C_LOW, lw=2.2, label="太陽光小の日（下位1/3）")
-    ax.set_title(name, fontsize=12, pad=8)
+    ax.plot(cv.index, cv["太陽光大"], color=C_SUN, lw=1.8, label="太陽光の多い日（上位3分の1）")
+    ax.plot(cv.index, cv["太陽光小"], color=C_LOW, lw=1.8, ls="--", label="太陽光の少ない日（下位3分の1）")
+    ax.set_title(SEASON_LABEL[name], fontsize=FS_TITLE, pad=4)
     ax.set_xticks([0, 6, 12, 18, 23])
-    ax.set_xlabel("時刻", fontsize=10, color=GRAY)
     ax.grid(axis="y", color="#DDDDDD", lw=0.6)
     for sp in ["top", "right"]:
         ax.spines[sp].set_visible(False)
-    ax.tick_params(colors=GRAY, labelsize=9.5)
-axes[0].set_ylabel("北海道エリアプライス（円/kWh）", fontsize=10, color=GRAY)
-axes[0].legend(loc="upper left", fontsize=9.5, frameon=False)
-fig.suptitle("北海道の時間帯別価格カーブ — 3季節 × 太陽光の大小（FY2023-25平均）",
-             fontsize=13.5, fontweight="bold", y=1.02)
-fig.text(0.995, -0.04,
-         "太陽光大/小＝各季節内で日次太陽光発電量（出力制御前）の上位/下位1/3の日。60分平均価格の時刻別平均。データ: JEPX・北海道電力NW需給実績",
-         ha="right", fontsize=8, color=GRAY)
-fig.tight_layout()
+    ax.tick_params(colors=GRAY, labelsize=FS_TICK)
+# 冬（右上）は下の枠が凡例なので、目盛の数字と軸ラベルを自分で出す
+axs[0, 1].tick_params(labelbottom=True)
+for ax in (axs[0, 1], axs[1, 0]):
+    ax.set_xlabel("時刻", fontsize=FS_LABEL, color=GRAY)
+for ax in (axs[0, 0], axs[1, 0]):
+    ax.set_ylabel("エリアプライス（円/kWh）", fontsize=FS_LABEL, color=GRAY)
+axs[1, 1].axis("off")
+axs[1, 1].legend(*axes[0].get_legend_handles_labels(), loc="center", fontsize=FS_TICK, frameon=False)
+# 図題・注・出所は論文本文（図の下）に置くので、画像には入れない
 png = os.path.join(FIGDIR, "price_curve_shapes_fy2023-25.png")
-fig.savefig(png, dpi=160, bbox_inches="tight")
+fig.savefig(png, dpi=300)
 print("saved", png)
 
 # ---------- Excel（編集可能グラフ） ----------

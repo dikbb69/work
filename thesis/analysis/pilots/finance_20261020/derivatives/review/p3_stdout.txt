@@ -1,0 +1,131 @@
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:148: Pandas4Warning: Starting with pandas version 4.0 all arguments of min will be keyword-only.
+  lv["負荷min"] = lv[hcols].min(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:149: Pandas4Warning: Starting with pandas version 4.0 all arguments of max will be keyword-only.
+  lv["負荷max"] = lv[hcols].max(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:150: Pandas4Warning: Starting with pandas version 4.0 all arguments of mean will be keyword-only.
+  lv["夕方17-20平均"] = lv[["h17", "h18", "h19", "h20"]].mean(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:151: Pandas4Warning: Starting with pandas version 4.0 all arguments of mean will be keyword-only.
+  lv["昼10-13平均"] = lv[["h10", "h11", "h12", "h13"]].mean(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:152: Pandas4Warning: Starting with pandas version 4.0 all arguments of mean will be keyword-only.
+  lv["夜0-5平均"] = lv[["h00", "h01", "h02", "h03", "h04", "h05"]].mean(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:165: Pandas4Warning: Starting with pandas version 4.0 all arguments of mean will be keyword-only.
+  bl["夜0-5"] = bl[["h00", "h01", "h02", "h03", "h04", "h05"]].mean(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:166: Pandas4Warning: Starting with pandas version 4.0 all arguments of mean will be keyword-only.
+  bl["昼10-13"] = bl[["h10", "h11", "h12", "h13"]].mean(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:167: Pandas4Warning: Starting with pandas version 4.0 all arguments of mean will be keyword-only.
+  bl["夕17-20"] = bl[["h17", "h18", "h19", "h20"]].mean(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:168: Pandas4Warning: Starting with pandas version 4.0 all arguments of min will be keyword-only.
+  bl["min"], bl["max"] = bl[hcols].min(1), bl[hcols].max(1)
+/private/tmp/claude-501/-Users-matsuba-work-thesis/d0c864fb-2c7b-407c-809f-7a4dc1efcfaf/scratchpad/finance_pilots/derivatives/review/p3_curve_pca_vega.py:168: Pandas4Warning: Starting with pandas version 4.0 all arguments of max will be keyword-only.
+  bl["min"], bl["max"] = bl[hcols].min(1), bl[hcols].max(1)
+=== 主成分の寄与率と負荷の形（FY2023-25、年度×季節×時刻の平均を除去）===
+  季節 PC   寄与率  負荷min  負荷max  夜0-5平均  昼10-13平均  夕方17-20平均
+   夏  1 0.557  0.053  0.392   0.063     0.227      0.270
+   夏  2 0.189 -0.404  0.307  -0.002     0.301     -0.315
+   夏  3 0.073 -0.619  0.397   0.072     0.074      0.173
+   冬  1 0.592  0.085  0.303   0.128     0.223      0.218
+   冬  2 0.174 -0.433  0.272   0.093    -0.345      0.197
+   冬  3 0.056 -0.410  0.339   0.269     0.029     -0.104
+不需要期  1 0.589  0.089  0.298   0.099     0.279      0.161
+不需要期  2 0.176 -0.276  0.292   0.160    -0.250      0.263
+不需要期  3 0.072 -0.306  0.305   0.280    -0.016     -0.194
+
+=== 主成分スコアの回帰（1σ効果、年度FE・HC3）===
+  季節  PC  β_wind(1σ)  t_wind  β_solar(1σ)  t_solar    R2  風力・太陽光の追加R2  スコアのsd
+   夏   1      -3.314  -4.491       -4.181   -6.717 0.287        0.134  13.284
+   夏   2      -0.671  -1.348       -3.005   -7.131 0.152        0.145   7.733
+   夏   3      -1.181  -3.841       -0.243   -0.823 0.056        0.055   4.806
+   冬   1      -4.517  -6.856       -1.156   -1.687 0.325        0.138  11.846
+   冬   2      -0.135  -0.298        1.833    3.348 0.101        0.077   6.425
+   冬   3      -0.541  -2.284       -0.023   -0.112 0.063        0.021   3.630
+不需要期   1      -6.196 -12.253       -5.824  -11.874 0.389        0.257  14.650
+不需要期   2      -0.749  -1.970        2.277    7.018 0.088        0.088   8.009
+不需要期   3      -0.213  -0.919        0.157    0.666 0.082        0.003   5.135
+
+=== 因子別ベガ: 第k主成分のスコアを s 倍したときの PF（円/kW-日）===
+倍率s                 0.0    0.5    1.0    1.5    2.0
+季節   PC  下限で打ち切り                                   
+不需要期 1   False    30.92  31.03  31.80  33.51  35.74
+         True     30.79  31.02  31.80  31.06  30.55
+     2   False    31.25  31.04  31.80  33.96  37.16
+         True     31.03  30.95  31.80  33.35  35.77
+     3   False    31.21  31.23  31.80  33.13  34.96
+         True     31.12  31.19  31.80  33.03  34.73
+     形状  False    26.35  27.58  31.80  40.37  50.99
+         True     26.34  27.58  31.80  38.15  45.97
+     純水準 False    31.80  31.80  31.80  31.80  31.80
+         True     31.69  31.78  31.80  30.35  28.73
+冬    1   False    16.94  16.60  16.81  17.74  19.09
+         True     16.89  16.60  16.81  17.60  18.68
+     2   False    15.89  15.90  16.81  18.75  21.37
+         True     15.89  15.90  16.81  18.62  21.00
+     3   False    16.52  16.44  16.81  17.73  19.03
+         True     16.52  16.44  16.81  17.73  19.02
+     形状  False    10.63  12.46  16.81  23.35  31.05
+         True     10.63  12.46  16.81  23.08  30.28
+     純水準 False    16.83  16.82  16.81  16.80  16.80
+         True     16.81  16.82  16.81  16.70  16.49
+夏    1   False    31.99  31.81  32.38  34.00  36.41
+         True     31.99  31.81  32.38  33.30  34.78
+     2   False    32.17  31.77  32.38  34.33  37.30
+         True     32.17  31.77  32.38  33.88  36.24
+     3   False    31.96  31.99  32.38  33.20  34.33
+         True     31.96  31.99  32.38  33.19  34.30
+     形状  False    27.56  28.74  32.38  39.35  48.62
+         True     27.56  28.74  32.38  38.49  46.55
+     純水準 False    32.38  32.38  32.38  32.38  32.38
+         True     32.38  32.38  32.38  31.81  31.08
+
+固定窓（事前に固定した窓）
+倍率s                 0.0    0.5    1.0    1.5    2.0
+季節   PC  下限で打ち切り                                   
+不需要期 1   False    26.35  26.35  26.35  26.35  26.35
+         True     26.24  26.35  26.35  24.11  21.59
+     2   False    26.35  26.35  26.35  26.35  26.35
+         True     26.16  26.27  26.35  25.78  25.07
+     3   False    26.35  26.35  26.35  26.35  26.35
+         True     26.31  26.33  26.35  26.33  26.30
+     形状  False    26.35  26.35  26.35  26.35  26.35
+         True     26.34  26.35  26.35  24.83  22.94
+     純水準 False    26.35  26.35  26.35  26.35  26.35
+         True     26.25  26.33  26.35  25.00  23.49
+冬    1   False    10.63  10.63  10.63  10.63  10.63
+         True     10.58  10.63  10.63  10.49  10.24
+     2   False    10.63  10.63  10.63  10.63  10.63
+         True     10.63  10.63  10.63  10.50  10.27
+     3   False    10.63  10.63  10.63  10.63  10.63
+         True     10.62  10.63  10.63  10.63  10.62
+     形状  False    10.63  10.63  10.63  10.63  10.63
+         True     10.63  10.63  10.63  10.37   9.95
+     純水準 False    10.63  10.63  10.63  10.63  10.63
+         True     10.62  10.63  10.63  10.52  10.33
+夏    1   False    27.56  27.56  27.56  27.56  27.56
+         True     27.56  27.56  27.56  26.97  26.23
+     2   False    27.56  27.56  27.56  27.56  27.56
+         True     27.56  27.56  27.56  27.16  26.61
+     3   False    27.56  27.56  27.56  27.56  27.56
+         True     27.56  27.56  27.56  27.55  27.53
+     形状  False    27.56  27.56  27.56  27.56  27.56
+         True     27.56  27.56  27.56  26.88  25.92
+     純水準 False    27.56  27.56  27.56  27.56  27.56
+         True     27.56  27.56  27.56  27.05  26.39
+
+=== 風力・太陽光が作る日間変動を s 倍したときの PF・固定窓（下限で打ち切り）===
+             PF                         固定窓                     
+倍率s         0.0    1.0    2.0    3.0    0.0    1.0    2.0    3.0
+季節   成分                                                         
+不需要期 太陽光  31.17  31.80  32.24  33.40  26.09  26.35  24.76  22.71
+     風力   31.47  31.80  31.34  30.89  25.97  26.35  25.67  24.78
+冬    太陽光  16.65  16.81  17.71  19.06  10.61  10.63  10.57  10.44
+     風力   16.99  16.81  16.93  17.34  10.62  10.63  10.56  10.45
+夏    太陽光  32.15  32.38  33.93  36.29  27.49  27.56  27.29  26.85
+     風力   32.41  32.38  32.32  32.32  27.51  27.56  27.40  27.16
+
+時刻別負荷（1σ、円/kWh）
+  季節          PC   夜0-5  昼10-13  夕17-20    min    max
+   夏  B_wind(1σ) -0.501  -0.979  -0.763 -1.082 -0.431
+   夏 B_solar(1σ) -0.199  -1.826  -0.262 -1.993  0.031
+   冬  B_wind(1σ) -0.797  -0.998  -0.926 -1.343 -0.395
+   冬 B_solar(1σ) -0.086  -0.913   0.210 -1.127  0.289
+不需要期  B_wind(1σ) -0.805  -1.489  -1.158 -1.765 -0.709
+不需要期 B_solar(1σ) -0.134  -2.170  -0.297 -2.253 -0.070

@@ -35,6 +35,9 @@ XLSX = os.path.join(ROOT, "slides", "進捗報告_20260817_図表データ.xlsx"
 GRAY = "#595959"
 ETA = 0.85
 FY_FULL = list(range(2016, 2026))
+# 論文の Word 版では幅15〜15.5cm に縮小して載せるので、幅6.1インチ（15.5cm）で作り、
+# 図中の文字を9〜9.5pt にする（縮小後も8pt 以上）
+FIG_W, FS_TICK, FS_LABEL = 6.1, 9, 9.5
 
 hp = pd.read_csv(os.path.join(PROC, "hokkaido_hourly_panel.csv"), parse_dates=["ts"])
 hp["day"] = hp["ts"].dt.normalize()
@@ -88,25 +91,24 @@ print("=== 年間裁定粗利（円/kW-年） ===")
 print(ann.round(0).to_string())
 
 C_PF, C_A, C_B, C_C = "#A6BE0B", "#0079C2", "#5DB6E7", "#D95B20"
-fig, ax = plt.subplots(figsize=(9.8, 5.2))
-ax.plot(ann.index, ann["pf"], color=C_PF, lw=2.4, marker="o", ms=4.5, label="完全予見PF")
-ax.plot(ann.index, ann["a"], color=C_A, lw=2.0, marker="o", ms=4, label="a. 前日価格ナイーブ")
-ax.plot(ann.index, ann["b"], color=C_B, lw=2.0, marker="o", ms=4, label="b. 前日予測ベース（残余需要）")
-ax.plot(ann.index, ann["c"], color=C_C, lw=2.0, marker="o", ms=4, label="c. 平均価格（気候値・28日）")
-ax.set_title("北海道: 年間裁定粗利（円/kW-年、4h・往復効率0.85）", fontsize=13, fontweight="bold", pad=10)
+fig, ax = plt.subplots(figsize=(FIG_W, 3.7), layout="constrained")
+ax.plot(ann.index, ann["pf"], color=C_PF, lw=2.0, marker="o", ms=4, label="完全予見粗利")
+ax.plot(ann.index, ann["a"], color=C_A, lw=1.6, marker="s", ms=3.5, ls="--", label="戦略 a（前日の実現価格）")
+ax.plot(ann.index, ann["b"], color=C_B, lw=1.6, marker="^", ms=4, ls=":", label="戦略 b（残余需要の予測）")
+ax.plot(ann.index, ann["c"], color=C_C, lw=1.6, marker="D", ms=3.5, ls="-.", label="戦略 c（過去の平均価格）")
+# 図題・注・出所は論文本文（図の下）に置くので、画像には入れない
 ax.set_xticks(ann.index)
-ax.set_xticklabels([f"FY{y}" for y in ann.index], fontsize=9.5)
-ax.set_ylabel("円/kW-年", fontsize=10, color=GRAY)
+# 幅15.5cm では「FY2016」を10個並べると詰まるので、目盛は西暦の数字にして軸ラベルを「年度」とする
+ax.set_xticklabels([str(y) for y in ann.index])
+ax.set_xlabel("年度", fontsize=FS_LABEL, color=GRAY)
+ax.set_ylabel("年間粗利（円/kW-年）", fontsize=FS_LABEL, color=GRAY)
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:,.0f}"))
 ax.grid(axis="y", color="#DDDDDD", lw=0.6)
 for sp in ["top", "right"]:
     ax.spines[sp].set_visible(False)
-ax.tick_params(colors=GRAY)
-ax.legend(fontsize=9.5, frameon=False, loc="upper left")
-fig.text(0.99, 0.005,
-         "FY2018は胆振東部地震の欠測480時間を含む。b・cは冒頭30日のウォームアップ後から。データ: JEPX北海道エリアプライス",
-         ha="right", fontsize=8, color=GRAY)
-fig.tight_layout()
-fig.savefig(os.path.join(FIGDIR, "annual_backtest_series.png"), dpi=160, bbox_inches="tight")
+ax.tick_params(colors=GRAY, labelsize=FS_TICK)
+ax.legend(fontsize=FS_TICK, frameon=False, loc="upper left")
+fig.savefig(os.path.join(FIGDIR, "annual_backtest_series.png"), dpi=300)
 print("saved annual_backtest_series.png")
 
 # ============================================================
@@ -136,24 +138,24 @@ print("\n=== 帯域分解の年度別時系列（分散シェア%） ===")
 print(bands.round(1).to_string())
 
 C_BANDS = {"<6時間": "#5DB6E7", "6-24時間": "#0079C2", "1-7日": "#176871", ">7日": "#D95B20"}
-fig, ax = plt.subplots(figsize=(9.8, 5.2))
+# 図の表示名（論文本文の表5.1 の帯域名にそろえる）と、白黒でも区別できるマーカー
+BAND_LABEL = {"<6時間": "6時間未満", "6-24時間": "6〜24時間", "1-7日": "1〜7日", ">7日": "7日超"}
+BAND_MARK = {"<6時間": "^", "6-24時間": "s", "1-7日": "o", ">7日": "D"}
+fig, ax = plt.subplots(figsize=(FIG_W, 3.5), layout="constrained")
 for col, color in C_BANDS.items():
-    ax.plot(bands.index, bands[col], color=color, lw=2.2, marker="o", ms=4.5, label=col)
-ax.set_title("北海道: 風力変動の帯域分解の推移（分散シェア%、年度別）", fontsize=13, fontweight="bold", pad=10)
+    ax.plot(bands.index, bands[col], color=color, lw=1.8, marker=BAND_MARK[col], ms=4, label=BAND_LABEL[col])
+# 図題・注・出所は論文本文（図の下）に置くので、画像には入れない
 ax.set_xticks(bands.index)
-ax.set_xticklabels([f"FY{y}" for y in bands.index], fontsize=9.5)
-ax.set_ylabel("分散シェア（%）", fontsize=10, color=GRAY)
+ax.set_xticklabels([str(y) for y in bands.index])
+ax.set_xlabel("年度", fontsize=FS_LABEL, color=GRAY)
+ax.set_ylabel("分散シェア（%）", fontsize=FS_LABEL, color=GRAY)
 ax.set_ylim(0, None)
 ax.grid(axis="y", color="#DDDDDD", lw=0.6)
 for sp in ["top", "right"]:
     ax.spines[sp].set_visible(False)
-ax.tick_params(colors=GRAY)
-ax.legend(fontsize=9.5, frameon=False, ncol=4, loc="upper center")
-fig.text(0.99, 0.005,
-         "移動平均カスケードによる非直交分解（各年度内で計算、交差項ありシェア合計≠100%）。風力＝フリート集約・制御後出力",
-         ha="right", fontsize=8, color=GRAY)
-fig.tight_layout()
-fig.savefig(os.path.join(FIGDIR, "wind_bands_timeseries.png"), dpi=160, bbox_inches="tight")
+ax.tick_params(colors=GRAY, labelsize=FS_TICK)
+fig.legend(*ax.get_legend_handles_labels(), fontsize=FS_TICK, frameon=False, ncol=4, loc="outside upper center")
+fig.savefig(os.path.join(FIGDIR, "wind_bands_timeseries.png"), dpi=300)
 print("saved wind_bands_timeseries.png")
 
 # ============================================================

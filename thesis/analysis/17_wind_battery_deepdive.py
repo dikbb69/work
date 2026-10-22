@@ -67,27 +67,35 @@ for name, months in SEASONS:
     counts[name] = (int((dw >= q_hi).sum()), int((dw <= q_lo).sum()))
     print(f"[curve] {name}: 全時間平均差 {(hi.mean() - lo.mean()):+.2f}円/kWh")
 
-fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.6), sharey=True)
+# 3季節の小倍数・共有軸。2×2 の4つ目の枠に凡例。
+# 論文の Word 版では幅15〜15.5cm に縮小して載せるので、幅6.1インチ（15.5cm）で作り、
+# 図中の文字を9〜10pt にする（縮小後も8pt 以上）
+FIG_W, FS_TICK, FS_LABEL, FS_TITLE = 6.1, 9, 9.5, 10
+fig, axs = plt.subplots(2, 2, figsize=(FIG_W, 4.5), sharex=True, sharey=True, layout="constrained")
+axes = [axs[0, 0], axs[0, 1], axs[1, 0]]
+# 図の表示名（論文本文の季節名にそろえる）
+SEASON_LABEL = {"需要期・夏（7-9月）": "夏（7〜9月）", "需要期・冬（12-2月）": "冬（12〜2月）",
+                "不需要期（3-6・10-11月）": "不需要期（3〜6・10〜11月）"}
 for ax, (name, _) in zip(axes, SEASONS):
     cv = curves[name]
-    ax.plot(cv.index, cv["風力大"], color=C_HI, lw=2.2, label="風力大の日（上位1/3）")
-    ax.plot(cv.index, cv["風力小"], color=C_LO, lw=2.2, label="風力小の日（下位1/3）")
-    ax.set_title(name, fontsize=12, pad=8)
+    ax.plot(cv.index, cv["風力大"], color=C_HI, lw=1.8, label="風力の多い日（上位3分の1）")
+    ax.plot(cv.index, cv["風力小"], color=C_LO, lw=1.8, ls="--", label="風力の少ない日（下位3分の1）")
+    ax.set_title(SEASON_LABEL[name], fontsize=FS_TITLE, pad=4)
     ax.set_xticks([0, 6, 12, 18, 23])
-    ax.set_xlabel("時刻", fontsize=10, color=GRAY)
     ax.grid(axis="y", color="#DDDDDD", lw=0.6)
     for sp in ["top", "right"]:
         ax.spines[sp].set_visible(False)
-    ax.tick_params(colors=GRAY, labelsize=9.5)
-axes[0].set_ylabel("北海道エリアプライス（円/kWh）", fontsize=10, color=GRAY)
-axes[0].legend(loc="lower left", fontsize=9.5, frameon=False)
-fig.suptitle("風力大の日は一日全体が沈む — 形はほぼ平行移動（太陽光と対照的）（FY2023-25平均）",
-             fontsize=13.5, fontweight="bold", y=1.02)
-fig.text(0.995, -0.04,
-         "風力大/小＝各季節内で日次風力発電量（出力制御前）の上位/下位1/3の日。60分平均価格の時刻別平均。データ: JEPX・北海道電力NW需給実績",
-         ha="right", fontsize=8, color=GRAY)
-fig.tight_layout()
-fig.savefig(os.path.join(FIGDIR, "wind_price_curves_fy2023-25.png"), dpi=160, bbox_inches="tight")
+    ax.tick_params(colors=GRAY, labelsize=FS_TICK)
+# 冬（右上）は下の枠が凡例なので、目盛の数字と軸ラベルを自分で出す
+axs[0, 1].tick_params(labelbottom=True)
+for ax in (axs[0, 1], axs[1, 0]):
+    ax.set_xlabel("時刻", fontsize=FS_LABEL, color=GRAY)
+for ax in (axs[0, 0], axs[1, 0]):
+    ax.set_ylabel("エリアプライス（円/kWh）", fontsize=FS_LABEL, color=GRAY)
+axs[1, 1].axis("off")
+axs[1, 1].legend(*axes[0].get_legend_handles_labels(), loc="center", fontsize=FS_TICK, frameon=False)
+# 図題・注・出所は論文本文（図の下）に置くので、画像には入れない
+fig.savefig(os.path.join(FIGDIR, "wind_price_curves_fy2023-25.png"), dpi=300)
 print("saved wind_price_curves")
 
 # ============================================================

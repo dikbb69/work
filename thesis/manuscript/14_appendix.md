@@ -4,32 +4,150 @@
 
 | 区分 | 出所・取得 | 期間・粒度 | 処理後ファイル |
 |---|---|---|---|
-| JEPXスポット約定結果 | JEPX 市場情報（手動DL、2026-07-26） | FY2016〜FY2026（2026/7/27受渡分まで）、30分48コマ、システム／9エリアプライス | `data/processed/jepx_kyushu_30min.csv`、各エリアの時間値パネル |
+| JEPXスポット約定結果 | JEPX 市場情報（手動DL、2026-07-26） | FY2016〜FY2026（2026/7/27受渡分まで）、30分48コマ、システム／9エリアプライス | `data/processed/jepx_kyushu_30min.csv`、各エリアの時間値パネル（6.3 の市場分断の再分類（`46_market_split_v3.py`）、9.3.1・表E.1 の「30分値で下限のコマを含む」の判定（`50_colocation_v3.py`）と 9.5.6 の東京エリアプライス（`40_cfar_hedging.py`）は `data/raw/jepx` の30分コマから直接読む） |
 | 九州エリア需給実績 | 九州電力送配電（手動DL） | 2016/4〜2026/7。2024/2まで60分値（MWh）、2024/3から30分値（MW平均） | `kyushu_hourly_panel.csv`、`kyushu_daily_metrics.csv`、`kyushu_battery_backtest_daily.csv` |
 | 北海道・東北エリア需給実績 | 北海道電力NW・東北電力NW（手動DL、2026-07-27） | 2016/4〜2026/6、60分値に統一。出力制御量列を含む | `hokkaido_hourly_panel.csv`、`tohoku_hourly_panel.csv` |
-| FIT/FIP 導入容量（B表） | 再エネ FIT/FIP 公表サイト B_city 四半期（手動DL） | 2014/6〜2025/12、都道府県別。月次補間 | `fit_capacity_pref_quarterly.csv`、`area_capacity_series.csv`、`hokkaido_cf_series.csv` |
-| 長期脱炭素電源オークション約定結果 | OCCTO 本文・別紙（第1〜3回、2025年度応札分） | 蓄電池案件のエリア・容量 | `ltda_battery_projects.csv`、`notes/16`・`notes/28` |
-| 容量市場 需要曲線・調整係数 | OCCTO（2027〜2029年度向け需要曲線、2024〜2029年度向け調整係数） | 全国アンカーとエリア別 κ | `capacity_adjustment_coefficients.csv`、`notes/17` |
-| 蓄電池資本費・費用諸元 | 定置用蓄電システム普及拡大検討会、調達価格等算定委員会 | FY2022〜24 実績・規模別、風力・太陽光の資本費・IRR | `battery_capex_series.csv`、`santeii_cost_assumptions.csv`、`notes/19`・`notes/20` |
+| FIT/FIP 導入容量（B表） | 再エネ FIT/FIP 公表サイト B_city 四半期（手動DL） | 2014/6〜2025/12 の47四半期のうち44四半期（2016/9・2019/6・2021/3 は市町村別の表を欠くため線形補間）、都道府県別。月次補間。FIT/FIP 認定設備のみ（非FIT設備を含まない） | `fit_capacity_pref_quarterly.csv`、`area_capacity_series.csv`、`hokkaido_cf_series.csv`、`hokkaido_cf_series_corrected.csv`（計上時期を補正した cf。感応度にだけ使う。後述） |
+| 長期脱炭素電源オークション約定結果 | OCCTO 本文・別紙（第1〜3回＝応札年度2023〜2025。`data/raw/ltda/`） | 蓄電池76案件のエリア・容量（別紙にエリアの列がないので、地名と本文 p.15 のエリア別落札容量との照合で推定。後述） | `ltda_battery_projects.csv`（2026-10-21 訂正）、`ltda_area_reconciliation.csv`、`ltda_hokkaido_summary.csv`、`notes/16`・`notes/28`・`notes/33` |
+| 容量市場 需要曲線・調整係数 | OCCTO（2027〜2029年度向け需要曲線、2030年度向け需要曲線（2026年7月30日公表）、2024〜2029年度向け調整係数） | 全国アンカーとエリア別 κ。2030年度向けの指標価格（Net CONE）20,911円/kW | `capacity_adjustment_coefficients.csv`、`notes/13`・`notes/17`（2030年度向けの4点折れ線は `42_breakeven_surface_v3.py` のコードに置く。数量軸は2029年度向けで代用） |
+| 蓄電池資本費・費用諸元 | 定置用蓄電システム普及拡大検討会、調達価格等算定委員会 | FY2022〜24 実績・規模別、FY2024 系統用の費用内訳（kW 比例部分24.3%。7.4・8.7）、風力・太陽光の資本費・IRR | `battery_capex_series.csv`、`santeii_cost_assumptions.csv`、`notes/19`・`notes/20` |
 | 風力導入実績（第三者検証） | JWPA 導入実績（2019〜2025年末版） | 年末累計 | `notes/16` |
+| 系統用蓄電池の接続・補助・案件（1.1.3、9.2(c)・(f)） | 北海道電力ネットワークの公表（接続済み約20万kW・契約申込約234万kW・接続検討約823万kW。1.1.3 の値で、一次資料とは照合していない）、SII の交付決定一覧（令和6・7年度。北海道12件の補助額）、事業者の発表と報道（Helios） | 2026年5月末 | `gap_ledger_projects.csv`、`gap_ledger_summary.csv` |
+| 出力制御の検証結果（ローカル系統） | OCCTO「流通設備混雑による再生可能エネルギー発電設備（自然変動電源）の出力抑制の検証結果」（北海道電力ネットワーク。2025年11月分・2026年5月分・2026年6月抑制分の本体・別紙1〜3、2026-10-21 閲覧） | 66kV 岩松線・富川線の日区分別の時間帯と最大抑制量 | `local_congestion_control_occto.csv`（`50_colocation_v3.py` のコードに転記。付録E の表E.2） |
+| 資本コスト・契約・ヘッジの諸元（9.2(e)・9.5） | 財務省（法人実効税率30.64%）、OCCTO 長期脱炭素電源オークション募集要綱（応札年度2026。上限価格・期待容量・他市場収益の還付）、JPX・東京商品取引所・EEX の電力先物の商品概要（年度物の上場期間）、資源エネルギー庁・東京電力パワーグリッドの系統連系保証金の資料（参考文献C節） | 2025〜2026年公表 | `irr_cost_of_capital.csv`、`apv_decomposition.csv`、`hedge_tenor_share.csv`、`real_option_waiting_value.csv` |
 
 データ修正の記録（`data/README.md`）: 九州新形式の連系線列の符号反転（パネル上は「負＝域外送電」に統一）、2026年4〜5月ファイルの列構成変更（ヘッダー名ベースのマッピングに変更）、北海道の2018/9/7〜26 の価格欠損480時間（胆振東部地震後の取引停止）。
 
+九州の需要等の欠測日の修正（2026-10-20）: `kyushu_hourly_panel.csv` は2019年3月12〜31日（20日、480時間）の需要と原子力・火力の発電量が欠測している（揚水・連系線潮流も一部欠測。太陽光・風力の発電量と価格はある）。日次集計が欠測を0として足していたため、`24_vol_verification.py`（主推定と燃料危機期除外の推定）・`33_price_curve_sensitivity.py`・`37_robust_inference.py` の九州の日次回帰には、この20日が「需要0・発電0」の日として入っていた。24時間がそろわない日を欠測として除く集計（`sum(min_count=24)`）に直して3本を再実行した（九州の日次標本は3,652日から3,632日）。北海道の数値は変わらない。6.2・6.5.4・6.5.6 の九州の係数と 8.6 の九州の原子力の回帰は修正後の値である。
+
+LTDA 落札蓄電池のエリアの訂正（2026-10-21、`notes/33-ltda-correction.md`）: `ltda_battery_projects.csv` の都道府県（pref）を8行訂正した。第1回の森町睦実２蓄電所（56,351kW）は北海道としていたが、所在は静岡県周智郡森町（中部）である。第1回の美唄（39,004kW）・長沼（37,515kW）は北海道、同じく松阪は三重県、由利本荘は秋田県、第2回の BS浪江は福島県、津山杉宮は岡山県、石巻は宮城県で、いずれも旧版では不明としていたものを別紙の地名で確定した。第1回の FUKO-B1（36,814kW）は県名が不明のまま、エリアを九州と推定した。別紙にはエリアの列がないので、地名で所在が決まる電源を固定し、地名のない電源（第1回1件、第2回15件、第3回13件）を9エリアに総当たりで割り当て、本文 p.15 のエリア別落札容量（0.1万kW 単位、±0.05万kW）に一致する割当をすべて列挙した（第1回は唯一解、第2回は12通り、第3回は2通り）。別紙の合計は本文の全国の落札容量（976.6・634.5・729.9万kW）と、蓄電池の合計は p.14 の109.2・137.0・125.1万kW と一致する。あわせて、会社名の列に入っていた案件名を `project` 列に移し、`area_est`（エリア）・`area_basis`（根拠）・`area_conf`（確定〔別紙の地名〕／名称〔案件名のエリア・県名〕／高〔p.15 照合の全解で一意〕／参考〔複数の候補〕）・`area_candidates`（残る候補と解の数）・`duration_class` の列を加えた。kW の合計（76件、3,713,239kW）は変えていない。訂正後の北海道の LTDA 落札蓄電池は674,249kW（約67.4万kW。第1回32.5万kW・第2回20.9万kW・第3回14.0万kW（推定））で、うち6時間級は23.3万kW である。第3回の別解では計56.8万kW になる。旧原稿の「少なくとも57.7万kW」は、森町睦実２を誤って含み、美唄・長沼と第2回の地名のない約7.8万kW を落としていた。外生の契約型容量 $K_{exo}$ の感応度は、接続済み約20万kW にこれを加えた87.4万kW（第3回の別解で76.8万kW、6時間級の kWh を4時間で割ると99.1万kW）とする（5.4.3、9.2(b)）。訂正は `49_gap_ledger.py` が再現する（訂正前の版から実行しても同じ内容になる）。
+
+導入容量の計上時期（2026-10-21、`51_cf_correction.py`）: 設備利用率（cf）の分母とする表Bの導入量は、認定設備を運転開始の時点で計上し、非FIT設備を含まない。このため、試運転中の発電などで出力が容量に先行する月がある。2023年12月には制御前の風力出力（最大887MW）が表Bの容量（86.4万kW）を上回り、時間単位の cf が1を超える時間が4時間ある。2023年4月・11月・12月と2024年1月の月平均 cf は、同じ月の他の年の中央値の1.2〜1.5倍である。北海道の風力の年度平均 cf（制御前、時間平均）は FY2016〜25 の順に26.2・29.0・27.0・27.9・27.0・26.7・26.5・30.4・25.9・25.0% で、FY2023 だけが高い。容量の計上を次の四半期末の値に前倒しすると（主の補正。2023年4〜5月は82.9万kW、2023年11月〜2024年2月は126.5万kW）FY2023 は26.2%、同じ月の他年の中央値から容量を逆算すると27.0%、月内の最大出力から容量に下限を置く最小の補正では28.4% になる（`cf_correction_fy.csv`）。真の運転中容量は観測できないので、3通りの補正は幅を示すにとどまる。本論は補正前の系列（`hokkaido_cf_series.csv`）を用い、補正した系列（`hokkaido_cf_series_corrected.csv`）による結果を感応度として示す（4.2、6.4、8.2、8.5、8.6、10.3、表11.1）。補正すると現行の風力導入量（FY2023〜25 の平均）は121万kWから125万kWになる。同じ倍率で比べた風力シナリオの完全予見粗利と限界参入者の収益 $\pi(0)$ の変化は1%未満で、下限張り付き時間は風力3倍で数%減る。なお、市町村別の表を欠く2021年3月末は、都道府県別の表（`B_pref202103.xlsx`。集計には使っていない）の北海道の値が、補間値と比べて風力で−0.1%、太陽光で+0.4% しか違わない。`data/README.md` の追記4 と `12_fit_capacity_series.py` の docstring も同じ内容になっている。
+
 ## 付録B 変数と区分の定義
+
+括弧内は定義を置いた節。同じ記号が節によって別の意味をもつものがある。$\lambda$ は5.4.2以降の実績整合ケースの校正係数と、5.5.2・9.5.4 の市場リスクの価格（6.4 で旧版の作り方を説明する箇所では、日内帯域を加法で伸ばす倍率）。$\rho$ は5.4.4 の割引率 $\ln(1+r)$ と5.5.2 の市場収益率との相関。$\delta$ は5.2.3 の季節固定効果 $\delta_s$、5.4.4 の配当利回り、5.4.1・8.6 の価格の一様な引下げ幅。$g$ は5.4.1 の供給曲線と5.4.4 の資本費の低下率。c は、戦略 c（5.3.1）の名前、$c(K)$・$c_{model}(K)$（モデル価格の上の戦略 c の粗利）、5.6・第10章・表11.1 の負価格の深さを表す。冬の上位・下位4時間の係数の比は、5.2.3 では $k$、表6.9 では c と書く。$a$ は5.2.5・6.4 の日周振幅（表6.4のパネルC）と、5.4.4 以降の粗収益（$a(K)$・$a(0;\theta)$ を含む）。$\alpha$ は5.2.3 の年度固定効果 $\alpha_{FY}$ と5.4.4 の期待成長。$\beta$ は5.2.3・5.2.6 の回帰の係数（$\beta^{wind}_s$、$\beta_{0.9}$ など）と5.4.4 の基本二次方程式の正の根。5.6 の収益の近似 $a(\theta)\approx A+B\theta$ の $A$・$B$ は、5.2.5 の面積 $A$、7.1 の下位4時間の平均価格 $B$ とは別である。
+
+**データ・区分・価格指標**
 
 | 項目 | 定義 |
 |---|---|
 | 年度（FY） | 4月〜翌3月 |
 | 報告用の季節区分 | 夏＝7〜9月、冬＝12〜2月、不需要期＝3〜6月・10〜11月 |
+| 暦月の4季節 | 報告用の区分の不需要期を暦月の春（3〜6月）と秋（10〜11月）に分けたもの。夏・冬は報告用と同じ（5.2.3、表6.9のパネルC） |
 | 価格過程の季節 | 気象学的4区分（12〜2月、3〜5月、6〜8月、9〜11月）。報告用区分とは別 |
 | 制御前出力 | 発電実績＋出力制御量 |
+| 設備利用率（cf） | 制御前出力÷導入量（FIT/FIP 情報公表用ウェブサイトの表Bを月次補間した認定容量。非FIT設備を含まない）。計上時期を補正した系列は感応度にだけ使う（4.2、付録A） |
+| 現行の風力導入量・風力の倍率 | 現行の風力導入量は、価格過程の推定期間（FY2023〜25）の北海道の風力の認定容量（表B）の平均121万kW。風力のシナリオはこれに倍率（0.5〜3倍）を掛け、気象パス（cf）を保存したまま出力を動かす。cf の計上時期を補正すると125万kW（5.4.1、8.2） |
 | 純需要 $net$ | 需要 − 制御前太陽光 − 制御前風力 − 原子力 |
 | TB4h スプレッド | 日内の上位4時間平均価格 − 下位4時間平均価格 |
-| PF価値 | 完全予見4時間蓄電池（往復効率0.85、1日1サイクル）の年間裁定粗利（円/kW-年） |
-| 床 | 0.01円/kWh（30分コマまたは60分時間で ≤0.011円） |
-| 市場分断の3レジーム | 安値分断（道内＜システム−0.01）、連系（±0.01円以内）、高値分断（道内＞システム+0.01） |
-| 帯域分解 | 移動平均カスケード: <6h＝x−MA6h、6〜24h＝MA6h−MA24h、1〜7日＝MA24h−MA168h、>7日＝MA168h−平均（非直交） |
-| 価格水準係数 $\theta_{FY}$ | 水準係数付き価格過程の年度別スケール（FY2023〜25の時間加重平均＝1） |
+| 上位4h・下位4h | 日内の最高・最安4時間の平均価格（円/kWh）。効率調整後スプレッドは 0.85·上位4h − 下位4h（8.6） |
+| 下限価格 | JEPX スポットの約定価格の下限 0.01円/kWh。約定価格＝max(潜在価格, 0.01) と書けることを「下限での打ち切り」という（5.4.1） |
+| 下限張り付き（時間・コマ） | 約定価格が下限価格に張り付いた時間・コマ（30分コマまたは60分時間で ≤0.011円）。下限張り付き時間はその時間数 |
+| システムプライス比の高値・同価格・安値 | 北海道エリアプライス−システムプライスが+0.01円/kWh を超える30分コマ（時間）を高値、−0.01円未満を安値、±0.01円以内を同価格とする。システムプライスは全国の制約のない価格で、本州の価格ではない。価格過程の分断混合仕様のレジームはこの定義による（4.5、5.2.4） |
+| 北本連系線の分断 | 北海道と東北のエリアプライスの差が±0.01円を超えるコマ。北海道＞東北と北海道＜東北に分ける。システムプライス比の高値・安値のうち北海道＝東北のまま生じるものは、東北東京間の連系線や東西の周波数変換設備での分断による（東日本側。4.5、5.2.4、6.3） |
+| 帯域分解 | 移動平均カスケード: <6h＝x−MA6h、6〜24h＝MA6h−MA24h、1〜7日＝MA24h−MA168h、>7日＝MA168h−平均（非直交）。表6.1 は設備利用率の系列に当てる（MWh の系列では導入量の趨勢が7日超帯に入る。5.2.2、6.1.2） |
+| 価格水準係数 $\theta_{FY}$ | 水準係数付き価格過程の年度別スケール（FY2023〜25の時間加重平均＝1）。下限価格より上の部分を同じ比率で伸縮させる乗法的な水準の因子で、月次の $\theta_m$ も求める（5.4.1） |
+| 仕様A・仕様A′・分断混合仕様 | 仕様Aは純需要の供給曲線 $g$ と時刻別プレミアム $\mu$（季節×時刻）だけからなる単一曲線仕様。仕様A′ は $\mu$ を（季節、時刻、日次の制御前風力発電量の三分位）に依存させた修正版で、風力への条件付き応答の検証（8.1）を通る。三分位の境界は季節ごとに FY2023〜25 で定め、風力の反実仮想では最上位の三分位より先へ外挿しない。分断混合仕様は、システムプライス比の安値・同価格・高値の3レジームを純需要の多項ロジットで混合する仕様（5.4.1、8.1） |
+| $g$ の推定範囲外と下端の扱い | 推定範囲外は、各季節の $g$ の最下位ビンの中心より低い純需要。仕様Aはこの範囲の価格を0.01円とする（段差。主）。感応度は、最下位の打ち切られていない8ビンの傾きで線形外挿し、下限0.01円を残す場合（線形外挿・下限あり）と外す場合（下限なし）の2通り。上端（最上位ビンの中心より高い純需要）は価格を一定とし、線形外挿を感応度とする（5.4.1、8.2、8.6） |
+| ベースロードの一律減 | 原子力の再稼働を、純需要からの一律の差し引きで表す。泊3号＝91.2万kW×稼働率90%＝821MW、泊2基相当＝泊3号の2基分1,642MW、泊1〜3号の全基＝207万kW×90%＝1,863MW。泊＋風力2倍は泊3号と風力2倍の組合せ（5.4.1、8.6、第10章） |
+| 負価格の段差モデル | 価格が下限に張り付く時間だけ価格を $-c$ 円/kWh（$c$=0・5・10）に置く。$-c$ は $\theta$ で伸縮させない（5.6、第10章） |
+
+**蓄電池の価値とオプションとしての分解（5.3、第7章）**
+
+| 項目 | 定義 |
+|---|---|
+| 完全予見の裁定粗利（完全予見粗利。表の列見出し・図の凡例では PF） | 4時間（出力1MW・容量4MWh）・往復効率0.85（放電側に一括適用）・1日1サイクル・日をまたぐ持ち越しなし・価格テイカーの蓄電池が、当日の実現価格を知って最安4時間に充電・最高4時間に放電し、粗利が負の日は休止したときの年間の裁定粗利（円/kW-年）。日次スプレッド（交換）オプションの束の事後のペイオフであり、前日スポット・1日1サイクルでの上界（ペナルティなしの情報緩和による上界）である（5.3.1） |
+| 日次の粗利 $X_t(D,C)$ | $\eta\sum_{h\in D}p_{t,h}-\sum_{h\in C}p_{t,h}$（円/kW-日、$\eta$=0.85。$D$・$C$ は放電・充電の4時間）。稼働日には $4(0.85\cdot上位4h-下位4h)=3.4\cdot TB4h-0.6\cdot下位4h$ が成り立つ（5.3.1、5.4.1） |
+| 放電脚・充電脚 | 恒等式 $4(0.85T-B)=3.4(T-m)+4(m-B)-0.6m$（$T$・$B$ は上位・下位4時間の平均価格、$m$ は日平均価格）の第1項（上位4時間のプレミアム）と第2項（下位4時間のディスカウント）。第3項は往復損失の水準項。放電脚の比率は $(T-m)/(T-B)$（7.1、表7.1のパネルB） |
+| 実行可能戦略 | 先読みのない取引戦略（5.3.1、5.3.3）。a＝前日の実現価格のランク、a2＝同じ曜日区分の直近日の実現価格のランク、b＝D−2 までの実績による需要（曜日区分別28日平均）と太陽光（7日平均）の予測から作る残余需要のランク、b'＝b の残余需要から風力の直近7日（D−8〜D−2）平均を控除した信号のランク、c＝過去28日・同曜日区分の平均価格カーブのランク（気候値。窓を前日に固定する本源的方策）。DL1・DL3・DL5＝気候値からの偏差を1・3・5個の主成分に縮約し、因子ごとの AR(1) で当日に持ち越す Diebold–Li 型の動的因子予測、AR＝時刻別の AR(1) |
+| capture率（実現率） | 実行可能戦略の実現粗利÷完全予見粗利。戦略 c は FY2023〜25 の実績価格で81.7%（8,427円/kW-年）、モデル価格の上では0.92。均衡分析では、実績で測った capture率をモデルの完全予見粗利に掛けない（取り逃しを二重に差し引くことになる）。0.81×完全予見粗利は旧基準として比較にだけ用いる（5.3.1、5.4.2） |
+| 層 (I)・(II)・(III) | 戦略 c の窓 $(D_c,C_c)$ を基準とする完全予見粗利の分解（5.3.3）。(I) 本源的方策の価値 $\sum_t X_t(D_c,C_c)$、(II) 休止の価値 $\sum_t\max\{X_t(D_c,C_c),0\}-$(I)、(III) 窓の選び直しの価値＝完全予見粗利 $-\sum_t\max\{X_t(D_c,C_c),0\}$。(I)+(II)+(III)＝完全予見粗利、(I)÷完全予見粗利＝戦略 c の capture率。(II)+(III) は固定窓に対する完全情報の価値で、時間前市場でスポットと同じ価格で組み替えられるとした場合の上限 |
+| DM 統計量 | 2戦略の日次粗利の差（円/kW-日）を損失差とする Diebold–Mariano 統計量。長期分散は Newey–West（ラグ7日）、Harvey–Leybourne–Newbold の小標本補正つき（5.3.3） |
+| SPA 検定・Reality Check | 基準以外の候補のうち最善のものが基準を上回らない、という帰無仮説の検定（Hansen 2005、White 2000）。定常ブートストラップ（平均ブロック長20日、10,000回）による（5.3.3） |
+| duration 別の価値と $\theta^*(h)$ | 充放電時間 $h$=2〜8 の完全予見粗利と、戦略 c（窓を $h$ 時間にした同じ規則）の実現粗利。資本費は kWh 比例部分と kW 比例部分（PCS 等。主は24.3%、0〜39.7%を感応度）に分け、容量収入は2029年度向け北海道の調整係数 $\kappa(h)$（3時間未満は0）で按分して、$h$ 別の参入閾値を求める（5.3.2、7.4、8.7） |
+
+**価格カーブの因子分解と回帰の推論（5.2、第6章）**
+
+| 項目 | 定義 |
+|---|---|
+| 主成分（負荷 $v_k$・因子スコア $f_{k,d}$） | 日 $d$ の24時間価格ベクトル $p_d$ から年度×季節×時刻の平均 $\bar p_d$ を除いた偏差の共分散行列の固有ベクトルを負荷 $v_k$ とし、$f_{k,d}=v_k'(p_d-\bar p_d)$ とする。第1主成分（水準）は平均負荷が正、第2主成分は夕方（17〜19時）の負荷が昼（11〜13時）より大きい向き、第3主成分は夜（0〜5時）の負荷が正の向きに符号を揃える。第1主成分は加法的な因子で、乗法的な $\theta$ とは別物。2021年1月の31日を除いた寄与率・負荷・回帰を感応度とする（5.2.7） |
+| 時刻別係数ベクトル $b$ | 5.2.3 と同じ右辺で24時刻の価格を別々に回帰した発電量の係数（円/kWh per GWh/日）。平行シフトは $b_0=\cdots=b_{23}$、比例シフトは $b=\varsigma\bar p^{(s)}$（$\bar p^{(s)}$ は季節 $s$ の平均価格プロファイル、$\varsigma$ は比例の係数）（5.2.7） |
+| コントラスト | 時刻別係数の、夕方（17〜19時）−昼（11〜13時）と夕方−夜（0〜5時）の差（5.2.7） |
+| 因子エクスポージャー | 日次の完全予見粗利（円/kW-日）を5.2.3 の右辺と第1〜第5主成分のスコアに回帰した係数。債券のファクター・デュレーションの類比（5.2.7、7.5.3） |
+| EWC（主の推論法） | Lazarus et al. (2018) の等重み余弦推定量。係数の影響関数を暦日の第II種離散余弦 $\nu=\lfloor0.4T^{2/3}\rfloor$ 本（FY2016〜25 で94、FY2023〜25 で42）に射影して分散を求め、自由度 $\nu$ の t 分布で検定する。欠測日は影響関数を0とおく。時刻をまたぐ同時検定は多式の EWC 共分散の Wald 統計量に F 補正 $F(q,\nu-q+1)$ を当てる（5.2.3、5.2.7） |
+| 補正 p・†（表6.2・6.8・6.9） | 補正 p は、設計に合わせた AR ふるいブートストラップ（1,999回）で求めた EWC の p 値。† はこの p で星が1段以上少なくなる係数。価格ラグを含む仕様では補正 p を出さない（5.2.3、6.5.6） |
+| 年月FE の仕様 | 年度・季節固定効果を年月固定効果（120セル）に置き換え、曜日と祝日を加えた仕様。同じ月の中の日々の気象の違いだけで係数を識別する（5.2.3） |
+| 効果の上限 | 有意でない係数について、EWC の95%区間の上限を年度内の日次発電量1標準偏差あたりの円/kWh に直し、季節平均の TB4h に対する比で示したもの。ブートストラップ‐t 区間を併記する（5.2.3、6.2） |
+| 係数の比 $k$ の95%集合（Fieller 型） | 冬に風力が上位4時間を下位4時間より多く下げるかを調べるため、$y_d$=上位4h−$k$·下位4h の EWC 検定を $k$ の格子の上で反転して求めた集合。平行移動は $k$=1、比例的な引下げは $k$=上位・下位4時間の平均価格の比（5.2.3、表6.9のパネルB では c と書く） |
+| 分位点回帰の統制付き・統制なし・相対価格 | 統制付きは制御前の風力・太陽光・需要に季節×時刻・月・年度の固定効果と曜日・祝日を加えた仕様（主）、統制なしは Sakaguchi and Fujii (2021) 型の発電実績と定数の仕様。相対価格は価格を年度平均価格で割った値。区間は日単位の14日移動ブロック・ブートストラップ（499回）のパーセンタイル区間。高分位のメリットオーダー効果が「減衰した」と書くのは、価格と相対価格の両方で τ=0.9 の期間差の区間が0を含まず正の場合に限る（5.2.4、6.3） |
+
+**集中立地の反実仮想（5.2.5、6.4）**
+
+| 項目 | 定義 |
+|---|---|
+| 日内分散比 $R$ | 合成系列で実現した日内帯域（6時間未満・6〜24時間）の分散の、実フリートに対する比。校正値は $R=(s_6N_1+s_{24}N_2)/(s_6+s_{24})$ で、$N_b$ は帯域 $b$ の分散の減衰（面積式 $A/(2\xi_b)^2$ または容量加重の有効数）、$s_6$・$s_{24}$ は実フリートの帯域シェア、$\xi_\tau$ は St. Martin, Lundquist and Handschy (2015) の相関距離（5.2.5） |
+| ロジット空間での増幅 | 日内帯域の確率的な変動（季節×時刻の平均で表す系統的な日周を除いた部分）を設備利用率のロジット空間で増幅し、各日のロジットの平行移動で日次エネルギーを保存する。増幅率は、実現した $R$ が校正値に一致するよう数値的に求める。加法で振幅を伸ばし0と設備容量で打ち切る旧版の作り方は参考（5.2.5、表6.4のパネルB） |
+| 日周位相 | 実フリートに $x\cdot(1+a\cos(2\pi(h-h_0)/24))$ の日周（振幅 $a$、ピーク時刻 $h_0$）を付与した系列。日周振幅は時刻別平均の（最大−最小）/平均（実フリートは0.17）。実現した分散比をそろえた一様な増幅と比べる（5.2.5、表6.4のパネルC） |
+| 感応度比による補正 | 風力の日内変動（日内帯域の日次標準偏差）に対する TB4h の感応度の、実績とモデルの比。モデルの夏の完全予見粗利の増分にこの比を掛けた値を参考値とする。比の区間は、実績の係数の誤差だけによるものと、モデルの係数の誤差も含めた Fieller 区間を併記する（5.2.5、表6.4のパネルD） |
+
+**価格過程の検証と均衡分析の収益の基準（5.4.1〜5.4.3、8.1、8.3）**
+
+| 項目 | 定義 |
+|---|---|
+| 条件付き応答の検証 | FY2023〜25 の1,096日について、実績とモデル価格の日次の指標（日平均・上位4h・下位4h・TB4h・完全予見粗利）に表6.2 の主仕様と年月固定効果の仕様を当て、差（モデル−実績）を同じ右辺に回帰して差そのものを検定する。推論は EWC（$\nu$=42）で、風力の3季節の族に Holm (1979) の補正を当てる。基準は、両仕様で全季節・全脚の差の p が0.10を上回ること。仕様A′ は状態変数などを試して選んだので、in-sample の確認にとどまる（5.4.1、表8.3） |
+| 実績整合ケース | モデル価格の上で戦略 c を実際に動かして得る粗利 $c_{model}(K)$ に校正係数 $\lambda$ を掛け、充電従量負担を控除した $\pi(K)=\lambda\cdot c_{model}(K)-w_{chg}$。K=0・$\theta$=1 で実績の戦略 c（8,427円/kW-年）に一致し、$\pi(0)$=6,675円/kW-年。均衡分析（第8〜10章）の主の基準である。`41` の docstring ではこれを $\pi_c(K)$（戦略 c の実現粗利による $\pi(K)$）と書き、CSV の列名は `π_実績整合`（51 では `π_c_実績整合`）（5.4.2、8.1） |
+| 校正係数 $\lambda$ | 実績の戦略 c÷モデル価格の上の戦略 c（K=0・$\theta$=1、FY2023〜25 の in-sample）。水準係数付き価格過程の仕様Aで1.108（8,427円÷7,602円。日次の組の定常ブートストラップで95%区間1.03〜1.19）、水準固定の仕様Aで1.103、仕様A′ で1.0015、下端の線形外挿で1.114、分断混合仕様で1.233。各仕様の現状・K=0 で求め、K>0・他のシナリオでも一定とする（K>0 では上側の値になりうる）。水準係数付きの仕様Aの実績/モデルの比は、年度別に1.19・0.94・1.21（FY2023・24・25）、形状の期間外（形状はFY2023〜25で推定したまま、水準 $\theta$ は当該期間の価格で推定し、FY2026 4〜6月で1.57、FY2022で1.72）で1.23（FY2026 4〜6月）・1.60（FY2022）である（`price_model_level_ratios.csv`。5.4.1、5.4.2、8.1） |
+| モデル直値 | $\lambda$=1 とした $c_{model}(K)-w_{chg}$（水準係数付きの仕様Aで K=0 に5,850円/kW-年）。参考として併記する（5.4.2） |
+| 旧基準 | 旧版の $0.81\cdot\pi_{PF}(K)-w_{chg}$（水準係数付きの仕様Aで K=0 に4,943円/kW-年。CSV の `π_旧0.81PF`）。実績で測った capture率をモデルの完全予見粗利に掛けるので取り逃しを二重に差し引く。比較の参考値にだけ用いる。旧版の完全予見粗利に1.25 を掛けたケース（CSV に別の列として残る）は本文では用いない（5.4.2） |
+| 増分貪欲ディスパッチとフリートの配分 | 規模 K のフリートを1万kW 刻みで逐次投入し、各増分がその時点の価格で最安4時間に充電・最高4時間に放電して（正マージンの日のみ）純需要と価格を更新する。主はフリートを完全予見で配分し、感応度としてフリートも戦略 c の窓で動く場合と、両者が半々の場合を示す（5.4.2、8.3） |
+| 外生の契約型容量 $K_{exo}$ | LTDA・補助金による契約型の容量を、価格テイカーとして同じ増分貪欲で動く外生の容量として置いたもの。主は0。感応度は接続済み約20万kW、第3回の別解による76.8万kW、接続済みに LTDA の北海道分約67.4万kW を加えた87.4万kW（6時間級を4時間換算すると99.1万kW）。$K_{exo}$ を置く場合は $a=\lambda\,c(K_{exo})$、$X=\theta\cdot c(K_{exo}+K)/c(K_{exo})$ とする。推定期間の価格に既設の蓄電池の影響が入っているので、二重計上を含む（5.4.3、5.4.4、8.4、9.2(b)、付録A） |
+| 実効容量収入 $\kappa P_{cap}$ | 容量市場の約定価格×調整係数 $\kappa$。主は2029年度向け北海道の14,972円/kW×0.836＝12,517円/kW-年（8.4・8.7・9.4 の式では1.25万円・12,500円に丸める）。感応度は、FY2030 以降に2030年度向けの指標価格（Net CONE 20,911円/kW）による1.75万円、上限近傍の2.5万円、上限価格（1.5×Net CONE）による2.62万円とする年度ごとの列（3.3、5.4.4、5.5.2） |
+| 容量市場価格の K 依存 | 2029年度向けの数量に2030年度向けの価格を当てた4点折れ線の需要曲線の上の移動として、北海道ブロック按分と全国連系の2境界で与える。現在点は起点の実効容量収入に置き、接続済み容量とマーチャントだけを入れる（LTDA 電源は容量市場に参加しない）（5.4.3、表8.9） |
+
+**価格水準の不確実性と参入閾値（5.4.4、8.7、9.2(e)）**
+
+| 項目 | 定義 |
+|---|---|
+| 恒久成分 $\xi$・一時成分 $\chi$ | 価格水準の代理（月平均システムプライス÷FY2023〜25同月平均、2016年4月〜2026年6月）の対数を、ランダムウォークの $\xi$ と AR(1) の $\chi$ の和で表す2因子分解（カルマンフィルタによる最尤推定）。$\sigma_\xi$ は恒久成分の年率ボラティリティ。2026年6月の恒久成分の推定値（水準）は1.22 |
+| $a$・$F$ | 年間キャッシュフローを $a\theta\,c(K)/c(0)-F$ と書いたときの係数。$a$ は K=0・$\theta$=1 の限界参入者の粗収益で、実績整合の $\lambda\,c_{model}(0)=1.1085\times7{,}602=8{,}427$円/kW-年（モデル直値7,602円、旧基準6,695円）。$F$＝運維・廃止0.53万円＋託送等固定0.69万円＋充電従量負担1,752円−実効容量収入1.25万円＝1,452円/kW-年 |
+| $\theta^*$（静学の損益分岐） | $(I\cdot CRF+F)/a$。価格水準が一定のまま20年続くと置いて、K=0 で NPV を0にする価格水準係数（9.4 の式。WACC 6% で2.99、$\lambda$ の95%区間で2.78〜3.21、モデル直値3.31、旧基準3.76）。8.4 の標準ケース（$c_{req}$=3.45万円）では2.82 |
+| $\theta^*$（直接解） | 収益が $\theta$ に比例しない場合（負価格の段差モデルでは $-c$ が $\theta$ で伸縮しない）に、各 $\theta$ で戦略 c を計算し直した粗収益 $a(0;\theta)$ について $a(0;\theta)-w_{chg}+\kappa P_{cap}=c_{req}$ を $\theta$ について解いた値（5.6、表10.1） |
+| $\bar\theta$（単独企業の閾値） | 排他的な参入権を持つ単独企業の最適行使閾値。他社の参入を無視し、自分の待機の価値は考慮する |
+| $\theta_c$（競争均衡の閾値） | 閾値で参入した者の NPV を、その後に他社が同じ規則で参入し収入が閾値に押さえられる（上側の反射壁）ことを織り込んで計算し、それが0になる閾値 |
+| 資本費の低下率 $g$ | 蓄電池の資本費の年率の低下（0〜8%）。揚水並みの2.3万円/kWh で止まるとする。供給曲線の $g$ とは別の記号（5.4.4） |
+| 期待成長 $\alpha$ | 価格水準の恒久成分の期待成長率。主は0（マルチンゲール）、感応度は年2%と、2因子モデルどおり対数のドリフトを0とする $\exp(\sigma^2/2)-1$（5.4.4、8.7） |
+| 参入が開く確率 | 恒久成分の推定値1.22 を出発点に $\theta$ を年次のマルチンゲールとして動かしたとき、各年度までに $\theta$ が閾値を上回る確率 |
+| 補助の扱い | SII の補助率 $s$（上限なしの1/2、1/3、上限の効く実効29.4%）に対し、投資額と資本費の下限を $(1-s)$ 倍にする。競争均衡は後続の参入者も補助を受けると置いた近似（5.4.4、表8.17） |
+| 接続枠の待機価値 $W_0$ | マーチャント収入（スポット裁定と容量収入）だけで評価した、排他的な接続枠（契約申込）の待機価値。単独企業の動的計画法で、期限つき（3・5・10年。本文は5年）と期限なし（80年で打ち切り）について求める。他社の参入を無視した上限（5.4.4、9.2(e)） |
+
+**費用・資本コスト・収益リスク（5.4.2、5.4.3、5.5、9.4、9.5）**
+
+| 項目 | 定義 |
+|---|---|
+| $c_{req}$・$CRF$・$c_{fix}$ | $c_{req}=I\cdot CRF(r,20)+c_{fix}$、$CRF(r,20)=r/[1-(1+r)^{-20}]$。$I$＝6.8万円/kWh×4＝27.2万円/kW、$c_{fix}$＝運維・廃止0.53万円＋託送等固定0.69万円＝1.22万円/kW-年（WACC 6%で $c_{req}$＝3.59万円/kW-年。5.4.3） |
+| 充電従量負担 $w_{chg}$ | 1.2円/kWh×4時間×365日＝1,752円/kW-年（5.4.2） |
+| 事業IRR | 無レバレッジ・税前・20年で、期末に毎年同額のキャッシュフローが生じるとしたときの内部収益率。物価上昇を織り込まないので実質と読む。容量収入の経路を置く場合は年度別のキャッシュフローの IRR（5.5.2） |
+| 資産の資本コスト $r_A$ | 事業資産のリスクに見合う割引率。摩擦がなく税がなければ加重平均資本コストに等しい。契約型 $r_C$＝4〜6%（APV では5%）、マーチャント $r_A^M$＝8〜9%（APV では9%。8%の値を本文に併記）（5.5.2） |
+| APV（調整現在価値） | 借入のないマーチャント事業の NPV（$r_A^M$ で割引）を基礎とし、容量市場・補助金・LTDA の各成分の現在価値を足したもの。負債の節税効果は別に示す（5.5.2、9.5.3） |
+| APV=0 となる割引率 | 補助後の投資額と、スポット・容量の収入から固定費を引いたキャッシュフローの IRR。これより低い割引率で評価すれば APV は正になる（9.2(f)、9.5.3） |
+| 期待値の移転・リスク移転 | LTDA をレベニュースワップとみたときの価値の2成分。前者は固定収入が手放す側の期待値を上回る分（$r_C$ で評価）、後者は手放す側を $r_C$ と $r_A^M$ で割り引いた差（5.5.2） |
+| 確実性等価のリスク調整 | $\log\theta$ を持続性 $\phi$ の定常 AR(1)（$\phi$=0〜0.9）または恒久成分のランダムウォーク（$\phi$=1、革新の標準偏差 $\sigma_\xi$=0.10〜0.30）とし、各年の価値の更新の標準偏差に市場リスクの価格 $\lambda$（0.2〜0.4）と市場収益率との相関 $\rho$（0.3〜1）を掛けた額を、期ごとに6%で割り引いて積み上げたもの（5.5.2） |
+| 年間市場収入 $R$ | $\theta\,S\,w\,a(K)-w_{chg}+\kappa P_{cap}(K;L)$。$a(K)=\lambda\,c_{model}(K)$ は実績整合の限界参入者の粗収益（$\theta$=1）。因子は価格水準 $\theta$、他者の参入 $K$（主は20〜87.4万kW の一様分布）、容量価格の約定水準 $L$、年度単位の形状 $S$、日々の天候 $w$（5.5.3） |
+| 5% CFaR・5% ES | CFaR＝$E[R]$−$R$ の5%分位点、ES＝$E[R]$−（5%分位点以下の条件付き期待値）（5.5.3） |
+| Shapley 配分 | 5因子同時の5% CFaR を、全32通りの部分集合の CFaR（含めない因子は基準値に固定）から各因子に配分したもの（5.5.3） |
+| ヘッジ有効性 HE | $1-\mathrm{Var}(X-h^*F)/\mathrm{Var}(X)$、$h^*=\mathrm{Cov}(X,F)/\mathrm{Var}(F)$。$X$ は北海道の月間の完全予見粗利、$F$ は東京エリアの月平均価格（ベース、平日8〜20時・祝日除くのピーク）。季節（暦月平均）は標本の中で除く（5.5.3） |
+
+**乖離の勘定と併設蓄電池（5.5.1、9.2(f)、9.3）**
+
+| 項目 | 定義 |
+|---|---|
+| 乖離の kW 勘定 | 接続済み約20万kW と契約申込約234万kW の合計254万kW を、属性（LTDA、補助（SII の交付決定の北海道12件）、確認できたマーチャント（Helios）、併設、不明）別の kW に割り当て、各属性に1kWあたりの APV（$r_A^M$=9%、実績整合）を対応させたもの。「市場外収入で APV が正」「APV が負のまま参入」「属性不明」に分ける。LTDA は落札容量（契約容量）で数え、設備容量への換算を上限側とする。補助の kW は補助額÷（補助率×6.8万円/kWh）と2〜4時間の duration からの推定（5.5.1、9.2(f)、表9.1） |
+| 計測外の成分 | 不明の kW をマーチャント4時間とみなしたときの1kWあたりの APV の不足（K=0 の値）と、その kW の積。K=0 は参入に最も有利な評価なので、上限ではなく規模の目安（5.5.1、9.2(f)） |
+| 併設の①・② | ①はエリア価格でのスポット裁定、②は再エネの出力制御（抑制）の回避。①と②は同じ時間の充電を取り合うので、日ごとの線形計画で同時に最適化し、②は系統から充電する場合に比べた増分（両方を許した価値−①だけの価値）とする（5.5.1、9.3.2） |
+| 併設の参入条件 | $\pi_{spot}'+\pi_{local}+\kappa P_{cap}\ge c_{req}^{併設}$。$\pi_{spot}'$ は併設蓄電池の①（実績整合）、$\pi_{local}$ は②の増分。$c_{req}^{併設}$ は、系統用と同じ定義と、託送の固定費を発電所と共有し系統から充電しない併設の定義の2通り（5.5.1、9.3.3、表9.4） |
+| 比例拡大・回避率一定 | 抑制率を上げる2通りの方法。比例拡大は FY2026 4〜6月の時間別の抑制を比例的に拡大するもので、容量の制約で回避率が下がる（下限側）。回避率一定は表9.2 の回避率を保つ（上限側）（5.5.1、9.3.2） |
+| 5円超の抑制の分類 | 風力の抑制のうちエリアプライスが5円/kWh を超える時間を、(i) 太陽光の抑制が同じ時間にある、(ii) 同じ日に下限張り付きの時間がある、(iii) 再エネ（太陽光・風力）の抑制が続いた時間帯の最初か最後の時間、(iv) ローカル制御の公表された系統・日・時間帯にあたる、に分けたもの（9.3.1、付録E の表E.1） |
 
 ## 付録C 図表と出力ファイルの対応
 
@@ -38,23 +156,103 @@
 | 図6.1 太陽光大小×3季節の価格カーブ | `price_curve_shapes_fy2023-25.png` | `15_price_curve_shapes.py` |
 | 図6.2 風力大小×3季節の価格カーブ | `wind_price_curves_fy2023-25.png` | `17_wind_battery_deepdive.py` |
 | 図6.3 帯域分解の年度別推移 | `wind_bands_timeseries.png` | `19_hokkaido_extra_figs.py` |
-| 図6.4 発電量五分位×水準・TB4h | `gen_vs_price_shape.png` | `22_wind_vs_price_shape.py` |
-| 図6.5 空間分散シミュレーション | `spatial_dispersion.png` | `29_spatial_dispersion.py` |
-| 図7.1 年間裁定粗利の時系列（PF・a・b・c） | `annual_backtest_series.png` | `19_hokkaido_extra_figs.py` |
-| 図8.1 風力導入量スイープ | `kwind_sweep.png` | `18_kwind_sweep.py` |
-| 図8.2 π(K)曲線（基本仕様） | `pi_k_curve.png` | `23_pi_k_curve.py` |
-| 図8.3 π(K)の価格水準感応度（水準係数付き） | `pi_k_curve_v2.png` | `27_pi_k_curve_v2.py` |
-| 図8.4 π(K; K_wind) | `equilibrium_surface.png` | `28_equilibrium_surface.py` |
-| 図9.1 損益分岐面 | `breakeven_frontier.png` | `28_equilibrium_surface.py` |
-| 図10.1 下限価格シナリオ別の π(K) | `negative_price_pi_k.png` | `32_negative_price.py` |
-| 補助図 帯域分解の比較（北海道風力 vs 九州太陽光） | `band_comparison.png`、`band_comparison_hokkaido.png` | `21_band_comparison.py` |
+| 図6.4 発電量五分位×水準・TB4h（誤差棒つき） | `gen_vs_price_shape_ci.png`（区間は `gen_quintile_ci_v3.csv`。旧版は `gen_vs_price_shape.png`／`22`） | `46_market_split_v3.py` |
+| 図6.5 空間分散シミュレーション（集中立地の反実仮想と日周位相） | `spatial_dispersion_v3.png`（旧版は `spatial_dispersion.png`／`29`） | `47_spatial_dispersion_v3.py` |
+| 図6.6 24時間価格カーブの主成分負荷と、風力・太陽光の時刻別係数（EWC の95%帯。FY2016〜25・FY2023〜25） | `price_curve_pca_v3.png`（上段の負荷は `34` の全標本と FY2023〜25 のもの。旧版は `price_curve_pca.png`／`34`） | `44_regression_robustness_v3.py` |
+| 図7.1 完全予見粗利（PF）と戦略 a・b・c の年間粗利の時系列 | `annual_backtest_series.png` | `19_hokkaido_extra_figs.py` |
+| 図7.2 完全予見粗利の層分解（年度別、FY2023〜25 の季節×風力三分位） | `option_layers.png` | `35_option_layers.py` |
+| 図8.1 風力導入量スイープ（分断混合仕様） | `kwind_sweep.png`（3仕様の比較は表8.5） | `18_kwind_sweep.py` |
+| 図8.2 π(K)曲線（実績整合・モデル直値・旧基準、水準係数付き価格過程、θ=1） | `pi_k_curve_v3.png` の (a) | `41_equilibrium_v3.py` |
+| 図8.3 価格水準と K=0 の収益・参入必要水準 | `pi_k_curve_v3.png` の (b)（K>0 の θ 別の曲線は表8.7 が担う。旧版の `pi_k_curve_v2.png`／`27` は旧基準） | `41_equilibrium_v3.py` |
+| 図8.4 π(K; K_wind)（実績整合。(a) 段差、(b) 線形外挿・下限あり。仕様A′ は含まない） | `equilibrium_surface_v3.png`（旧版は `equilibrium_surface.png`／`28`） | `42_breakeven_surface_v3.py` |
+| 図8.5 仕様Aの供給曲線と、FY2023〜25パスの純需要の分布（現状・泊3号・泊2基相当・風力2倍） | `supply_curve_net_dist.png` | `33_price_curve_sensitivity.py` |
+| 図8.6 ベースロードの一律減への完全予見粗利の応答と分解 | `baseload_shift_response.png` | `33_price_curve_sensitivity.py` |
+| 図8.7 不確実性の下での参入閾値（価格水準の恒久成分、σ と閾値、参入が開く累積確率。実績整合） | `real_option_threshold.png` | `38_real_option_threshold.py` |
+| 図9.1 乖離の勘定（段階別・属性別の kW と、属性別の APV（$r_A^M$=9%、実績整合）） | `gap_ledger.png` | `49_gap_ledger.py` |
+| 図9.2 併設4時間蓄電池の参入条件（$\pi_{spot}'$＋②＋$\kappa P_{cap}$−$c_{req}$ と抑制率、2035年度の見通し37%） | `btm_entry_threshold.png` | `50_colocation_v3.py` |
+| 図9.3 損益分岐の価格水準係数 θ*（実績整合。破線は旧基準の θ*=1・1.57 の等高線） | `breakeven_frontier_v3.png`（旧版は `breakeven_frontier.png`／`28`） | `42_breakeven_surface_v3.py` |
+| 図9.4 APV による乖離の分解（マーチャント4時間、LTDA 6時間） | `apv_decomposition.png` | `39_irr_cost_of_capital.py` |
+| 図9.5 年間市場収入の5%下振れと因子別の寄与（単独の下振れ、Shapley 配分） | `cfar_decomposition.png` | `40_cfar_hedging.py` |
+| 図10.1 下限価格シナリオ別の π(K)（実績整合。(a) 現状・泊3号、(b) 泊＋風力2倍） | `negative_price_pi_k_v3.png`（(b) を含め段差・仕様A による。表10.1 の泊＋風力2倍の主の行は仕様A′。旧版は `negative_price_pi_k.png`／`32`） | `43_negative_price_v3.py` |
+| 補助図 帯域分解の比較（北海道風力 vs 九州太陽光、MWh 系列） | `band_comparison.png`、`band_comparison_hokkaido.png` | `21_band_comparison.py` |
 | 補助図 併設の根拠 | `btm_case.png` | `20_btm_case.py` |
+| 補助図 推論法と仕様による係数の95%信頼区間（北海道、TB4h の係数と冬の上位・下位4時間への分解。6.5.6） | `robust_inference_ci.png` | `37_robust_inference.py` |
+| 補助図 実行可能戦略の capture率と95%区間、c との差（北海道FY2023〜25。7.2・7.5） | `strategy_capture_ci.png` | `36_strategy_tests.py` |
+| 補助図 分位点回帰の風力の係数（τ 別・期間別。表6.3のパネルA） | `quantile_moe_v3.png` | `45_quantile_moe_v3.py` |
+| 補助図 北海道と九州の脚の比較と duration 別の θ*（7.1・7.4） | `duration_legs.png` | `48_duration_legs.py` |
+| 補助図 cf の計上時期の補正（4.2） | `cf_correction.png` | `51_cf_correction.py` |
 
-表の出典: 表6.2・6.8 `vol_regression_results{,_ex21-22}.csv`、表6.4 `spatial_dispersion.csv`、表6.5〜6.7 `fo_replication_results.csv`、表7.3 図表データ.xlsx「風力×裁定指標」、表8.2 `price_level_theta.csv`、表8.4 `pi_k_curve.csv`、表8.5 `pi_k_curve_v2.csv`、表8.6 `equilibrium_surface.csv`、表8.7 `capacity_price_of_k.csv`、表8.8 `eprx_rent_cap.csv`、表9.1 `btm_avoidable_share.csv`、表9.2 `breakeven_frontier.csv`、表9.3 `kstar_grid.csv`、表10.1 `negative_price_scenarios.csv`・`negative_price_breakeven.csv`、表10.2 `negative_price_transfer.csv`。編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`。
+表の出典（CSV はいずれも `data/processed/`、xlsx は `slides/`。「図表データ.xlsx」は `進捗報告_20260817_図表データ.xlsx` を指す）:
+
+| 原稿の表 | 出典ファイル | 生成スクリプト |
+|---|---|---|
+| 表4.1 日次の記述統計 | `descriptive_stats_v3.csv`（2018年9月6日を除いた版も同じファイル。季節別は `descriptive_stats_v3_season.csv`（付録E の表E.3）、導入量と年度平均 cf は `descriptive_capacity_v3.csv`。4.1 の2018年9月6日を除いた回帰は `regv3_ex20180906.csv`／`44`） | `46_market_split_v3.py` |
+| 4.2 の cf の計上時期の補正（本文。6.4・第8章・第10章の感応度を含む） | `hokkaido_cf_series_corrected.csv`、`cf_correction_fy.csv`、`cf_correction_monthly.csv`、`cf_correction_btable_quarters.csv`、`cf_correction_kwind_specB.csv`（分断混合仕様の風力スイープとレバー①。8.2）、`cf_correction_decomp.csv`（33 の分解。表8.12 の風力の行）、`cf_correction_pik.csv`・`cf_correction_pik_summary.csv`（8.2・表8.8）、`cf_correction_lambda.csv`（旧版の λ 実験）、`cf_correction_negprice.csv`（表10.1） | `51_cf_correction.py` |
+| 表5.1 分析の全体構成 | 本文の整理（データなし） | — |
+| 表5.2 本研究の分析とファイナンスの手法 | 各章の結果の再掲（主な数値は 6.2〜6.6・7.1〜7.5・8.1〜8.7・9.2・9.5 の表と同じファイル。`robust_inference_table62.csv`・`robust_inference_size_mc.csv`・`regv3_wind_tb4_ci.csv`・`band_shares_cf_v3.csv`・`quantile_moe_v3_diff.csv`・`spatial_dispersion_v3_table64.csv`・`price_model_validation.csv`・`pi_k_curve_v3.csv`・`theta_star_v3.csv`・`real_option_threshold.csv`・`irr_cost_of_capital.csv`・`apv_decomposition.csv`・`certainty_equivalent.csv`・`cfar_multifactor.csv`・`hedge_effectiveness.csv`・`hedge_tenor_share.csv` ほか） | `33`〜`51` ほか |
+| 表6.1 制御前出力の帯域分解（設備利用率の系列、FY2023〜25） | `band_shares_cf_v3.csv`（MWh 系列の FY2022〜25 プールの旧版は図表データ.xlsx「帯域分解比較」の①／`21`） | `46_market_split_v3.py` |
+| 表6.2 日次回帰の係数 | `vol_regression_results.csv`（係数）、`robust_inference_table62.csv`（EWC 標準誤差・星・ふるいブートストラップの p 値）。6.2 の本文の95%区間と効果の上限は `regv3_wind_tb4_ci.csv` | `24_vol_verification.py`、`37_robust_inference.py`、`44_regression_robustness_v3.py` |
+| 表6.3 分位点回帰による高分位のMOEの期間比較と市場分断の構成 | A: `quantile_moe_v3_coef.csv`・`quantile_moe_v3_diff.csv`・`quantile_moe_v3_subperiod.csv`（感応度の小表。`--subperiods` で実行）、本文の年度別と下限張り付きを除いた推定は `quantile_moe_v3_yearly.csv`・`quantile_moe_v3_floor_excl.csv`。B・C: `market_split_v3_pooled.csv`・`market_split_v3_by_fy.csv`・`market_split_v3_route.csv`（旧版の `ゼミ発表_北海道簡易分析.xlsx`「h5_分断の方向転換」は欠測を分母に含むので使わない） | `45_quantile_moe_v3.py`、`46_market_split_v3.py` |
+| 表6.4 集中立地の反実仮想と価格過程の検証 | A: `spatial_dispersion_v3_calibration.csv`、B: `spatial_dispersion_v3_table64.csv`、C: `spatial_dispersion_v3_phase.csv`、D: `spatial_dispersion_v3_validation.csv`・`spatial_dispersion_v3_correction.csv`（旧版は `spatial_dispersion.csv`／`29`）。注の「cf の計上時期を補正した容量で打ち切っても0.2ポイント以下」は作業時の確認で、リポジトリの出力にはない | `47_spatial_dispersion_v3.py` |
+| 表6.5 Fuke and Ohashi (2025) 仕様の再現 | `fo_replication_results.csv` | `25_fo_replication.py` |
+| 表6.6・6.7 日間変動性と日内スプレッド（太陽光・風力） | `regv3_fo_tables.csv`（TB4h の EWC・HC3 の星と p、IQR 係数の i.i.d. と14日ブロックのブートストラップの p と星。係数は `fo_replication_results.csv`） | `44_regression_robustness_v3.py`、`25_fo_replication.py` |
+| 表6.8 燃料危機期を除外した日次回帰 | `vol_regression_results_ex21-22.csv`（係数）、`robust_inference_specs.csv` の標本「除FY2021-22」（星）。6.5.4 の相対価格の比較は `regv3_relative_price.csv` | `24_vol_verification.py`（`EXCLUDE_FY=2021,2022`）、`37_robust_inference.py`、`44_regression_robustness_v3.py` |
+| 表6.9 系列相関に頑健な推論と同月内の識別 | A・B: `robust_inference_table62.csv`、`robust_inference_specs.csv`、`robust_inference_winter_legs.csv`、`robust_inference_winter_proportional.csv`（6.5.6 の実効サイズは `robust_inference_size_mc.csv`）。B の追加列（風力 c の95%集合・平行 p・比例 p）は `regv3_winter_ratio.csv`。C: `regv3_cal4_panelC.csv`（春×純需要三分位は `regv3_spring_netdemand.csv`） | `37_robust_inference.py`、`44_regression_robustness_v3.py` |
+| 表6.10 時刻別係数ベクトルの形状 | `regv3_pca_shape_ewc.csv`、`regv3_pca_contrasts_ewc.csv`（2021年1月を除く行を含む。旧版の `price_curve_pca_shape_tests.csv`・`price_curve_pca_contrasts.csv`／`34` は NW14）。6.6 の本文は `regv3_pca_variance.csv`・`regv3_pca_factor_ewc.csv`・`regv3_pca_hourly_ewc.csv`・`regv3_pca_tb4_channels.csv` と、`34` の `price_curve_pca_variance.csv`・`price_curve_pca_loadings.csv`・`price_curve_pca_metrics_corr.csv` ほか | `44_regression_robustness_v3.py`、`34_price_curve_pca.py` |
+| 表7.1 完全予見粗利と脚の分解 | A: 北海道の完全予見粗利は `option_layers_by_fy.csv`、九州の完全予見粗利は `kyushu_battery_backtest_daily.csv` の年度合計÷1,000。下限張り付きコマ数は `jepx_kyushu_30min.csv` の30分値で約定価格が0.011円以下のコマの年度計（`ゼミ発表_北海道簡易分析.xlsx` のシート「h1」）。B: `legs_hokkaido_kyushu.csv`（充放電窓の時刻別分布は `legs_window_hours.csv`） | `35_option_layers.py`、`03_battery_backtest.py`、`10_hokkaido_quick_xlsx.py`、`48_duration_legs.py` |
+| 表7.2 実行可能戦略の capture率と検定 | `strategy_tests.csv`、`strategy_capture_annual.csv`（DP の行は `option_layers_by_fy.csv`） | `36_strategy_tests.py`、`35_option_layers.py` |
+| 表7.3 風力三分位×裁定指標 | `table73_refresh.csv`。北本の拘束・東日本側の2列は `market_split_v3_wind_tercile.csv`、北本の潮流は `market_split_v3_export.csv` | `35_option_layers.py`、`46_market_split_v3.py` |
+| 7.4 duration 別の価値（本文） | `duration_value_v3.csv`、`duration_theta_star_v3.csv` | `48_duration_legs.py` |
+| 表7.4 完全予見粗利の3層分解 | `option_layers_by_fy.csv`（A）、`option_layers_by_season.csv`（B） | `35_option_layers.py` |
+| 表7.5 実行可能戦略の検定（SPA・Reality Check、動的因子予測） | `strategy_tests.csv` | `36_strategy_tests.py` |
+| 7.5.3 完全予見粗利の因子エクスポージャー（本文） | `price_curve_pca_pf_exposure.csv`、`price_curve_pca_pf_channels.csv`、`price_curve_pca_pf_exposure_by_period.csv`、`price_curve_pca_sensitivity.csv`（標準誤差は NW14） | `34_price_curve_pca.py` |
+| 表8.1 基本仕様の価格過程の in-sample 再現 | 標準出力の「in-sample 再現（FY2023-25）」（CSV には書き出さない。記録は `notes/18-price-process-v1-results.md`） | `13_price_process_v1.py` |
+| 表8.2 年度別水準係数と再現性 | `price_level_theta.csv` | `26_price_process_v2.py` |
+| 表8.3 価格過程の風力への条件付き応答の検証 | `price_model_validation.csv`（λ と期間別の実績/モデルの比は `price_model_level_ratios.csv`） | `41_equilibrium_v3.py` |
+| 表8.4 構造イベントの部分均衡効果 | 標準出力の「レバー実験」の①〜⑤（CSV には書き出さない）。8.2 の本文の3年平均（泊3号+1,184円、DC需要−797円、両方−11円/kW-年）は図表データ.xlsx「泊DC_2x2」。上端の扱いの感応度は `dc_upper_end_sensitivity.csv`、ベースロード減の戦略 c の直接計算は `k0_variants_direct_c_v3.csv`（いずれも `41`）。注のマルコフ型の抽出（20本の平均）は監査の検算値で、リポジトリの出力にはない | `13_price_process_v1.py`、`14_export_progress_figures.py`、`41_equilibrium_v3.py` |
+| 表8.5 風力導入量のスイープ | `wind_sweep_v3.csv` | `41_equilibrium_v3.py` |
+| 表8.6 限界参入者の実現可能スポット収益 π(K) | `pi_k_curve_v3.csv`（π=0 と半減の K、π(25)/π(0) は `pi_k_curve_v3_zero.csv`） | `41_equilibrium_v3.py` |
+| 表8.7 価格水準シナリオ別の π(K) | `pi_k_theta_v3.csv`（現状の θ 別）、FY2026上期水準＋泊3号の列は `pi_k_curve_v3.csv` | `42_breakeven_surface_v3.py`、`41_equilibrium_v3.py` |
+| 表8.8 π(K; K_wind) | `breakeven_surface_v3_table86.csv`（全曲線は `breakeven_surface_v3_pik.csv`） | `42_breakeven_surface_v3.py` |
+| 表8.9 容量市場価格のK依存 | `capacity_price_of_k_v3.csv` | `42_breakeven_surface_v3.py` |
+| 表8.10 需給調整市場レントの上限バンド | `eprx_rent_cap.csv`（Q>K のセルは、本文で1kWあたりの物理上限 p×8,760 に抑えた値に置き換えた。CSV は抑える前の値） | `28_equilibrium_surface.py` |
+| 表8.11 泊の再稼働による完全予見粗利の変化の分解 | `baseload_shift_response.csv`（8.6 の下端の傾きは `supply_curve_bin_slopes.csv`） | `33_price_curve_sensitivity.py` |
+| 表8.12 下限価格の機構の検証 | `floor_mechanism_check.csv`（下限なしの負価格の深さと段差モデルの c への換算は `negative_price_extrap_depth_v3.csv`／`43`） | `33_price_curve_sensitivity.py`、`43_negative_price_v3.py` |
+| 表8.13 九州の原子力発電量と日次の価格指標 | `regv3_kyushu_nuclear.csv`（旧版は `kyushu_nuclear_coef.csv`／`33`。いずれも欠測20日を除く。付録A） | `44_regression_robustness_v3.py` |
+| 表8.14 価格水準の2因子分解 | `real_option_price_level.csv` | `38_real_option_threshold.py` |
+| 表8.15 参入に必要な価格水準係数 | `real_option_threshold.csv`（実績整合が主。モデル直値・旧基準の格子を含む） | `38_real_option_threshold.py` |
+| 表8.16 マーチャント参入が開く確率と E[K] | `real_option_entry_prob.csv`（フリートを戦略 c の窓で配分した E[K] は `real_option_fleet_alloc_v3.csv`） | `38_real_option_threshold.py` |
+| 表8.17 容量収入の上振れ・補助・既設容量の感応度 | `real_option_sensitivity_v3.csv` | `38_real_option_threshold.py` |
+| 表8.18 期待成長 α を見込む場合の閾値と確率 | `real_option_drift_sensitivity.csv` | `38_real_option_threshold.py` |
+| 表8.19 duration 別の参入閾値 | `duration_theta_star_v3.csv`（区分「表8.16改訂案」。区分名は作業時の表番号で、現行の表8.19 にあたる）、`duration_value_v3.csv`（θ_c の比は `real_option_short_duration.csv`／`38`） | `48_duration_legs.py` |
+| 8.1・8.4・8.5・9.4 の θ*、損益分岐の資本費、IRR（本文） | `theta_star_v3.csv`、`equilibrium_v3_irr.csv` | `41_equilibrium_v3.py` |
+| 9.2(e) 接続枠の待機価値（本文） | `real_option_waiting_value.csv` | `38_real_option_threshold.py` |
+| 表9.1 乖離の勘定表 | `gap_ledger_summary.csv`、`gap_ledger_projects.csv`、`ltda_hokkaido_summary.csv`（APV の収益基準と APV=0 となる割引率は `gap_ledger_apv_basis.csv`、LTDA のエリア照合は `ltda_area_reconciliation.csv`） | `49_gap_ledger.py` |
+| 9.3.1 抑制の価格帯と5円超の抑制の分類（本文、付録E の表E.1・E.2。3.2 の「抑制電力量の7割強は下限張り付きの時間」も同じ出典） | `curtailment_price_bands.csv`、`curtailment_above5_classification.csv`、`local_congestion_control_occto.csv` | `50_colocation_v3.py` |
+| 表9.2 併設蓄電池の抑制回避可能率 | `btm_avoidable_share.csv` | `30_btm_avoidable.py` |
+| 表9.3 併設蓄電池の抑制回避の価値②（増分） | `btm_local_value.csv` | `50_colocation_v3.py` |
+| 表9.4 併設4時間蓄電池の参入が開く抑制率 | `btm_entry_threshold.csv`、`btm_entry_breakeven_capex.csv` | `50_colocation_v3.py` |
+| 表9.5 損益分岐の価格水準係数 θ* | `breakeven_frontier_v3.csv` | `42_breakeven_surface_v3.py` |
+| 表9.6 参入が開く組合せにおける均衡容量 K* | `kstar_table93_v3.csv`（全格子は `kstar_grid_v3.csv`） | `42_breakeven_surface_v3.py` |
+| 表9.7 マーチャント4時間蓄電池の事業IRR | `irr_cost_of_capital.csv`（ブロックA） | `39_irr_cost_of_capital.py` |
+| 表9.8 LTDA 6時間蓄電池の事業IRR | `irr_cost_of_capital.csv`（ブロックB） | `39_irr_cost_of_capital.py` |
+| 表9.9 資産の資本コスト別の θ* | `irr_cost_of_capital.csv`（ブロックC。9.5.2 の節税効果と資本構成はブロックD・G） | `39_irr_cost_of_capital.py` |
+| 表9.10 APV による乖離の分解 | `apv_decomposition.csv` | `39_irr_cost_of_capital.py` |
+| 表9.11 確実性等価によるリスク調整 | `certainty_equivalent.csv` | `39_irr_cost_of_capital.py` |
+| 表9.12 年間市場収入の多因子 CFaR | `cfar_multifactor.csv`（年度別の形状と θ の代理は `cfar_annual_exposure.csv`） | `40_cfar_hedging.py` |
+| 表9.13 5% CFaR の Shapley 配分 | `cfar_multifactor.csv`（区分「Shapley 配分」「LTDA が移転する CFaR の内訳」） | `40_cfar_hedging.py` |
+| 表9.14 ヘッジ有効性 | `hedge_effectiveness.csv`（9.5.6 の本文のテナー不一致は `hedge_tenor_share.csv`、北海道–東京の TB4h 相関は `hedge_basis_corr.csv`） | `40_cfar_hedging.py` |
+| 表10.1 下限価格シナリオ別の実現可能スポット収益と θ* | `negative_price_v3_table101.csv`（θ* の格子と比例の式との比較は `negative_price_breakeven_v3.csv`、全曲線は `negative_price_v3_pik.csv`、実績価格の行は `negative_price_actual_v3.csv`。仕様A の泊＋風力2倍の行の cf 補正は `cf_correction_negprice.csv`／`51`） | `43_negative_price_v3.py` |
+| 表10.2 下限張り付き時間の再エネ出力と影の価格 | `negative_price_transfer_v2.csv`（比の列は発電実績ベースの `比_発電実績_c5`・`比_発電実績_c10`。注の抑制前出力ベースの比（FY2025 23.8倍、FY2026 4〜6月 6.7倍）は同じファイルの `比_抑制前_c5`・`比_抑制前_c10` で、`negative_price_transfer_ratio_v3.csv`／`43` の年度の行と一致する。10.4 の本文の4〜6月どうしの比（抑制前出力ベースで FY2025 の35倍→FY2026 の7倍）は `negative_price_transfer_ratio_v3.csv` の4〜6月の行） | `50_colocation_v3.py`、`43_negative_price_v3.py` |
+| 10.5 限界便益の傾き（本文） | `weitzman_slopes.csv` | `50_colocation_v3.py` |
+| 表11.1 主要な前提・捨象と結論への影響 | 本文 4.2・6.2〜6.6・7.4・7.5・8.1〜8.7・9.2〜9.5・10.3〜10.5 の結果（`regv3_wind_tb4_ci.csv`、`price_model_validation.csv`、`wind_sweep_v3.csv`、`pi_k_curve_v3.csv`、`theta_star_v3.csv`、`spatial_dispersion_v3_table64.csv`、`real_option_threshold.csv`、`real_option_sensitivity_v3.csv`、`irr_cost_of_capital.csv`、`gap_ledger_summary.csv`、`cfar_multifactor.csv`、`option_layers_by_fy.csv`、`baseload_shift_response.csv`、`cf_correction_pik_summary.csv` ほか） | — |
+| 表E.1〜E.3 | 付録E の各表の注を参照 | `50_colocation_v3.py`、`46_market_split_v3.py` |
+
+編集可能なグラフ付きデータは `slides/進捗報告_20260817_図表データ.xlsx`（`31_export_new_sheets.py` で 24・26〜30 の結果を追記）。33〜51 の出力は CSV と PNG のみで、xlsx には入れていない。旧版の出力（`23` の `pi_k_curve.csv`、`27` の `pi_k_curve_v2.csv`、`28` の `equilibrium_surface.csv`・`breakeven_frontier.csv`・`kstar_grid.csv`・`capacity_price_of_k.csv`、`29` の `spatial_dispersion.csv`、`32` の `negative_price_*.csv` と対応する PNG）は、v3 の旧値の再現と照合、旧基準の参考値のために残している。本文の数値は、旧基準の参考値と表8.10 を除き、上の表の出力による。
 
 ## 付録D 解析スクリプト一覧（`analysis/`）
 
-| スクリプト | 内容（docstring 先頭行） |
+| スクリプト | 内容（docstring の冒頭の文） |
 |---|---|
 | `01_build_panel.py` | 九州パイロット: 生データから分析用パネルを構築する |
 | `02_descriptive_figures.py` | 九州パイロット: 記述統計図表の生成(ゼミ発表用) |
@@ -67,7 +265,7 @@
 | `09_export_figures_xlsx.py` | 発表資料の図表データをExcel化（1図=1シート、数値データ＋ネイティブグラフ） |
 | `10_hokkaido_quick_xlsx.py` | 北海道の簡易分析（JEPXエリアプライスのみで可能な範囲） |
 | `11_build_area_panels.py` | 北海道・東北の需給実績パネル構築（01_build_panel.py のエリア一般化） |
-| `12_fit_capacity_series.py` | FIT/FIP 情報公表用ウェブサイト B表（市町村別導入容量）から都道府県・エリア別の |
+| `12_fit_capacity_series.py` | FIT/FIP 情報公表用ウェブサイト B表（市町村別導入容量）から都道府県・エリア別の太陽光・風力の導入容量の四半期系列を構築する |
 | `13_price_process_v1.py` | フェーズB: 北海道の価格過程モデル v1 |
 | `14_export_progress_figures.py` | 進捗報告（2026-08-17）デッキの図表データをExcel化（編集可能なネイティブグラフ付き） |
 | `15_price_curve_shapes.py` | 北海道の時間帯別価格カーブの形状: 3季節 × 太陽光の大小（FY2023-25） |
@@ -77,7 +275,7 @@
 | `19_hokkaido_extra_figs.py` | 北海道の追加図2点（進捗報告用） |
 | `20_btm_case.py` | 併設蓄電池を研究対象に加える根拠のデータ整理（北海道・風力） |
 | `21_band_comparison.py` | 帯域分解の比較: 北海道風力 vs 九州太陽光（いずれも制御前出力） |
-| `22_wind_vs_price_shape.py` | 風力は水準を下げるがスプレッドを広げない — 発電量×価格の関係（季節別、太陽光と対比） |
+| `22_wind_vs_price_shape.py` | 風力は水準を下げるが、スプレッドを広げる頑健な証拠はない — 発電量×価格の関係（季節別、太陽光と対比） |
 | `23_pi_k_curve.py` | フェーズC v1: 蓄電池フリートの内生化 → π(K)曲線 → 均衡容量K*の初回判定 |
 | `24_vol_verification.py` | ①「再エネ→価格ボラ上昇」の北海道検証（Fuke & Ohashi 型の回帰・風力拡張） |
 | `25_fo_replication.py` | Fuke & Ohashi (2025) 仕様の再現と、日内スプレッド（TB4h）との対比（第6章6.5） |
@@ -86,7 +284,86 @@
 | `28_equilibrium_surface.py` | 8.5 2次元の感応度面と 9.4 損益分岐面（供給曲線 v2 の上で） |
 | `29_spatial_dispersion.py` | 6.4 空間分散シミュレーション: 集中立地の反実仮想（日内帯域を λ 倍に増幅）を価格過程 v2 に通す |
 | `30_btm_avoidable.py` | 9.3.2 併設蓄電池の容量制約下での抑制回避可能率（北海道風力、2025/4〜2026/6 の時間値） |
+| `31_export_new_sheets.py` | 2026-09-29 に追加した解析結果を図表データ.xlsx にシートとして書き出す（冪等: 既存シートは置換、目次は重複しない） |
+| `32_negative_price.py` | 下限価格シナリオ: 負価格の導入が蓄電池の裁定価値・均衡容量・再エネ収入に与える影響 |
+| `33_price_curve_sensitivity.py` | 価格モデルの供給曲線と感応度: ベースロード一律シフトの分解、下限価格の機構の検証、九州の原子力係数（ゼミ指摘2・3） |
+| `34_price_curve_pca.py` | 24時間価格カーブの主成分分解と、蓄電池の完全予見粗利の因子エクスポージャー（北海道、FY2016〜25） |
+| `35_option_layers.py` | 完全予見粗利を日次スプレッド（交換）オプションの3層に分解する（北海道、FY2016〜25） |
+| `36_strategy_tests.py` | 実行可能戦略の予測評価と取引ルールの検定（北海道 FY2023〜25）: Diebold-Mariano・SPA・capture率の区間 |
+| `37_robust_inference.py` | 日次回帰（表6.2）の系列相関に頑健な推論と同月内の識別、冬の TB4h の上位・下位4時間への分解（5.2.3・6.2・6.5、ゼミ指摘1） |
+| `38_real_option_threshold.py` | 不確実性の下での参入閾値（実物オプション）: 静学の損益分岐 θ* と待機を考慮した参入閾値（競争均衡 θ_c・単独企業 θ̄）、参入が開く確率、接続枠の待機価値 |
+| `39_irr_cost_of_capital.py` | 契約型とマーチャントのリスク・リターン: 事業 IRR、資産の資本コスト r_A と θ*、APV による乖離の分解、確実性等価 |
+| `40_cfar_hedging.py` | マーチャント4h蓄電池の多因子 Cash-Flow-at-Risk と、上場先物によるヘッジ有効性・市場の非完備（北海道） |
+| `41_equilibrium_v3.py` | 均衡分析 v3: 戦略c の実現粗利を直接計算した π_c(K)、損益分岐の θ*、価格モデルの条件付き応答の検証（8.1〜8.5・9.4） |
+| `42_breakeven_surface_v3.py` | 損益分岐面と均衡容量の格子 v3: 表8.8（π(K; 風力, 泊) と下端の扱い）・表9.5（θ* の格子）・表9.6（K*）・図9.3 |
+| `43_negative_price_v3.py` | 負価格シナリオ v3: 表10.1 の π(K) と θ* の直接解、下限張り付き時間の再現度の感応度、実績価格での直接計算、8.6 の線形外挿が下限の削る価値の上限かどうかの検証（結果は上限ではない） |
+| `44_regression_robustness_v3.py` | 日次回帰の頑健化（v3）: 風力→TB4h の区間と上限、暦月4季節（表6.9のパネルC）、冬の上位・下位の比の集合と検出力、F&O 型（表6.6・6.7）の推論、九州の原子力（表8.13）、相対価格（6.5.4）、主成分分解（6.6・表6.10）の2021年1月除外と EWC |
+| `45_quantile_moe_v3.py` | 分位点回帰による風力のメリットオーダー効果（MOE）の期間比較の頑健化（6.3、表6.3のパネルA。監査 A6-3-1）。`--subperiods`: FY2016〜17・FY2019〜20 の感応度 |
+| `46_market_split_v3.py` | 市場分断の再分類（表6.3）と記述統計の頑健化（図6.4 の区間・表7.3 の分断列・第4章の記述統計・表6.1 の帯域分解） |
+| `47_spatial_dispersion_v3.py` | 6.4 空間分散シミュレーション v3: 校正の再現・実現分散比で合わせた集中立地の反実仮想・日周位相の検定・価格過程の検証（感応度比の補正には実績のみの区間と Fieller 区間を併記） |
+| `48_duration_legs.py` | 蓄電池の価値の補足: 北海道と九州の「脚」の比較と、duration 別（2〜8時間）の参入閾値（監査 A7-1・A7-6） |
+| `49_gap_ledger.py` | 乖離の勘定表: LTDA 落札蓄電池のエリア照合（第1〜3回）と、北海道の接続済み・契約申込の属性別の kW 勘定 |
+| `50_colocation_v3.py` | 併設蓄電池の価値の再計算（v3）、5円超の抑制の再解釈、併設の参入が立つ抑制率の閾値、負価格の移転の年度推移、Weitzman の傾き |
+| `51_cf_correction.py` | 北海道風力の設備利用率（cf）系列の計上時期のずれの補正と、風力の反実仮想（K_wind 実験・λ 実験）への感応度 |
 
-実行順序の依存: `01`/`11`/`12` → パネル・容量系列、`13` → 基本仕様の価格過程（`18`・`23` が exec）、`26` → 水準係数付き価格過程（`27`・`28`・`29` が exec）。`15`・`17`・`22` は同じ xlsx に書くため直列に実行する。
+docstring の冒頭の文は1行目だけのものが多いが、`12`・`43`・`44` は2行目に続くので、2行目までを示した。次の docstring は本文の表現に合わせて改めて示した。`22` と `43` は本文の結論（「広げる頑健な証拠はない」、8.6・表8.12 の「外挿は上限ではない」）に、`18` と `28` は本文の用語（基本仕様の価格過程、2次元の感応度面と損益分岐面）に合わせた。`20`・`30`・`32` は旧称の括弧書きを除いた（併設蓄電池、下限価格）。41〜51 の docstring には作業時の図表番号が残るものがあり（`42` の表8.6・表9.2・表9.3・図9.1、`44` の表8.11、`45` の表6.3a）、上の表では現行の番号（表8.8・表9.5・表9.6・図9.3、表8.13、表6.3のパネルA）に読み替えて示した。`45` の `--subperiods` の注記は docstring の本文による。`47` の括弧書きは同じスクリプトの内容の補足である。
 
-| `32_negative_price.py` | 下限価格（床）シナリオ: 負価格の導入が蓄電池の裁定価値・均衡容量・再エネ収入に与える影響 |
+v0.4 で置き換えた旧版: `23`・`27`・`28` の π(K) と損益分岐面は `41`・`42` に、`29` の空間分散は `47` に、`32` の負価格は `43` に置き換えた。旧版は旧値の再現と照合のために残す。ただし `28` の `eprx_rent_cap.csv`（表8.10）と `30` の `btm_avoidable_share.csv`（表9.2）は現行の出典である。`38`〜`40` は v0.4 で更新した。収益の基準を実績整合ケースに替え、いずれも `41` の `pi_k_curve_v3.csv` を読む。`38` は容量収入の年度ごとの列・補助・$K_{exo}$ の感応度（`real_option_sensitivity_v3.csv`）と、フリートを戦略 c の窓で配分した感応度（`real_option_fleet_alloc_v3.csv`）を加えた。`39` は容量収入の経路・FY2022 の実績価格・補助の IRR と、確実性等価のランダムウォークの版を加えた。`40` は他者の参入 $K$ の分布を20〜87.4万kW とし、LTDA が移転する CFaR の内訳を加えた。出力のファイル名は旧版と同じで、上書きしている。
+
+実行順序の依存: `01`/`11`/`12` → パネル・容量系列、`13` → 基本仕様の価格過程（`18`・`23`・`33` が exec。`41`・`48`・`51` も部品として読み込む）、`26` → 水準係数付き価格過程（`27`・`28`・`29`・`38`・`41`・`47`・`48`・`51` が exec）。`15`・`17`・`22` は同じ xlsx に書くため直列に実行する。`33`〜`40` は既存の出力を読むので、その後に実行する。`33` は `18` の `kwind_sweep.csv` と照合し、`36` は `26` の `price_level_theta.csv` と `28` の `equilibrium_surface.csv` を読む。`37` は `24` の `vol_regression_results{,_ex21-22}.csv` と係数が一致することを確かめる。`34`・`35` は時間値パネルだけから計算する。41〜51 と更新後の 38〜40 は、次の順に実行する。
+
+1. `36` → `41`（`strategy_daily_margins.csv`・`strategy_tests.csv` を読み、`pi_k_curve_v3.csv`・`price_model_level_ratios.csv`・`k0_variants_direct_c_v3.csv` などを書く）。
+2. `41` → `38`・`39`・`40`・`49`・`50`（いずれも `pi_k_curve_v3.csv` を読む。`38` は `price_model_level_ratios.csv` も読む。`40` は旧版との照合に `23`・`27`・`28` の `pi_k_curve.csv`・`pi_k_curve_v2.csv`・`capacity_price_of_k.csv` も読む）と `42`（`41` の定義部分を exec で読み込む。旧版との照合に `28` の `equilibrium_surface.csv`・`kstar_grid.csv` を読む）。
+3. `42` → `43`（`breakeven_surface_v3_pik.csv` を読む。`41` の定義部分を exec で読み込み、`41` の `k0_variants_direct_c_v3.csv` と `32` の `negative_price_scenarios.csv` を読む）。
+4. `38` → `48`（`real_option_short_duration.csv`・`real_option_price_level.csv`。`36` の `strategy_daily_margins.csv` も読む）、`39` → `49`（`apv_decomposition.csv`）。
+5. `44`・`45` は `37` の推論の実装を exec で読み込み、`44` はさらに `25`・`34`・`45` を読み込む（`25` の `fo_replication_results.csv`、`33` の `kyushu_nuclear_coef.csv`、`34` の `price_curve_pca_*.csv` と照合する）。`45` の `--subperiods` は主の実行のあとに走らせる。
+6. `46` は `35` の `table73_refresh.csv` と照合する。`47` は `26` だけを exec で読み込む。`50` は `30` の `btm_avoidable_share.csv` と `32` の `negative_price_scenarios.csv` を読む。`51` は `12`（関数だけ）・`13`・`26` を exec で読み込み、旧版の出力（`18`・`28`・`29`・`32`・`33`）と照合する。`49` は `ltda_battery_projects.csv` を訂正して書き出す（付録A）。
+
+`analysis/pilots/finance_20261020/` は、33〜40 の前に行ったファイナンスの手法の予備計算（パイロット）とそのレビューの記録である（要約は `notes/31-finance-methods.md`）。入出力のパスは作業時の一時ディレクトリを指しており、本文のファイナンスの手法の数値はすべて 33〜51 の出力による。
+
+## 付録E 補足の表
+
+9.3.1 で参照する5円超の風力抑制の分類（表E.1）とローカル系統の混雑による出力制御の一覧（表E.2）、4.6 の記述統計の季節別の版（表E.3）を示す。
+
+| 分類 | 時間 | 時間の割合（5円超に対する%） | 電力量（MWh） | 電力量の割合（5円超に対する%） | 電力量の割合（風力抑制全体に対する%） |
+|---|---|---|---|---|---|
+| 5円超の抑制（計） | 44 | 100.0 | 1,443.5 | 100.0 | 10.9 |
+| (i) 太陽光の抑制が同じ時間にある | 41 | 93.2 | 1,279.5 | 88.6 | 9.7 |
+| (ii) 同じ日に下限張り付きの時間がある | 18 | 40.9 | 324.0 | 22.4 | 2.5 |
+| (iii) 再エネの抑制が続いた時間帯の最初か最後 | 28 | 63.6 | 868.0 | 60.1 | 6.6 |
+| (i)〜(iii) のいずれか | 44 | 100.0 | 1,443.5 | 100.0 | 10.9 |
+| (i)〜(iii) のどれにも当たらない | 0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| (iv) ローカル制御の公表された日時にあたる | 7 | 15.9 | 223.5 | 15.5 | 1.7 |
+| 頑健性: (iii) の判定から2.5MW 以下の太陽光の抑制（ローカル制御の規模）を除く | 32 | 72.7 | 1,051.5 | 72.8 | — |
+| 参考: 30分値で下限のコマを含む | 0 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 参考: 風力の抑制が8MW を超える | 28 | 63.6 | 1,396.0 | 96.7 | 10.6 |
+
+表E.1 5円超の風力抑制の分類（北海道、2025年4月〜2026年6月の時間値。風力の抑制は計344時間・13,183.5MWh で、うちエリアプライスが5円/kWh を超える時間は44時間・1,443.5MWh。分類 (i)〜(iii) は重複する。(iii) の「抑制が続いた時間帯」は、太陽光または風力の抑制が連続する時間の列。(iv) は表E.2 の系統・日・時間帯にあたる時間で、両系統とも風力の連系はない（OCCTO 2026b、別紙2）。比較として、5円以下の抑制300時間のうち、続いた時間帯の最初か最後にあたるのは57時間（19.0%。頑健性の定義では65時間・21.7%）。2025年11月以降の全日をローカル制御の日とみなす旧来の仮定では、5円超の42時間・1,303.0MWh（電力量の90.3%）がローカル制御の日にあたる。出典は curtailment_above5_classification.csv・curtailment_price_bands.csv（50））
+
+| 年月 | 系統 | 日区分 | 日数 | 時間帯 | 自然変動電源の最大抑制量（万kW） | 抑制必要量（万kW） | 電力量の上限（MWh） |
+|---|---|---|---|---|---|---|---|
+| 2025年11月 | 66kV 岩松線 | 平日 | 18 | 12:00〜13:00 | 0.04 | 0.04 | 7.2 |
+| 2025年11月 | 66kV 岩松線 | 日祝日 | 7 | 10:00〜11:00 | 0.02 | 0.02 | 1.4 |
+| 2026年5月 | 66kV 岩松線 | 平日 | 18 | 7:00〜14:00 | 0.20 | 0.74 | 252.0 |
+| 2026年5月 | 66kV 岩松線 | 日祝日 | 8 | 7:00〜16:00 | 0.20 | 0.80 | 144.0 |
+| 2026年5月 | 66kV 富川線 | 平日 | 18 | 10:00〜13:00 | 0.18 | 0.18 | 97.2 |
+| 2026年5月 | 66kV 富川線 | 土曜 | 5 | 10:00〜13:00 | 0.17 | 0.17 | 25.5 |
+| 2026年5月 | 66kV 富川線 | 日祝日 | 8 | 9:00〜14:00 | 0.25 | 0.25 | 100.0 |
+| 2026年6月 | 66kV 岩松線 | 平日 | 22 | 7:00〜13:00 | 0.13 | 0.13 | 171.6 |
+| 2026年6月 | 66kV 富川線 | 平日 | 22 | 12:00〜13:00 | 0.09 | 0.09 | 19.8 |
+| 2026年6月 | 66kV 富川線 | 土曜 | 4 | 10:00〜13:00 | 0.16 | 0.16 | 19.2 |
+| 2026年6月 | 66kV 富川線 | 日祝日 | 4 | 8:00〜14:00 | 0.25 | 0.25 | 60.0 |
+
+表E.2 ローカル系統の混雑（流通設備混雑）による出力制御の一覧（北海道電力ネットワーク。OCCTO 2026b の検証結果の本体と別紙1〜3 からの転記）。抑制の対象は両系統とも太陽光（別紙2 の区分 F のノンファーム電源）で、区分 G（風力）は「―」（風力の連系なし）。日区分ごとに同じ時間帯・同じ抑制量で制御している。最大抑制量は別紙2 の「自然変動電源の最大抑制量」、抑制必要量は「誤差量を織り込んだ抑制必要量（予想潮流−運用容量）」。電力量の上限は最大抑制量×時間数×日数で、計897.9MWh（両系統で重なる時間を1回と数えると406時間）は、同じ期間（2025年11月〜2026年6月）の太陽光の出力制御量60,442.5MWh の1.49% である。公表は制御を実施した月ごとで、2025年12月〜2026年4月分の公表は確認できない（2026-10-21 閲覧）。出典は local_congestion_control_occto.csv（50）
+
+| 変数 | 北海道 夏 | 北海道 冬 | 北海道 不需要期 | 九州 夏 | 九州 冬 | 九州 不需要期 |
+|---|---|---|---|---|---|---|
+| 日平均価格（円/kWh） | 12.86（2.41） | 12.31（2.67） | 11.28（2.83） | 11.18（2.81） | 10.47（2.28） | 9.05（2.58） |
+| TB4h（円/kWh） | 11.00（5.16） | 6.53（3.95） | 10.38（4.18） | 10.94（4.19） | 8.54（3.87） | 10.90（4.17） |
+| 日内標準偏差（円/kWh） | 3.99（1.89） | 2.34（1.44） | 3.78（1.59） | 3.97（1.62） | 3.07（1.35） | 4.07（1.59） |
+| 需要（GWh/日） | 76.59（6.48） | 98.92（6.38） | 76.10（8.96） | 269.18（25.02） | 254.64（27.67） | 212.24（20.73） |
+| 太陽光・制御前（GWh/日） | 9.96（3.33） | 5.63（2.19） | 9.71（3.74） | 48.84（15.45） | 33.13（12.94） | 42.21（19.75） |
+| 風力・制御前（GWh/日） | 5.22（3.60） | 10.32（5.07） | 7.76（4.34） | 1.54（1.26） | 3.24（2.24） | 2.33（1.74） |
+| 下限張り付き時間（時間/日） | 0.19（0.94） | 0.02（0.23） | 1.00（2.08） | 0.48（1.58） | 0.66（1.39） | 2.99（3.34） |
+
+表E.3 季節別の日次の記述統計（FY2023〜25。各セルは平均（標準偏差））。標本と変数の定義は表4.1 と同じ（24時間がそろう日。夏276日、冬271日、不需要期549日）。季節は報告用の区分（夏7〜9月、冬12〜2月、不需要期3〜6月・10〜11月）。FY2016〜25 の版と、最小・中央値・最大は descriptive_stats_v3_season.csv（46）にある

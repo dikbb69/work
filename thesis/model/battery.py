@@ -158,6 +158,91 @@ def summarize(I, R, p, a, w, cal, K, op="share"):
             "対象の火力(MW)": target_cap(R["units"], I["year"]), "残す火力": "・".join(u[0] for u in R["units"])}
 
 
+def _rowwise_lookup(Q, vals, s):
+    """行ごとに、累積 Q（行の中で単調増加）が s 以上になる最初の位置の vals（s は 行×m）"""
+    nd, m = Q.shape
+    off = float(np.abs(Q).max() + np.abs(s).max() + 1.0)
+    rows = np.arange(nd)[:, None] * off
+    j = np.searchsorted((Q + rows).ravel(), (s + rows).ravel(), side="left").reshape(s.shape) - np.arange(nd)[:, None] * m
+    return np.take_along_axis(vals, np.clip(j, 0, m - 1), 1)
+
+
+def fleet_schedule(q0, edges, V, P, eta=PR.ETA, hours=PR.HOURS, tol=1e-6, return_theta=False):
+    """蓄電池全体（P MW、1日1回・hours 時間）の充放電を、同じ価格を見るすべての蓄電池が一緒に決める形（競争均衡）で解く。
+    各時間の価格は火力に要る量の階段 V（区切り edges、supply_curve）。価格の安い区切りから充電し、高い区切りから放電する組を、
+    η×放電の価格−充電の価格 が正のあいだ足していく（同じ価格の区切りは比例で分ける）。これは Σ（価格の階段の面積）を最小にする解で、
+    同じ時間に充電と放電をすることはない。戻り値: 充電、放電（送電端、日×24、MW）。
+    return_theta: 日ごとの蓄電池の入札の価格（充電 θc・放電 θd、円/kWh）も返す。貯めた電気の価値 λ（線形計画の双対）から、
+    1日の容量に余裕があれば θc＝λ・θd＝λ/η（途中まで使う区切りがあればその価格、なければ取れる幅の中央）、容量まで使えば最後に使う区切りの価格"""
+    nd = q0.shape[0]
+    if P <= 0:
+        z = np.zeros((nd, 24))
+        return (z, z.copy(), np.full(nd, np.nan), np.full(nd, np.nan)) if return_theta else (z, z.copy())
+    lo, hi, base = edges[..., :-1], edges[..., 1:], q0[..., None]
+    a = np.clip(np.minimum(hi, base + P) - np.maximum(lo, base), 0.0, None).reshape(nd, -1)            # 充電できる量（区切りごと）
+    b = (np.clip(np.minimum(hi, base) - np.maximum(lo, base - eta * P), 0.0, None) / eta).reshape(nd, -1)  # 放電できる量（貯めた量に換算）
+    v = V.reshape(nd, -1)
+    oc, od = np.argsort(v, 1, kind="stable"), np.argsort(-v, 1, kind="stable")
+    pc, pdis = np.take_along_axis(v, oc, 1), np.take_along_axis(v, od, 1)
+    Qc, Qd = np.take_along_axis(a, oc, 1).cumsum(1), np.take_along_axis(b, od, 1).cumsum(1)
+    Qmax = np.minimum(hours * P, np.minimum(Qc[:, -1], Qd[:, -1]))
+    cand = np.sort(np.column_stack([np.zeros(nd), Qc, Qd]), 1)
+    s0, s1 = cand[:, :-1], cand[:, 1:]
+    mid = 0.5 * (s0 + s1)
+    gain = eta * _rowwise_lookup(Qd, pdis, mid) - _rowwise_lookup(Qc, pc, mid)
+    stop = (s1 - s0 > 1e-9) & ((gain <= tol) | (mid >= Qmax[:, None]))
+    k = np.argmax(stop, 1)
+    r = np.arange(nd)
+    Qs = np.where(stop.any(1), np.where(gain[r, k] <= tol, s0[r, k], Qmax), Qmax)
+    Qs = np.minimum(Qs, Qmax)[:, None]
+    tie = 1e-9
+
+    def take(amt, price, Q, pstar_sorted, cheaper):
+        pstar = _rowwise_lookup(Q, pstar_sorted, Qs)          # 最後に使う区切りの価格
+        full = (price < pstar - tie) if cheaper else (price > pstar + tie)
+        eq = np.abs(price - pstar) <= tie
+        f = np.clip((Qs - (amt * full).sum(1, keepdims=True)) / np.maximum((amt * eq).sum(1, keepdims=True), 1e-12), 0.0, 1.0)
+        return np.where(Qs > 1e-9, amt * (full + eq * f), 0.0).reshape(nd, 24, -1).sum(2), pstar[:, 0]
+    chg, pc_s = take(a, v, Qc, pc, True)
+    dis, pd_s = take(b, v, Qd, pdis, False)
+    dis = dis * eta
+    if not return_theta:
+        return chg, dis
+    q = Qs[:, 0]
+    after = lambda Q, ps, tail: np.where(q + 1e-6 > Q[:, -1], tail, _rowwise_lookup(Q, ps, (q + 1e-6)[:, None])[:, 0])
+    pc_n, pd_n = after(Qc, pc, np.inf), after(Qd, pdis, -np.inf)              # 次に使う区切りの価格（使い切っていれば無限）
+    part_c = np.abs(pc_n - pc_s) <= tie                                       # 途中まで使う区切り
+    part_d = np.abs(pd_n - pd_s) <= tie
+    lo_l, hi_l = np.maximum(pc_s, eta * pd_n), np.minimum(pc_n, eta * pd_s)
+    mid_l = np.where(np.isfinite(lo_l) & np.isfinite(hi_l), 0.5 * (lo_l + hi_l), np.where(np.isfinite(lo_l), lo_l, hi_l))
+    lam = np.where(part_c, pc_s, np.where(part_d, eta * pd_s, mid_l))
+    bind = q >= hours * P - 1e-6
+    th_c = np.where(bind, pc_s, lam)
+    th_d = np.where(bind, pd_s, lam / eta)
+    none = q <= 1e-9
+    return chg, dis, np.where(none, np.nan, th_c), np.where(none, np.nan, th_d)
+
+
+def battery_set_prices(q0, edges, V, chg, dis, th_c, th_d, P, eta=PR.ETA, tol=1e-6):
+    """蓄電池が値を決める時間: 充放電の後の量が価格の階段の区切りにちょうど止まっている時間（出力の上限まで使う時間を除く）は、
+    その時間の価格が区切りの下と上の間のどこでもよく、値を決めるのは蓄電池の入札（充電なら θc、放電なら θd）。
+    戻り値: その時間の印（日×24）と、価格（区切りの下と上の間に収めた θ、円/kWh）"""
+    q = (q0 + chg - dis)[..., None]
+    lo, hi = edges[..., :-1], edges[..., 1:]
+    L = hi - lo > tol                                                          # 長さのある区間
+    up, dn = L & (lo >= q - tol), L & (hi <= q + tol)
+    S = V.shape[2]
+    iu, idn = np.argmax(up, 2)[..., None], (S - 1 - np.argmax(dn[..., ::-1], 2))[..., None]
+    above, below = np.take_along_axis(V, iu, 2)[..., 0], np.take_along_axis(V, idn, 2)[..., 0]
+    at_edge = (up.any(2) & dn.any(2) & (np.take_along_axis(lo, iu, 2)[..., 0] - q[..., 0] <= tol)
+               & (q[..., 0] - np.take_along_axis(hi, idn, 2)[..., 0] <= tol))
+    ch = (chg > tol) & (chg < P - tol)
+    dc = (dis > tol) & (dis < eta * P - tol)
+    th = np.where(ch, th_c[:, None], np.where(dc, th_d[:, None], np.nan))
+    mask = at_edge & (ch | dc) & (above > below + 1e-9) & np.isfinite(th)
+    return mask, np.where(mask, np.clip(np.nan_to_num(th), below, above), np.nan)
+
+
 def _schedule(p, days, op):
     """充放電の4時間。op が 'c' なら戦略c の予測で、それ以外は実際の価格（完全予見）で決める"""
     f = PZ.forecast_c(p, days) if op == "c" else p

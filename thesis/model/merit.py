@@ -147,15 +147,15 @@ def commit(I, units, chg, dis):
     return on, cap
 
 
-def dispatch(I, units, chg=None, dis=None, link=None):
-    """需給と基準の価格 p0（α＝1）を解く。link＝(E, M)。戻り値は需給の構造モデルと同じ形の辞書"""
+def dispatch(I, units, chg=None, dis=None, link=None, commit_fn=None):
+    """需給と基準の価格 p0（α＝1）を解く。link＝(E, M)。commit_fn: 日ごとの起動の規則（None なら commit）。戻り値は需給の構造モデルと同じ形の辞書"""
     nd = I["D"].shape[0]
     n = nd * 24
     chg = np.zeros((nd, 24)) if chg is None else chg
     dis = np.zeros((nd, 24)) if dis is None else dis
     E, M = link if link is not None else I["link"]
     E = np.broadcast_to(np.asarray(E, float), (nd, 24)).ravel()
-    on, cap = commit(I, units, chg, dis)
+    on, cap = (commit_fn or commit)(I, units, chg, dis)
     nu = len(units)
     dss = np.array([u[5] for u in units])
     tmin_u = np.array([u[3] for u in units], float)
@@ -239,6 +239,62 @@ def dispatch(I, units, chg=None, dis=None, link=None):
                 residual_check=(supply + short.reshape(nd, 24) - use), units=units, gmin=mins, link=(E, M), pT=I["pT"])
 
 
+def supply_curve(I, units, dis=None, link=None, commit_fn=None, chg=None):
+    """各時間の価格の階段: 火力に要る量 q（蓄電池の充電−放電を含む）に対する基準の価格 p0（dispatch と同じ規則を q の関数として書き出したもの）。
+    起動は充電 chg・放電 dis のもとで決めたまま固定する（日ごとの起動は充放電で変わるので、呼ぶ側で繰り返す。dispatch と同じ起動の規則を渡す）。
+    区切りは低い q から: 太陽光・風力の抑制（0.01円）→ 火力を技術的な最低出力まで下げる・対象外の火力を下げる（運転中の最も安い火力の燃料費か
+    東北の価格の低い方）→ 東北へ送れるだけ送って、東北の価格より安い火力の燃料費 → 東北の価格（北本に余裕）→ 東北の価格より高い火力の燃料費 → 上限価格。
+    戻り値: q0（蓄電池なしの q、日×24）、B（区切り、日×24×(S+1)）、V（区間の価格、日×24×S）"""
+    nd = I["D"].shape[0]
+    n = nd * 24
+    zero = np.zeros((nd, 24))
+    dis = zero if dis is None else dis
+    chg = zero if chg is None else chg
+    E, M = link if link is not None else I["link"]
+    E = np.broadcast_to(np.asarray(E, float), (nd, 24)).ravel()
+    on, cap = (commit_fn or commit)(I, units, chg, dis)
+    nu = len(units)
+    dss = np.array([u[5] for u in units])
+    tmin_u = np.array([u[3] for u in units], float)
+    nr = normal_min_ratio()
+    nmin_r = np.array([max(nr.get(u[0], u[3] / u[2]), u[3] / u[2]) if NORMAL_MIN_ON else u[3] / u[2] for u in units])
+    live = on[:, None, :] & ~dss[None, None, :]
+    tmin = np.where(live, np.minimum(tmin_u[None, None, :], cap), 0.0)
+    nmin = np.where(live, np.minimum(np.maximum(nmin_r[None, None, :] * cap, tmin), cap), 0.0)
+    head = np.where(on[:, None, :], cap - nmin, 0.0)
+    head = np.where(dss[None, None, :], cap, head)
+    vc = I["vc_fn"](units)
+    O = B.other_profile()[I["month"], np.arange(24)[None, :]]
+    O_low = np.minimum(O, B.other_floor_min()[I["month"]])
+    fixed = I["N"] + I["Hy"] + I["G"] + I["Bm"] + O + I["pump"]
+    q0 = I["D"] - fixed - I["S"] - I["W"]
+    pT = I["pT"].ravel()
+    th_floor = pT <= PR.FLOOR + 0.001
+    Gn = nmin.sum(2).ravel()
+    Gt = tmin.sum(2).ravel()
+    hf = head.reshape(n, nu)
+    vf = vc.reshape(n, nu)
+    o = np.argsort(vf, 1)
+    hs = np.take_along_axis(hf, o, 1)
+    vs = np.take_along_axis(vf, o, 1)
+    cs = hs.cumsum(1)
+    tot = cs[:, -1]
+    below = np.where(th_floor, 0.0, np.where(vs <= pT[:, None], cs, 0.0).max(1))
+    Ee = np.where(th_floor, 0.0, E)
+    low = (vs <= pT[:, None]) & ~th_floor[:, None]
+    vmin_on = np.where(on[:, None, :] & ~dss[None, None, :], vc, np.inf).min(2).ravel()
+    pb = np.where(th_floor | ~np.isfinite(vmin_on), PR.FLOOR, np.minimum(vmin_on, pT))
+    big = 1e7
+    lo_end = -Ee[:, None] + np.where(low, hs, 0.0).cumsum(1)
+    hi_end = (below + M)[:, None] + np.where(low, 0.0, hs).cumsum(1)
+    edges = np.column_stack([np.full(n, -big), -Ee - (Gn - Gt) - (O - O_low).ravel(), -Ee, lo_end, below + M, hi_end, np.full(n, big)])
+    edges = np.maximum.accumulate(edges, 1) + Gn[:, None]     # 最低出力の分を足して q の座標に
+    V = np.column_stack([np.full(n, PR.FLOOR), pb, vs, pT, vs, np.full(n, PR.PRICE_CAP)])
+    S = V.shape[1]
+    assert np.allclose(tot + M, hi_end[:, -1]) and edges.shape[1] == S + 1
+    return q0, edges.reshape(nd, 24, S + 1), V.reshape(nd, 24, S)
+
+
 def tight(p0, v):
     """上乗せを掛ける部分: 燃料費の指標を超える部分（0.01円の時間は0）"""
     return np.where(p0 <= PR.FLOOR + 0.001, 0.0, np.maximum(p0 - v, 0.0))
@@ -284,7 +340,11 @@ def inputs_future(sc_y, sc=None, pT_shift=0.0, fuel_scale=1.0):
     I["pT"] = np.where(pT <= PR.FLOOR + 0.001, pT, np.maximum(pT + pT_shift, PR.FLOOR))
     I["vc_fn"] = _vc_future(I, fuel_scale)
     y = sc_y["year"] if sc.get("link_upgrade", sc.get("export_increment", True)) else min(sc_y["year"], 2027)
-    I["link"] = link_caps(y, sc.get("link_share"))
+    I["link"] = tuple(sc["link_mw"]) if sc.get("link_mw") else link_caps(y, sc.get("link_share"))
+    if sc.get("hvdc_mw") and sc_y["year"] >= sc.get("hvdc_from", 2036):   # 頑健性（notes/38 §1.2）: 本州との新しい海底直流送電を両方向に足す（相手の価格は東北の価格で近似）
+        E, M = I["link"]
+        I["link"] = (E + sc["hvdc_mw"], M + sc["hvdc_mw"])
+    I["retire"] = tuple(sc_y.get("retire", ()))                 # 頑健性: 経年で廃止する号機（その年は動かない）
     return I
 
 

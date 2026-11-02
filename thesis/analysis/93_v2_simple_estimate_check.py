@@ -26,3 +26,26 @@ for c in om.values():
     print(f"  風力 720→615（太陽光420）: {s420w615 - old_main:+.1f}  ※太陽光420 の自家消費の規則は新（系統400.2）")
     print(f"  太陽光 588→698→809 の傾き（風力615）: {(new_main - s588) / (698.48 - 588.07):.3f}・{(s809 - new_main) / (808.88 - 698.48):.3f}/万kW;  420→588: {(s588 - s420w615) / (588.07 - 420):.3f}")
     print(f"  風力 418→615・615→720 の傾き（太陽光698）: {(new_main - w418) / (615.12 - 417.6):.3f}・{(s698w720 - new_main) / (720 - 615.12):.3f}/万kW")
+
+# 下限・上限: 簡易見積の作り方（太陽光は旧の表の420→600 の傾きで外挿、風力は発電量をモデルの設備利用率で設備に直して旧の表の傾き）と、
+# 新しい表6.4 の点から足し算した値（主＋太陽光だけ動かした差＋風力だけ動かした差）を、経路の値と比べる
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from model import params as PR
+CF_MODEL = 0.2743                                               # モデルの風力の時間別の形の設備利用率（notes/39 §0.2）
+for scen, case, srow, wrow in (("エネ基の下限", "下限", "太陽光 588万kW（エネ基の下限）", "風力 418万kW（エネ基の下限）"),
+                               ("エネ基の上限", "上限", "太陽光 809万kW（エネ基の上限）", "風力 813万kW（エネ基の上限）")):
+    a = PR.e7_y2040(f"{case}" if case in ("下限", "上限") else case)
+    w_eq = (a["wind_on"] * PR.CF_WIND_ON + a["wind_off"] * PR.CF_WIND_OFF) / CF_MODEL / 10          # 万kW 相当
+    f = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "processed", f"simple_entry_{scen}.csv")
+    E = pd.read_csv(f) if os.path.exists(f) else None
+    print(f"== {scen}: 太陽光 {a['solar'] / 10:.1f}・風力 {a['wind'] / 10:.1f}万kW（モデルの設備利用率で発電量をそろえると {w_eq:.0f}万kW 相当）")
+    for c, key in zip(om.values(), ("上乗せ", "上乗せ_赤字は外", "燃料費")):
+        old_main = g(O, "主", c); s600 = g(O, "太陽光 600万kW（上振れ）", c); w400 = g(O, "風力 400万kW（9,000億kWh ケース）", c)
+        sl_s = (s600 - old_main) / 180.0
+        w1155 = g(O, "風力 1,155万kW（洋上風力産業ビジョンの下限）", c)
+        sl_w = (old_main - w400) / 320.0 if w_eq < 720 else (w1155 - old_main) / 435.0   # 720万kW の上は720→1,155 の傾き
+        est = old_main + sl_s * (a["solar"] / 10 - 420) + sl_w * (w_eq - 720)
+        nm = g(N, "主", c); add_new = nm + (g(N, srow, c) - nm) + (g(N, wrow, c) - nm)
+        act = float(E[(E["場合"] == key) & (E["容量価格(円/kW)"] == 14972.0)]["量 2040"].iloc[0]) if E is not None else float("nan")
+        print(f"  {c}: 簡易見積の作り方 {est:.1f}、新しい表6.4 の足し算 {add_new:.1f}（太陽光だけ {g(N, srow, c):.1f}、風力だけ {g(N, wrow, c):.1f}）、経路 {act:.1f}")

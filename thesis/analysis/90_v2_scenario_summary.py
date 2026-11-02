@@ -11,6 +11,7 @@
    （設備×太陽光の CF×0.85、需要の側と同じ）、蓄電池の充電はすべて再エネからとし往復の損失（充電−放電）を再エネと合計の両方から引く、
    その他の火力（石油・自家発など）とアンモニア混焼は火力。注: 北本で送る分をすべて再エネと置いた消費ベースの下限側の比率
 4. 年ごとの全出力から本文で使う格子の点（0〜300万kW）を抜き出した表
+5. ONLY_GRID_CHECK=1: 付録 B.3 の確かめ（経路の量で解き直した π・μ と最も近い格子の点の差、v2_grid_check.csv）
 出力: data/processed/v2_table63.csv・v2_path_metrics.csv・v2_mix.csv・v2_years_extract.csv
 """
 import os
@@ -177,8 +178,37 @@ def years_extract(scen):
     return Y
 
 
+def grid_check(scen):
+    """付録 B.3: 経路の量そのもので解いた π・μ と、最も近い格子の点の値の差（スポットで回収、2030〜40年）"""
+    T63 = table63(scen)
+    Y = pd.read_csv(os.path.join(PROC, f"simple_years{suffix(scen)}.csv"), usecols=["場合", "年", "K(万kW)", "容量価格(円/kW)", "上乗せ μ(円/kWh)", "π(円/kW-年)"])
+    Y = Y[(Y["場合"] == "上乗せ") & (Y["容量価格(円/kW)"] == BASE_P)]
+    sc = PR.SCENARIOS[scen]
+    drops = SM.exit_years(SM.calibration("commit"), sc, PR.YEARS, "commit")[0]
+    years = list(range(2030, 2041))
+    ks = {y: float(T63[(T63["場合"] == CASES["上乗せ"]) & (T63["年"] == y)]["経路の量(万kW)"].iloc[0]) for y in years}
+    with ProcessPoolExecutor(max_workers=WORKERS) as ex:
+        ex_rows = list(ex.map(_path_job, [(scen, "上乗せ", y, ks[y], drops[y]) for y in years], chunksize=1))
+    rows = []
+    for y, r in zip(years, ex_rows):
+        g = Y[Y["年"] == y].set_index("K(万kW)")
+        kk = g.index[np.argmin(np.abs(g.index.to_numpy() - ks[y]))]
+        rows.append({"シナリオ": scen, "年": y, "経路の量(万kW)": ks[y], "最も近い格子の点(万kW)": kk,
+                     "π 解き直し": r["π(円/kW-年)"], "π 格子の点": float(g.loc[kk, "π(円/kW-年)"]),
+                     "μ 解き直し": r["上乗せ μ(円/kWh)"], "μ 格子の点": float(g.loc[kk, "上乗せ μ(円/kWh)"])})
+    D = pd.DataFrame(rows)
+    D["π の差"] = D["π 格子の点"] - D["π 解き直し"]
+    D["μ の差"] = D["μ 格子の点"] - D["μ 解き直し"]
+    return D
+
+
 def main():
     warnings.filterwarnings("ignore")
+    if os.environ.get("ONLY_GRID_CHECK") == "1":                 # 付録 B.3 の確かめ（重いので別に回す）
+        D = pd.concat([grid_check(s) for s in SCENS], ignore_index=True)
+        D.to_csv(os.path.join(PROC, "v2_grid_check.csv"), index=False, encoding="utf-8-sig")
+        print(D.round(3).to_string(index=False))
+        return
     if os.environ.get("ONLY_EXTRACT") == "1":
         E = pd.concat([years_extract(s) for s in SCENS], ignore_index=True)
         E.to_csv(os.path.join(PROC, f"v2_years_extract{os.environ.get('OUT_SUFFIX', '')}.csv"), index=False, encoding="utf-8-sig")

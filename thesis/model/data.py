@@ -134,7 +134,9 @@ def calib():
 
 HJKS_UNIT = {("石狩湾新港発電所", "１号機"): "石狩湾新港1", ("苫東厚真発電所", "４号機"): "苫東厚真4", ("苫東厚真発電所", "２号機"): "苫東厚真2",
              ("苫東厚真発電所", "１号機"): "苫東厚真1", ("知内発電所", "２号機"): "知内2", ("知内発電所", "１号機"): "知内1",
-             ("砂川発電所", "３号機"): "砂川3", ("砂川発電所", "４号機"): "砂川4", ("苫小牧発電所", "単独"): "苫小牧1"}
+             ("砂川発電所", "３号機"): "砂川3", ("砂川発電所", "４号機"): "砂川4", ("苫小牧発電所", "単独"): "苫小牧1",
+             ("伊達発電所", "１号機"): "伊達1", ("伊達発電所", "２号機"): "伊達2"}
+HJKS_ONLY = ("伊達1", "伊達2")                                  # OCCTO ユニット別実績にない号機（HJKS の記録だけで運転できる比を作る）
 
 
 @lru_cache(None)
@@ -153,6 +155,7 @@ def hjks_records():
     d = d[d["unit"].notna()]
     d["start"] = pd.to_datetime(d["停止日時"], format="%Y/%m/%d %H:%M", errors="coerce")
     d["end"] = pd.to_datetime(d["復旧予定日"], format="%Y/%m/%d", errors="coerce") + pd.Timedelta(days=1)
+    d.loc[d["end"].isna() & d["種別"].astype(str).str.contains("長期計画停止"), "end"] = pd.Timestamp("2100-01-01")   # 運用休止（復旧予定日なし）
     red = pd.to_numeric(d["低下量"], errors="coerce") / pd.to_numeric(d["認可出力"], errors="coerce")
     d["frac"] = np.where(d["停止区分"].astype(str).str.contains("低下"), red.clip(0, 1).fillna(0.0), 1.0)
     return d[["unit", "start", "end", "frac", "停止区分", "種別"]].dropna(subset=["start", "end"]).reset_index(drop=True)

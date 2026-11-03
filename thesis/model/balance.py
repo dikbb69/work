@@ -133,7 +133,7 @@ def inputs_actual(fy):
     I["curt_act"] = g("solar_curt") + g("wind_curt")
     I["p_act"] = DT._grid(P["p_hokkaido"], days)
     if fy >= PR.HJKS_FROM:                                     # HJKS の記録は FY2024 から。それより前はユニット×月の比
-        I["avail"] = DT.hjks_availability(days, [u[0] for u in PR.UNITS if u[9] is not None])
+        I["avail"] = DT.hjks_availability(days, [u[0] for u in PR.UNITS if u[9] is not None or u[0] in DT.HJKS_ONLY])
     return I
 
 

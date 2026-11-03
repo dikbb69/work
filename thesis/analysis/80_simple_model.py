@@ -42,7 +42,14 @@ if os.environ.get("CASES"):                                    # 頑健性のシ
     CASES = {k: v for k, v in CASES.items() if k in os.environ["CASES"].split(",")}
 if os.environ.get("P_GRID"):
     P_GRID = [float(x) for x in os.environ["P_GRID"].split(",")]
+if os.environ.get("MR"):                                       # 頑健性: マストランの台数を3つの払い方すべてで変える（2＝知内2 を外す、0＝なし）
+    _mr = {"2": MR2, "0": ()}[os.environ["MR"]]
+    CASES = {k: (v[0], v[1], v[2], _mr, v[4], v[5]) for k, v in CASES.items()}
+if os.environ.get("SHAPE"):                                    # 頑健性: 上乗せの形（prop＝比例）を上乗せのある場合すべてで変える
+    CASES = {k: (v[0], v[1], v[2], v[3], v[4], v[5] if v[1] else os.environ["SHAPE"]) for k, v in CASES.items()}
 SCEN = os.environ.get("SCEN", "主")
+if os.environ.get("LINK_RULE"):                                # 頑健性: 北本の上限の決め方（PR.LINK_RULE）
+    PR.LINK_RULE = os.environ["LINK_RULE"]
 ENTRY_ONLY = os.environ.get("ENTRY_ONLY") == "1"
 YEARS = PR.YEARS
 _CAL = {}
@@ -156,6 +163,8 @@ def main():
     if SCEN == "主":
         F.to_csv(os.path.join(PROC, "simple_calibration.csv"), index=False, encoding="utf-8-sig")
     print(F.round(3).to_string())
+    if os.environ.get("FIT_ONLY") == "1":                      # 較正と当てはまりの表だけを書き直す
+        return
     # 2. 将来
     # 退出の年（先に入っている蓄電池の量の経路。需給の作り方ごと）
     drops, rows = {}, []

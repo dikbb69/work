@@ -30,7 +30,7 @@ from model import params as PR, data as DT, merit as MO, simple as SM, entry as 
 PROC = os.path.join(ROOT, "data", "processed")
 BASE_P = 14_972.0
 CASES = {"上乗せ": "スポットで回収（主）", "上乗せ_赤字は外": "赤字だけ市場外", "燃料費": "すべて市場外"}
-SCENS = os.environ.get("SCENS", "主,エネ基の下限,エネ基の上限,旧の主").split(",")
+SCENS = os.environ.get("SCENS", "主,エネ基の下限,エネ基の上限").split(",")
 WORKERS = int(os.environ.get("WORKERS", "3"))
 STOCK = 98.8                                                   # 既設＋LTDA（万kW、2031年以降）
 

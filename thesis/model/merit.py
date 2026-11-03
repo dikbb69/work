@@ -155,6 +155,7 @@ def dispatch(I, units, chg=None, dis=None, link=None, commit_fn=None):
     dis = np.zeros((nd, 24)) if dis is None else dis
     E, M = link if link is not None else I["link"]
     E = np.broadcast_to(np.asarray(E, float), (nd, 24)).ravel()
+    M_in, M = M, np.broadcast_to(np.asarray(M, float), (nd, 24)).ravel()   # 受電の上限も時間ごとの配列を受ける（一定の値なら結果は同じ）
     on, cap = (commit_fn or commit)(I, units, chg, dis)
     nu = len(units)
     dss = np.array([u[5] for u in units])
@@ -236,7 +237,7 @@ def dispatch(I, units, chg=None, dis=None, link=None, commit_fn=None):
     hk_sets = ((need_imp & (qf - below > M + EPS)) | (~need_imp & (below - qf > Ee + EPS))) & ~sur
     return dict(on=on, g=g, vc=vc, other_out=O_out, curt=curt.reshape(nd, 24), unabs=unabs.reshape(nd, 24), surplus=sur.reshape(nd, 24),
                 X=X, X_incr=np.zeros((nd, 24)), short=short.reshape(nd, 24), p0=p0.reshape(nd, 24), hk_sets=hk_sets.reshape(nd, 24),
-                residual_check=(supply + short.reshape(nd, 24) - use), units=units, gmin=mins, link=(E, M), pT=I["pT"])
+                residual_check=(supply + short.reshape(nd, 24) - use), units=units, gmin=mins, link=(E, M_in), pT=I["pT"])
 
 
 def supply_curve(I, units, dis=None, link=None, commit_fn=None, chg=None):
@@ -252,6 +253,7 @@ def supply_curve(I, units, dis=None, link=None, commit_fn=None, chg=None):
     chg = zero if chg is None else chg
     E, M = link if link is not None else I["link"]
     E = np.broadcast_to(np.asarray(E, float), (nd, 24)).ravel()
+    M_in, M = M, np.broadcast_to(np.asarray(M, float), (nd, 24)).ravel()   # 受電の上限も時間ごとの配列を受ける（一定の値なら結果は同じ）
     on, cap = (commit_fn or commit)(I, units, chg, dis)
     nu = len(units)
     dss = np.array([u[5] for u in units])
@@ -321,17 +323,45 @@ def inputs_actual(fy, share=None):
     sh = PR.LINK_EXPORT_SHARE if share is None else share
     E = sh * opcap if sh <= 2.0 else np.full_like(opcap, sh)
     I["link"] = (E, float(PR.OPCAP_WEST[min(PR.OPCAP_WEST)]))
+    if PR.LINK_RULE != "opcap":                                 # 検討: 運用容量−マージン（年間計画の通常時）
+        I["link"] = link_margin(I["days"], fy, I["link"], float(PR.OPCAP_WEST[min(PR.OPCAP_WEST)]), None)
     return I
+
+
+def link_margin(days, fy, link, west, east):
+    """北本の上限を「運用容量−マージン」（年間計画の通常時、月×平日・休日×昼間帯・夜間帯）で作る（日×24 の配列）。
+    fy: マージンの年度（None なら日ごとの年度、表にない年度は FY2026）。west・east: 運用容量（MW。east が None なら年間計画の東北向）"""
+    import pandas as pd
+    d = pd.DatetimeIndex(days)
+    hol = (d.dayofweek >= 5) | d.normalize().isin(pd.DatetimeIndex(PR.JP_HOLIDAYS)) | \
+          ((d.month == 8) & (d.day >= 13) & (d.day <= 16)) | ((d.month == 12) & (d.day >= 29)) | ((d.month == 1) & (d.day <= 3))
+    fys = np.full(len(d), fy) if fy is not None else (d.year - (d.month < 4)).to_numpy()
+    fys = np.where(np.isin(fys, list(PR.LINK_MARGIN)), fys, max(PR.LINK_MARGIN))
+    day = (np.arange(24) >= 8) & (np.arange(24) < 22)
+    col = np.where(hol[:, None], 2, 0) + np.where(day[None, :], 0, 1)        # 0 平日昼・1 平日夜・2 休日昼・3 休日夜
+    mg = lambda key: np.array([[PR.LINK_MARGIN[f][key][m][c] for c in range(4)] for f, m in zip(fys, d.month)], float)
+    m_in, m_out = mg("東北⇒北海道"), mg("北海道⇒東北")
+    rows = np.arange(len(d))[:, None]
+    M = np.maximum(west - m_in[rows, col], 0.0)
+    E = link[0]
+    if PR.LINK_RULE == "margin_both":
+        oe = np.array([PR.OPCAP_EAST_PLAN[f][m] for f, m in zip(fys, d.month)], float) if east is None else np.full(len(d), east)
+        E = np.maximum(oe[:, None] - m_out[rows, col], 0.0)
+    return (E, M)
 
 
 def inputs_future(sc_y, sc=None, pT_shift=0.0, fuel_scale=1.0):
     """将来: 気象年の形に、その年の需要・設備を当てる。燃料費は FY2024〜25 の暦月の平均（fuel_scale 倍）、東北の価格はその土台に移す"""
     I = B.inputs_future(sc_y)
     W = DT.weather()
+    sc = sc or {}
+    pT_shift = pT_shift + sc.get("pT_shift", 0.0)              # 頑健性（付録C）: 東北の価格 ±3円、燃料費 ±20%、要件の倍率
+    fuel_scale = fuel_scale * sc.get("fuel_scale", 1.0)
+    if sc.get("req_scale", 1.0) != 1.0:
+        I["req_scale"] = sc["req_scale"]
     v_hist = I["v"]
     I["v"] = fuel_scale * v_future(I["month"])
     pT = tohoku_future(W["p_th"], v_hist, I["month"], fuel_scale)
-    sc = sc or {}
     if sc.get("tohoku_comove"):                                 # 頑健性の確認 B: 北海道の太陽光・風力の増分に合わせて東北の価格も動く
         cf = tohoku_comove_coefs()
         dS = (I["S"].sum(1) - W["S_pre"].sum(1)) / 1e3
@@ -341,6 +371,8 @@ def inputs_future(sc_y, sc=None, pT_shift=0.0, fuel_scale=1.0):
     I["vc_fn"] = _vc_future(I, fuel_scale)
     y = sc_y["year"] if sc.get("link_upgrade", sc.get("export_increment", True)) else min(sc_y["year"], 2027)
     I["link"] = tuple(sc["link_mw"]) if sc.get("link_mw") else link_caps(y, sc.get("link_share"))
+    if PR.LINK_RULE != "opcap" and not sc.get("link_mw"):        # 検討: 運用容量−マージン（FY2026 の年間計画の形を将来に当てる）
+        I["link"] = link_margin(I["days"], max(PR.LINK_MARGIN), I["link"], PR.interp_year(PR.OPCAP_WEST, y), PR.interp_year(PR.OPCAP_EAST, y))
     if sc.get("hvdc_mw") and sc_y["year"] >= sc.get("hvdc_from", 2036):   # 頑健性（notes/38 §1.2）: 本州との新しい海底直流送電を両方向に足す（相手の価格は東北の価格で近似）
         E, M = I["link"]
         I["link"] = (E + sc["hvdc_mw"], M + sc["hvdc_mw"])

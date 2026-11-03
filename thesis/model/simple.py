@@ -53,17 +53,19 @@ def commit(I, units, chg, dis):
     cap = B.avail_cap(units, I["month"], I)
     O = B.other_profile()[I["month"], np.arange(24)[None, :]]
     fixed = I["N"] + I["Hy"] + I["G"] + I["Bm"] + O + I["pump"]
-    need = (I["D"] - dis - fixed - I["S"] - I["W"]).max(1) * (1 + PR.COMMIT_RESERVE["margin"]) + I["largest"].max(1) - PR.COMMIT_RESERVE["credit"]
+    # 要る量と起動した号機の容量は時間ごとに比べる（2026-11-03 に直した。前はその日の最大どうしで比べたので、HJKS の記録で日の途中に出力が
+    # 下がる号機を日の最大の容量で数え、起動が足りない日があった。将来の年は運転できる容量が月ごとの値で日の中で変わらないので、結果は同じ）
+    need = (I["D"] - dis - fixed - I["S"] - I["W"]) * (1 + PR.COMMIT_RESERVE["margin"]) + I["largest"] - PR.COMMIT_RESERVE["credit"]
     must = np.array([bool(u[6]) for u in units])
     on = np.zeros((nd, len(units)), bool)
     on[:, must] = True
-    rest = need - (cap[:, :, must].max(1).sum(1) if must.any() else 0.0)
+    rest = need - (cap[:, :, must].sum(2) if must.any() else 0.0)
     for i in np.argsort([u[4] for u in units], kind="stable"):
         if must[i]:
             continue
-        add = rest > 0
+        add = (rest > 0).any(1)
         on[add, i] = True
-        rest = rest - np.where(add, cap[:, :, i].max(1), 0.0)
+        rest = rest - np.where(add[:, None], cap[:, :, i], 0.0)
     return on, cap
 
 
@@ -89,6 +91,7 @@ def _merit(I, units, gmin, chg=None, dis=None, link=None):
     dis = np.zeros((nd, 24)) if dis is None else dis
     E, M = link if link is not None else I["link"]
     E = np.broadcast_to(np.asarray(E, float), (nd, 24)).ravel()
+    M_in, M = M, np.broadcast_to(np.asarray(M, float), (nd, 24)).ravel()   # 受電の上限も時間ごとの配列を受ける（一定の値なら結果は同じ）
     nu = len(units)
     cap = B.avail_cap(units, I["month"], I)
     vc = I["vc_fn"](units)
@@ -280,6 +283,8 @@ def run_year(I, cal, Ks=K_GRID, P_list=(14_972.0,), standard=False, mode="commit
     return_state: True なら最後の格子の点の需給・価格・充放電も返す。step: sequential で増やす刻み（None なら k_step）。
     mustrun: マストランの号機（None なら主の3台）。losses: マストランなどの運転の赤字の払い方、shape: 上乗せの形（solve_price）"""
     rule = rule or PR.BATTERY_DISPATCH
+    if req_scale == 1.0:                                        # 頑健性: シナリオの要件の倍率（MO.inputs_future が I に入れる）
+        req_scale = I.get("req_scale", 1.0)
     if rule == "equilibrium" and mode != "commit":
         raise ValueError("蓄電池全体の運用（equilibrium）は需給の mode='commit' だけ")
     if rule == "equilibrium" and any(P != p_sched for P in P_list):

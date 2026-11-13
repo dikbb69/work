@@ -27,7 +27,7 @@ def marked(p):
                 out.append(('{{'+''.join(ch.itertext())+'}}',math_red(ch)))
     walk(p)
     s='';cur=None
-    op={RED:'【',BLUE:'〖'}; cl={RED:'】',BLUE:'〗'}
+    op={RED:'【',BLUE:'〖',GREEN:'《'}; cl={RED:'】',BLUE:'〗',GREEN:'》'}
     for t,r in out:
         if r!=cur:
             if cur: s+=cl[cur]
@@ -48,4 +48,4 @@ def dump(path):
                 lines.append('   | '+' | '.join(' / '.join(marked(p) for p in c.findall(q('w:p'))) for c in r.findall(q('w:tc'))))
     return lines
 if __name__=='__main__':
-    L=dump(sys.argv[1]); open(sys.argv[2],'w',encoding='utf-8').write('\n'.join(L)); print(len(L),'lines', sum('【' in l for l in L),'with red', sum('〖' in l for l in L),'with blue')
+    L=dump(sys.argv[1]); open(sys.argv[2],'w',encoding='utf-8').write('\n'.join(L)); print(len(L),'lines', sum('【' in l for l in L),'with red', sum('〖' in l for l in L),'with blue', sum('《' in l for l in L),'with green')

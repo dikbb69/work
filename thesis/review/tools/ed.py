@@ -21,6 +21,7 @@ XML = 'http://www.w3.org/XML/1998/namespace'
 NS = {'w': W, 'm': M, 'r': R, 'w14': W14}
 RED = 'FF0000'
 BLUE = '0070C0'
+GREEN = '00B050'      # third round
 
 
 def _c(col):
@@ -227,7 +228,7 @@ def is_red(rpr):
         return None
     c = rpr.find(q('w:color'))
     v = c.get(q('w:val'), '').upper() if c is not None else ''
-    return v if v in (RED, BLUE) else None
+    return v if v in (RED, BLUE, GREEN) else None
 
 
 def obj_token(el):

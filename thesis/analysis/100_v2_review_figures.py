@@ -61,7 +61,8 @@ def spines(ax):
     ax.set_axisbelow(True)
 
 
-def fig_path():
+def fig_path(two=False):
+    """two=True なら、本文で比べる2つの回収方法だけを描く（差の内訳の矢印もなし）"""
     T = pd.read_csv(os.path.join(PROC, "v2_table63.csv"))
     T = T[(T["シナリオ"] == "主") & (T["年"] <= 2040)]
     fig, ax = plt.subplots(figsize=(9.2, 4.4))
@@ -71,6 +72,8 @@ def fig_path():
     last = {}
     for n in names:
         lab, col, ls, mk = RULES[n]
+        if two and lab not in MAIN:
+            continue
         g = T[T["場合"] == n].sort_values("年")
         last[lab] = float(g["採算が合う量 K*(万kW)"].iloc[-1])
         ax.plot(g["年"], g["採算が合う量 K*(万kW)"], color=col, ls=ls, marker=mk, ms=5, lw=2.2,
@@ -81,12 +84,13 @@ def fig_path():
     ax.text(2026.0, STOCK + 5, f"既設＋LTDA {STOCK:.1f}万kW", fontsize=9, color=MUTED)
     ax.axhline(APPLY, color=MUTED, lw=0.9, ls="-.")
     ax.text(2026.0, APPLY + 5, f"契約申込 {APPLY:.0f}万kW", fontsize=9, color=MUTED)
-    a, b, c = last["スポット回収"], last["運転損失だけ補填"], last["燃料費入札"]
-    x = 2040.45
-    for lo, hi, txt in ((b, a, f"運転損失の回収\n+{a - b:.1f}"), (c, b, f"固定費の不足の回収\n+{b - c:.1f}")):
-        ax.annotate("", xy=(x, hi), xytext=(x, lo), arrowprops=dict(arrowstyle="<->", color=MUTED, lw=0.9))
-        ax.text(x + 0.12, (lo + hi) / 2, txt, fontsize=8.5, color=INK, va="center", linespacing=1.3)
-    ax.set_xlim(2025.5, 2042.6)
+    if not two:
+        a, b, c = last["スポット回収"], last["運転損失だけ補填"], last["燃料費入札"]
+        x = 2040.45
+        for lo, hi, txt in ((b, a, f"運転損失の回収\n+{a - b:.1f}"), (c, b, f"固定費の不足の回収\n+{b - c:.1f}")):
+            ax.annotate("", xy=(x, hi), xytext=(x, lo), arrowprops=dict(arrowstyle="<->", color=MUTED, lw=0.9))
+            ax.text(x + 0.12, (lo + hi) / 2, txt, fontsize=8.5, color=INK, va="center", linespacing=1.3)
+    ax.set_xlim(2025.5, 2040.9 if two else 2042.6)
     ax.set_ylim(0, 260)
     ax.set_xticks(range(2026, 2041, 2))
     ax.set_xlabel("年度", color=MUTED)
@@ -94,7 +98,7 @@ def fig_path():
     ax.legend(frameon=False, fontsize=9, loc="upper left", bbox_to_anchor=(0.0, 0.88))
     spines(ax)
     fig.tight_layout()
-    fig.savefig(os.path.join(FIG, "v2_entry_path_by_rule.png"), dpi=200)
+    fig.savefig(os.path.join(FIG, "v2_entry_path_two_rules.png" if two else "v2_entry_path_by_rule.png"), dpi=200)
     plt.close(fig)
     return T
 
@@ -230,7 +234,8 @@ if __name__ == "__main__":
     which = sys.argv[1] if len(sys.argv) > 1 else "all"
     if which in ("all", "path"):
         fig_path()
-        print("v2_entry_path_by_rule.png")
+        fig_path(two=True)
+        print("v2_entry_path_by_rule.png, v2_entry_path_two_rules.png")
     if which in ("all", "hourly"):
         f = os.path.join(PROC, "v2_hourly_price_by_rule.csv")
         if os.environ.get("FIG_ONLY") == "1" and os.path.exists(f):

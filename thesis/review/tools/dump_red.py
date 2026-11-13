@@ -9,8 +9,8 @@ def marked(p):
         return is_red(rp)
     def math_red(om):
         for wr in om.iter(q('w:rPr')):
-            if is_red(wr): return True
-        return False
+            if is_red(wr): return is_red(wr)
+        return None
     def walk(parent):
         for ch in parent:
             if ch.tag==q('w:pPr'): continue
@@ -27,13 +27,14 @@ def marked(p):
                 out.append(('{{'+''.join(ch.itertext())+'}}',math_red(ch)))
     walk(p)
     s='';cur=None
+    op={RED:'【',BLUE:'〖'}; cl={RED:'】',BLUE:'〗'}
     for t,r in out:
         if r!=cur:
-            if cur: s+='】'
-            if r: s+='【'
+            if cur: s+=cl[cur]
+            if r: s+=op[r]
             cur=r
         s+=t
-    if cur: s+='】'
+    if cur: s+=cl[cur]
     return s
 def dump(path):
     t=load(path); body=t.getroot().find(q('w:body'))
@@ -47,4 +48,4 @@ def dump(path):
                 lines.append('   | '+' | '.join(' / '.join(marked(p) for p in c.findall(q('w:p'))) for c in r.findall(q('w:tc'))))
     return lines
 if __name__=='__main__':
-    L=dump(sys.argv[1]); open(sys.argv[2],'w',encoding='utf-8').write('\n'.join(L)); print(len(L),'lines', sum('【' in l for l in L),'with red')
+    L=dump(sys.argv[1]); open(sys.argv[2],'w',encoding='utf-8').write('\n'.join(L)); print(len(L),'lines', sum('【' in l for l in L),'with red', sum('〖' in l for l in L),'with blue')

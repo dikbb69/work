@@ -7,6 +7,7 @@ Paragraph model: a paragraph is flattened into segments
 Markup used for new text:
   {linear}     inline math looked up in the registry by its linearised text (e.g. {μy}, {Xy*})
   «...»        text kept black (unchanged wording); everything else is red
+  ‹...›        text changed in the second round (blue)
 """
 import copy
 import re
@@ -19,6 +20,16 @@ W14 = 'http://schemas.microsoft.com/office/word/2010/wordml'
 XML = 'http://www.w3.org/XML/1998/namespace'
 NS = {'w': W, 'm': M, 'r': R, 'w14': W14}
 RED = 'FF0000'
+BLUE = '0070C0'
+
+
+def _c(col):
+    """normalise a colour argument: True -> RED, False/None -> None, str -> itself"""
+    if col is True:
+        return RED
+    if not col:
+        return None
+    return col
 
 
 def q(tag):
@@ -54,12 +65,13 @@ def default_rpr(sz=None):
 
 
 def set_color(rpr, red):
+    red = _c(red)
     for c in rpr.findall(q('w:color')):
         rpr.remove(c)
     if not red:
         return rpr
     col = etree.Element(q('w:color'))
-    col.set(q('w:val'), RED)
+    col.set(q('w:val'), red)
     pos = len(rpr)
     for i, ch in enumerate(rpr):
         if ch.tag not in BEFORE_COLOR:
@@ -70,6 +82,7 @@ def set_color(rpr, red):
 
 
 def rpr_key(rpr, red):
+    red = _c(red)
     if rpr is None:
         return ('', red)
     c = copy.deepcopy(rpr)
@@ -98,6 +111,7 @@ def math_text(om):
 
 def color_math(om, red=True):
     om = copy.deepcopy(om)
+    red = _c(red)
     if not red:
         return om
     for mr in list(om.iter(q('m:r'))):
@@ -111,7 +125,7 @@ def color_math(om, red=True):
             if len(mr) and mr[0].tag == q('m:rPr'):
                 idx = 1
             mr.insert(idx, wr)
-        set_color(wr, True)
+        set_color(wr, red)
     for cp in om.iter(q('m:ctrlPr')):
         wr = cp.find(q('w:rPr'))
         if wr is None:
@@ -119,7 +133,7 @@ def color_math(om, red=True):
             f = etree.SubElement(wr, q('w:rFonts'))
             f.set(q('w:ascii'), 'Cambria Math')
             f.set(q('w:hAnsi'), 'Cambria Math')
-        set_color(wr, True)
+        set_color(wr, red)
     return om
 
 
@@ -208,10 +222,12 @@ SIMPLE_RUN_CHILDREN = {q('w:rPr'), q('w:t'), q('w:lastRenderedPageBreak')}
 
 
 def is_red(rpr):
+    """colour of a run (RED / BLUE) or None"""
     if rpr is None:
-        return False
+        return None
     c = rpr.find(q('w:color'))
-    return c is not None and c.get(q('w:val'), '').upper() == RED
+    v = c.get(q('w:val'), '').upper() if c is not None else ''
+    return v if v in (RED, BLUE) else None
 
 
 def obj_token(el):
@@ -323,13 +339,17 @@ def pattern_for(old, objs):
 def parse_markup(markup, like_rpr=None, red=True):
     """markup -> segments. «...» black, {..} math"""
     segs = []
-    for piece in re.split(r'(«[^»]*»)', markup):
+    red = _c(red)
+    for piece in re.split(r'(«[^»]*»|‹[^›]*›)', markup):
         if not piece:
             continue
         pr = red
         if piece.startswith('«') and piece.endswith('»'):
             piece = piece[1:-1]
-            pr = False
+            pr = None
+        elif piece.startswith('‹') and piece.endswith('›'):
+            piece = piece[1:-1]
+            pr = BLUE
         i = 0
         for m in re.finditer(r'\{[^{}]*\}', piece):
             if m.start() > i:
@@ -489,13 +509,16 @@ def auto(markup, ref_text):
     for sen in sentences(ref_text):
         refs.setdefault(norm(sen), sen)
     out = []
-    for sen in sentences(markup):
-        k = norm(sen)
-        if k in refs:
-            lead = len(sen) - len(sen.lstrip(' '))
-            out.append('«' + refs[k].strip(' ') + '»')
-        else:
-            out.append(sen)
+    for part in re.split(r'(‹[^›]*›)', markup):          # second-round (blue) parts are kept as they are
+        if part.startswith('‹'):
+            out.append(part)
+            continue
+        for sen in sentences(part):
+            k = norm(sen)
+            if k in refs:
+                out.append('«' + refs[k].strip(' ') + '»')
+            else:
+                out.append(sen)
     return ''.join(out)
 
 
